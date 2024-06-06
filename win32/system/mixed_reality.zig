@@ -18,6 +18,7 @@ pub const PERCEPTION_STATE_STREAM_TIMESTAMPS = extern struct {
     AvailableTimestampInQpcCounts: i64,
 };
 
+
 //--------------------------------------------------------------------------------
 // Section: Functions (0)
 //--------------------------------------------------------------------------------
@@ -27,9 +28,13 @@ pub const PERCEPTION_STATE_STREAM_TIMESTAMPS = extern struct {
 //--------------------------------------------------------------------------------
 const thismodule = @This();
 pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {},
-    .wide => struct {},
-    .unspecified => if (@import("builtin").is_test) struct {} else struct {},
+    .ansi => struct {
+    },
+    .wide => struct {
+    },
+    .unspecified => if (@import("builtin").is_test) struct {
+    } else struct {
+    },
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (1)
@@ -37,13 +42,13 @@ pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
 const Guid = @import("../zig.zig").Guid;
 
 test {
-    @setEvalBranchQuota(comptime @import("std").meta.declarations(@This()).len * 3);
+    @setEvalBranchQuota(
+        comptime @import("std").meta.declarations(@This()).len * 3
+    );
 
     // reference all the pub declarations
     if (!@import("builtin").is_test) return;
     inline for (comptime @import("std").meta.declarations(@This())) |decl| {
-        if (decl.is_pub) {
-            _ = @field(@This(), decl.name);
-        }
+        _ = @field(@This(), decl.name);
     }
 }

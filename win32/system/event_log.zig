@@ -35,9 +35,11 @@ pub const EVENTLOG_SEEK_READ = READ_EVENT_LOG_READ_FLAGS.EK_READ;
 pub const EVENTLOG_SEQUENTIAL_READ = READ_EVENT_LOG_READ_FLAGS.QUENTIAL_READ;
 
 // TODO: this type has a FreeFunc 'CloseEventLog', what can Zig do with this information?
+// TODO: this type has an InvalidHandleValue of '0', what can Zig do with this information?
 pub const EventLogHandle = isize;
 
 // TODO: this type has a FreeFunc 'DeregisterEventSource', what can Zig do with this information?
+// TODO: this type has an InvalidHandleValue of '0', what can Zig do with this information?
 pub const EventSourceHandle = isize;
 
 pub const EVT_VARIANT_TYPE = enum(i32) {
@@ -213,17 +215,17 @@ pub const EvtSubscribeActionError = EVT_SUBSCRIBE_NOTIFY_ACTION.Error;
 pub const EvtSubscribeActionDeliver = EVT_SUBSCRIBE_NOTIFY_ACTION.Deliver;
 
 pub const EVT_SUBSCRIBE_CALLBACK = switch (@import("builtin").zig_backend) {
-    .stage1 => fn (
+    .stage1 => fn(
         Action: EVT_SUBSCRIBE_NOTIFY_ACTION,
         UserContext: ?*anyopaque,
         Event: isize,
     ) callconv(@import("std").os.windows.WINAPI) u32,
-    else => *const fn (
+    else => *const fn(
         Action: EVT_SUBSCRIBE_NOTIFY_ACTION,
         UserContext: ?*anyopaque,
         Event: isize,
     ) callconv(@import("std").os.windows.WINAPI) u32,
-};
+} ;
 
 pub const EVT_SYSTEM_PROPERTY_ID = enum(i32) {
     ProviderName = 0,
@@ -562,6 +564,7 @@ pub const EVENTLOG_FULL_INFORMATION = extern struct {
     dwFull: u32,
 };
 
+
 //--------------------------------------------------------------------------------
 // Section: Functions (55)
 //--------------------------------------------------------------------------------
@@ -857,25 +860,25 @@ pub extern "wevtapi" fn EvtGetEventInfo(
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn ClearEventLogA(
-    hEventLog: ?HANDLE,
+    hEventLog: EventLogHandle,
     lpBackupFileName: ?[*:0]const u8,
 ) callconv(@import("std").os.windows.WINAPI) BOOL;
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn ClearEventLogW(
-    hEventLog: ?HANDLE,
+    hEventLog: EventLogHandle,
     lpBackupFileName: ?[*:0]const u16,
 ) callconv(@import("std").os.windows.WINAPI) BOOL;
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn BackupEventLogA(
-    hEventLog: ?HANDLE,
+    hEventLog: EventLogHandle,
     lpBackupFileName: ?[*:0]const u8,
 ) callconv(@import("std").os.windows.WINAPI) BOOL;
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn BackupEventLogW(
-    hEventLog: ?HANDLE,
+    hEventLog: EventLogHandle,
     lpBackupFileName: ?[*:0]const u16,
 ) callconv(@import("std").os.windows.WINAPI) BOOL;
 
@@ -891,19 +894,19 @@ pub extern "advapi32" fn DeregisterEventSource(
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn NotifyChangeEventLog(
-    hEventLog: ?HANDLE,
+    hEventLog: EventLogHandle,
     hEvent: ?HANDLE,
 ) callconv(@import("std").os.windows.WINAPI) BOOL;
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn GetNumberOfEventLogRecords(
-    hEventLog: ?HANDLE,
+    hEventLog: EventLogHandle,
     NumberOfRecords: ?*u32,
 ) callconv(@import("std").os.windows.WINAPI) BOOL;
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn GetOldestEventLogRecord(
-    hEventLog: ?HANDLE,
+    hEventLog: EventLogHandle,
     OldestRecord: ?*u32,
 ) callconv(@import("std").os.windows.WINAPI) BOOL;
 
@@ -945,7 +948,7 @@ pub extern "advapi32" fn OpenBackupEventLogW(
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn ReadEventLogA(
-    hEventLog: ?HANDLE,
+    hEventLog: EventLogHandle,
     dwReadFlags: READ_EVENT_LOG_READ_FLAGS,
     dwRecordOffset: u32,
     // TODO: what to do with BytesParamIndex 4?
@@ -957,7 +960,7 @@ pub extern "advapi32" fn ReadEventLogA(
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn ReadEventLogW(
-    hEventLog: ?HANDLE,
+    hEventLog: EventLogHandle,
     dwReadFlags: READ_EVENT_LOG_READ_FLAGS,
     dwRecordOffset: u32,
     // TODO: what to do with BytesParamIndex 4?
@@ -969,7 +972,7 @@ pub extern "advapi32" fn ReadEventLogW(
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn ReportEventA(
-    hEventLog: ?HANDLE,
+    hEventLog: EventSourceHandle,
     wType: REPORT_EVENT_TYPE,
     wCategory: u16,
     dwEventID: u32,
@@ -983,7 +986,7 @@ pub extern "advapi32" fn ReportEventA(
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn ReportEventW(
-    hEventLog: ?HANDLE,
+    hEventLog: EventSourceHandle,
     wType: REPORT_EVENT_TYPE,
     wCategory: u16,
     dwEventID: u32,
@@ -997,13 +1000,14 @@ pub extern "advapi32" fn ReportEventW(
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "advapi32" fn GetEventLogInformation(
-    hEventLog: ?HANDLE,
+    hEventLog: EventLogHandle,
     dwInfoLevel: u32,
     // TODO: what to do with BytesParamIndex 3?
     lpBuffer: ?*anyopaque,
     cbBufSize: u32,
     pcbBytesNeeded: ?*u32,
 ) callconv(@import("std").os.windows.WINAPI) BOOL;
+
 
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (7)
@@ -1029,13 +1033,13 @@ pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
         pub const ReportEvent = thismodule.ReportEventW;
     },
     .unspecified => if (@import("builtin").is_test) struct {
-        pub const ClearEventLog = *opaque {};
-        pub const BackupEventLog = *opaque {};
-        pub const OpenEventLog = *opaque {};
-        pub const RegisterEventSource = *opaque {};
-        pub const OpenBackupEventLog = *opaque {};
-        pub const ReadEventLog = *opaque {};
-        pub const ReportEvent = *opaque {};
+        pub const ClearEventLog = *opaque{};
+        pub const BackupEventLog = *opaque{};
+        pub const OpenEventLog = *opaque{};
+        pub const RegisterEventSource = *opaque{};
+        pub const OpenBackupEventLog = *opaque{};
+        pub const ReadEventLog = *opaque{};
+        pub const ReportEvent = *opaque{};
     } else struct {
         pub const ClearEventLog = @compileError("'ClearEventLog' requires that UNICODE be set to true or false in the root module");
         pub const BackupEventLog = @compileError("'BackupEventLog' requires that UNICODE be set to true or false in the root module");
@@ -1060,17 +1064,15 @@ const SYSTEMTIME = @import("../foundation.zig").SYSTEMTIME;
 
 test {
     // The following '_ = <FuncPtrType>' lines are a workaround for https://github.com/ziglang/zig/issues/4476
-    if (@hasDecl(@This(), "EVT_SUBSCRIBE_CALLBACK")) {
-        _ = EVT_SUBSCRIBE_CALLBACK;
-    }
+    if (@hasDecl(@This(), "EVT_SUBSCRIBE_CALLBACK")) { _ = EVT_SUBSCRIBE_CALLBACK; }
 
-    @setEvalBranchQuota(comptime @import("std").meta.declarations(@This()).len * 3);
+    @setEvalBranchQuota(
+        comptime @import("std").meta.declarations(@This()).len * 3
+    );
 
     // reference all the pub declarations
     if (!@import("builtin").is_test) return;
     inline for (comptime @import("std").meta.declarations(@This())) |decl| {
-        if (decl.is_pub) {
-            _ = @field(@This(), decl.name);
-        }
+        _ = @field(@This(), decl.name);
     }
 }

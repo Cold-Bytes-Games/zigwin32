@@ -105,32 +105,32 @@ pub const IMediaBuffer = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         SetLength: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaBuffer,
                 cbLength: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaBuffer,
                 cbLength: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetMaxLength: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaBuffer,
                 pcbMaxLength: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaBuffer,
                 pcbMaxLength: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetBufferAndLength: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaBuffer,
                 ppBuffer: ?*?*u8,
                 pcbLength: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaBuffer,
                 ppBuffer: ?*?*u8,
                 pcbLength: ?*u32,
@@ -138,23 +138,21 @@ pub const IMediaBuffer = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaBuffer_SetLength(self: *const T, cbLength: u32) HRESULT {
-                return @as(*const IMediaBuffer.VTable, @ptrCast(self.vtable)).SetLength(@as(*const IMediaBuffer, @ptrCast(self)), cbLength);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaBuffer_GetMaxLength(self: *const T, pcbMaxLength: ?*u32) HRESULT {
-                return @as(*const IMediaBuffer.VTable, @ptrCast(self.vtable)).GetMaxLength(@as(*const IMediaBuffer, @ptrCast(self)), pcbMaxLength);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaBuffer_GetBufferAndLength(self: *const T, ppBuffer: ?*?*u8, pcbLength: ?*u32) HRESULT {
-                return @as(*const IMediaBuffer.VTable, @ptrCast(self.vtable)).GetBufferAndLength(@as(*const IMediaBuffer, @ptrCast(self)), ppBuffer, pcbLength);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaBuffer_SetLength(self: *const T, cbLength: u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaBuffer.VTable, @ptrCast(self.vtable)).SetLength(@as(*const IMediaBuffer, @ptrCast(self)), cbLength);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaBuffer_GetMaxLength(self: *const T, pcbMaxLength: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaBuffer.VTable, @ptrCast(self.vtable)).GetMaxLength(@as(*const IMediaBuffer, @ptrCast(self)), pcbMaxLength);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaBuffer_GetBufferAndLength(self: *const T, ppBuffer: ?*?*u8, pcbLength: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaBuffer.VTable, @ptrCast(self.vtable)).GetBufferAndLength(@as(*const IMediaBuffer, @ptrCast(self)), ppBuffer, pcbLength);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -171,49 +169,49 @@ pub const IMediaObject = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         GetStreamCount: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 pcInputStreams: ?*u32,
                 pcOutputStreams: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 pcInputStreams: ?*u32,
                 pcOutputStreams: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetInputStreamInfo: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 pdwFlags: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 pdwFlags: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetOutputStreamInfo: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwOutputStreamIndex: u32,
                 pdwFlags: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwOutputStreamIndex: u32,
                 pdwFlags: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetInputType: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 dwTypeIndex: u32,
                 pmt: ?*DMO_MEDIA_TYPE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 dwTypeIndex: u32,
@@ -221,13 +219,13 @@ pub const IMediaObject = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetOutputType: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwOutputStreamIndex: u32,
                 dwTypeIndex: u32,
                 pmt: ?*DMO_MEDIA_TYPE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwOutputStreamIndex: u32,
                 dwTypeIndex: u32,
@@ -235,13 +233,13 @@ pub const IMediaObject = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetInputType: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 pmt: ?*const DMO_MEDIA_TYPE,
                 dwFlags: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 pmt: ?*const DMO_MEDIA_TYPE,
@@ -249,13 +247,13 @@ pub const IMediaObject = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetOutputType: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwOutputStreamIndex: u32,
                 pmt: ?*const DMO_MEDIA_TYPE,
                 dwFlags: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwOutputStreamIndex: u32,
                 pmt: ?*const DMO_MEDIA_TYPE,
@@ -263,38 +261,38 @@ pub const IMediaObject = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetInputCurrentType: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 pmt: ?*DMO_MEDIA_TYPE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 pmt: ?*DMO_MEDIA_TYPE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetOutputCurrentType: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwOutputStreamIndex: u32,
                 pmt: ?*DMO_MEDIA_TYPE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwOutputStreamIndex: u32,
                 pmt: ?*DMO_MEDIA_TYPE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetInputSizeInfo: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 pcbSize: ?*u32,
                 pcbMaxLookahead: ?*u32,
                 pcbAlignment: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 pcbSize: ?*u32,
@@ -303,13 +301,13 @@ pub const IMediaObject = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetOutputSizeInfo: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwOutputStreamIndex: u32,
                 pcbSize: ?*u32,
                 pcbAlignment: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwOutputStreamIndex: u32,
                 pcbSize: ?*u32,
@@ -317,77 +315,77 @@ pub const IMediaObject = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetInputMaxLatency: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 prtMaxLatency: ?*i64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 prtMaxLatency: ?*i64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetInputMaxLatency: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 rtMaxLatency: i64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 rtMaxLatency: i64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Flush: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Discontinuity: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         AllocateStreamingResources: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         FreeStreamingResources: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetInputStatus: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 dwFlags: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 dwFlags: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ProcessInput: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 pBuffer: ?*IMediaBuffer,
@@ -395,7 +393,7 @@ pub const IMediaObject = extern struct {
                 rtTimestamp: i64,
                 rtTimelength: i64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwInputStreamIndex: u32,
                 pBuffer: ?*IMediaBuffer,
@@ -405,14 +403,14 @@ pub const IMediaObject = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ProcessOutput: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 dwFlags: u32,
                 cOutputBufferCount: u32,
                 pOutputBuffers: [*]DMO_OUTPUT_DATA_BUFFER,
                 pdwStatus: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 dwFlags: u32,
                 cOutputBufferCount: u32,
@@ -421,106 +419,104 @@ pub const IMediaObject = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Lock: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObject,
                 bLock: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObject,
                 bLock: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetStreamCount(self: *const T, pcInputStreams: ?*u32, pcOutputStreams: ?*u32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetStreamCount(@as(*const IMediaObject, @ptrCast(self)), pcInputStreams, pcOutputStreams);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetInputStreamInfo(self: *const T, dwInputStreamIndex: u32, pdwFlags: ?*u32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputStreamInfo(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, pdwFlags);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetOutputStreamInfo(self: *const T, dwOutputStreamIndex: u32, pdwFlags: ?*u32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetOutputStreamInfo(@as(*const IMediaObject, @ptrCast(self)), dwOutputStreamIndex, pdwFlags);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetInputType(self: *const T, dwInputStreamIndex: u32, dwTypeIndex: u32, pmt: ?*DMO_MEDIA_TYPE) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputType(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, dwTypeIndex, pmt);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetOutputType(self: *const T, dwOutputStreamIndex: u32, dwTypeIndex: u32, pmt: ?*DMO_MEDIA_TYPE) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetOutputType(@as(*const IMediaObject, @ptrCast(self)), dwOutputStreamIndex, dwTypeIndex, pmt);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_SetInputType(self: *const T, dwInputStreamIndex: u32, pmt: ?*const DMO_MEDIA_TYPE, dwFlags: u32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).SetInputType(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, pmt, dwFlags);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_SetOutputType(self: *const T, dwOutputStreamIndex: u32, pmt: ?*const DMO_MEDIA_TYPE, dwFlags: u32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).SetOutputType(@as(*const IMediaObject, @ptrCast(self)), dwOutputStreamIndex, pmt, dwFlags);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetInputCurrentType(self: *const T, dwInputStreamIndex: u32, pmt: ?*DMO_MEDIA_TYPE) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputCurrentType(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, pmt);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetOutputCurrentType(self: *const T, dwOutputStreamIndex: u32, pmt: ?*DMO_MEDIA_TYPE) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetOutputCurrentType(@as(*const IMediaObject, @ptrCast(self)), dwOutputStreamIndex, pmt);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetInputSizeInfo(self: *const T, dwInputStreamIndex: u32, pcbSize: ?*u32, pcbMaxLookahead: ?*u32, pcbAlignment: ?*u32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputSizeInfo(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, pcbSize, pcbMaxLookahead, pcbAlignment);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetOutputSizeInfo(self: *const T, dwOutputStreamIndex: u32, pcbSize: ?*u32, pcbAlignment: ?*u32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetOutputSizeInfo(@as(*const IMediaObject, @ptrCast(self)), dwOutputStreamIndex, pcbSize, pcbAlignment);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetInputMaxLatency(self: *const T, dwInputStreamIndex: u32, prtMaxLatency: ?*i64) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputMaxLatency(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, prtMaxLatency);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_SetInputMaxLatency(self: *const T, dwInputStreamIndex: u32, rtMaxLatency: i64) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).SetInputMaxLatency(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, rtMaxLatency);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_Flush(self: *const T) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).Flush(@as(*const IMediaObject, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_Discontinuity(self: *const T, dwInputStreamIndex: u32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).Discontinuity(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_AllocateStreamingResources(self: *const T) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).AllocateStreamingResources(@as(*const IMediaObject, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_FreeStreamingResources(self: *const T) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).FreeStreamingResources(@as(*const IMediaObject, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_GetInputStatus(self: *const T, dwInputStreamIndex: u32, dwFlags: ?*u32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputStatus(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, dwFlags);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_ProcessInput(self: *const T, dwInputStreamIndex: u32, pBuffer: ?*IMediaBuffer, dwFlags: u32, rtTimestamp: i64, rtTimelength: i64) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).ProcessInput(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, pBuffer, dwFlags, rtTimestamp, rtTimelength);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_ProcessOutput(self: *const T, dwFlags: u32, cOutputBufferCount: u32, pOutputBuffers: [*]DMO_OUTPUT_DATA_BUFFER, pdwStatus: ?*u32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).ProcessOutput(@as(*const IMediaObject, @ptrCast(self)), dwFlags, cOutputBufferCount, pOutputBuffers, pdwStatus);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObject_Lock(self: *const T, bLock: i32) HRESULT {
-                return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).Lock(@as(*const IMediaObject, @ptrCast(self)), bLock);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetStreamCount(self: *const T, pcInputStreams: ?*u32, pcOutputStreams: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetStreamCount(@as(*const IMediaObject, @ptrCast(self)), pcInputStreams, pcOutputStreams);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetInputStreamInfo(self: *const T, dwInputStreamIndex: u32, pdwFlags: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputStreamInfo(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, pdwFlags);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetOutputStreamInfo(self: *const T, dwOutputStreamIndex: u32, pdwFlags: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetOutputStreamInfo(@as(*const IMediaObject, @ptrCast(self)), dwOutputStreamIndex, pdwFlags);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetInputType(self: *const T, dwInputStreamIndex: u32, dwTypeIndex: u32, pmt: ?*DMO_MEDIA_TYPE) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputType(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, dwTypeIndex, pmt);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetOutputType(self: *const T, dwOutputStreamIndex: u32, dwTypeIndex: u32, pmt: ?*DMO_MEDIA_TYPE) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetOutputType(@as(*const IMediaObject, @ptrCast(self)), dwOutputStreamIndex, dwTypeIndex, pmt);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_SetInputType(self: *const T, dwInputStreamIndex: u32, pmt: ?*const DMO_MEDIA_TYPE, dwFlags: u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).SetInputType(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, pmt, dwFlags);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_SetOutputType(self: *const T, dwOutputStreamIndex: u32, pmt: ?*const DMO_MEDIA_TYPE, dwFlags: u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).SetOutputType(@as(*const IMediaObject, @ptrCast(self)), dwOutputStreamIndex, pmt, dwFlags);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetInputCurrentType(self: *const T, dwInputStreamIndex: u32, pmt: ?*DMO_MEDIA_TYPE) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputCurrentType(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, pmt);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetOutputCurrentType(self: *const T, dwOutputStreamIndex: u32, pmt: ?*DMO_MEDIA_TYPE) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetOutputCurrentType(@as(*const IMediaObject, @ptrCast(self)), dwOutputStreamIndex, pmt);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetInputSizeInfo(self: *const T, dwInputStreamIndex: u32, pcbSize: ?*u32, pcbMaxLookahead: ?*u32, pcbAlignment: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputSizeInfo(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, pcbSize, pcbMaxLookahead, pcbAlignment);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetOutputSizeInfo(self: *const T, dwOutputStreamIndex: u32, pcbSize: ?*u32, pcbAlignment: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetOutputSizeInfo(@as(*const IMediaObject, @ptrCast(self)), dwOutputStreamIndex, pcbSize, pcbAlignment);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetInputMaxLatency(self: *const T, dwInputStreamIndex: u32, prtMaxLatency: ?*i64) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputMaxLatency(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, prtMaxLatency);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_SetInputMaxLatency(self: *const T, dwInputStreamIndex: u32, rtMaxLatency: i64) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).SetInputMaxLatency(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, rtMaxLatency);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_Flush(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).Flush(@as(*const IMediaObject, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_Discontinuity(self: *const T, dwInputStreamIndex: u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).Discontinuity(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_AllocateStreamingResources(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).AllocateStreamingResources(@as(*const IMediaObject, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_FreeStreamingResources(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).FreeStreamingResources(@as(*const IMediaObject, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_GetInputStatus(self: *const T, dwInputStreamIndex: u32, dwFlags: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).GetInputStatus(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, dwFlags);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_ProcessInput(self: *const T, dwInputStreamIndex: u32, pBuffer: ?*IMediaBuffer, dwFlags: u32, rtTimestamp: i64, rtTimelength: i64) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).ProcessInput(@as(*const IMediaObject, @ptrCast(self)), dwInputStreamIndex, pBuffer, dwFlags, rtTimestamp, rtTimelength);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_ProcessOutput(self: *const T, dwFlags: u32, cOutputBufferCount: u32, pOutputBuffers: [*]DMO_OUTPUT_DATA_BUFFER, pdwStatus: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).ProcessOutput(@as(*const IMediaObject, @ptrCast(self)), dwFlags, cOutputBufferCount, pOutputBuffers, pdwStatus);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObject_Lock(self: *const T, bLock: i32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObject.VTable, @ptrCast(self.vtable)).Lock(@as(*const IMediaObject, @ptrCast(self)), bLock);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -530,14 +526,14 @@ pub const IEnumDMO = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         Next: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IEnumDMO,
                 cItemsToFetch: u32,
                 pCLSID: [*]Guid,
                 Names: [*]?PWSTR,
                 pcItemsFetched: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IEnumDMO,
                 cItemsToFetch: u32,
                 pCLSID: [*]Guid,
@@ -546,56 +542,54 @@ pub const IEnumDMO = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Skip: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IEnumDMO,
                 cItemsToSkip: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IEnumDMO,
                 cItemsToSkip: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Reset: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IEnumDMO,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IEnumDMO,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Clone: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IEnumDMO,
                 ppEnum: ?*?*IEnumDMO,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IEnumDMO,
                 ppEnum: ?*?*IEnumDMO,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IEnumDMO_Next(self: *const T, cItemsToFetch: u32, pCLSID: [*]Guid, Names: [*]?PWSTR, pcItemsFetched: ?*u32) HRESULT {
-                return @as(*const IEnumDMO.VTable, @ptrCast(self.vtable)).Next(@as(*const IEnumDMO, @ptrCast(self)), cItemsToFetch, pCLSID, Names, pcItemsFetched);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IEnumDMO_Skip(self: *const T, cItemsToSkip: u32) HRESULT {
-                return @as(*const IEnumDMO.VTable, @ptrCast(self.vtable)).Skip(@as(*const IEnumDMO, @ptrCast(self)), cItemsToSkip);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IEnumDMO_Reset(self: *const T) HRESULT {
-                return @as(*const IEnumDMO.VTable, @ptrCast(self.vtable)).Reset(@as(*const IEnumDMO, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IEnumDMO_Clone(self: *const T, ppEnum: ?*?*IEnumDMO) HRESULT {
-                return @as(*const IEnumDMO.VTable, @ptrCast(self.vtable)).Clone(@as(*const IEnumDMO, @ptrCast(self)), ppEnum);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IEnumDMO_Next(self: *const T, cItemsToFetch: u32, pCLSID: [*]Guid, Names: [*]?PWSTR, pcItemsFetched: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IEnumDMO.VTable, @ptrCast(self.vtable)).Next(@as(*const IEnumDMO, @ptrCast(self)), cItemsToFetch, pCLSID, Names, pcItemsFetched);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IEnumDMO_Skip(self: *const T, cItemsToSkip: u32) callconv(.Inline) HRESULT {
+            return @as(*const IEnumDMO.VTable, @ptrCast(self.vtable)).Skip(@as(*const IEnumDMO, @ptrCast(self)), cItemsToSkip);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IEnumDMO_Reset(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IEnumDMO.VTable, @ptrCast(self.vtable)).Reset(@as(*const IEnumDMO, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IEnumDMO_Clone(self: *const T, ppEnum: ?*?*IEnumDMO) callconv(.Inline) HRESULT {
+            return @as(*const IEnumDMO.VTable, @ptrCast(self.vtable)).Clone(@as(*const IEnumDMO, @ptrCast(self)), ppEnum);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -612,7 +606,7 @@ pub const IMediaObjectInPlace = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         Process: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObjectInPlace,
                 ulSize: u32,
                 // TODO: what to do with BytesParamIndex 0?
@@ -620,7 +614,7 @@ pub const IMediaObjectInPlace = extern struct {
                 refTimeStart: i64,
                 dwFlags: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObjectInPlace,
                 ulSize: u32,
                 // TODO: what to do with BytesParamIndex 0?
@@ -630,44 +624,42 @@ pub const IMediaObjectInPlace = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Clone: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObjectInPlace,
                 ppMediaObject: ?*?*IMediaObjectInPlace,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObjectInPlace,
                 ppMediaObject: ?*?*IMediaObjectInPlace,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetLatency: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMediaObjectInPlace,
                 pLatencyTime: ?*i64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMediaObjectInPlace,
                 pLatencyTime: ?*i64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObjectInPlace_Process(self: *const T, ulSize: u32, pData: ?*u8, refTimeStart: i64, dwFlags: u32) HRESULT {
-                return @as(*const IMediaObjectInPlace.VTable, @ptrCast(self.vtable)).Process(@as(*const IMediaObjectInPlace, @ptrCast(self)), ulSize, pData, refTimeStart, dwFlags);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObjectInPlace_Clone(self: *const T, ppMediaObject: ?*?*IMediaObjectInPlace) HRESULT {
-                return @as(*const IMediaObjectInPlace.VTable, @ptrCast(self.vtable)).Clone(@as(*const IMediaObjectInPlace, @ptrCast(self)), ppMediaObject);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMediaObjectInPlace_GetLatency(self: *const T, pLatencyTime: ?*i64) HRESULT {
-                return @as(*const IMediaObjectInPlace.VTable, @ptrCast(self.vtable)).GetLatency(@as(*const IMediaObjectInPlace, @ptrCast(self)), pLatencyTime);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObjectInPlace_Process(self: *const T, ulSize: u32, pData: ?*u8, refTimeStart: i64, dwFlags: u32) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObjectInPlace.VTable, @ptrCast(self.vtable)).Process(@as(*const IMediaObjectInPlace, @ptrCast(self)), ulSize, pData, refTimeStart, dwFlags);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObjectInPlace_Clone(self: *const T, ppMediaObject: ?*?*IMediaObjectInPlace) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObjectInPlace.VTable, @ptrCast(self.vtable)).Clone(@as(*const IMediaObjectInPlace, @ptrCast(self)), ppMediaObject);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMediaObjectInPlace_GetLatency(self: *const T, pLatencyTime: ?*i64) callconv(.Inline) HRESULT {
+            return @as(*const IMediaObjectInPlace.VTable, @ptrCast(self.vtable)).GetLatency(@as(*const IMediaObjectInPlace, @ptrCast(self)), pLatencyTime);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -682,54 +674,52 @@ pub const IDMOQualityControl = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         SetNow: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMOQualityControl,
                 rtNow: i64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMOQualityControl,
                 rtNow: i64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetStatus: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMOQualityControl,
                 dwFlags: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMOQualityControl,
                 dwFlags: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetStatus: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMOQualityControl,
                 pdwFlags: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMOQualityControl,
                 pdwFlags: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMOQualityControl_SetNow(self: *const T, rtNow: i64) HRESULT {
-                return @as(*const IDMOQualityControl.VTable, @ptrCast(self.vtable)).SetNow(@as(*const IDMOQualityControl, @ptrCast(self)), rtNow);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMOQualityControl_SetStatus(self: *const T, dwFlags: u32) HRESULT {
-                return @as(*const IDMOQualityControl.VTable, @ptrCast(self.vtable)).SetStatus(@as(*const IDMOQualityControl, @ptrCast(self)), dwFlags);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMOQualityControl_GetStatus(self: *const T, pdwFlags: ?*u32) HRESULT {
-                return @as(*const IDMOQualityControl.VTable, @ptrCast(self.vtable)).GetStatus(@as(*const IDMOQualityControl, @ptrCast(self)), pdwFlags);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMOQualityControl_SetNow(self: *const T, rtNow: i64) callconv(.Inline) HRESULT {
+            return @as(*const IDMOQualityControl.VTable, @ptrCast(self.vtable)).SetNow(@as(*const IDMOQualityControl, @ptrCast(self)), rtNow);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMOQualityControl_SetStatus(self: *const T, dwFlags: u32) callconv(.Inline) HRESULT {
+            return @as(*const IDMOQualityControl.VTable, @ptrCast(self.vtable)).SetStatus(@as(*const IDMOQualityControl, @ptrCast(self)), dwFlags);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMOQualityControl_GetStatus(self: *const T, pdwFlags: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IDMOQualityControl.VTable, @ptrCast(self.vtable)).GetStatus(@as(*const IDMOQualityControl, @ptrCast(self)), pdwFlags);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -744,48 +734,48 @@ pub const IDMOVideoOutputOptimizations = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         QueryOperationModePreferences: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMOVideoOutputOptimizations,
                 ulOutputStreamIndex: u32,
                 pdwRequestedCapabilities: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMOVideoOutputOptimizations,
                 ulOutputStreamIndex: u32,
                 pdwRequestedCapabilities: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetOperationMode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMOVideoOutputOptimizations,
                 ulOutputStreamIndex: u32,
                 dwEnabledFeatures: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMOVideoOutputOptimizations,
                 ulOutputStreamIndex: u32,
                 dwEnabledFeatures: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetCurrentOperationMode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMOVideoOutputOptimizations,
                 ulOutputStreamIndex: u32,
                 pdwEnabledFeatures: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMOVideoOutputOptimizations,
                 ulOutputStreamIndex: u32,
                 pdwEnabledFeatures: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetCurrentSampleRequirements: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMOVideoOutputOptimizations,
                 ulOutputStreamIndex: u32,
                 pdwRequestedFeatures: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMOVideoOutputOptimizations,
                 ulOutputStreamIndex: u32,
                 pdwRequestedFeatures: ?*u32,
@@ -793,27 +783,25 @@ pub const IDMOVideoOutputOptimizations = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMOVideoOutputOptimizations_QueryOperationModePreferences(self: *const T, ulOutputStreamIndex: u32, pdwRequestedCapabilities: ?*u32) HRESULT {
-                return @as(*const IDMOVideoOutputOptimizations.VTable, @ptrCast(self.vtable)).QueryOperationModePreferences(@as(*const IDMOVideoOutputOptimizations, @ptrCast(self)), ulOutputStreamIndex, pdwRequestedCapabilities);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMOVideoOutputOptimizations_SetOperationMode(self: *const T, ulOutputStreamIndex: u32, dwEnabledFeatures: u32) HRESULT {
-                return @as(*const IDMOVideoOutputOptimizations.VTable, @ptrCast(self.vtable)).SetOperationMode(@as(*const IDMOVideoOutputOptimizations, @ptrCast(self)), ulOutputStreamIndex, dwEnabledFeatures);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMOVideoOutputOptimizations_GetCurrentOperationMode(self: *const T, ulOutputStreamIndex: u32, pdwEnabledFeatures: ?*u32) HRESULT {
-                return @as(*const IDMOVideoOutputOptimizations.VTable, @ptrCast(self.vtable)).GetCurrentOperationMode(@as(*const IDMOVideoOutputOptimizations, @ptrCast(self)), ulOutputStreamIndex, pdwEnabledFeatures);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMOVideoOutputOptimizations_GetCurrentSampleRequirements(self: *const T, ulOutputStreamIndex: u32, pdwRequestedFeatures: ?*u32) HRESULT {
-                return @as(*const IDMOVideoOutputOptimizations.VTable, @ptrCast(self.vtable)).GetCurrentSampleRequirements(@as(*const IDMOVideoOutputOptimizations, @ptrCast(self)), ulOutputStreamIndex, pdwRequestedFeatures);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMOVideoOutputOptimizations_QueryOperationModePreferences(self: *const T, ulOutputStreamIndex: u32, pdwRequestedCapabilities: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IDMOVideoOutputOptimizations.VTable, @ptrCast(self.vtable)).QueryOperationModePreferences(@as(*const IDMOVideoOutputOptimizations, @ptrCast(self)), ulOutputStreamIndex, pdwRequestedCapabilities);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMOVideoOutputOptimizations_SetOperationMode(self: *const T, ulOutputStreamIndex: u32, dwEnabledFeatures: u32) callconv(.Inline) HRESULT {
+            return @as(*const IDMOVideoOutputOptimizations.VTable, @ptrCast(self.vtable)).SetOperationMode(@as(*const IDMOVideoOutputOptimizations, @ptrCast(self)), ulOutputStreamIndex, dwEnabledFeatures);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMOVideoOutputOptimizations_GetCurrentOperationMode(self: *const T, ulOutputStreamIndex: u32, pdwEnabledFeatures: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IDMOVideoOutputOptimizations.VTable, @ptrCast(self.vtable)).GetCurrentOperationMode(@as(*const IDMOVideoOutputOptimizations, @ptrCast(self)), ulOutputStreamIndex, pdwEnabledFeatures);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMOVideoOutputOptimizations_GetCurrentSampleRequirements(self: *const T, ulOutputStreamIndex: u32, pdwRequestedFeatures: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IDMOVideoOutputOptimizations.VTable, @ptrCast(self.vtable)).GetCurrentSampleRequirements(@as(*const IDMOVideoOutputOptimizations, @ptrCast(self)), ulOutputStreamIndex, pdwRequestedFeatures);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -831,6 +819,7 @@ pub const DMO_ENUM_FLAGS = enum(i32) {
     D = 1,
 };
 pub const DMO_ENUMF_INCLUDE_KEYED = DMO_ENUM_FLAGS.D;
+
 
 //--------------------------------------------------------------------------------
 // Section: Functions (11)
@@ -904,14 +893,19 @@ pub extern "msdmo" fn MoDuplicateMediaType(
     pmtSrc: ?*const DMO_MEDIA_TYPE,
 ) callconv(@import("std").os.windows.WINAPI) HRESULT;
 
+
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
 const thismodule = @This();
 pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {},
-    .wide => struct {},
-    .unspecified => if (@import("builtin").is_test) struct {} else struct {},
+    .ansi => struct {
+    },
+    .wide => struct {
+    },
+    .unspecified => if (@import("builtin").is_test) struct {
+    } else struct {
+    },
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (5)
@@ -923,13 +917,13 @@ const IUnknown = @import("../system/com.zig").IUnknown;
 const PWSTR = @import("../foundation.zig").PWSTR;
 
 test {
-    @setEvalBranchQuota(comptime @import("std").meta.declarations(@This()).len * 3);
+    @setEvalBranchQuota(
+        comptime @import("std").meta.declarations(@This()).len * 3
+    );
 
     // reference all the pub declarations
     if (!@import("builtin").is_test) return;
     inline for (comptime @import("std").meta.declarations(@This())) |decl| {
-        if (decl.is_pub) {
-            _ = @field(@This(), decl.name);
-        }
+        _ = @field(@This(), decl.name);
     }
 }

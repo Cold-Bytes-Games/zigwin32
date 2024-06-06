@@ -198,45 +198,45 @@ pub const IRdcGeneratorParameters = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         GetGeneratorParametersType: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcGeneratorParameters,
                 parametersType: ?*GeneratorParametersType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcGeneratorParameters,
                 parametersType: ?*GeneratorParametersType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetParametersVersion: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcGeneratorParameters,
                 currentVersion: ?*u32,
                 minimumCompatibleAppVersion: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcGeneratorParameters,
                 currentVersion: ?*u32,
                 minimumCompatibleAppVersion: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetSerializeSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcGeneratorParameters,
                 size: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcGeneratorParameters,
                 size: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Serialize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcGeneratorParameters,
                 size: u32,
                 parametersBlob: ?*u8,
                 bytesWritten: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcGeneratorParameters,
                 size: u32,
                 parametersBlob: ?*u8,
@@ -245,27 +245,25 @@ pub const IRdcGeneratorParameters = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcGeneratorParameters_GetGeneratorParametersType(self: *const T, parametersType: ?*GeneratorParametersType) HRESULT {
-                return @as(*const IRdcGeneratorParameters.VTable, @ptrCast(self.vtable)).GetGeneratorParametersType(@as(*const IRdcGeneratorParameters, @ptrCast(self)), parametersType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcGeneratorParameters_GetParametersVersion(self: *const T, currentVersion: ?*u32, minimumCompatibleAppVersion: ?*u32) HRESULT {
-                return @as(*const IRdcGeneratorParameters.VTable, @ptrCast(self.vtable)).GetParametersVersion(@as(*const IRdcGeneratorParameters, @ptrCast(self)), currentVersion, minimumCompatibleAppVersion);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcGeneratorParameters_GetSerializeSize(self: *const T, size: ?*u32) HRESULT {
-                return @as(*const IRdcGeneratorParameters.VTable, @ptrCast(self.vtable)).GetSerializeSize(@as(*const IRdcGeneratorParameters, @ptrCast(self)), size);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcGeneratorParameters_Serialize(self: *const T, size: u32, parametersBlob: ?*u8, bytesWritten: ?*u32) HRESULT {
-                return @as(*const IRdcGeneratorParameters.VTable, @ptrCast(self.vtable)).Serialize(@as(*const IRdcGeneratorParameters, @ptrCast(self)), size, parametersBlob, bytesWritten);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcGeneratorParameters_GetGeneratorParametersType(self: *const T, parametersType: ?*GeneratorParametersType) callconv(.Inline) HRESULT {
+            return @as(*const IRdcGeneratorParameters.VTable, @ptrCast(self.vtable)).GetGeneratorParametersType(@as(*const IRdcGeneratorParameters, @ptrCast(self)), parametersType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcGeneratorParameters_GetParametersVersion(self: *const T, currentVersion: ?*u32, minimumCompatibleAppVersion: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IRdcGeneratorParameters.VTable, @ptrCast(self.vtable)).GetParametersVersion(@as(*const IRdcGeneratorParameters, @ptrCast(self)), currentVersion, minimumCompatibleAppVersion);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcGeneratorParameters_GetSerializeSize(self: *const T, size: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IRdcGeneratorParameters.VTable, @ptrCast(self.vtable)).GetSerializeSize(@as(*const IRdcGeneratorParameters, @ptrCast(self)), size);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcGeneratorParameters_Serialize(self: *const T, size: u32, parametersBlob: ?*u8, bytesWritten: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IRdcGeneratorParameters.VTable, @ptrCast(self.vtable)).Serialize(@as(*const IRdcGeneratorParameters, @ptrCast(self)), size, parametersBlob, bytesWritten);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -276,68 +274,66 @@ pub const IRdcGeneratorFilterMaxParameters = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         GetHorizonSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcGeneratorFilterMaxParameters,
                 horizonSize: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcGeneratorFilterMaxParameters,
                 horizonSize: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetHorizonSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcGeneratorFilterMaxParameters,
                 horizonSize: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcGeneratorFilterMaxParameters,
                 horizonSize: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetHashWindowSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcGeneratorFilterMaxParameters,
                 hashWindowSize: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcGeneratorFilterMaxParameters,
                 hashWindowSize: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetHashWindowSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcGeneratorFilterMaxParameters,
                 hashWindowSize: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcGeneratorFilterMaxParameters,
                 hashWindowSize: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcGeneratorFilterMaxParameters_GetHorizonSize(self: *const T, horizonSize: ?*u32) HRESULT {
-                return @as(*const IRdcGeneratorFilterMaxParameters.VTable, @ptrCast(self.vtable)).GetHorizonSize(@as(*const IRdcGeneratorFilterMaxParameters, @ptrCast(self)), horizonSize);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcGeneratorFilterMaxParameters_SetHorizonSize(self: *const T, horizonSize: u32) HRESULT {
-                return @as(*const IRdcGeneratorFilterMaxParameters.VTable, @ptrCast(self.vtable)).SetHorizonSize(@as(*const IRdcGeneratorFilterMaxParameters, @ptrCast(self)), horizonSize);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcGeneratorFilterMaxParameters_GetHashWindowSize(self: *const T, hashWindowSize: ?*u32) HRESULT {
-                return @as(*const IRdcGeneratorFilterMaxParameters.VTable, @ptrCast(self.vtable)).GetHashWindowSize(@as(*const IRdcGeneratorFilterMaxParameters, @ptrCast(self)), hashWindowSize);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcGeneratorFilterMaxParameters_SetHashWindowSize(self: *const T, hashWindowSize: u32) HRESULT {
-                return @as(*const IRdcGeneratorFilterMaxParameters.VTable, @ptrCast(self.vtable)).SetHashWindowSize(@as(*const IRdcGeneratorFilterMaxParameters, @ptrCast(self)), hashWindowSize);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcGeneratorFilterMaxParameters_GetHorizonSize(self: *const T, horizonSize: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IRdcGeneratorFilterMaxParameters.VTable, @ptrCast(self.vtable)).GetHorizonSize(@as(*const IRdcGeneratorFilterMaxParameters, @ptrCast(self)), horizonSize);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcGeneratorFilterMaxParameters_SetHorizonSize(self: *const T, horizonSize: u32) callconv(.Inline) HRESULT {
+            return @as(*const IRdcGeneratorFilterMaxParameters.VTable, @ptrCast(self.vtable)).SetHorizonSize(@as(*const IRdcGeneratorFilterMaxParameters, @ptrCast(self)), horizonSize);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcGeneratorFilterMaxParameters_GetHashWindowSize(self: *const T, hashWindowSize: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IRdcGeneratorFilterMaxParameters.VTable, @ptrCast(self.vtable)).GetHashWindowSize(@as(*const IRdcGeneratorFilterMaxParameters, @ptrCast(self)), hashWindowSize);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcGeneratorFilterMaxParameters_SetHashWindowSize(self: *const T, hashWindowSize: u32) callconv(.Inline) HRESULT {
+            return @as(*const IRdcGeneratorFilterMaxParameters.VTable, @ptrCast(self.vtable)).SetHashWindowSize(@as(*const IRdcGeneratorFilterMaxParameters, @ptrCast(self)), hashWindowSize);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -348,19 +344,19 @@ pub const IRdcGenerator = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         GetGeneratorParameters: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcGenerator,
                 level: u32,
                 iGeneratorParameters: ?*?*IRdcGeneratorParameters,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcGenerator,
                 level: u32,
                 iGeneratorParameters: ?*?*IRdcGeneratorParameters,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Process: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcGenerator,
                 endOfInput: BOOL,
                 endOfOutput: ?*BOOL,
@@ -369,7 +365,7 @@ pub const IRdcGenerator = extern struct {
                 outputBuffers: [*]?*RdcBufferPointer,
                 rdc_ErrorCode: ?*RDC_ErrorCode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcGenerator,
                 endOfInput: BOOL,
                 endOfOutput: ?*BOOL,
@@ -381,19 +377,17 @@ pub const IRdcGenerator = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcGenerator_GetGeneratorParameters(self: *const T, level: u32, iGeneratorParameters: ?*?*IRdcGeneratorParameters) HRESULT {
-                return @as(*const IRdcGenerator.VTable, @ptrCast(self.vtable)).GetGeneratorParameters(@as(*const IRdcGenerator, @ptrCast(self)), level, iGeneratorParameters);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcGenerator_Process(self: *const T, endOfInput: BOOL, endOfOutput: ?*BOOL, inputBuffer: ?*RdcBufferPointer, depth: u32, outputBuffers: [*]?*RdcBufferPointer, rdc_ErrorCode: ?*RDC_ErrorCode) HRESULT {
-                return @as(*const IRdcGenerator.VTable, @ptrCast(self.vtable)).Process(@as(*const IRdcGenerator, @ptrCast(self)), endOfInput, endOfOutput, inputBuffer, depth, outputBuffers, rdc_ErrorCode);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcGenerator_GetGeneratorParameters(self: *const T, level: u32, iGeneratorParameters: ?*?*IRdcGeneratorParameters) callconv(.Inline) HRESULT {
+            return @as(*const IRdcGenerator.VTable, @ptrCast(self.vtable)).GetGeneratorParameters(@as(*const IRdcGenerator, @ptrCast(self)), level, iGeneratorParameters);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcGenerator_Process(self: *const T, endOfInput: BOOL, endOfOutput: ?*BOOL, inputBuffer: ?*RdcBufferPointer, depth: u32, outputBuffers: [*]?*RdcBufferPointer, rdc_ErrorCode: ?*RDC_ErrorCode) callconv(.Inline) HRESULT {
+            return @as(*const IRdcGenerator.VTable, @ptrCast(self.vtable)).Process(@as(*const IRdcGenerator, @ptrCast(self)), endOfInput, endOfOutput, inputBuffer, depth, outputBuffers, rdc_ErrorCode);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -404,17 +398,17 @@ pub const IRdcFileReader = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         GetFileSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcFileReader,
                 fileSize: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcFileReader,
                 fileSize: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Read: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcFileReader,
                 offsetFileStart: u64,
                 bytesToRead: u32,
@@ -422,7 +416,7 @@ pub const IRdcFileReader = extern struct {
                 buffer: ?*u8,
                 eof: ?*BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcFileReader,
                 offsetFileStart: u64,
                 bytesToRead: u32,
@@ -432,34 +426,32 @@ pub const IRdcFileReader = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetFilePosition: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcFileReader,
                 offsetFromStart: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcFileReader,
                 offsetFromStart: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcFileReader_GetFileSize(self: *const T, fileSize: ?*u64) HRESULT {
-                return @as(*const IRdcFileReader.VTable, @ptrCast(self.vtable)).GetFileSize(@as(*const IRdcFileReader, @ptrCast(self)), fileSize);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcFileReader_Read(self: *const T, offsetFileStart: u64, bytesToRead: u32, bytesActuallyRead: ?*u32, buffer: ?*u8, eof: ?*BOOL) HRESULT {
-                return @as(*const IRdcFileReader.VTable, @ptrCast(self.vtable)).Read(@as(*const IRdcFileReader, @ptrCast(self)), offsetFileStart, bytesToRead, bytesActuallyRead, buffer, eof);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcFileReader_GetFilePosition(self: *const T, offsetFromStart: ?*u64) HRESULT {
-                return @as(*const IRdcFileReader.VTable, @ptrCast(self.vtable)).GetFilePosition(@as(*const IRdcFileReader, @ptrCast(self)), offsetFromStart);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcFileReader_GetFileSize(self: *const T, fileSize: ?*u64) callconv(.Inline) HRESULT {
+            return @as(*const IRdcFileReader.VTable, @ptrCast(self.vtable)).GetFileSize(@as(*const IRdcFileReader, @ptrCast(self)), fileSize);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcFileReader_Read(self: *const T, offsetFileStart: u64, bytesToRead: u32, bytesActuallyRead: ?*u32, buffer: ?*u8, eof: ?*BOOL) callconv(.Inline) HRESULT {
+            return @as(*const IRdcFileReader.VTable, @ptrCast(self.vtable)).Read(@as(*const IRdcFileReader, @ptrCast(self)), offsetFileStart, bytesToRead, bytesActuallyRead, buffer, eof);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcFileReader_GetFilePosition(self: *const T, offsetFromStart: ?*u64) callconv(.Inline) HRESULT {
+            return @as(*const IRdcFileReader.VTable, @ptrCast(self.vtable)).GetFilePosition(@as(*const IRdcFileReader, @ptrCast(self)), offsetFromStart);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -470,13 +462,13 @@ pub const IRdcFileWriter = extern struct {
     pub const VTable = extern struct {
         base: IRdcFileReader.VTable,
         Write: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcFileWriter,
                 offsetFileStart: u64,
                 bytesToWrite: u32,
                 buffer: ?*u8,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcFileWriter,
                 offsetFileStart: u64,
                 bytesToWrite: u32,
@@ -484,40 +476,38 @@ pub const IRdcFileWriter = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Truncate: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcFileWriter,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcFileWriter,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         DeleteOnClose: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcFileWriter,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcFileWriter,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IRdcFileReader.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcFileWriter_Write(self: *const T, offsetFileStart: u64, bytesToWrite: u32, buffer: ?*u8) HRESULT {
-                return @as(*const IRdcFileWriter.VTable, @ptrCast(self.vtable)).Write(@as(*const IRdcFileWriter, @ptrCast(self)), offsetFileStart, bytesToWrite, buffer);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcFileWriter_Truncate(self: *const T) HRESULT {
-                return @as(*const IRdcFileWriter.VTable, @ptrCast(self.vtable)).Truncate(@as(*const IRdcFileWriter, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcFileWriter_DeleteOnClose(self: *const T) HRESULT {
-                return @as(*const IRdcFileWriter.VTable, @ptrCast(self.vtable)).DeleteOnClose(@as(*const IRdcFileWriter, @ptrCast(self)));
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IRdcFileReader.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcFileWriter_Write(self: *const T, offsetFileStart: u64, bytesToWrite: u32, buffer: ?*u8) callconv(.Inline) HRESULT {
+            return @as(*const IRdcFileWriter.VTable, @ptrCast(self.vtable)).Write(@as(*const IRdcFileWriter, @ptrCast(self)), offsetFileStart, bytesToWrite, buffer);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcFileWriter_Truncate(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IRdcFileWriter.VTable, @ptrCast(self.vtable)).Truncate(@as(*const IRdcFileWriter, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcFileWriter_DeleteOnClose(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IRdcFileWriter.VTable, @ptrCast(self.vtable)).DeleteOnClose(@as(*const IRdcFileWriter, @ptrCast(self)));
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -528,22 +518,22 @@ pub const IRdcSignatureReader = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         ReadHeader: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcSignatureReader,
                 rdc_ErrorCode: ?*RDC_ErrorCode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcSignatureReader,
                 rdc_ErrorCode: ?*RDC_ErrorCode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ReadSignatures: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcSignatureReader,
                 rdcSignaturePointer: ?*RdcSignaturePointer,
                 endOfOutput: ?*BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcSignatureReader,
                 rdcSignaturePointer: ?*RdcSignaturePointer,
                 endOfOutput: ?*BOOL,
@@ -551,19 +541,17 @@ pub const IRdcSignatureReader = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcSignatureReader_ReadHeader(self: *const T, rdc_ErrorCode: ?*RDC_ErrorCode) HRESULT {
-                return @as(*const IRdcSignatureReader.VTable, @ptrCast(self.vtable)).ReadHeader(@as(*const IRdcSignatureReader, @ptrCast(self)), rdc_ErrorCode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcSignatureReader_ReadSignatures(self: *const T, rdcSignaturePointer: ?*RdcSignaturePointer, endOfOutput: ?*BOOL) HRESULT {
-                return @as(*const IRdcSignatureReader.VTable, @ptrCast(self.vtable)).ReadSignatures(@as(*const IRdcSignatureReader, @ptrCast(self)), rdcSignaturePointer, endOfOutput);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcSignatureReader_ReadHeader(self: *const T, rdc_ErrorCode: ?*RDC_ErrorCode) callconv(.Inline) HRESULT {
+            return @as(*const IRdcSignatureReader.VTable, @ptrCast(self.vtable)).ReadHeader(@as(*const IRdcSignatureReader, @ptrCast(self)), rdc_ErrorCode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcSignatureReader_ReadSignatures(self: *const T, rdcSignaturePointer: ?*RdcSignaturePointer, endOfOutput: ?*BOOL) callconv(.Inline) HRESULT {
+            return @as(*const IRdcSignatureReader.VTable, @ptrCast(self.vtable)).ReadSignatures(@as(*const IRdcSignatureReader, @ptrCast(self)), rdcSignaturePointer, endOfOutput);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -574,7 +562,7 @@ pub const IRdcComparator = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         Process: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcComparator,
                 endOfInput: BOOL,
                 endOfOutput: ?*BOOL,
@@ -582,7 +570,7 @@ pub const IRdcComparator = extern struct {
                 outputBuffer: ?*RdcNeedPointer,
                 rdc_ErrorCode: ?*RDC_ErrorCode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcComparator,
                 endOfInput: BOOL,
                 endOfOutput: ?*BOOL,
@@ -593,15 +581,13 @@ pub const IRdcComparator = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcComparator_Process(self: *const T, endOfInput: BOOL, endOfOutput: ?*BOOL, inputBuffer: ?*RdcBufferPointer, outputBuffer: ?*RdcNeedPointer, rdc_ErrorCode: ?*RDC_ErrorCode) HRESULT {
-                return @as(*const IRdcComparator.VTable, @ptrCast(self.vtable)).Process(@as(*const IRdcComparator, @ptrCast(self)), endOfInput, endOfOutput, inputBuffer, outputBuffer, rdc_ErrorCode);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcComparator_Process(self: *const T, endOfInput: BOOL, endOfOutput: ?*BOOL, inputBuffer: ?*RdcBufferPointer, outputBuffer: ?*RdcNeedPointer, rdc_ErrorCode: ?*RDC_ErrorCode) callconv(.Inline) HRESULT {
+            return @as(*const IRdcComparator.VTable, @ptrCast(self.vtable)).Process(@as(*const IRdcComparator, @ptrCast(self)), endOfInput, endOfOutput, inputBuffer, outputBuffer, rdc_ErrorCode);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -612,25 +598,25 @@ pub const IRdcLibrary = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         ComputeDefaultRecursionDepth: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcLibrary,
                 fileSize: u64,
                 depth: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcLibrary,
                 fileSize: u64,
                 depth: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateGeneratorParameters: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcLibrary,
                 parametersType: GeneratorParametersType,
                 level: u32,
                 iGeneratorParameters: ?*?*IRdcGeneratorParameters,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcLibrary,
                 parametersType: GeneratorParametersType,
                 level: u32,
@@ -638,13 +624,13 @@ pub const IRdcLibrary = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         OpenGeneratorParameters: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcLibrary,
                 size: u32,
                 parametersBlob: ?*const u8,
                 iGeneratorParameters: ?*?*IRdcGeneratorParameters,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcLibrary,
                 size: u32,
                 parametersBlob: ?*const u8,
@@ -652,13 +638,13 @@ pub const IRdcLibrary = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateGenerator: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcLibrary,
                 depth: u32,
                 iGeneratorParametersArray: [*]?*IRdcGeneratorParameters,
                 iGenerator: ?*?*IRdcGenerator,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcLibrary,
                 depth: u32,
                 iGeneratorParametersArray: [*]?*IRdcGeneratorParameters,
@@ -666,13 +652,13 @@ pub const IRdcLibrary = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateComparator: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcLibrary,
                 iSeedSignaturesFile: ?*IRdcFileReader,
                 comparatorBufferSize: u32,
                 iComparator: ?*?*IRdcComparator,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcLibrary,
                 iSeedSignaturesFile: ?*IRdcFileReader,
                 comparatorBufferSize: u32,
@@ -680,24 +666,24 @@ pub const IRdcLibrary = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateSignatureReader: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcLibrary,
                 iFileReader: ?*IRdcFileReader,
                 iSignatureReader: ?*?*IRdcSignatureReader,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcLibrary,
                 iFileReader: ?*IRdcFileReader,
                 iSignatureReader: ?*?*IRdcSignatureReader,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetRDCVersion: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcLibrary,
                 currentVersion: ?*u32,
                 minimumCompatibleAppVersion: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcLibrary,
                 currentVersion: ?*u32,
                 minimumCompatibleAppVersion: ?*u32,
@@ -705,39 +691,37 @@ pub const IRdcLibrary = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcLibrary_ComputeDefaultRecursionDepth(self: *const T, fileSize: u64, depth: ?*u32) HRESULT {
-                return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).ComputeDefaultRecursionDepth(@as(*const IRdcLibrary, @ptrCast(self)), fileSize, depth);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcLibrary_CreateGeneratorParameters(self: *const T, parametersType: GeneratorParametersType, level: u32, iGeneratorParameters: ?*?*IRdcGeneratorParameters) HRESULT {
-                return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).CreateGeneratorParameters(@as(*const IRdcLibrary, @ptrCast(self)), parametersType, level, iGeneratorParameters);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcLibrary_OpenGeneratorParameters(self: *const T, size: u32, parametersBlob: ?*const u8, iGeneratorParameters: ?*?*IRdcGeneratorParameters) HRESULT {
-                return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).OpenGeneratorParameters(@as(*const IRdcLibrary, @ptrCast(self)), size, parametersBlob, iGeneratorParameters);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcLibrary_CreateGenerator(self: *const T, depth: u32, iGeneratorParametersArray: [*]?*IRdcGeneratorParameters, iGenerator: ?*?*IRdcGenerator) HRESULT {
-                return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).CreateGenerator(@as(*const IRdcLibrary, @ptrCast(self)), depth, iGeneratorParametersArray, iGenerator);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcLibrary_CreateComparator(self: *const T, iSeedSignaturesFile: ?*IRdcFileReader, comparatorBufferSize: u32, iComparator: ?*?*IRdcComparator) HRESULT {
-                return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).CreateComparator(@as(*const IRdcLibrary, @ptrCast(self)), iSeedSignaturesFile, comparatorBufferSize, iComparator);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcLibrary_CreateSignatureReader(self: *const T, iFileReader: ?*IRdcFileReader, iSignatureReader: ?*?*IRdcSignatureReader) HRESULT {
-                return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).CreateSignatureReader(@as(*const IRdcLibrary, @ptrCast(self)), iFileReader, iSignatureReader);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcLibrary_GetRDCVersion(self: *const T, currentVersion: ?*u32, minimumCompatibleAppVersion: ?*u32) HRESULT {
-                return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).GetRDCVersion(@as(*const IRdcLibrary, @ptrCast(self)), currentVersion, minimumCompatibleAppVersion);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcLibrary_ComputeDefaultRecursionDepth(self: *const T, fileSize: u64, depth: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).ComputeDefaultRecursionDepth(@as(*const IRdcLibrary, @ptrCast(self)), fileSize, depth);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcLibrary_CreateGeneratorParameters(self: *const T, parametersType: GeneratorParametersType, level: u32, iGeneratorParameters: ?*?*IRdcGeneratorParameters) callconv(.Inline) HRESULT {
+            return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).CreateGeneratorParameters(@as(*const IRdcLibrary, @ptrCast(self)), parametersType, level, iGeneratorParameters);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcLibrary_OpenGeneratorParameters(self: *const T, size: u32, parametersBlob: ?*const u8, iGeneratorParameters: ?*?*IRdcGeneratorParameters) callconv(.Inline) HRESULT {
+            return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).OpenGeneratorParameters(@as(*const IRdcLibrary, @ptrCast(self)), size, parametersBlob, iGeneratorParameters);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcLibrary_CreateGenerator(self: *const T, depth: u32, iGeneratorParametersArray: [*]?*IRdcGeneratorParameters, iGenerator: ?*?*IRdcGenerator) callconv(.Inline) HRESULT {
+            return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).CreateGenerator(@as(*const IRdcLibrary, @ptrCast(self)), depth, iGeneratorParametersArray, iGenerator);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcLibrary_CreateComparator(self: *const T, iSeedSignaturesFile: ?*IRdcFileReader, comparatorBufferSize: u32, iComparator: ?*?*IRdcComparator) callconv(.Inline) HRESULT {
+            return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).CreateComparator(@as(*const IRdcLibrary, @ptrCast(self)), iSeedSignaturesFile, comparatorBufferSize, iComparator);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcLibrary_CreateSignatureReader(self: *const T, iFileReader: ?*IRdcFileReader, iSignatureReader: ?*?*IRdcSignatureReader) callconv(.Inline) HRESULT {
+            return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).CreateSignatureReader(@as(*const IRdcLibrary, @ptrCast(self)), iFileReader, iSignatureReader);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcLibrary_GetRDCVersion(self: *const T, currentVersion: ?*u32, minimumCompatibleAppVersion: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IRdcLibrary.VTable, @ptrCast(self.vtable)).GetRDCVersion(@as(*const IRdcLibrary, @ptrCast(self)), currentVersion, minimumCompatibleAppVersion);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -748,26 +732,24 @@ pub const ISimilarityReportProgress = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         ReportProgress: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityReportProgress,
                 percentCompleted: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityReportProgress,
                 percentCompleted: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityReportProgress_ReportProgress(self: *const T, percentCompleted: u32) HRESULT {
-                return @as(*const ISimilarityReportProgress.VTable, @ptrCast(self.vtable)).ReportProgress(@as(*const ISimilarityReportProgress, @ptrCast(self)), percentCompleted);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityReportProgress_ReportProgress(self: *const T, percentCompleted: u32) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityReportProgress.VTable, @ptrCast(self.vtable)).ReportProgress(@as(*const ISimilarityReportProgress, @ptrCast(self)), percentCompleted);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -778,14 +760,14 @@ pub const ISimilarityTableDumpState = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         GetNextData: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTableDumpState,
                 resultsSize: u32,
                 resultsUsed: ?*u32,
                 eof: ?*BOOL,
                 results: ?*SimilarityDumpData,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTableDumpState,
                 resultsSize: u32,
                 resultsUsed: ?*u32,
@@ -795,15 +777,13 @@ pub const ISimilarityTableDumpState = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTableDumpState_GetNextData(self: *const T, resultsSize: u32, resultsUsed: ?*u32, eof: ?*BOOL, results: ?*SimilarityDumpData) HRESULT {
-                return @as(*const ISimilarityTableDumpState.VTable, @ptrCast(self.vtable)).GetNextData(@as(*const ISimilarityTableDumpState, @ptrCast(self)), resultsSize, resultsUsed, eof, results);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTableDumpState_GetNextData(self: *const T, resultsSize: u32, resultsUsed: ?*u32, eof: ?*BOOL, results: ?*SimilarityDumpData) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTableDumpState.VTable, @ptrCast(self.vtable)).GetNextData(@as(*const ISimilarityTableDumpState, @ptrCast(self)), resultsSize, resultsUsed, eof, results);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -814,30 +794,30 @@ pub const ISimilarityTraitsMappedView = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         Flush: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMappedView,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMappedView,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Unmap: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMappedView,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMappedView,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Get: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMappedView,
                 index: u64,
                 dirty: BOOL,
                 numElements: u32,
                 viewInfo: ?*SimilarityMappedViewInfo,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMappedView,
                 index: u64,
                 dirty: BOOL,
@@ -846,12 +826,12 @@ pub const ISimilarityTraitsMappedView = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetView: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMappedView,
                 mappedPageBegin: ?*const ?*u8,
                 mappedPageEnd: ?*const ?*u8,
             ) callconv(@import("std").os.windows.WINAPI) void,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMappedView,
                 mappedPageBegin: ?*const ?*u8,
                 mappedPageEnd: ?*const ?*u8,
@@ -859,27 +839,25 @@ pub const ISimilarityTraitsMappedView = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMappedView_Flush(self: *const T) HRESULT {
-                return @as(*const ISimilarityTraitsMappedView.VTable, @ptrCast(self.vtable)).Flush(@as(*const ISimilarityTraitsMappedView, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMappedView_Unmap(self: *const T) HRESULT {
-                return @as(*const ISimilarityTraitsMappedView.VTable, @ptrCast(self.vtable)).Unmap(@as(*const ISimilarityTraitsMappedView, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMappedView_Get(self: *const T, index: u64, dirty: BOOL, numElements: u32, viewInfo: ?*SimilarityMappedViewInfo) HRESULT {
-                return @as(*const ISimilarityTraitsMappedView.VTable, @ptrCast(self.vtable)).Get(@as(*const ISimilarityTraitsMappedView, @ptrCast(self)), index, dirty, numElements, viewInfo);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMappedView_GetView(self: *const T, mappedPageBegin: ?*const ?*u8, mappedPageEnd: ?*const ?*u8) void {
-                return @as(*const ISimilarityTraitsMappedView.VTable, @ptrCast(self.vtable)).GetView(@as(*const ISimilarityTraitsMappedView, @ptrCast(self)), mappedPageBegin, mappedPageEnd);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMappedView_Flush(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsMappedView.VTable, @ptrCast(self.vtable)).Flush(@as(*const ISimilarityTraitsMappedView, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMappedView_Unmap(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsMappedView.VTable, @ptrCast(self.vtable)).Unmap(@as(*const ISimilarityTraitsMappedView, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMappedView_Get(self: *const T, index: u64, dirty: BOOL, numElements: u32, viewInfo: ?*SimilarityMappedViewInfo) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsMappedView.VTable, @ptrCast(self.vtable)).Get(@as(*const ISimilarityTraitsMappedView, @ptrCast(self)), index, dirty, numElements, viewInfo);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMappedView_GetView(self: *const T, mappedPageBegin: ?*const ?*u8, mappedPageEnd: ?*const ?*u8) callconv(.Inline) void {
+            return @as(*const ISimilarityTraitsMappedView.VTable, @ptrCast(self.vtable)).GetView(@as(*const ISimilarityTraitsMappedView, @ptrCast(self)), mappedPageBegin, mappedPageEnd);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -890,42 +868,42 @@ pub const ISimilarityTraitsMapping = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         CloseMapping: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMapping,
             ) callconv(@import("std").os.windows.WINAPI) void,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMapping,
             ) callconv(@import("std").os.windows.WINAPI) void,
         },
         SetFileSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMapping,
                 fileSize: u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMapping,
                 fileSize: u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetFileSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMapping,
                 fileSize: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMapping,
                 fileSize: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         OpenMapping: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMapping,
                 accessMode: RdcMappingAccessMode,
                 begin: u64,
                 end: u64,
                 actualEnd: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMapping,
                 accessMode: RdcMappingAccessMode,
                 begin: u64,
@@ -934,14 +912,14 @@ pub const ISimilarityTraitsMapping = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ResizeMapping: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMapping,
                 accessMode: RdcMappingAccessMode,
                 begin: u64,
                 end: u64,
                 actualEnd: ?*u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMapping,
                 accessMode: RdcMappingAccessMode,
                 begin: u64,
@@ -950,23 +928,23 @@ pub const ISimilarityTraitsMapping = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetPageSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMapping,
                 pageSize: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) void,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMapping,
                 pageSize: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) void,
         },
         CreateView: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsMapping,
                 minimumMappedPages: u32,
                 accessMode: RdcMappingAccessMode,
                 mappedView: ?*?*ISimilarityTraitsMappedView,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsMapping,
                 minimumMappedPages: u32,
                 accessMode: RdcMappingAccessMode,
@@ -975,39 +953,37 @@ pub const ISimilarityTraitsMapping = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMapping_CloseMapping(self: *const T) void {
-                return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).CloseMapping(@as(*const ISimilarityTraitsMapping, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMapping_SetFileSize(self: *const T, fileSize: u64) HRESULT {
-                return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).SetFileSize(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), fileSize);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMapping_GetFileSize(self: *const T, fileSize: ?*u64) HRESULT {
-                return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).GetFileSize(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), fileSize);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMapping_OpenMapping(self: *const T, accessMode: RdcMappingAccessMode, begin: u64, end: u64, actualEnd: ?*u64) HRESULT {
-                return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).OpenMapping(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), accessMode, begin, end, actualEnd);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMapping_ResizeMapping(self: *const T, accessMode: RdcMappingAccessMode, begin: u64, end: u64, actualEnd: ?*u64) HRESULT {
-                return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).ResizeMapping(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), accessMode, begin, end, actualEnd);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMapping_GetPageSize(self: *const T, pageSize: ?*u32) void {
-                return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).GetPageSize(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), pageSize);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsMapping_CreateView(self: *const T, minimumMappedPages: u32, accessMode: RdcMappingAccessMode, mappedView: ?*?*ISimilarityTraitsMappedView) HRESULT {
-                return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).CreateView(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), minimumMappedPages, accessMode, mappedView);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMapping_CloseMapping(self: *const T) callconv(.Inline) void {
+            return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).CloseMapping(@as(*const ISimilarityTraitsMapping, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMapping_SetFileSize(self: *const T, fileSize: u64) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).SetFileSize(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), fileSize);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMapping_GetFileSize(self: *const T, fileSize: ?*u64) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).GetFileSize(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), fileSize);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMapping_OpenMapping(self: *const T, accessMode: RdcMappingAccessMode, begin: u64, end: u64, actualEnd: ?*u64) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).OpenMapping(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), accessMode, begin, end, actualEnd);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMapping_ResizeMapping(self: *const T, accessMode: RdcMappingAccessMode, begin: u64, end: u64, actualEnd: ?*u64) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).ResizeMapping(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), accessMode, begin, end, actualEnd);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMapping_GetPageSize(self: *const T, pageSize: ?*u32) callconv(.Inline) void {
+            return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).GetPageSize(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), pageSize);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsMapping_CreateView(self: *const T, minimumMappedPages: u32, accessMode: RdcMappingAccessMode, mappedView: ?*?*ISimilarityTraitsMappedView) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsMapping.VTable, @ptrCast(self.vtable)).CreateView(@as(*const ISimilarityTraitsMapping, @ptrCast(self)), minimumMappedPages, accessMode, mappedView);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -1018,14 +994,14 @@ pub const ISimilarityTraitsTable = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         CreateTable: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsTable,
                 path: ?PWSTR,
                 truncate: BOOL,
                 securityDescriptor: ?*u8,
                 isNew: ?*RdcCreatedTables,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsTable,
                 path: ?PWSTR,
                 truncate: BOOL,
@@ -1034,13 +1010,13 @@ pub const ISimilarityTraitsTable = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateTableIndirect: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsTable,
                 mapping: ?*ISimilarityTraitsMapping,
                 truncate: BOOL,
                 isNew: ?*RdcCreatedTables,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsTable,
                 mapping: ?*ISimilarityTraitsMapping,
                 truncate: BOOL,
@@ -1048,29 +1024,29 @@ pub const ISimilarityTraitsTable = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CloseTable: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsTable,
                 isValid: BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsTable,
                 isValid: BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Append: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsTable,
                 data: ?*SimilarityData,
                 fileIndex: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsTable,
                 data: ?*SimilarityData,
                 fileIndex: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         FindSimilarFileIndex: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsTable,
                 similarityData: ?*SimilarityData,
                 numberOfMatchesRequired: u16,
@@ -1078,7 +1054,7 @@ pub const ISimilarityTraitsTable = extern struct {
                 resultsSize: u32,
                 resultsUsed: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsTable,
                 similarityData: ?*SimilarityData,
                 numberOfMatchesRequired: u16,
@@ -1088,60 +1064,58 @@ pub const ISimilarityTraitsTable = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         BeginDump: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsTable,
                 similarityTableDumpState: ?*?*ISimilarityTableDumpState,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsTable,
                 similarityTableDumpState: ?*?*ISimilarityTableDumpState,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetLastIndex: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityTraitsTable,
                 fileIndex: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityTraitsTable,
                 fileIndex: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsTable_CreateTable(self: *const T, path: ?PWSTR, truncate: BOOL, securityDescriptor: ?*u8, isNew: ?*RdcCreatedTables) HRESULT {
-                return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).CreateTable(@as(*const ISimilarityTraitsTable, @ptrCast(self)), path, truncate, securityDescriptor, isNew);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsTable_CreateTableIndirect(self: *const T, mapping: ?*ISimilarityTraitsMapping, truncate: BOOL, isNew: ?*RdcCreatedTables) HRESULT {
-                return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).CreateTableIndirect(@as(*const ISimilarityTraitsTable, @ptrCast(self)), mapping, truncate, isNew);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsTable_CloseTable(self: *const T, isValid: BOOL) HRESULT {
-                return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).CloseTable(@as(*const ISimilarityTraitsTable, @ptrCast(self)), isValid);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsTable_Append(self: *const T, data: ?*SimilarityData, fileIndex: u32) HRESULT {
-                return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).Append(@as(*const ISimilarityTraitsTable, @ptrCast(self)), data, fileIndex);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsTable_FindSimilarFileIndex(self: *const T, similarityData: ?*SimilarityData, numberOfMatchesRequired: u16, findSimilarFileIndexResults: ?*FindSimilarFileIndexResults, resultsSize: u32, resultsUsed: ?*u32) HRESULT {
-                return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).FindSimilarFileIndex(@as(*const ISimilarityTraitsTable, @ptrCast(self)), similarityData, numberOfMatchesRequired, findSimilarFileIndexResults, resultsSize, resultsUsed);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsTable_BeginDump(self: *const T, similarityTableDumpState: ?*?*ISimilarityTableDumpState) HRESULT {
-                return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).BeginDump(@as(*const ISimilarityTraitsTable, @ptrCast(self)), similarityTableDumpState);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityTraitsTable_GetLastIndex(self: *const T, fileIndex: ?*u32) HRESULT {
-                return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).GetLastIndex(@as(*const ISimilarityTraitsTable, @ptrCast(self)), fileIndex);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsTable_CreateTable(self: *const T, path: ?PWSTR, truncate: BOOL, securityDescriptor: ?*u8, isNew: ?*RdcCreatedTables) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).CreateTable(@as(*const ISimilarityTraitsTable, @ptrCast(self)), path, truncate, securityDescriptor, isNew);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsTable_CreateTableIndirect(self: *const T, mapping: ?*ISimilarityTraitsMapping, truncate: BOOL, isNew: ?*RdcCreatedTables) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).CreateTableIndirect(@as(*const ISimilarityTraitsTable, @ptrCast(self)), mapping, truncate, isNew);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsTable_CloseTable(self: *const T, isValid: BOOL) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).CloseTable(@as(*const ISimilarityTraitsTable, @ptrCast(self)), isValid);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsTable_Append(self: *const T, data: ?*SimilarityData, fileIndex: u32) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).Append(@as(*const ISimilarityTraitsTable, @ptrCast(self)), data, fileIndex);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsTable_FindSimilarFileIndex(self: *const T, similarityData: ?*SimilarityData, numberOfMatchesRequired: u16, findSimilarFileIndexResults: ?*FindSimilarFileIndexResults, resultsSize: u32, resultsUsed: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).FindSimilarFileIndex(@as(*const ISimilarityTraitsTable, @ptrCast(self)), similarityData, numberOfMatchesRequired, findSimilarFileIndexResults, resultsSize, resultsUsed);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsTable_BeginDump(self: *const T, similarityTableDumpState: ?*?*ISimilarityTableDumpState) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).BeginDump(@as(*const ISimilarityTraitsTable, @ptrCast(self)), similarityTableDumpState);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityTraitsTable_GetLastIndex(self: *const T, fileIndex: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityTraitsTable.VTable, @ptrCast(self.vtable)).GetLastIndex(@as(*const ISimilarityTraitsTable, @ptrCast(self)), fileIndex);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -1152,7 +1126,7 @@ pub const ISimilarityFileIdTable = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         CreateTable: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityFileIdTable,
                 path: ?PWSTR,
                 truncate: BOOL,
@@ -1160,7 +1134,7 @@ pub const ISimilarityFileIdTable = extern struct {
                 recordSize: u32,
                 isNew: ?*RdcCreatedTables,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityFileIdTable,
                 path: ?PWSTR,
                 truncate: BOOL,
@@ -1170,14 +1144,14 @@ pub const ISimilarityFileIdTable = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateTableIndirect: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityFileIdTable,
                 fileIdFile: ?*IRdcFileWriter,
                 truncate: BOOL,
                 recordSize: u32,
                 isNew: ?*RdcCreatedTables,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityFileIdTable,
                 fileIdFile: ?*IRdcFileWriter,
                 truncate: BOOL,
@@ -1186,94 +1160,92 @@ pub const ISimilarityFileIdTable = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CloseTable: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityFileIdTable,
                 isValid: BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityFileIdTable,
                 isValid: BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Append: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityFileIdTable,
                 similarityFileId: ?*SimilarityFileId,
                 similarityFileIndex: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityFileIdTable,
                 similarityFileId: ?*SimilarityFileId,
                 similarityFileIndex: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Lookup: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityFileIdTable,
                 similarityFileIndex: u32,
                 similarityFileId: ?*SimilarityFileId,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityFileIdTable,
                 similarityFileIndex: u32,
                 similarityFileId: ?*SimilarityFileId,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Invalidate: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityFileIdTable,
                 similarityFileIndex: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityFileIdTable,
                 similarityFileIndex: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetRecordCount: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarityFileIdTable,
                 recordCount: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarityFileIdTable,
                 recordCount: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityFileIdTable_CreateTable(self: *const T, path: ?PWSTR, truncate: BOOL, securityDescriptor: ?*u8, recordSize: u32, isNew: ?*RdcCreatedTables) HRESULT {
-                return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).CreateTable(@as(*const ISimilarityFileIdTable, @ptrCast(self)), path, truncate, securityDescriptor, recordSize, isNew);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityFileIdTable_CreateTableIndirect(self: *const T, fileIdFile: ?*IRdcFileWriter, truncate: BOOL, recordSize: u32, isNew: ?*RdcCreatedTables) HRESULT {
-                return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).CreateTableIndirect(@as(*const ISimilarityFileIdTable, @ptrCast(self)), fileIdFile, truncate, recordSize, isNew);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityFileIdTable_CloseTable(self: *const T, isValid: BOOL) HRESULT {
-                return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).CloseTable(@as(*const ISimilarityFileIdTable, @ptrCast(self)), isValid);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityFileIdTable_Append(self: *const T, similarityFileId: ?*SimilarityFileId, similarityFileIndex: ?*u32) HRESULT {
-                return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).Append(@as(*const ISimilarityFileIdTable, @ptrCast(self)), similarityFileId, similarityFileIndex);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityFileIdTable_Lookup(self: *const T, similarityFileIndex: u32, similarityFileId: ?*SimilarityFileId) HRESULT {
-                return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).Lookup(@as(*const ISimilarityFileIdTable, @ptrCast(self)), similarityFileIndex, similarityFileId);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityFileIdTable_Invalidate(self: *const T, similarityFileIndex: u32) HRESULT {
-                return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).Invalidate(@as(*const ISimilarityFileIdTable, @ptrCast(self)), similarityFileIndex);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarityFileIdTable_GetRecordCount(self: *const T, recordCount: ?*u32) HRESULT {
-                return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).GetRecordCount(@as(*const ISimilarityFileIdTable, @ptrCast(self)), recordCount);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityFileIdTable_CreateTable(self: *const T, path: ?PWSTR, truncate: BOOL, securityDescriptor: ?*u8, recordSize: u32, isNew: ?*RdcCreatedTables) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).CreateTable(@as(*const ISimilarityFileIdTable, @ptrCast(self)), path, truncate, securityDescriptor, recordSize, isNew);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityFileIdTable_CreateTableIndirect(self: *const T, fileIdFile: ?*IRdcFileWriter, truncate: BOOL, recordSize: u32, isNew: ?*RdcCreatedTables) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).CreateTableIndirect(@as(*const ISimilarityFileIdTable, @ptrCast(self)), fileIdFile, truncate, recordSize, isNew);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityFileIdTable_CloseTable(self: *const T, isValid: BOOL) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).CloseTable(@as(*const ISimilarityFileIdTable, @ptrCast(self)), isValid);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityFileIdTable_Append(self: *const T, similarityFileId: ?*SimilarityFileId, similarityFileIndex: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).Append(@as(*const ISimilarityFileIdTable, @ptrCast(self)), similarityFileId, similarityFileIndex);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityFileIdTable_Lookup(self: *const T, similarityFileIndex: u32, similarityFileId: ?*SimilarityFileId) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).Lookup(@as(*const ISimilarityFileIdTable, @ptrCast(self)), similarityFileIndex, similarityFileId);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityFileIdTable_Invalidate(self: *const T, similarityFileIndex: u32) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).Invalidate(@as(*const ISimilarityFileIdTable, @ptrCast(self)), similarityFileIndex);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarityFileIdTable_GetRecordCount(self: *const T, recordCount: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarityFileIdTable.VTable, @ptrCast(self.vtable)).GetRecordCount(@as(*const ISimilarityFileIdTable, @ptrCast(self)), recordCount);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -1284,38 +1256,36 @@ pub const IRdcSimilarityGenerator = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         EnableSimilarity: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcSimilarityGenerator,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcSimilarityGenerator,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Results: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IRdcSimilarityGenerator,
                 similarityData: ?*SimilarityData,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IRdcSimilarityGenerator,
                 similarityData: ?*SimilarityData,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcSimilarityGenerator_EnableSimilarity(self: *const T) HRESULT {
-                return @as(*const IRdcSimilarityGenerator.VTable, @ptrCast(self.vtable)).EnableSimilarity(@as(*const IRdcSimilarityGenerator, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IRdcSimilarityGenerator_Results(self: *const T, similarityData: ?*SimilarityData) HRESULT {
-                return @as(*const IRdcSimilarityGenerator.VTable, @ptrCast(self.vtable)).Results(@as(*const IRdcSimilarityGenerator, @ptrCast(self)), similarityData);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcSimilarityGenerator_EnableSimilarity(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IRdcSimilarityGenerator.VTable, @ptrCast(self.vtable)).EnableSimilarity(@as(*const IRdcSimilarityGenerator, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IRdcSimilarityGenerator_Results(self: *const T, similarityData: ?*SimilarityData) callconv(.Inline) HRESULT {
+            return @as(*const IRdcSimilarityGenerator.VTable, @ptrCast(self.vtable)).Results(@as(*const IRdcSimilarityGenerator, @ptrCast(self)), similarityData);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -1326,22 +1296,22 @@ pub const IFindSimilarResults = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         GetSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IFindSimilarResults,
                 size: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IFindSimilarResults,
                 size: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetNextFileId: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IFindSimilarResults,
                 numTraitsMatched: ?*u32,
                 similarityFileId: ?*SimilarityFileId,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IFindSimilarResults,
                 numTraitsMatched: ?*u32,
                 similarityFileId: ?*SimilarityFileId,
@@ -1349,19 +1319,17 @@ pub const IFindSimilarResults = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IFindSimilarResults_GetSize(self: *const T, size: ?*u32) HRESULT {
-                return @as(*const IFindSimilarResults.VTable, @ptrCast(self.vtable)).GetSize(@as(*const IFindSimilarResults, @ptrCast(self)), size);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IFindSimilarResults_GetNextFileId(self: *const T, numTraitsMatched: ?*u32, similarityFileId: ?*SimilarityFileId) HRESULT {
-                return @as(*const IFindSimilarResults.VTable, @ptrCast(self.vtable)).GetNextFileId(@as(*const IFindSimilarResults, @ptrCast(self)), numTraitsMatched, similarityFileId);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IFindSimilarResults_GetSize(self: *const T, size: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IFindSimilarResults.VTable, @ptrCast(self.vtable)).GetSize(@as(*const IFindSimilarResults, @ptrCast(self)), size);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IFindSimilarResults_GetNextFileId(self: *const T, numTraitsMatched: ?*u32, similarityFileId: ?*SimilarityFileId) callconv(.Inline) HRESULT {
+            return @as(*const IFindSimilarResults.VTable, @ptrCast(self.vtable)).GetNextFileId(@as(*const IFindSimilarResults, @ptrCast(self)), numTraitsMatched, similarityFileId);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -1372,7 +1340,7 @@ pub const ISimilarity = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         CreateTable: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarity,
                 path: ?PWSTR,
                 truncate: BOOL,
@@ -1380,7 +1348,7 @@ pub const ISimilarity = extern struct {
                 recordSize: u32,
                 isNew: ?*RdcCreatedTables,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarity,
                 path: ?PWSTR,
                 truncate: BOOL,
@@ -1390,7 +1358,7 @@ pub const ISimilarity = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateTableIndirect: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarity,
                 mapping: ?*ISimilarityTraitsMapping,
                 fileIdFile: ?*IRdcFileWriter,
@@ -1398,7 +1366,7 @@ pub const ISimilarity = extern struct {
                 recordSize: u32,
                 isNew: ?*RdcCreatedTables,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarity,
                 mapping: ?*ISimilarityTraitsMapping,
                 fileIdFile: ?*IRdcFileWriter,
@@ -1408,36 +1376,36 @@ pub const ISimilarity = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CloseTable: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarity,
                 isValid: BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarity,
                 isValid: BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Append: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarity,
                 similarityFileId: ?*SimilarityFileId,
                 similarityData: ?*SimilarityData,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarity,
                 similarityFileId: ?*SimilarityFileId,
                 similarityData: ?*SimilarityData,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         FindSimilarFileId: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarity,
                 similarityData: ?*SimilarityData,
                 numberOfMatchesRequired: u16,
                 resultsSize: u32,
                 findSimilarResults: ?*?*IFindSimilarResults,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarity,
                 similarityData: ?*SimilarityData,
                 numberOfMatchesRequired: u16,
@@ -1446,64 +1414,63 @@ pub const ISimilarity = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CopyAndSwap: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarity,
                 newSimilarityTables: ?*ISimilarity,
                 reportProgress: ?*ISimilarityReportProgress,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarity,
                 newSimilarityTables: ?*ISimilarity,
                 reportProgress: ?*ISimilarityReportProgress,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetRecordCount: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISimilarity,
                 recordCount: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISimilarity,
                 recordCount: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarity_CreateTable(self: *const T, path: ?PWSTR, truncate: BOOL, securityDescriptor: ?*u8, recordSize: u32, isNew: ?*RdcCreatedTables) HRESULT {
-                return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).CreateTable(@as(*const ISimilarity, @ptrCast(self)), path, truncate, securityDescriptor, recordSize, isNew);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarity_CreateTableIndirect(self: *const T, mapping: ?*ISimilarityTraitsMapping, fileIdFile: ?*IRdcFileWriter, truncate: BOOL, recordSize: u32, isNew: ?*RdcCreatedTables) HRESULT {
-                return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).CreateTableIndirect(@as(*const ISimilarity, @ptrCast(self)), mapping, fileIdFile, truncate, recordSize, isNew);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarity_CloseTable(self: *const T, isValid: BOOL) HRESULT {
-                return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).CloseTable(@as(*const ISimilarity, @ptrCast(self)), isValid);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarity_Append(self: *const T, similarityFileId: ?*SimilarityFileId, similarityData: ?*SimilarityData) HRESULT {
-                return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).Append(@as(*const ISimilarity, @ptrCast(self)), similarityFileId, similarityData);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarity_FindSimilarFileId(self: *const T, similarityData: ?*SimilarityData, numberOfMatchesRequired: u16, resultsSize: u32, findSimilarResults: ?*?*IFindSimilarResults) HRESULT {
-                return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).FindSimilarFileId(@as(*const ISimilarity, @ptrCast(self)), similarityData, numberOfMatchesRequired, resultsSize, findSimilarResults);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarity_CopyAndSwap(self: *const T, newSimilarityTables: ?*ISimilarity, reportProgress: ?*ISimilarityReportProgress) HRESULT {
-                return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).CopyAndSwap(@as(*const ISimilarity, @ptrCast(self)), newSimilarityTables, reportProgress);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISimilarity_GetRecordCount(self: *const T, recordCount: ?*u32) HRESULT {
-                return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).GetRecordCount(@as(*const ISimilarity, @ptrCast(self)), recordCount);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarity_CreateTable(self: *const T, path: ?PWSTR, truncate: BOOL, securityDescriptor: ?*u8, recordSize: u32, isNew: ?*RdcCreatedTables) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).CreateTable(@as(*const ISimilarity, @ptrCast(self)), path, truncate, securityDescriptor, recordSize, isNew);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarity_CreateTableIndirect(self: *const T, mapping: ?*ISimilarityTraitsMapping, fileIdFile: ?*IRdcFileWriter, truncate: BOOL, recordSize: u32, isNew: ?*RdcCreatedTables) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).CreateTableIndirect(@as(*const ISimilarity, @ptrCast(self)), mapping, fileIdFile, truncate, recordSize, isNew);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarity_CloseTable(self: *const T, isValid: BOOL) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).CloseTable(@as(*const ISimilarity, @ptrCast(self)), isValid);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarity_Append(self: *const T, similarityFileId: ?*SimilarityFileId, similarityData: ?*SimilarityData) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).Append(@as(*const ISimilarity, @ptrCast(self)), similarityFileId, similarityData);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarity_FindSimilarFileId(self: *const T, similarityData: ?*SimilarityData, numberOfMatchesRequired: u16, resultsSize: u32, findSimilarResults: ?*?*IFindSimilarResults) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).FindSimilarFileId(@as(*const ISimilarity, @ptrCast(self)), similarityData, numberOfMatchesRequired, resultsSize, findSimilarResults);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarity_CopyAndSwap(self: *const T, newSimilarityTables: ?*ISimilarity, reportProgress: ?*ISimilarityReportProgress) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).CopyAndSwap(@as(*const ISimilarity, @ptrCast(self)), newSimilarityTables, reportProgress);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISimilarity_GetRecordCount(self: *const T, recordCount: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const ISimilarity.VTable, @ptrCast(self.vtable)).GetRecordCount(@as(*const ISimilarity, @ptrCast(self)), recordCount);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
+
 
 //--------------------------------------------------------------------------------
 // Section: Functions (0)
@@ -1514,9 +1481,13 @@ pub const ISimilarity = extern struct {
 //--------------------------------------------------------------------------------
 const thismodule = @This();
 pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {},
-    .wide => struct {},
-    .unspecified => if (@import("builtin").is_test) struct {} else struct {},
+    .ansi => struct {
+    },
+    .wide => struct {
+    },
+    .unspecified => if (@import("builtin").is_test) struct {
+    } else struct {
+    },
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (5)
@@ -1528,13 +1499,13 @@ const IUnknown = @import("../system/com.zig").IUnknown;
 const PWSTR = @import("../foundation.zig").PWSTR;
 
 test {
-    @setEvalBranchQuota(comptime @import("std").meta.declarations(@This()).len * 3);
+    @setEvalBranchQuota(
+        comptime @import("std").meta.declarations(@This()).len * 3
+    );
 
     // reference all the pub declarations
     if (!@import("builtin").is_test) return;
     inline for (comptime @import("std").meta.declarations(@This())) |decl| {
-        if (decl.is_pub) {
-            _ = @field(@This(), decl.name);
-        }
+        _ = @field(@This(), decl.name);
     }
 }

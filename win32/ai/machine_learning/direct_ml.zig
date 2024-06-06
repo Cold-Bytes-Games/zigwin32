@@ -46,19 +46,42 @@ pub const DML_TENSOR_TYPE = enum(i32) {
 pub const DML_TENSOR_TYPE_INVALID = DML_TENSOR_TYPE.INVALID;
 pub const DML_TENSOR_TYPE_BUFFER = DML_TENSOR_TYPE.BUFFER;
 
-pub const DML_TENSOR_FLAGS = enum(u32) {
-    NONE = 0,
-    OWNED_BY_DML = 1,
-    _,
-    pub fn initFlags(o: struct {
-        NONE: u1 = 0,
-        OWNED_BY_DML: u1 = 0,
-    }) DML_TENSOR_FLAGS {
-        return @as(DML_TENSOR_FLAGS, @enumFromInt((if (o.NONE == 1) @intFromEnum(DML_TENSOR_FLAGS.NONE) else 0) | (if (o.OWNED_BY_DML == 1) @intFromEnum(DML_TENSOR_FLAGS.OWNED_BY_DML) else 0)));
-    }
+pub const DML_TENSOR_FLAGS = packed struct(u32) {
+    OWNED_BY_DML: u1 = 0,
+    _1: u1 = 0,
+    _2: u1 = 0,
+    _3: u1 = 0,
+    _4: u1 = 0,
+    _5: u1 = 0,
+    _6: u1 = 0,
+    _7: u1 = 0,
+    _8: u1 = 0,
+    _9: u1 = 0,
+    _10: u1 = 0,
+    _11: u1 = 0,
+    _12: u1 = 0,
+    _13: u1 = 0,
+    _14: u1 = 0,
+    _15: u1 = 0,
+    _16: u1 = 0,
+    _17: u1 = 0,
+    _18: u1 = 0,
+    _19: u1 = 0,
+    _20: u1 = 0,
+    _21: u1 = 0,
+    _22: u1 = 0,
+    _23: u1 = 0,
+    _24: u1 = 0,
+    _25: u1 = 0,
+    _26: u1 = 0,
+    _27: u1 = 0,
+    _28: u1 = 0,
+    _29: u1 = 0,
+    _30: u1 = 0,
+    _31: u1 = 0,
 };
-pub const DML_TENSOR_FLAG_NONE = DML_TENSOR_FLAGS.NONE;
-pub const DML_TENSOR_FLAG_OWNED_BY_DML = DML_TENSOR_FLAGS.OWNED_BY_DML;
+pub const DML_TENSOR_FLAG_NONE = DML_TENSOR_FLAGS{ };
+pub const DML_TENSOR_FLAG_OWNED_BY_DML = DML_TENSOR_FLAGS{ .OWNED_BY_DML = 1 };
 
 pub const DML_BUFFER_TENSOR_DESC = extern struct {
     DataType: DML_TENSOR_DATA_TYPE,
@@ -1711,39 +1734,81 @@ pub const DML_BINDING_TABLE_DESC = extern struct {
     SizeInDescriptors: u32,
 };
 
-pub const DML_EXECUTION_FLAGS = enum(u32) {
-    NONE = 0,
-    ALLOW_HALF_PRECISION_COMPUTATION = 1,
-    DISABLE_META_COMMANDS = 2,
-    DESCRIPTORS_VOLATILE = 4,
-    _,
-    pub fn initFlags(o: struct {
-        NONE: u1 = 0,
-        ALLOW_HALF_PRECISION_COMPUTATION: u1 = 0,
-        DISABLE_META_COMMANDS: u1 = 0,
-        DESCRIPTORS_VOLATILE: u1 = 0,
-    }) DML_EXECUTION_FLAGS {
-        return @as(DML_EXECUTION_FLAGS, @enumFromInt((if (o.NONE == 1) @intFromEnum(DML_EXECUTION_FLAGS.NONE) else 0) | (if (o.ALLOW_HALF_PRECISION_COMPUTATION == 1) @intFromEnum(DML_EXECUTION_FLAGS.ALLOW_HALF_PRECISION_COMPUTATION) else 0) | (if (o.DISABLE_META_COMMANDS == 1) @intFromEnum(DML_EXECUTION_FLAGS.DISABLE_META_COMMANDS) else 0) | (if (o.DESCRIPTORS_VOLATILE == 1) @intFromEnum(DML_EXECUTION_FLAGS.DESCRIPTORS_VOLATILE) else 0)));
-    }
+pub const DML_EXECUTION_FLAGS = packed struct(u32) {
+    ALLOW_HALF_PRECISION_COMPUTATION: u1 = 0,
+    DISABLE_META_COMMANDS: u1 = 0,
+    DESCRIPTORS_VOLATILE: u1 = 0,
+    _3: u1 = 0,
+    _4: u1 = 0,
+    _5: u1 = 0,
+    _6: u1 = 0,
+    _7: u1 = 0,
+    _8: u1 = 0,
+    _9: u1 = 0,
+    _10: u1 = 0,
+    _11: u1 = 0,
+    _12: u1 = 0,
+    _13: u1 = 0,
+    _14: u1 = 0,
+    _15: u1 = 0,
+    _16: u1 = 0,
+    _17: u1 = 0,
+    _18: u1 = 0,
+    _19: u1 = 0,
+    _20: u1 = 0,
+    _21: u1 = 0,
+    _22: u1 = 0,
+    _23: u1 = 0,
+    _24: u1 = 0,
+    _25: u1 = 0,
+    _26: u1 = 0,
+    _27: u1 = 0,
+    _28: u1 = 0,
+    _29: u1 = 0,
+    _30: u1 = 0,
+    _31: u1 = 0,
 };
-pub const DML_EXECUTION_FLAG_NONE = DML_EXECUTION_FLAGS.NONE;
-pub const DML_EXECUTION_FLAG_ALLOW_HALF_PRECISION_COMPUTATION = DML_EXECUTION_FLAGS.ALLOW_HALF_PRECISION_COMPUTATION;
-pub const DML_EXECUTION_FLAG_DISABLE_META_COMMANDS = DML_EXECUTION_FLAGS.DISABLE_META_COMMANDS;
-pub const DML_EXECUTION_FLAG_DESCRIPTORS_VOLATILE = DML_EXECUTION_FLAGS.DESCRIPTORS_VOLATILE;
+pub const DML_EXECUTION_FLAG_NONE = DML_EXECUTION_FLAGS{ };
+pub const DML_EXECUTION_FLAG_ALLOW_HALF_PRECISION_COMPUTATION = DML_EXECUTION_FLAGS{ .ALLOW_HALF_PRECISION_COMPUTATION = 1 };
+pub const DML_EXECUTION_FLAG_DISABLE_META_COMMANDS = DML_EXECUTION_FLAGS{ .DISABLE_META_COMMANDS = 1 };
+pub const DML_EXECUTION_FLAG_DESCRIPTORS_VOLATILE = DML_EXECUTION_FLAGS{ .DESCRIPTORS_VOLATILE = 1 };
 
-pub const DML_CREATE_DEVICE_FLAGS = enum(u32) {
-    NONE = 0,
-    DEBUG = 1,
-    _,
-    pub fn initFlags(o: struct {
-        NONE: u1 = 0,
-        DEBUG: u1 = 0,
-    }) DML_CREATE_DEVICE_FLAGS {
-        return @as(DML_CREATE_DEVICE_FLAGS, @enumFromInt((if (o.NONE == 1) @intFromEnum(DML_CREATE_DEVICE_FLAGS.NONE) else 0) | (if (o.DEBUG == 1) @intFromEnum(DML_CREATE_DEVICE_FLAGS.DEBUG) else 0)));
-    }
+pub const DML_CREATE_DEVICE_FLAGS = packed struct(u32) {
+    DEBUG: u1 = 0,
+    _1: u1 = 0,
+    _2: u1 = 0,
+    _3: u1 = 0,
+    _4: u1 = 0,
+    _5: u1 = 0,
+    _6: u1 = 0,
+    _7: u1 = 0,
+    _8: u1 = 0,
+    _9: u1 = 0,
+    _10: u1 = 0,
+    _11: u1 = 0,
+    _12: u1 = 0,
+    _13: u1 = 0,
+    _14: u1 = 0,
+    _15: u1 = 0,
+    _16: u1 = 0,
+    _17: u1 = 0,
+    _18: u1 = 0,
+    _19: u1 = 0,
+    _20: u1 = 0,
+    _21: u1 = 0,
+    _22: u1 = 0,
+    _23: u1 = 0,
+    _24: u1 = 0,
+    _25: u1 = 0,
+    _26: u1 = 0,
+    _27: u1 = 0,
+    _28: u1 = 0,
+    _29: u1 = 0,
+    _30: u1 = 0,
+    _31: u1 = 0,
 };
-pub const DML_CREATE_DEVICE_FLAG_NONE = DML_CREATE_DEVICE_FLAGS.NONE;
-pub const DML_CREATE_DEVICE_FLAG_DEBUG = DML_CREATE_DEVICE_FLAGS.DEBUG;
+pub const DML_CREATE_DEVICE_FLAG_NONE = DML_CREATE_DEVICE_FLAGS{ };
+pub const DML_CREATE_DEVICE_FLAG_DEBUG = DML_CREATE_DEVICE_FLAGS{ .DEBUG = 1 };
 
 const IID_IDMLObject_Value = Guid.initString("c8263aac-9e0c-4a2d-9b8e-007521a3317c");
 pub const IID_IDMLObject = &IID_IDMLObject_Value;
@@ -1751,14 +1816,14 @@ pub const IDMLObject = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         GetPrivateData: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLObject,
                 guid: ?*const Guid,
                 dataSize: ?*u32,
                 // TODO: what to do with BytesParamIndex 1?
                 data: ?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLObject,
                 guid: ?*const Guid,
                 dataSize: ?*u32,
@@ -1767,14 +1832,14 @@ pub const IDMLObject = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetPrivateData: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLObject,
                 guid: ?*const Guid,
                 dataSize: u32,
                 // TODO: what to do with BytesParamIndex 1?
                 data: ?*const anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLObject,
                 guid: ?*const Guid,
                 dataSize: u32,
@@ -1783,50 +1848,48 @@ pub const IDMLObject = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetPrivateDataInterface: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLObject,
                 guid: ?*const Guid,
                 data: ?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLObject,
                 guid: ?*const Guid,
                 data: ?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLObject,
                 name: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLObject,
                 name: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLObject_GetPrivateData(self: *const T, guid: ?*const Guid, dataSize: ?*u32, data: ?*anyopaque) HRESULT {
-                return @as(*const IDMLObject.VTable, @ptrCast(self.vtable)).GetPrivateData(@as(*const IDMLObject, @ptrCast(self)), guid, dataSize, data);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLObject_SetPrivateData(self: *const T, guid: ?*const Guid, dataSize: u32, data: ?*const anyopaque) HRESULT {
-                return @as(*const IDMLObject.VTable, @ptrCast(self.vtable)).SetPrivateData(@as(*const IDMLObject, @ptrCast(self)), guid, dataSize, data);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLObject_SetPrivateDataInterface(self: *const T, guid: ?*const Guid, data: ?*IUnknown) HRESULT {
-                return @as(*const IDMLObject.VTable, @ptrCast(self.vtable)).SetPrivateDataInterface(@as(*const IDMLObject, @ptrCast(self)), guid, data);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLObject_SetName(self: *const T, name: ?[*:0]const u16) HRESULT {
-                return @as(*const IDMLObject.VTable, @ptrCast(self.vtable)).SetName(@as(*const IDMLObject, @ptrCast(self)), name);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLObject_GetPrivateData(self: *const T, guid: ?*const Guid, dataSize: ?*u32, data: ?*anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLObject.VTable, @ptrCast(self.vtable)).GetPrivateData(@as(*const IDMLObject, @ptrCast(self)), guid, dataSize, data);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLObject_SetPrivateData(self: *const T, guid: ?*const Guid, dataSize: u32, data: ?*const anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLObject.VTable, @ptrCast(self.vtable)).SetPrivateData(@as(*const IDMLObject, @ptrCast(self)), guid, dataSize, data);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLObject_SetPrivateDataInterface(self: *const T, guid: ?*const Guid, data: ?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IDMLObject.VTable, @ptrCast(self.vtable)).SetPrivateDataInterface(@as(*const IDMLObject, @ptrCast(self)), guid, data);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLObject_SetName(self: *const T, name: ?[*:0]const u16) callconv(.Inline) HRESULT {
+            return @as(*const IDMLObject.VTable, @ptrCast(self.vtable)).SetName(@as(*const IDMLObject, @ptrCast(self)), name);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -1836,7 +1899,7 @@ pub const IDMLDevice = extern struct {
     pub const VTable = extern struct {
         base: IDMLObject.VTable,
         CheckFeatureSupport: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice,
                 feature: DML_FEATURE,
                 featureQueryDataSize: u32,
@@ -1846,7 +1909,7 @@ pub const IDMLDevice = extern struct {
                 // TODO: what to do with BytesParamIndex 3?
                 featureSupportData: ?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice,
                 feature: DML_FEATURE,
                 featureQueryDataSize: u32,
@@ -1858,13 +1921,13 @@ pub const IDMLDevice = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateOperator: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice,
                 desc: ?*const DML_OPERATOR_DESC,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice,
                 desc: ?*const DML_OPERATOR_DESC,
                 riid: ?*const Guid,
@@ -1872,14 +1935,14 @@ pub const IDMLDevice = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CompileOperator: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice,
                 op: ?*IDMLOperator,
                 flags: DML_EXECUTION_FLAGS,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice,
                 op: ?*IDMLOperator,
                 flags: DML_EXECUTION_FLAGS,
@@ -1888,14 +1951,14 @@ pub const IDMLDevice = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateOperatorInitializer: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice,
                 operatorCount: u32,
                 operators: ?[*]?*IDMLCompiledOperator,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice,
                 operatorCount: u32,
                 operators: ?[*]?*IDMLCompiledOperator,
@@ -1904,25 +1967,25 @@ pub const IDMLDevice = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateCommandRecorder: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         CreateBindingTable: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice,
                 desc: ?*const DML_BINDING_TABLE_DESC,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice,
                 desc: ?*const DML_BINDING_TABLE_DESC,
                 riid: ?*const Guid,
@@ -1930,44 +1993,44 @@ pub const IDMLDevice = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Evict: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice,
                 count: u32,
                 ppObjects: [*]?*IDMLPageable,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice,
                 count: u32,
                 ppObjects: [*]?*IDMLPageable,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         MakeResident: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice,
                 count: u32,
                 ppObjects: [*]?*IDMLPageable,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice,
                 count: u32,
                 ppObjects: [*]?*IDMLPageable,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetDeviceRemovedReason: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetParentDevice: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
@@ -1975,51 +2038,49 @@ pub const IDMLDevice = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDMLObject.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice_CheckFeatureSupport(self: *const T, feature: DML_FEATURE, featureQueryDataSize: u32, featureQueryData: ?*const anyopaque, featureSupportDataSize: u32, featureSupportData: ?*anyopaque) HRESULT {
-                return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CheckFeatureSupport(@as(*const IDMLDevice, @ptrCast(self)), feature, featureQueryDataSize, featureQueryData, featureSupportDataSize, featureSupportData);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice_CreateOperator(self: *const T, desc: ?*const DML_OPERATOR_DESC, riid: ?*const Guid, ppv: ?*?*anyopaque) HRESULT {
-                return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CreateOperator(@as(*const IDMLDevice, @ptrCast(self)), desc, riid, ppv);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice_CompileOperator(self: *const T, op: ?*IDMLOperator, flags: DML_EXECUTION_FLAGS, riid: ?*const Guid, ppv: ?*?*anyopaque) HRESULT {
-                return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CompileOperator(@as(*const IDMLDevice, @ptrCast(self)), op, flags, riid, ppv);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice_CreateOperatorInitializer(self: *const T, operatorCount: u32, operators: ?[*]?*IDMLCompiledOperator, riid: ?*const Guid, ppv: ?*?*anyopaque) HRESULT {
-                return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CreateOperatorInitializer(@as(*const IDMLDevice, @ptrCast(self)), operatorCount, operators, riid, ppv);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice_CreateCommandRecorder(self: *const T, riid: ?*const Guid, ppv: ?*?*anyopaque) HRESULT {
-                return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CreateCommandRecorder(@as(*const IDMLDevice, @ptrCast(self)), riid, ppv);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice_CreateBindingTable(self: *const T, desc: ?*const DML_BINDING_TABLE_DESC, riid: ?*const Guid, ppv: ?*?*anyopaque) HRESULT {
-                return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CreateBindingTable(@as(*const IDMLDevice, @ptrCast(self)), desc, riid, ppv);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice_Evict(self: *const T, count: u32, ppObjects: [*]?*IDMLPageable) HRESULT {
-                return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).Evict(@as(*const IDMLDevice, @ptrCast(self)), count, ppObjects);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice_MakeResident(self: *const T, count: u32, ppObjects: [*]?*IDMLPageable) HRESULT {
-                return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).MakeResident(@as(*const IDMLDevice, @ptrCast(self)), count, ppObjects);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice_GetDeviceRemovedReason(self: *const T) HRESULT {
-                return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).GetDeviceRemovedReason(@as(*const IDMLDevice, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice_GetParentDevice(self: *const T, riid: ?*const Guid, ppv: ?*?*anyopaque) HRESULT {
-                return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).GetParentDevice(@as(*const IDMLDevice, @ptrCast(self)), riid, ppv);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDMLObject.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice_CheckFeatureSupport(self: *const T, feature: DML_FEATURE, featureQueryDataSize: u32, featureQueryData: ?*const anyopaque, featureSupportDataSize: u32, featureSupportData: ?*anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CheckFeatureSupport(@as(*const IDMLDevice, @ptrCast(self)), feature, featureQueryDataSize, featureQueryData, featureSupportDataSize, featureSupportData);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice_CreateOperator(self: *const T, desc: ?*const DML_OPERATOR_DESC, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CreateOperator(@as(*const IDMLDevice, @ptrCast(self)), desc, riid, ppv);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice_CompileOperator(self: *const T, op: ?*IDMLOperator, flags: DML_EXECUTION_FLAGS, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CompileOperator(@as(*const IDMLDevice, @ptrCast(self)), op, flags, riid, ppv);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice_CreateOperatorInitializer(self: *const T, operatorCount: u32, operators: ?[*]?*IDMLCompiledOperator, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CreateOperatorInitializer(@as(*const IDMLDevice, @ptrCast(self)), operatorCount, operators, riid, ppv);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice_CreateCommandRecorder(self: *const T, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CreateCommandRecorder(@as(*const IDMLDevice, @ptrCast(self)), riid, ppv);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice_CreateBindingTable(self: *const T, desc: ?*const DML_BINDING_TABLE_DESC, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).CreateBindingTable(@as(*const IDMLDevice, @ptrCast(self)), desc, riid, ppv);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice_Evict(self: *const T, count: u32, ppObjects: [*]?*IDMLPageable) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).Evict(@as(*const IDMLDevice, @ptrCast(self)), count, ppObjects);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice_MakeResident(self: *const T, count: u32, ppObjects: [*]?*IDMLPageable) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).MakeResident(@as(*const IDMLDevice, @ptrCast(self)), count, ppObjects);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice_GetDeviceRemovedReason(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).GetDeviceRemovedReason(@as(*const IDMLDevice, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice_GetParentDevice(self: *const T, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice.VTable, @ptrCast(self.vtable)).GetParentDevice(@as(*const IDMLDevice, @ptrCast(self)), riid, ppv);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2029,12 +2090,12 @@ pub const IDMLDeviceChild = extern struct {
     pub const VTable = extern struct {
         base: IDMLObject.VTable,
         GetDevice: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDeviceChild,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDeviceChild,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
@@ -2042,15 +2103,13 @@ pub const IDMLDeviceChild = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDMLObject.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDeviceChild_GetDevice(self: *const T, riid: ?*const Guid, ppv: ?*?*anyopaque) HRESULT {
-                return @as(*const IDMLDeviceChild.VTable, @ptrCast(self.vtable)).GetDevice(@as(*const IDMLDeviceChild, @ptrCast(self)), riid, ppv);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDMLObject.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDeviceChild_GetDevice(self: *const T, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDeviceChild.VTable, @ptrCast(self.vtable)).GetDevice(@as(*const IDMLDeviceChild, @ptrCast(self)), riid, ppv);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2061,11 +2120,9 @@ pub const IDMLPageable = extern struct {
         base: IDMLDeviceChild.VTable,
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDMLDeviceChild.MethodMixin(T);
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDMLDeviceChild.MethodMixin(T);
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2076,11 +2133,9 @@ pub const IDMLOperator = extern struct {
         base: IDMLDeviceChild.VTable,
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDMLDeviceChild.MethodMixin(T);
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDMLDeviceChild.MethodMixin(T);
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2096,24 +2151,22 @@ pub const IDMLDispatchable = extern struct {
     pub const VTable = extern struct {
         base: IDMLPageable.VTable,
         GetBindingProperties: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDispatchable,
             ) callconv(@import("std").os.windows.WINAPI) DML_BINDING_PROPERTIES,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDispatchable,
             ) callconv(@import("std").os.windows.WINAPI) DML_BINDING_PROPERTIES,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDMLPageable.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDispatchable_GetBindingProperties(self: *const T) DML_BINDING_PROPERTIES {
-                return @as(*const IDMLDispatchable.VTable, @ptrCast(self.vtable)).GetBindingProperties(@as(*const IDMLDispatchable, @ptrCast(self)));
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDMLPageable.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDispatchable_GetBindingProperties(self: *const T) callconv(.Inline) DML_BINDING_PROPERTIES {
+            return @as(*const IDMLDispatchable.VTable, @ptrCast(self.vtable)).GetBindingProperties(@as(*const IDMLDispatchable, @ptrCast(self)));
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2124,11 +2177,9 @@ pub const IDMLCompiledOperator = extern struct {
         base: IDMLDispatchable.VTable,
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDMLDispatchable.MethodMixin(T);
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDMLDispatchable.MethodMixin(T);
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2138,12 +2189,12 @@ pub const IDMLOperatorInitializer = extern struct {
     pub const VTable = extern struct {
         base: IDMLDispatchable.VTable,
         Reset: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLOperatorInitializer,
                 operatorCount: u32,
                 operators: ?[*]?*IDMLCompiledOperator,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLOperatorInitializer,
                 operatorCount: u32,
                 operators: ?[*]?*IDMLCompiledOperator,
@@ -2151,15 +2202,13 @@ pub const IDMLOperatorInitializer = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDMLDispatchable.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLOperatorInitializer_Reset(self: *const T, operatorCount: u32, operators: ?[*]?*IDMLCompiledOperator) HRESULT {
-                return @as(*const IDMLOperatorInitializer.VTable, @ptrCast(self.vtable)).Reset(@as(*const IDMLOperatorInitializer, @ptrCast(self)), operatorCount, operators);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDMLDispatchable.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLOperatorInitializer_Reset(self: *const T, operatorCount: u32, operators: ?[*]?*IDMLCompiledOperator) callconv(.Inline) HRESULT {
+            return @as(*const IDMLOperatorInitializer.VTable, @ptrCast(self.vtable)).Reset(@as(*const IDMLOperatorInitializer, @ptrCast(self)), operatorCount, operators);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2194,86 +2243,84 @@ pub const IDMLBindingTable = extern struct {
     pub const VTable = extern struct {
         base: IDMLDeviceChild.VTable,
         BindInputs: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLBindingTable,
                 bindingCount: u32,
                 bindings: ?[*]const DML_BINDING_DESC,
             ) callconv(@import("std").os.windows.WINAPI) void,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLBindingTable,
                 bindingCount: u32,
                 bindings: ?[*]const DML_BINDING_DESC,
             ) callconv(@import("std").os.windows.WINAPI) void,
         },
         BindOutputs: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLBindingTable,
                 bindingCount: u32,
                 bindings: ?[*]const DML_BINDING_DESC,
             ) callconv(@import("std").os.windows.WINAPI) void,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLBindingTable,
                 bindingCount: u32,
                 bindings: ?[*]const DML_BINDING_DESC,
             ) callconv(@import("std").os.windows.WINAPI) void,
         },
         BindTemporaryResource: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLBindingTable,
                 binding: ?*const DML_BINDING_DESC,
             ) callconv(@import("std").os.windows.WINAPI) void,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLBindingTable,
                 binding: ?*const DML_BINDING_DESC,
             ) callconv(@import("std").os.windows.WINAPI) void,
         },
         BindPersistentResource: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLBindingTable,
                 binding: ?*const DML_BINDING_DESC,
             ) callconv(@import("std").os.windows.WINAPI) void,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLBindingTable,
                 binding: ?*const DML_BINDING_DESC,
             ) callconv(@import("std").os.windows.WINAPI) void,
         },
         Reset: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLBindingTable,
                 desc: ?*const DML_BINDING_TABLE_DESC,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLBindingTable,
                 desc: ?*const DML_BINDING_TABLE_DESC,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDMLDeviceChild.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLBindingTable_BindInputs(self: *const T, bindingCount: u32, bindings: ?[*]const DML_BINDING_DESC) void {
-                return @as(*const IDMLBindingTable.VTable, @ptrCast(self.vtable)).BindInputs(@as(*const IDMLBindingTable, @ptrCast(self)), bindingCount, bindings);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLBindingTable_BindOutputs(self: *const T, bindingCount: u32, bindings: ?[*]const DML_BINDING_DESC) void {
-                return @as(*const IDMLBindingTable.VTable, @ptrCast(self.vtable)).BindOutputs(@as(*const IDMLBindingTable, @ptrCast(self)), bindingCount, bindings);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLBindingTable_BindTemporaryResource(self: *const T, binding: ?*const DML_BINDING_DESC) void {
-                return @as(*const IDMLBindingTable.VTable, @ptrCast(self.vtable)).BindTemporaryResource(@as(*const IDMLBindingTable, @ptrCast(self)), binding);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLBindingTable_BindPersistentResource(self: *const T, binding: ?*const DML_BINDING_DESC) void {
-                return @as(*const IDMLBindingTable.VTable, @ptrCast(self.vtable)).BindPersistentResource(@as(*const IDMLBindingTable, @ptrCast(self)), binding);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLBindingTable_Reset(self: *const T, desc: ?*const DML_BINDING_TABLE_DESC) HRESULT {
-                return @as(*const IDMLBindingTable.VTable, @ptrCast(self.vtable)).Reset(@as(*const IDMLBindingTable, @ptrCast(self)), desc);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDMLDeviceChild.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLBindingTable_BindInputs(self: *const T, bindingCount: u32, bindings: ?[*]const DML_BINDING_DESC) callconv(.Inline) void {
+            return @as(*const IDMLBindingTable.VTable, @ptrCast(self.vtable)).BindInputs(@as(*const IDMLBindingTable, @ptrCast(self)), bindingCount, bindings);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLBindingTable_BindOutputs(self: *const T, bindingCount: u32, bindings: ?[*]const DML_BINDING_DESC) callconv(.Inline) void {
+            return @as(*const IDMLBindingTable.VTable, @ptrCast(self.vtable)).BindOutputs(@as(*const IDMLBindingTable, @ptrCast(self)), bindingCount, bindings);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLBindingTable_BindTemporaryResource(self: *const T, binding: ?*const DML_BINDING_DESC) callconv(.Inline) void {
+            return @as(*const IDMLBindingTable.VTable, @ptrCast(self.vtable)).BindTemporaryResource(@as(*const IDMLBindingTable, @ptrCast(self)), binding);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLBindingTable_BindPersistentResource(self: *const T, binding: ?*const DML_BINDING_DESC) callconv(.Inline) void {
+            return @as(*const IDMLBindingTable.VTable, @ptrCast(self.vtable)).BindPersistentResource(@as(*const IDMLBindingTable, @ptrCast(self)), binding);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLBindingTable_Reset(self: *const T, desc: ?*const DML_BINDING_TABLE_DESC) callconv(.Inline) HRESULT {
+            return @as(*const IDMLBindingTable.VTable, @ptrCast(self.vtable)).Reset(@as(*const IDMLBindingTable, @ptrCast(self)), desc);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2283,13 +2330,13 @@ pub const IDMLCommandRecorder = extern struct {
     pub const VTable = extern struct {
         base: IDMLDeviceChild.VTable,
         RecordDispatch: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLCommandRecorder,
                 commandList: ?*ID3D12CommandList,
                 dispatchable: ?*IDMLDispatchable,
                 bindings: ?*IDMLBindingTable,
             ) callconv(@import("std").os.windows.WINAPI) void,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLCommandRecorder,
                 commandList: ?*ID3D12CommandList,
                 dispatchable: ?*IDMLDispatchable,
@@ -2298,15 +2345,13 @@ pub const IDMLCommandRecorder = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDMLDeviceChild.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLCommandRecorder_RecordDispatch(self: *const T, commandList: ?*ID3D12CommandList, dispatchable: ?*IDMLDispatchable, bindings: ?*IDMLBindingTable) void {
-                return @as(*const IDMLCommandRecorder.VTable, @ptrCast(self.vtable)).RecordDispatch(@as(*const IDMLCommandRecorder, @ptrCast(self)), commandList, dispatchable, bindings);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDMLDeviceChild.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLCommandRecorder_RecordDispatch(self: *const T, commandList: ?*ID3D12CommandList, dispatchable: ?*IDMLDispatchable, bindings: ?*IDMLBindingTable) callconv(.Inline) void {
+            return @as(*const IDMLCommandRecorder.VTable, @ptrCast(self.vtable)).RecordDispatch(@as(*const IDMLCommandRecorder, @ptrCast(self)), commandList, dispatchable, bindings);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2316,26 +2361,24 @@ pub const IDMLDebugDevice = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         SetMuteDebugOutput: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDebugDevice,
                 mute: BOOL,
             ) callconv(@import("std").os.windows.WINAPI) void,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDebugDevice,
                 mute: BOOL,
             ) callconv(@import("std").os.windows.WINAPI) void,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDebugDevice_SetMuteDebugOutput(self: *const T, mute: BOOL) void {
-                return @as(*const IDMLDebugDevice.VTable, @ptrCast(self.vtable)).SetMuteDebugOutput(@as(*const IDMLDebugDevice, @ptrCast(self)), mute);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDebugDevice_SetMuteDebugOutput(self: *const T, mute: BOOL) callconv(.Inline) void {
+            return @as(*const IDMLDebugDevice.VTable, @ptrCast(self.vtable)).SetMuteDebugOutput(@as(*const IDMLDebugDevice, @ptrCast(self)), mute);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2413,14 +2456,14 @@ pub const IDMLDevice1 = extern struct {
     pub const VTable = extern struct {
         base: IDMLDevice.VTable,
         CompileGraph: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDMLDevice1,
                 desc: ?*const DML_GRAPH_DESC,
                 flags: DML_EXECUTION_FLAGS,
                 riid: ?*const Guid,
                 ppv: ?*?*anyopaque,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDMLDevice1,
                 desc: ?*const DML_GRAPH_DESC,
                 flags: DML_EXECUTION_FLAGS,
@@ -2430,17 +2473,16 @@ pub const IDMLDevice1 = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDMLDevice.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDMLDevice1_CompileGraph(self: *const T, desc: ?*const DML_GRAPH_DESC, flags: DML_EXECUTION_FLAGS, riid: ?*const Guid, ppv: ?*?*anyopaque) HRESULT {
-                return @as(*const IDMLDevice1.VTable, @ptrCast(self.vtable)).CompileGraph(@as(*const IDMLDevice1, @ptrCast(self)), desc, flags, riid, ppv);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDMLDevice.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDMLDevice1_CompileGraph(self: *const T, desc: ?*const DML_GRAPH_DESC, flags: DML_EXECUTION_FLAGS, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+            return @as(*const IDMLDevice1.VTable, @ptrCast(self.vtable)).CompileGraph(@as(*const IDMLDevice1, @ptrCast(self)), desc, flags, riid, ppv);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
+
 
 //--------------------------------------------------------------------------------
 // Section: Functions (2)
@@ -2461,14 +2503,19 @@ pub extern "directml" fn DMLCreateDevice1(
     ppv: ?*?*anyopaque,
 ) callconv(@import("std").os.windows.WINAPI) HRESULT;
 
+
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
 const thismodule = @This();
 pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {},
-    .wide => struct {},
-    .unspecified => if (@import("builtin").is_test) struct {} else struct {},
+    .ansi => struct {
+    },
+    .wide => struct {
+    },
+    .unspecified => if (@import("builtin").is_test) struct {
+    } else struct {
+    },
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (11)
@@ -2486,13 +2533,13 @@ const PSTR = @import("../../foundation.zig").PSTR;
 const PWSTR = @import("../../foundation.zig").PWSTR;
 
 test {
-    @setEvalBranchQuota(comptime @import("std").meta.declarations(@This()).len * 3);
+    @setEvalBranchQuota(
+        comptime @import("std").meta.declarations(@This()).len * 3
+    );
 
     // reference all the pub declarations
     if (!@import("builtin").is_test) return;
     inline for (comptime @import("std").meta.declarations(@This())) |decl| {
-        if (decl.is_pub) {
-            _ = @field(@This(), decl.name);
-        }
+        _ = @field(@This(), decl.name);
     }
 }

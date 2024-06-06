@@ -636,13 +636,13 @@ pub const IXMLDOMImplementation = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         hasFeature: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMImplementation,
                 feature: ?BSTR,
                 version: ?BSTR,
                 hasFeature: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMImplementation,
                 feature: ?BSTR,
                 version: ?BSTR,
@@ -651,15 +651,13 @@ pub const IXMLDOMImplementation = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMImplementation_hasFeature(self: *const T, feature: ?BSTR, version: ?BSTR, hasFeature: ?*i16) HRESULT {
-                return @as(*const IXMLDOMImplementation.VTable, @ptrCast(self.vtable)).hasFeature(@as(*const IXMLDOMImplementation, @ptrCast(self)), feature, version, hasFeature);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMImplementation_hasFeature(self: *const T, feature: ?BSTR, version: ?BSTR, hasFeature: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMImplementation.VTable, @ptrCast(self.vtable)).hasFeature(@as(*const IXMLDOMImplementation, @ptrCast(self)), feature, version, hasFeature);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -671,12 +669,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_nodeName: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 name: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 name: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -684,12 +682,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_nodeValue: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 value: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 value: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -697,12 +695,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_nodeValue: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 value: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 value: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -710,12 +708,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_nodeType: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 type: ?*DOMNodeType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 type: ?*DOMNodeType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -723,12 +721,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_parentNode: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 parent: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 parent: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -736,12 +734,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_childNodes: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 childList: ?*?*IXMLDOMNodeList,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 childList: ?*?*IXMLDOMNodeList,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -749,12 +747,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_firstChild: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 firstChild: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 firstChild: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -762,12 +760,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_lastChild: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 lastChild: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 lastChild: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -775,12 +773,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_previousSibling: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 previousSibling: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 previousSibling: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -788,12 +786,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_nextSibling: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 nextSibling: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 nextSibling: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -801,24 +799,24 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_attributes: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 attributeMap: ?*?*IXMLDOMNamedNodeMap,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 attributeMap: ?*?*IXMLDOMNamedNodeMap,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         insertBefore: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 newChild: ?*IXMLDOMNode,
                 refChild: VARIANT,
                 outNewChild: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 newChild: ?*IXMLDOMNode,
                 refChild: VARIANT,
@@ -826,13 +824,13 @@ pub const IXMLDOMNode = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         replaceChild: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 newChild: ?*IXMLDOMNode,
                 oldChild: ?*IXMLDOMNode,
                 outOldChild: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 newChild: ?*IXMLDOMNode,
                 oldChild: ?*IXMLDOMNode,
@@ -840,35 +838,35 @@ pub const IXMLDOMNode = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeChild: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 childNode: ?*IXMLDOMNode,
                 oldChild: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 childNode: ?*IXMLDOMNode,
                 oldChild: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         appendChild: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 newChild: ?*IXMLDOMNode,
                 outNewChild: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 newChild: ?*IXMLDOMNode,
                 outNewChild: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         hasChildNodes: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 hasChild: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 hasChild: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -876,23 +874,23 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_ownerDocument: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 XMLDOMDocument: ?*?*IXMLDOMDocument,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 XMLDOMDocument: ?*?*IXMLDOMDocument,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         cloneNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 deep: i16,
                 cloneRoot: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 deep: i16,
                 cloneRoot: ?*?*IXMLDOMNode,
@@ -901,12 +899,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_nodeTypeString: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 nodeType: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 nodeType: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -914,12 +912,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_text: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 text: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 text: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -927,12 +925,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_text: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 text: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 text: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -940,12 +938,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_specified: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 isSpecified: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 isSpecified: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -953,12 +951,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_definition: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 definitionNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 definitionNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -966,12 +964,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_nodeTypedValue: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 typedValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 typedValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -979,12 +977,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_nodeTypedValue: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 typedValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 typedValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -992,12 +990,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_dataType: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 dataTypeName: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 dataTypeName: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1005,12 +1003,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_dataType: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 dataTypeName: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 dataTypeName: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1018,47 +1016,47 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_xml: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 xmlString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 xmlString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         transformNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 stylesheet: ?*IXMLDOMNode,
                 xmlString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 stylesheet: ?*IXMLDOMNode,
                 xmlString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         selectNodes: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 queryString: ?BSTR,
                 resultList: ?*?*IXMLDOMNodeList,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 queryString: ?BSTR,
                 resultList: ?*?*IXMLDOMNodeList,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         selectSingleNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 queryString: ?BSTR,
                 resultNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 queryString: ?BSTR,
                 resultNode: ?*?*IXMLDOMNode,
@@ -1067,12 +1065,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_parsed: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 isParsed: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 isParsed: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1080,12 +1078,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_namespaceURI: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 namespaceURI: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 namespaceURI: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1093,12 +1091,12 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_prefix: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 prefixString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 prefixString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1106,23 +1104,23 @@ pub const IXMLDOMNode = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_baseName: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 nameString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 nameString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         transformNodeToObject: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNode,
                 stylesheet: ?*IXMLDOMNode,
                 outputObject: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNode,
                 stylesheet: ?*IXMLDOMNode,
                 outputObject: VARIANT,
@@ -1130,155 +1128,153 @@ pub const IXMLDOMNode = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_nodeName(self: *const T, name: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nodeName(@as(*const IXMLDOMNode, @ptrCast(self)), name);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_nodeValue(self: *const T, value: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nodeValue(@as(*const IXMLDOMNode, @ptrCast(self)), value);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_put_nodeValue(self: *const T, value: VARIANT) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).put_nodeValue(@as(*const IXMLDOMNode, @ptrCast(self)), value);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_nodeType(self: *const T, type_: ?*DOMNodeType) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nodeType(@as(*const IXMLDOMNode, @ptrCast(self)), type_);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_parentNode(self: *const T, parent: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_parentNode(@as(*const IXMLDOMNode, @ptrCast(self)), parent);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_childNodes(self: *const T, childList: ?*?*IXMLDOMNodeList) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_childNodes(@as(*const IXMLDOMNode, @ptrCast(self)), childList);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_firstChild(self: *const T, firstChild: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_firstChild(@as(*const IXMLDOMNode, @ptrCast(self)), firstChild);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_lastChild(self: *const T, lastChild: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_lastChild(@as(*const IXMLDOMNode, @ptrCast(self)), lastChild);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_previousSibling(self: *const T, previousSibling: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_previousSibling(@as(*const IXMLDOMNode, @ptrCast(self)), previousSibling);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_nextSibling(self: *const T, nextSibling: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nextSibling(@as(*const IXMLDOMNode, @ptrCast(self)), nextSibling);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_attributes(self: *const T, attributeMap: ?*?*IXMLDOMNamedNodeMap) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_attributes(@as(*const IXMLDOMNode, @ptrCast(self)), attributeMap);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_insertBefore(self: *const T, newChild: ?*IXMLDOMNode, refChild: VARIANT, outNewChild: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).insertBefore(@as(*const IXMLDOMNode, @ptrCast(self)), newChild, refChild, outNewChild);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_replaceChild(self: *const T, newChild: ?*IXMLDOMNode, oldChild: ?*IXMLDOMNode, outOldChild: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).replaceChild(@as(*const IXMLDOMNode, @ptrCast(self)), newChild, oldChild, outOldChild);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_removeChild(self: *const T, childNode: ?*IXMLDOMNode, oldChild: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).removeChild(@as(*const IXMLDOMNode, @ptrCast(self)), childNode, oldChild);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_appendChild(self: *const T, newChild: ?*IXMLDOMNode, outNewChild: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).appendChild(@as(*const IXMLDOMNode, @ptrCast(self)), newChild, outNewChild);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_hasChildNodes(self: *const T, hasChild: ?*i16) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).hasChildNodes(@as(*const IXMLDOMNode, @ptrCast(self)), hasChild);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_ownerDocument(self: *const T, XMLDOMDocument: ?*?*IXMLDOMDocument) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_ownerDocument(@as(*const IXMLDOMNode, @ptrCast(self)), XMLDOMDocument);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_cloneNode(self: *const T, deep: i16, cloneRoot: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).cloneNode(@as(*const IXMLDOMNode, @ptrCast(self)), deep, cloneRoot);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_nodeTypeString(self: *const T, nodeType: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nodeTypeString(@as(*const IXMLDOMNode, @ptrCast(self)), nodeType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_text(self: *const T, text: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_text(@as(*const IXMLDOMNode, @ptrCast(self)), text);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_put_text(self: *const T, text: ?BSTR) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).put_text(@as(*const IXMLDOMNode, @ptrCast(self)), text);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_specified(self: *const T, isSpecified: ?*i16) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_specified(@as(*const IXMLDOMNode, @ptrCast(self)), isSpecified);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_definition(self: *const T, definitionNode: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_definition(@as(*const IXMLDOMNode, @ptrCast(self)), definitionNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_nodeTypedValue(self: *const T, typedValue: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nodeTypedValue(@as(*const IXMLDOMNode, @ptrCast(self)), typedValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_put_nodeTypedValue(self: *const T, typedValue: VARIANT) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).put_nodeTypedValue(@as(*const IXMLDOMNode, @ptrCast(self)), typedValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_dataType(self: *const T, dataTypeName: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_dataType(@as(*const IXMLDOMNode, @ptrCast(self)), dataTypeName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_put_dataType(self: *const T, dataTypeName: ?BSTR) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).put_dataType(@as(*const IXMLDOMNode, @ptrCast(self)), dataTypeName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_xml(self: *const T, xmlString: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_xml(@as(*const IXMLDOMNode, @ptrCast(self)), xmlString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_transformNode(self: *const T, stylesheet: ?*IXMLDOMNode, xmlString: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).transformNode(@as(*const IXMLDOMNode, @ptrCast(self)), stylesheet, xmlString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_selectNodes(self: *const T, queryString: ?BSTR, resultList: ?*?*IXMLDOMNodeList) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).selectNodes(@as(*const IXMLDOMNode, @ptrCast(self)), queryString, resultList);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_selectSingleNode(self: *const T, queryString: ?BSTR, resultNode: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).selectSingleNode(@as(*const IXMLDOMNode, @ptrCast(self)), queryString, resultNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_parsed(self: *const T, isParsed: ?*i16) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_parsed(@as(*const IXMLDOMNode, @ptrCast(self)), isParsed);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_namespaceURI(self: *const T, namespaceURI: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_namespaceURI(@as(*const IXMLDOMNode, @ptrCast(self)), namespaceURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_prefix(self: *const T, prefixString: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_prefix(@as(*const IXMLDOMNode, @ptrCast(self)), prefixString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_get_baseName(self: *const T, nameString: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_baseName(@as(*const IXMLDOMNode, @ptrCast(self)), nameString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNode_transformNodeToObject(self: *const T, stylesheet: ?*IXMLDOMNode, outputObject: VARIANT) HRESULT {
-                return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).transformNodeToObject(@as(*const IXMLDOMNode, @ptrCast(self)), stylesheet, outputObject);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_nodeName(self: *const T, name: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nodeName(@as(*const IXMLDOMNode, @ptrCast(self)), name);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_nodeValue(self: *const T, value: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nodeValue(@as(*const IXMLDOMNode, @ptrCast(self)), value);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_put_nodeValue(self: *const T, value: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).put_nodeValue(@as(*const IXMLDOMNode, @ptrCast(self)), value);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_nodeType(self: *const T, type_: ?*DOMNodeType) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nodeType(@as(*const IXMLDOMNode, @ptrCast(self)), type_);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_parentNode(self: *const T, parent: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_parentNode(@as(*const IXMLDOMNode, @ptrCast(self)), parent);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_childNodes(self: *const T, childList: ?*?*IXMLDOMNodeList) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_childNodes(@as(*const IXMLDOMNode, @ptrCast(self)), childList);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_firstChild(self: *const T, firstChild: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_firstChild(@as(*const IXMLDOMNode, @ptrCast(self)), firstChild);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_lastChild(self: *const T, lastChild: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_lastChild(@as(*const IXMLDOMNode, @ptrCast(self)), lastChild);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_previousSibling(self: *const T, previousSibling: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_previousSibling(@as(*const IXMLDOMNode, @ptrCast(self)), previousSibling);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_nextSibling(self: *const T, nextSibling: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nextSibling(@as(*const IXMLDOMNode, @ptrCast(self)), nextSibling);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_attributes(self: *const T, attributeMap: ?*?*IXMLDOMNamedNodeMap) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_attributes(@as(*const IXMLDOMNode, @ptrCast(self)), attributeMap);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_insertBefore(self: *const T, newChild: ?*IXMLDOMNode, refChild: VARIANT, outNewChild: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).insertBefore(@as(*const IXMLDOMNode, @ptrCast(self)), newChild, refChild, outNewChild);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_replaceChild(self: *const T, newChild: ?*IXMLDOMNode, oldChild: ?*IXMLDOMNode, outOldChild: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).replaceChild(@as(*const IXMLDOMNode, @ptrCast(self)), newChild, oldChild, outOldChild);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_removeChild(self: *const T, childNode: ?*IXMLDOMNode, oldChild: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).removeChild(@as(*const IXMLDOMNode, @ptrCast(self)), childNode, oldChild);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_appendChild(self: *const T, newChild: ?*IXMLDOMNode, outNewChild: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).appendChild(@as(*const IXMLDOMNode, @ptrCast(self)), newChild, outNewChild);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_hasChildNodes(self: *const T, hasChild: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).hasChildNodes(@as(*const IXMLDOMNode, @ptrCast(self)), hasChild);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_ownerDocument(self: *const T, XMLDOMDocument: ?*?*IXMLDOMDocument) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_ownerDocument(@as(*const IXMLDOMNode, @ptrCast(self)), XMLDOMDocument);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_cloneNode(self: *const T, deep: i16, cloneRoot: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).cloneNode(@as(*const IXMLDOMNode, @ptrCast(self)), deep, cloneRoot);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_nodeTypeString(self: *const T, nodeType: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nodeTypeString(@as(*const IXMLDOMNode, @ptrCast(self)), nodeType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_text(self: *const T, text: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_text(@as(*const IXMLDOMNode, @ptrCast(self)), text);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_put_text(self: *const T, text: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).put_text(@as(*const IXMLDOMNode, @ptrCast(self)), text);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_specified(self: *const T, isSpecified: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_specified(@as(*const IXMLDOMNode, @ptrCast(self)), isSpecified);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_definition(self: *const T, definitionNode: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_definition(@as(*const IXMLDOMNode, @ptrCast(self)), definitionNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_nodeTypedValue(self: *const T, typedValue: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_nodeTypedValue(@as(*const IXMLDOMNode, @ptrCast(self)), typedValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_put_nodeTypedValue(self: *const T, typedValue: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).put_nodeTypedValue(@as(*const IXMLDOMNode, @ptrCast(self)), typedValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_dataType(self: *const T, dataTypeName: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_dataType(@as(*const IXMLDOMNode, @ptrCast(self)), dataTypeName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_put_dataType(self: *const T, dataTypeName: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).put_dataType(@as(*const IXMLDOMNode, @ptrCast(self)), dataTypeName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_xml(self: *const T, xmlString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_xml(@as(*const IXMLDOMNode, @ptrCast(self)), xmlString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_transformNode(self: *const T, stylesheet: ?*IXMLDOMNode, xmlString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).transformNode(@as(*const IXMLDOMNode, @ptrCast(self)), stylesheet, xmlString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_selectNodes(self: *const T, queryString: ?BSTR, resultList: ?*?*IXMLDOMNodeList) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).selectNodes(@as(*const IXMLDOMNode, @ptrCast(self)), queryString, resultList);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_selectSingleNode(self: *const T, queryString: ?BSTR, resultNode: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).selectSingleNode(@as(*const IXMLDOMNode, @ptrCast(self)), queryString, resultNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_parsed(self: *const T, isParsed: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_parsed(@as(*const IXMLDOMNode, @ptrCast(self)), isParsed);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_namespaceURI(self: *const T, namespaceURI: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_namespaceURI(@as(*const IXMLDOMNode, @ptrCast(self)), namespaceURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_prefix(self: *const T, prefixString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_prefix(@as(*const IXMLDOMNode, @ptrCast(self)), prefixString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_get_baseName(self: *const T, nameString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).get_baseName(@as(*const IXMLDOMNode, @ptrCast(self)), nameString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNode_transformNodeToObject(self: *const T, stylesheet: ?*IXMLDOMNode, outputObject: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNode.VTable, @ptrCast(self.vtable)).transformNodeToObject(@as(*const IXMLDOMNode, @ptrCast(self)), stylesheet, outputObject);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -1289,11 +1285,9 @@ pub const IXMLDOMDocumentFragment = extern struct {
         base: IXMLDOMNode.VTable,
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -1305,12 +1299,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_doctype: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 documentType: ?*?*IXMLDOMDocumentType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 documentType: ?*?*IXMLDOMDocumentType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1318,12 +1312,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_implementation: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 impl: ?*?*IXMLDOMImplementation,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 impl: ?*?*IXMLDOMImplementation,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1331,92 +1325,92 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_documentElement: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 DOMElement: ?*?*IXMLDOMElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 DOMElement: ?*?*IXMLDOMElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_documentElement: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 DOMElement: ?*IXMLDOMElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 DOMElement: ?*IXMLDOMElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createElement: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 tagName: ?BSTR,
                 element: ?*?*IXMLDOMElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 tagName: ?BSTR,
                 element: ?*?*IXMLDOMElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createDocumentFragment: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 docFrag: ?*?*IXMLDOMDocumentFragment,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 docFrag: ?*?*IXMLDOMDocumentFragment,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createTextNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 data: ?BSTR,
                 text: ?*?*IXMLDOMText,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 data: ?BSTR,
                 text: ?*?*IXMLDOMText,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createComment: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 data: ?BSTR,
                 comment: ?*?*IXMLDOMComment,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 data: ?BSTR,
                 comment: ?*?*IXMLDOMComment,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createCDATASection: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 data: ?BSTR,
                 cdata: ?*?*IXMLDOMCDATASection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 data: ?BSTR,
                 cdata: ?*?*IXMLDOMCDATASection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createProcessingInstruction: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 target: ?BSTR,
                 data: ?BSTR,
                 pi: ?*?*IXMLDOMProcessingInstruction,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 target: ?BSTR,
                 data: ?BSTR,
@@ -1424,50 +1418,50 @@ pub const IXMLDOMDocument = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 name: ?BSTR,
                 attribute: ?*?*IXMLDOMAttribute,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 name: ?BSTR,
                 attribute: ?*?*IXMLDOMAttribute,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createEntityReference: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 name: ?BSTR,
                 entityRef: ?*?*IXMLDOMEntityReference,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 name: ?BSTR,
                 entityRef: ?*?*IXMLDOMEntityReference,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getElementsByTagName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 tagName: ?BSTR,
                 resultList: ?*?*IXMLDOMNodeList,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 tagName: ?BSTR,
                 resultList: ?*?*IXMLDOMNodeList,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 Type: VARIANT,
                 name: ?BSTR,
                 namespaceURI: ?BSTR,
                 node: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 Type: VARIANT,
                 name: ?BSTR,
@@ -1476,24 +1470,24 @@ pub const IXMLDOMDocument = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         nodeFromID: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 idString: ?BSTR,
                 node: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 idString: ?BSTR,
                 node: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         load: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 xmlSource: VARIANT,
                 isSuccessful: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 xmlSource: VARIANT,
                 isSuccessful: ?*i16,
@@ -1502,12 +1496,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_readyState: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 value: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 value: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1515,12 +1509,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_parseError: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 errorObj: ?*?*IXMLDOMParseError,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 errorObj: ?*?*IXMLDOMParseError,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1528,12 +1522,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_url: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 urlString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 urlString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1541,12 +1535,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_async: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 isAsync: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 isAsync: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1554,42 +1548,42 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_async: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 isAsync: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 isAsync: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         abort: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         loadXML: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 bstrXML: ?BSTR,
                 isSuccessful: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 bstrXML: ?BSTR,
                 isSuccessful: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         save: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 destination: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 destination: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1597,12 +1591,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_validateOnParse: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 isValidating: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 isValidating: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1610,12 +1604,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_validateOnParse: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 isValidating: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 isValidating: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1623,12 +1617,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_resolveExternals: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 isResolving: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 isResolving: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1636,12 +1630,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_resolveExternals: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 isResolving: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 isResolving: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1649,12 +1643,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_preserveWhiteSpace: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 isPreserving: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 isPreserving: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1662,12 +1656,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_preserveWhiteSpace: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 isPreserving: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 isPreserving: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1675,12 +1669,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_onreadystatechange: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 readystatechangeSink: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 readystatechangeSink: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1688,12 +1682,12 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_ondataavailable: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 ondataavailableSink: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 ondataavailableSink: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1701,155 +1695,153 @@ pub const IXMLDOMDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_ontransformnode: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument,
                 ontransformnodeSink: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument,
                 ontransformnodeSink: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_get_doctype(self: *const T, documentType: ?*?*IXMLDOMDocumentType) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_doctype(@as(*const IXMLDOMDocument, @ptrCast(self)), documentType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_get_implementation(self: *const T, impl: ?*?*IXMLDOMImplementation) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_implementation(@as(*const IXMLDOMDocument, @ptrCast(self)), impl);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_get_documentElement(self: *const T, DOMElement: ?*?*IXMLDOMElement) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_documentElement(@as(*const IXMLDOMDocument, @ptrCast(self)), DOMElement);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_putref_documentElement(self: *const T, DOMElement: ?*IXMLDOMElement) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).putref_documentElement(@as(*const IXMLDOMDocument, @ptrCast(self)), DOMElement);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_createElement(self: *const T, tagName: ?BSTR, element: ?*?*IXMLDOMElement) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createElement(@as(*const IXMLDOMDocument, @ptrCast(self)), tagName, element);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_createDocumentFragment(self: *const T, docFrag: ?*?*IXMLDOMDocumentFragment) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createDocumentFragment(@as(*const IXMLDOMDocument, @ptrCast(self)), docFrag);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_createTextNode(self: *const T, data: ?BSTR, text: ?*?*IXMLDOMText) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createTextNode(@as(*const IXMLDOMDocument, @ptrCast(self)), data, text);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_createComment(self: *const T, data: ?BSTR, comment: ?*?*IXMLDOMComment) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createComment(@as(*const IXMLDOMDocument, @ptrCast(self)), data, comment);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_createCDATASection(self: *const T, data: ?BSTR, cdata: ?*?*IXMLDOMCDATASection) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createCDATASection(@as(*const IXMLDOMDocument, @ptrCast(self)), data, cdata);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_createProcessingInstruction(self: *const T, target: ?BSTR, data: ?BSTR, pi: ?*?*IXMLDOMProcessingInstruction) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createProcessingInstruction(@as(*const IXMLDOMDocument, @ptrCast(self)), target, data, pi);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_createAttribute(self: *const T, name: ?BSTR, attribute: ?*?*IXMLDOMAttribute) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createAttribute(@as(*const IXMLDOMDocument, @ptrCast(self)), name, attribute);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_createEntityReference(self: *const T, name: ?BSTR, entityRef: ?*?*IXMLDOMEntityReference) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createEntityReference(@as(*const IXMLDOMDocument, @ptrCast(self)), name, entityRef);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_getElementsByTagName(self: *const T, tagName: ?BSTR, resultList: ?*?*IXMLDOMNodeList) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).getElementsByTagName(@as(*const IXMLDOMDocument, @ptrCast(self)), tagName, resultList);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_createNode(self: *const T, Type: VARIANT, name: ?BSTR, namespaceURI: ?BSTR, node: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createNode(@as(*const IXMLDOMDocument, @ptrCast(self)), Type, name, namespaceURI, node);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_nodeFromID(self: *const T, idString: ?BSTR, node: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).nodeFromID(@as(*const IXMLDOMDocument, @ptrCast(self)), idString, node);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_load(self: *const T, xmlSource: VARIANT, isSuccessful: ?*i16) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).load(@as(*const IXMLDOMDocument, @ptrCast(self)), xmlSource, isSuccessful);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_get_readyState(self: *const T, value: ?*i32) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLDOMDocument, @ptrCast(self)), value);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_get_parseError(self: *const T, errorObj: ?*?*IXMLDOMParseError) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_parseError(@as(*const IXMLDOMDocument, @ptrCast(self)), errorObj);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_get_url(self: *const T, urlString: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_url(@as(*const IXMLDOMDocument, @ptrCast(self)), urlString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_get_async(self: *const T, isAsync: ?*i16) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_async(@as(*const IXMLDOMDocument, @ptrCast(self)), isAsync);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_put_async(self: *const T, isAsync: i16) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_async(@as(*const IXMLDOMDocument, @ptrCast(self)), isAsync);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_abort(self: *const T) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).abort(@as(*const IXMLDOMDocument, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_loadXML(self: *const T, bstrXML: ?BSTR, isSuccessful: ?*i16) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).loadXML(@as(*const IXMLDOMDocument, @ptrCast(self)), bstrXML, isSuccessful);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_save(self: *const T, destination: VARIANT) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).save(@as(*const IXMLDOMDocument, @ptrCast(self)), destination);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_get_validateOnParse(self: *const T, isValidating: ?*i16) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_validateOnParse(@as(*const IXMLDOMDocument, @ptrCast(self)), isValidating);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_put_validateOnParse(self: *const T, isValidating: i16) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_validateOnParse(@as(*const IXMLDOMDocument, @ptrCast(self)), isValidating);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_get_resolveExternals(self: *const T, isResolving: ?*i16) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_resolveExternals(@as(*const IXMLDOMDocument, @ptrCast(self)), isResolving);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_put_resolveExternals(self: *const T, isResolving: i16) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_resolveExternals(@as(*const IXMLDOMDocument, @ptrCast(self)), isResolving);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_get_preserveWhiteSpace(self: *const T, isPreserving: ?*i16) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_preserveWhiteSpace(@as(*const IXMLDOMDocument, @ptrCast(self)), isPreserving);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_put_preserveWhiteSpace(self: *const T, isPreserving: i16) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_preserveWhiteSpace(@as(*const IXMLDOMDocument, @ptrCast(self)), isPreserving);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_put_onreadystatechange(self: *const T, readystatechangeSink: VARIANT) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_onreadystatechange(@as(*const IXMLDOMDocument, @ptrCast(self)), readystatechangeSink);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_put_ondataavailable(self: *const T, ondataavailableSink: VARIANT) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_ondataavailable(@as(*const IXMLDOMDocument, @ptrCast(self)), ondataavailableSink);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument_put_ontransformnode(self: *const T, ontransformnodeSink: VARIANT) HRESULT {
-                return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_ontransformnode(@as(*const IXMLDOMDocument, @ptrCast(self)), ontransformnodeSink);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_get_doctype(self: *const T, documentType: ?*?*IXMLDOMDocumentType) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_doctype(@as(*const IXMLDOMDocument, @ptrCast(self)), documentType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_get_implementation(self: *const T, impl: ?*?*IXMLDOMImplementation) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_implementation(@as(*const IXMLDOMDocument, @ptrCast(self)), impl);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_get_documentElement(self: *const T, DOMElement: ?*?*IXMLDOMElement) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_documentElement(@as(*const IXMLDOMDocument, @ptrCast(self)), DOMElement);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_putref_documentElement(self: *const T, DOMElement: ?*IXMLDOMElement) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).putref_documentElement(@as(*const IXMLDOMDocument, @ptrCast(self)), DOMElement);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_createElement(self: *const T, tagName: ?BSTR, element: ?*?*IXMLDOMElement) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createElement(@as(*const IXMLDOMDocument, @ptrCast(self)), tagName, element);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_createDocumentFragment(self: *const T, docFrag: ?*?*IXMLDOMDocumentFragment) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createDocumentFragment(@as(*const IXMLDOMDocument, @ptrCast(self)), docFrag);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_createTextNode(self: *const T, data: ?BSTR, text: ?*?*IXMLDOMText) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createTextNode(@as(*const IXMLDOMDocument, @ptrCast(self)), data, text);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_createComment(self: *const T, data: ?BSTR, comment: ?*?*IXMLDOMComment) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createComment(@as(*const IXMLDOMDocument, @ptrCast(self)), data, comment);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_createCDATASection(self: *const T, data: ?BSTR, cdata: ?*?*IXMLDOMCDATASection) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createCDATASection(@as(*const IXMLDOMDocument, @ptrCast(self)), data, cdata);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_createProcessingInstruction(self: *const T, target: ?BSTR, data: ?BSTR, pi: ?*?*IXMLDOMProcessingInstruction) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createProcessingInstruction(@as(*const IXMLDOMDocument, @ptrCast(self)), target, data, pi);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_createAttribute(self: *const T, name: ?BSTR, attribute: ?*?*IXMLDOMAttribute) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createAttribute(@as(*const IXMLDOMDocument, @ptrCast(self)), name, attribute);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_createEntityReference(self: *const T, name: ?BSTR, entityRef: ?*?*IXMLDOMEntityReference) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createEntityReference(@as(*const IXMLDOMDocument, @ptrCast(self)), name, entityRef);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_getElementsByTagName(self: *const T, tagName: ?BSTR, resultList: ?*?*IXMLDOMNodeList) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).getElementsByTagName(@as(*const IXMLDOMDocument, @ptrCast(self)), tagName, resultList);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_createNode(self: *const T, Type: VARIANT, name: ?BSTR, namespaceURI: ?BSTR, node: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).createNode(@as(*const IXMLDOMDocument, @ptrCast(self)), Type, name, namespaceURI, node);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_nodeFromID(self: *const T, idString: ?BSTR, node: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).nodeFromID(@as(*const IXMLDOMDocument, @ptrCast(self)), idString, node);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_load(self: *const T, xmlSource: VARIANT, isSuccessful: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).load(@as(*const IXMLDOMDocument, @ptrCast(self)), xmlSource, isSuccessful);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_get_readyState(self: *const T, value: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLDOMDocument, @ptrCast(self)), value);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_get_parseError(self: *const T, errorObj: ?*?*IXMLDOMParseError) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_parseError(@as(*const IXMLDOMDocument, @ptrCast(self)), errorObj);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_get_url(self: *const T, urlString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_url(@as(*const IXMLDOMDocument, @ptrCast(self)), urlString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_get_async(self: *const T, isAsync: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_async(@as(*const IXMLDOMDocument, @ptrCast(self)), isAsync);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_put_async(self: *const T, isAsync: i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_async(@as(*const IXMLDOMDocument, @ptrCast(self)), isAsync);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_abort(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).abort(@as(*const IXMLDOMDocument, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_loadXML(self: *const T, bstrXML: ?BSTR, isSuccessful: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).loadXML(@as(*const IXMLDOMDocument, @ptrCast(self)), bstrXML, isSuccessful);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_save(self: *const T, destination: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).save(@as(*const IXMLDOMDocument, @ptrCast(self)), destination);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_get_validateOnParse(self: *const T, isValidating: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_validateOnParse(@as(*const IXMLDOMDocument, @ptrCast(self)), isValidating);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_put_validateOnParse(self: *const T, isValidating: i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_validateOnParse(@as(*const IXMLDOMDocument, @ptrCast(self)), isValidating);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_get_resolveExternals(self: *const T, isResolving: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_resolveExternals(@as(*const IXMLDOMDocument, @ptrCast(self)), isResolving);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_put_resolveExternals(self: *const T, isResolving: i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_resolveExternals(@as(*const IXMLDOMDocument, @ptrCast(self)), isResolving);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_get_preserveWhiteSpace(self: *const T, isPreserving: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).get_preserveWhiteSpace(@as(*const IXMLDOMDocument, @ptrCast(self)), isPreserving);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_put_preserveWhiteSpace(self: *const T, isPreserving: i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_preserveWhiteSpace(@as(*const IXMLDOMDocument, @ptrCast(self)), isPreserving);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_put_onreadystatechange(self: *const T, readystatechangeSink: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_onreadystatechange(@as(*const IXMLDOMDocument, @ptrCast(self)), readystatechangeSink);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_put_ondataavailable(self: *const T, ondataavailableSink: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_ondataavailable(@as(*const IXMLDOMDocument, @ptrCast(self)), ondataavailableSink);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument_put_ontransformnode(self: *const T, ontransformnodeSink: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument.VTable, @ptrCast(self.vtable)).put_ontransformnode(@as(*const IXMLDOMDocument, @ptrCast(self)), ontransformnodeSink);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -1858,16 +1850,13 @@ pub const IID_IXMLDOMNodeList = &IID_IXMLDOMNodeList_Value;
 pub const IXMLDOMNodeList = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
-        // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_item: switch (@import("builtin").zig_backend) {
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNodeList,
                 index: i32,
                 listItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNodeList,
                 index: i32,
                 listItem: ?*?*IXMLDOMNode,
@@ -1876,74 +1865,72 @@ pub const IXMLDOMNodeList = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNodeList,
                 listLength: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNodeList,
                 listLength: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         nextNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNodeList,
                 nextItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNodeList,
                 nextItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         reset: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNodeList,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNodeList,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get__newEnum: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNodeList,
                 ppUnk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNodeList,
                 ppUnk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNodeList_get_item(self: *const T, index: i32, listItem: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNodeList.VTable, @ptrCast(self.vtable)).get_item(@as(*const IXMLDOMNodeList, @ptrCast(self)), index, listItem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNodeList_get_length(self: *const T, listLength: ?*i32) HRESULT {
-                return @as(*const IXMLDOMNodeList.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLDOMNodeList, @ptrCast(self)), listLength);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNodeList_nextNode(self: *const T, nextItem: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNodeList.VTable, @ptrCast(self.vtable)).nextNode(@as(*const IXMLDOMNodeList, @ptrCast(self)), nextItem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNodeList_reset(self: *const T) HRESULT {
-                return @as(*const IXMLDOMNodeList.VTable, @ptrCast(self.vtable)).reset(@as(*const IXMLDOMNodeList, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNodeList_get__newEnum(self: *const T, ppUnk: ?*?*IUnknown) HRESULT {
-                return @as(*const IXMLDOMNodeList.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IXMLDOMNodeList, @ptrCast(self)), ppUnk);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNodeList_get_item(self: *const T, index: i32, listItem: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNodeList.VTable, @ptrCast(self.vtable)).get_item(@as(*const IXMLDOMNodeList, @ptrCast(self)), index, listItem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNodeList_get_length(self: *const T, listLength: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNodeList.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLDOMNodeList, @ptrCast(self)), listLength);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNodeList_nextNode(self: *const T, nextItem: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNodeList.VTable, @ptrCast(self.vtable)).nextNode(@as(*const IXMLDOMNodeList, @ptrCast(self)), nextItem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNodeList_reset(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNodeList.VTable, @ptrCast(self.vtable)).reset(@as(*const IXMLDOMNodeList, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNodeList_get__newEnum(self: *const T, ppUnk: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNodeList.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IXMLDOMNodeList, @ptrCast(self)), ppUnk);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -1953,51 +1940,48 @@ pub const IXMLDOMNamedNodeMap = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         getNamedItem: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNamedNodeMap,
                 name: ?BSTR,
                 namedItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNamedNodeMap,
                 name: ?BSTR,
                 namedItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setNamedItem: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNamedNodeMap,
                 newItem: ?*IXMLDOMNode,
                 nameItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNamedNodeMap,
                 newItem: ?*IXMLDOMNode,
                 nameItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeNamedItem: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNamedNodeMap,
                 name: ?BSTR,
                 namedItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNamedNodeMap,
                 name: ?BSTR,
                 namedItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
-        // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_item: switch (@import("builtin").zig_backend) {
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNamedNodeMap,
                 index: i32,
                 listItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNamedNodeMap,
                 index: i32,
                 listItem: ?*?*IXMLDOMNode,
@@ -2006,24 +1990,24 @@ pub const IXMLDOMNamedNodeMap = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNamedNodeMap,
                 listLength: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNamedNodeMap,
                 listLength: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getQualifiedItem: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNamedNodeMap,
                 baseName: ?BSTR,
                 namespaceURI: ?BSTR,
                 qualifiedItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNamedNodeMap,
                 baseName: ?BSTR,
                 namespaceURI: ?BSTR,
@@ -2031,13 +2015,13 @@ pub const IXMLDOMNamedNodeMap = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeQualifiedItem: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNamedNodeMap,
                 baseName: ?BSTR,
                 namespaceURI: ?BSTR,
                 qualifiedItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNamedNodeMap,
                 baseName: ?BSTR,
                 namespaceURI: ?BSTR,
@@ -2045,83 +2029,81 @@ pub const IXMLDOMNamedNodeMap = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         nextNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNamedNodeMap,
                 nextItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNamedNodeMap,
                 nextItem: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         reset: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNamedNodeMap,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNamedNodeMap,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get__newEnum: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNamedNodeMap,
                 ppUnk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNamedNodeMap,
                 ppUnk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNamedNodeMap_getNamedItem(self: *const T, name: ?BSTR, namedItem: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).getNamedItem(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), name, namedItem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNamedNodeMap_setNamedItem(self: *const T, newItem: ?*IXMLDOMNode, nameItem: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).setNamedItem(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), newItem, nameItem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNamedNodeMap_removeNamedItem(self: *const T, name: ?BSTR, namedItem: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).removeNamedItem(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), name, namedItem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNamedNodeMap_get_item(self: *const T, index: i32, listItem: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).get_item(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), index, listItem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNamedNodeMap_get_length(self: *const T, listLength: ?*i32) HRESULT {
-                return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), listLength);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNamedNodeMap_getQualifiedItem(self: *const T, baseName: ?BSTR, namespaceURI: ?BSTR, qualifiedItem: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).getQualifiedItem(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), baseName, namespaceURI, qualifiedItem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNamedNodeMap_removeQualifiedItem(self: *const T, baseName: ?BSTR, namespaceURI: ?BSTR, qualifiedItem: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).removeQualifiedItem(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), baseName, namespaceURI, qualifiedItem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNamedNodeMap_nextNode(self: *const T, nextItem: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).nextNode(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), nextItem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNamedNodeMap_reset(self: *const T) HRESULT {
-                return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).reset(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNamedNodeMap_get__newEnum(self: *const T, ppUnk: ?*?*IUnknown) HRESULT {
-                return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), ppUnk);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNamedNodeMap_getNamedItem(self: *const T, name: ?BSTR, namedItem: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).getNamedItem(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), name, namedItem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNamedNodeMap_setNamedItem(self: *const T, newItem: ?*IXMLDOMNode, nameItem: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).setNamedItem(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), newItem, nameItem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNamedNodeMap_removeNamedItem(self: *const T, name: ?BSTR, namedItem: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).removeNamedItem(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), name, namedItem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNamedNodeMap_get_item(self: *const T, index: i32, listItem: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).get_item(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), index, listItem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNamedNodeMap_get_length(self: *const T, listLength: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), listLength);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNamedNodeMap_getQualifiedItem(self: *const T, baseName: ?BSTR, namespaceURI: ?BSTR, qualifiedItem: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).getQualifiedItem(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), baseName, namespaceURI, qualifiedItem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNamedNodeMap_removeQualifiedItem(self: *const T, baseName: ?BSTR, namespaceURI: ?BSTR, qualifiedItem: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).removeQualifiedItem(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), baseName, namespaceURI, qualifiedItem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNamedNodeMap_nextNode(self: *const T, nextItem: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).nextNode(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), nextItem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNamedNodeMap_reset(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).reset(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNamedNodeMap_get__newEnum(self: *const T, ppUnk: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNamedNodeMap.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IXMLDOMNamedNodeMap, @ptrCast(self)), ppUnk);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2133,12 +2115,12 @@ pub const IXMLDOMCharacterData = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_data: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMCharacterData,
                 data: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMCharacterData,
                 data: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2146,12 +2128,12 @@ pub const IXMLDOMCharacterData = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_data: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMCharacterData,
                 data: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMCharacterData,
                 data: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2159,24 +2141,24 @@ pub const IXMLDOMCharacterData = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMCharacterData,
                 dataLength: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMCharacterData,
                 dataLength: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         substringData: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMCharacterData,
                 offset: i32,
                 count: i32,
                 data: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMCharacterData,
                 offset: i32,
                 count: i32,
@@ -2184,47 +2166,47 @@ pub const IXMLDOMCharacterData = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         appendData: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMCharacterData,
                 data: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMCharacterData,
                 data: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         insertData: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMCharacterData,
                 offset: i32,
                 data: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMCharacterData,
                 offset: i32,
                 data: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         deleteData: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMCharacterData,
                 offset: i32,
                 count: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMCharacterData,
                 offset: i32,
                 count: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         replaceData: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMCharacterData,
                 offset: i32,
                 count: i32,
                 data: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMCharacterData,
                 offset: i32,
                 count: i32,
@@ -2233,43 +2215,41 @@ pub const IXMLDOMCharacterData = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMCharacterData_get_data(self: *const T, data: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).get_data(@as(*const IXMLDOMCharacterData, @ptrCast(self)), data);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMCharacterData_put_data(self: *const T, data: ?BSTR) HRESULT {
-                return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).put_data(@as(*const IXMLDOMCharacterData, @ptrCast(self)), data);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMCharacterData_get_length(self: *const T, dataLength: ?*i32) HRESULT {
-                return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLDOMCharacterData, @ptrCast(self)), dataLength);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMCharacterData_substringData(self: *const T, offset: i32, count: i32, data: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).substringData(@as(*const IXMLDOMCharacterData, @ptrCast(self)), offset, count, data);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMCharacterData_appendData(self: *const T, data: ?BSTR) HRESULT {
-                return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).appendData(@as(*const IXMLDOMCharacterData, @ptrCast(self)), data);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMCharacterData_insertData(self: *const T, offset: i32, data: ?BSTR) HRESULT {
-                return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).insertData(@as(*const IXMLDOMCharacterData, @ptrCast(self)), offset, data);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMCharacterData_deleteData(self: *const T, offset: i32, count: i32) HRESULT {
-                return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).deleteData(@as(*const IXMLDOMCharacterData, @ptrCast(self)), offset, count);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMCharacterData_replaceData(self: *const T, offset: i32, count: i32, data: ?BSTR) HRESULT {
-                return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).replaceData(@as(*const IXMLDOMCharacterData, @ptrCast(self)), offset, count, data);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMCharacterData_get_data(self: *const T, data: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).get_data(@as(*const IXMLDOMCharacterData, @ptrCast(self)), data);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMCharacterData_put_data(self: *const T, data: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).put_data(@as(*const IXMLDOMCharacterData, @ptrCast(self)), data);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMCharacterData_get_length(self: *const T, dataLength: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLDOMCharacterData, @ptrCast(self)), dataLength);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMCharacterData_substringData(self: *const T, offset: i32, count: i32, data: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).substringData(@as(*const IXMLDOMCharacterData, @ptrCast(self)), offset, count, data);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMCharacterData_appendData(self: *const T, data: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).appendData(@as(*const IXMLDOMCharacterData, @ptrCast(self)), data);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMCharacterData_insertData(self: *const T, offset: i32, data: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).insertData(@as(*const IXMLDOMCharacterData, @ptrCast(self)), offset, data);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMCharacterData_deleteData(self: *const T, offset: i32, count: i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).deleteData(@as(*const IXMLDOMCharacterData, @ptrCast(self)), offset, count);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMCharacterData_replaceData(self: *const T, offset: i32, count: i32, data: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMCharacterData.VTable, @ptrCast(self.vtable)).replaceData(@as(*const IXMLDOMCharacterData, @ptrCast(self)), offset, count, data);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2281,12 +2261,12 @@ pub const IXMLDOMAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_name: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMAttribute,
                 attributeName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMAttribute,
                 attributeName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2294,12 +2274,12 @@ pub const IXMLDOMAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_value: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMAttribute,
                 attributeValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMAttribute,
                 attributeValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2307,35 +2287,33 @@ pub const IXMLDOMAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_value: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMAttribute,
                 attributeValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMAttribute,
                 attributeValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMAttribute_get_name(self: *const T, attributeName: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMAttribute.VTable, @ptrCast(self.vtable)).get_name(@as(*const IXMLDOMAttribute, @ptrCast(self)), attributeName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMAttribute_get_value(self: *const T, attributeValue: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMAttribute.VTable, @ptrCast(self.vtable)).get_value(@as(*const IXMLDOMAttribute, @ptrCast(self)), attributeValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMAttribute_put_value(self: *const T, attributeValue: VARIANT) HRESULT {
-                return @as(*const IXMLDOMAttribute.VTable, @ptrCast(self.vtable)).put_value(@as(*const IXMLDOMAttribute, @ptrCast(self)), attributeValue);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMAttribute_get_name(self: *const T, attributeName: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMAttribute.VTable, @ptrCast(self.vtable)).get_name(@as(*const IXMLDOMAttribute, @ptrCast(self)), attributeName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMAttribute_get_value(self: *const T, attributeValue: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMAttribute.VTable, @ptrCast(self.vtable)).get_value(@as(*const IXMLDOMAttribute, @ptrCast(self)), attributeValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMAttribute_put_value(self: *const T, attributeValue: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMAttribute.VTable, @ptrCast(self.vtable)).put_value(@as(*const IXMLDOMAttribute, @ptrCast(self)), attributeValue);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2347,149 +2325,147 @@ pub const IXMLDOMElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_tagName: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMElement,
                 tagName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMElement,
                 tagName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMElement,
                 name: ?BSTR,
                 value: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMElement,
                 name: ?BSTR,
                 value: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMElement,
                 name: ?BSTR,
                 value: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMElement,
                 name: ?BSTR,
                 value: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMElement,
                 name: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMElement,
                 name: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getAttributeNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMElement,
                 name: ?BSTR,
                 attributeNode: ?*?*IXMLDOMAttribute,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMElement,
                 name: ?BSTR,
                 attributeNode: ?*?*IXMLDOMAttribute,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setAttributeNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMElement,
                 DOMAttribute: ?*IXMLDOMAttribute,
                 attributeNode: ?*?*IXMLDOMAttribute,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMElement,
                 DOMAttribute: ?*IXMLDOMAttribute,
                 attributeNode: ?*?*IXMLDOMAttribute,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeAttributeNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMElement,
                 DOMAttribute: ?*IXMLDOMAttribute,
                 attributeNode: ?*?*IXMLDOMAttribute,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMElement,
                 DOMAttribute: ?*IXMLDOMAttribute,
                 attributeNode: ?*?*IXMLDOMAttribute,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getElementsByTagName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMElement,
                 tagName: ?BSTR,
                 resultList: ?*?*IXMLDOMNodeList,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMElement,
                 tagName: ?BSTR,
                 resultList: ?*?*IXMLDOMNodeList,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         normalize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMElement_get_tagName(self: *const T, tagName: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).get_tagName(@as(*const IXMLDOMElement, @ptrCast(self)), tagName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMElement_getAttribute(self: *const T, name: ?BSTR, value: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).getAttribute(@as(*const IXMLDOMElement, @ptrCast(self)), name, value);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMElement_setAttribute(self: *const T, name: ?BSTR, value: VARIANT) HRESULT {
-                return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).setAttribute(@as(*const IXMLDOMElement, @ptrCast(self)), name, value);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMElement_removeAttribute(self: *const T, name: ?BSTR) HRESULT {
-                return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).removeAttribute(@as(*const IXMLDOMElement, @ptrCast(self)), name);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMElement_getAttributeNode(self: *const T, name: ?BSTR, attributeNode: ?*?*IXMLDOMAttribute) HRESULT {
-                return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).getAttributeNode(@as(*const IXMLDOMElement, @ptrCast(self)), name, attributeNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMElement_setAttributeNode(self: *const T, DOMAttribute: ?*IXMLDOMAttribute, attributeNode: ?*?*IXMLDOMAttribute) HRESULT {
-                return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).setAttributeNode(@as(*const IXMLDOMElement, @ptrCast(self)), DOMAttribute, attributeNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMElement_removeAttributeNode(self: *const T, DOMAttribute: ?*IXMLDOMAttribute, attributeNode: ?*?*IXMLDOMAttribute) HRESULT {
-                return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).removeAttributeNode(@as(*const IXMLDOMElement, @ptrCast(self)), DOMAttribute, attributeNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMElement_getElementsByTagName(self: *const T, tagName: ?BSTR, resultList: ?*?*IXMLDOMNodeList) HRESULT {
-                return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).getElementsByTagName(@as(*const IXMLDOMElement, @ptrCast(self)), tagName, resultList);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMElement_normalize(self: *const T) HRESULT {
-                return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).normalize(@as(*const IXMLDOMElement, @ptrCast(self)));
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMElement_get_tagName(self: *const T, tagName: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).get_tagName(@as(*const IXMLDOMElement, @ptrCast(self)), tagName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMElement_getAttribute(self: *const T, name: ?BSTR, value: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).getAttribute(@as(*const IXMLDOMElement, @ptrCast(self)), name, value);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMElement_setAttribute(self: *const T, name: ?BSTR, value: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).setAttribute(@as(*const IXMLDOMElement, @ptrCast(self)), name, value);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMElement_removeAttribute(self: *const T, name: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).removeAttribute(@as(*const IXMLDOMElement, @ptrCast(self)), name);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMElement_getAttributeNode(self: *const T, name: ?BSTR, attributeNode: ?*?*IXMLDOMAttribute) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).getAttributeNode(@as(*const IXMLDOMElement, @ptrCast(self)), name, attributeNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMElement_setAttributeNode(self: *const T, DOMAttribute: ?*IXMLDOMAttribute, attributeNode: ?*?*IXMLDOMAttribute) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).setAttributeNode(@as(*const IXMLDOMElement, @ptrCast(self)), DOMAttribute, attributeNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMElement_removeAttributeNode(self: *const T, DOMAttribute: ?*IXMLDOMAttribute, attributeNode: ?*?*IXMLDOMAttribute) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).removeAttributeNode(@as(*const IXMLDOMElement, @ptrCast(self)), DOMAttribute, attributeNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMElement_getElementsByTagName(self: *const T, tagName: ?BSTR, resultList: ?*?*IXMLDOMNodeList) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).getElementsByTagName(@as(*const IXMLDOMElement, @ptrCast(self)), tagName, resultList);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMElement_normalize(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMElement.VTable, @ptrCast(self.vtable)).normalize(@as(*const IXMLDOMElement, @ptrCast(self)));
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2499,12 +2475,12 @@ pub const IXMLDOMText = extern struct {
     pub const VTable = extern struct {
         base: IXMLDOMCharacterData.VTable,
         splitText: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMText,
                 offset: i32,
                 rightHandTextNode: ?*?*IXMLDOMText,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMText,
                 offset: i32,
                 rightHandTextNode: ?*?*IXMLDOMText,
@@ -2512,15 +2488,13 @@ pub const IXMLDOMText = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMCharacterData.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMText_splitText(self: *const T, offset: i32, rightHandTextNode: ?*?*IXMLDOMText) HRESULT {
-                return @as(*const IXMLDOMText.VTable, @ptrCast(self.vtable)).splitText(@as(*const IXMLDOMText, @ptrCast(self)), offset, rightHandTextNode);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMCharacterData.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMText_splitText(self: *const T, offset: i32, rightHandTextNode: ?*?*IXMLDOMText) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMText.VTable, @ptrCast(self.vtable)).splitText(@as(*const IXMLDOMText, @ptrCast(self)), offset, rightHandTextNode);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2531,11 +2505,9 @@ pub const IXMLDOMComment = extern struct {
         base: IXMLDOMCharacterData.VTable,
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMCharacterData.MethodMixin(T);
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMCharacterData.MethodMixin(T);
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2547,12 +2519,12 @@ pub const IXMLDOMProcessingInstruction = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_target: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMProcessingInstruction,
                 name: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMProcessingInstruction,
                 name: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2560,12 +2532,12 @@ pub const IXMLDOMProcessingInstruction = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_data: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMProcessingInstruction,
                 value: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMProcessingInstruction,
                 value: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2573,35 +2545,33 @@ pub const IXMLDOMProcessingInstruction = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_data: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMProcessingInstruction,
                 value: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMProcessingInstruction,
                 value: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMProcessingInstruction_get_target(self: *const T, name: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMProcessingInstruction.VTable, @ptrCast(self.vtable)).get_target(@as(*const IXMLDOMProcessingInstruction, @ptrCast(self)), name);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMProcessingInstruction_get_data(self: *const T, value: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMProcessingInstruction.VTable, @ptrCast(self.vtable)).get_data(@as(*const IXMLDOMProcessingInstruction, @ptrCast(self)), value);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMProcessingInstruction_put_data(self: *const T, value: ?BSTR) HRESULT {
-                return @as(*const IXMLDOMProcessingInstruction.VTable, @ptrCast(self.vtable)).put_data(@as(*const IXMLDOMProcessingInstruction, @ptrCast(self)), value);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMProcessingInstruction_get_target(self: *const T, name: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMProcessingInstruction.VTable, @ptrCast(self.vtable)).get_target(@as(*const IXMLDOMProcessingInstruction, @ptrCast(self)), name);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMProcessingInstruction_get_data(self: *const T, value: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMProcessingInstruction.VTable, @ptrCast(self.vtable)).get_data(@as(*const IXMLDOMProcessingInstruction, @ptrCast(self)), value);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMProcessingInstruction_put_data(self: *const T, value: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMProcessingInstruction.VTable, @ptrCast(self.vtable)).put_data(@as(*const IXMLDOMProcessingInstruction, @ptrCast(self)), value);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2612,11 +2582,9 @@ pub const IXMLDOMCDATASection = extern struct {
         base: IXMLDOMText.VTable,
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMText.MethodMixin(T);
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMText.MethodMixin(T);
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2628,12 +2596,12 @@ pub const IXMLDOMDocumentType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_name: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocumentType,
                 rootName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocumentType,
                 rootName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2641,12 +2609,12 @@ pub const IXMLDOMDocumentType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_entities: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocumentType,
                 entityMap: ?*?*IXMLDOMNamedNodeMap,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocumentType,
                 entityMap: ?*?*IXMLDOMNamedNodeMap,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2654,35 +2622,33 @@ pub const IXMLDOMDocumentType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_notations: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocumentType,
                 notationMap: ?*?*IXMLDOMNamedNodeMap,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocumentType,
                 notationMap: ?*?*IXMLDOMNamedNodeMap,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocumentType_get_name(self: *const T, rootName: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMDocumentType.VTable, @ptrCast(self.vtable)).get_name(@as(*const IXMLDOMDocumentType, @ptrCast(self)), rootName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocumentType_get_entities(self: *const T, entityMap: ?*?*IXMLDOMNamedNodeMap) HRESULT {
-                return @as(*const IXMLDOMDocumentType.VTable, @ptrCast(self.vtable)).get_entities(@as(*const IXMLDOMDocumentType, @ptrCast(self)), entityMap);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocumentType_get_notations(self: *const T, notationMap: ?*?*IXMLDOMNamedNodeMap) HRESULT {
-                return @as(*const IXMLDOMDocumentType.VTable, @ptrCast(self.vtable)).get_notations(@as(*const IXMLDOMDocumentType, @ptrCast(self)), notationMap);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocumentType_get_name(self: *const T, rootName: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocumentType.VTable, @ptrCast(self.vtable)).get_name(@as(*const IXMLDOMDocumentType, @ptrCast(self)), rootName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocumentType_get_entities(self: *const T, entityMap: ?*?*IXMLDOMNamedNodeMap) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocumentType.VTable, @ptrCast(self.vtable)).get_entities(@as(*const IXMLDOMDocumentType, @ptrCast(self)), entityMap);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocumentType_get_notations(self: *const T, notationMap: ?*?*IXMLDOMNamedNodeMap) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocumentType.VTable, @ptrCast(self.vtable)).get_notations(@as(*const IXMLDOMDocumentType, @ptrCast(self)), notationMap);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2694,12 +2660,12 @@ pub const IXMLDOMNotation = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_publicId: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNotation,
                 publicID: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNotation,
                 publicID: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2707,31 +2673,29 @@ pub const IXMLDOMNotation = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_systemId: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMNotation,
                 systemID: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMNotation,
                 systemID: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNotation_get_publicId(self: *const T, publicID: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMNotation.VTable, @ptrCast(self.vtable)).get_publicId(@as(*const IXMLDOMNotation, @ptrCast(self)), publicID);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMNotation_get_systemId(self: *const T, systemID: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMNotation.VTable, @ptrCast(self.vtable)).get_systemId(@as(*const IXMLDOMNotation, @ptrCast(self)), systemID);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNotation_get_publicId(self: *const T, publicID: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNotation.VTable, @ptrCast(self.vtable)).get_publicId(@as(*const IXMLDOMNotation, @ptrCast(self)), publicID);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMNotation_get_systemId(self: *const T, systemID: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMNotation.VTable, @ptrCast(self.vtable)).get_systemId(@as(*const IXMLDOMNotation, @ptrCast(self)), systemID);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2743,12 +2707,12 @@ pub const IXMLDOMEntity = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_publicId: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMEntity,
                 publicID: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMEntity,
                 publicID: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2756,12 +2720,12 @@ pub const IXMLDOMEntity = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_systemId: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMEntity,
                 systemID: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMEntity,
                 systemID: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2769,35 +2733,33 @@ pub const IXMLDOMEntity = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_notationName: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMEntity,
                 name: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMEntity,
                 name: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMEntity_get_publicId(self: *const T, publicID: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMEntity.VTable, @ptrCast(self.vtable)).get_publicId(@as(*const IXMLDOMEntity, @ptrCast(self)), publicID);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMEntity_get_systemId(self: *const T, systemID: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMEntity.VTable, @ptrCast(self.vtable)).get_systemId(@as(*const IXMLDOMEntity, @ptrCast(self)), systemID);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMEntity_get_notationName(self: *const T, name: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMEntity.VTable, @ptrCast(self.vtable)).get_notationName(@as(*const IXMLDOMEntity, @ptrCast(self)), name);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMEntity_get_publicId(self: *const T, publicID: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMEntity.VTable, @ptrCast(self.vtable)).get_publicId(@as(*const IXMLDOMEntity, @ptrCast(self)), publicID);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMEntity_get_systemId(self: *const T, systemID: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMEntity.VTable, @ptrCast(self.vtable)).get_systemId(@as(*const IXMLDOMEntity, @ptrCast(self)), systemID);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMEntity_get_notationName(self: *const T, name: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMEntity.VTable, @ptrCast(self.vtable)).get_notationName(@as(*const IXMLDOMEntity, @ptrCast(self)), name);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2808,11 +2770,9 @@ pub const IXMLDOMEntityReference = extern struct {
         base: IXMLDOMNode.VTable,
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2824,12 +2784,12 @@ pub const IXMLDOMParseError = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_errorCode: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError,
                 errorCode: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError,
                 errorCode: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2837,12 +2797,12 @@ pub const IXMLDOMParseError = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_url: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError,
                 urlString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError,
                 urlString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2850,12 +2810,12 @@ pub const IXMLDOMParseError = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_reason: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError,
                 reasonString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError,
                 reasonString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2863,12 +2823,12 @@ pub const IXMLDOMParseError = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_srcText: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError,
                 sourceString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError,
                 sourceString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2876,12 +2836,12 @@ pub const IXMLDOMParseError = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_line: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError,
                 lineNumber: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError,
                 lineNumber: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2889,12 +2849,12 @@ pub const IXMLDOMParseError = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_linepos: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError,
                 linePosition: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError,
                 linePosition: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2902,51 +2862,49 @@ pub const IXMLDOMParseError = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_filepos: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError,
                 filePosition: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError,
                 filePosition: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError_get_errorCode(self: *const T, errorCode: ?*i32) HRESULT {
-                return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_errorCode(@as(*const IXMLDOMParseError, @ptrCast(self)), errorCode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError_get_url(self: *const T, urlString: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_url(@as(*const IXMLDOMParseError, @ptrCast(self)), urlString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError_get_reason(self: *const T, reasonString: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_reason(@as(*const IXMLDOMParseError, @ptrCast(self)), reasonString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError_get_srcText(self: *const T, sourceString: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_srcText(@as(*const IXMLDOMParseError, @ptrCast(self)), sourceString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError_get_line(self: *const T, lineNumber: ?*i32) HRESULT {
-                return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_line(@as(*const IXMLDOMParseError, @ptrCast(self)), lineNumber);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError_get_linepos(self: *const T, linePosition: ?*i32) HRESULT {
-                return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_linepos(@as(*const IXMLDOMParseError, @ptrCast(self)), linePosition);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError_get_filepos(self: *const T, filePosition: ?*i32) HRESULT {
-                return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_filepos(@as(*const IXMLDOMParseError, @ptrCast(self)), filePosition);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError_get_errorCode(self: *const T, errorCode: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_errorCode(@as(*const IXMLDOMParseError, @ptrCast(self)), errorCode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError_get_url(self: *const T, urlString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_url(@as(*const IXMLDOMParseError, @ptrCast(self)), urlString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError_get_reason(self: *const T, reasonString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_reason(@as(*const IXMLDOMParseError, @ptrCast(self)), reasonString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError_get_srcText(self: *const T, sourceString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_srcText(@as(*const IXMLDOMParseError, @ptrCast(self)), sourceString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError_get_line(self: *const T, lineNumber: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_line(@as(*const IXMLDOMParseError, @ptrCast(self)), lineNumber);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError_get_linepos(self: *const T, linePosition: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_linepos(@as(*const IXMLDOMParseError, @ptrCast(self)), linePosition);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError_get_filepos(self: *const T, filePosition: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError.VTable, @ptrCast(self.vtable)).get_filepos(@as(*const IXMLDOMParseError, @ptrCast(self)), filePosition);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -2956,49 +2914,49 @@ pub const IXTLRuntime = extern struct {
     pub const VTable = extern struct {
         base: IXMLDOMNode.VTable,
         uniqueID: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXTLRuntime,
                 pNode: ?*IXMLDOMNode,
                 pID: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXTLRuntime,
                 pNode: ?*IXMLDOMNode,
                 pID: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         depth: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXTLRuntime,
                 pNode: ?*IXMLDOMNode,
                 pDepth: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXTLRuntime,
                 pNode: ?*IXMLDOMNode,
                 pDepth: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         childNumber: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXTLRuntime,
                 pNode: ?*IXMLDOMNode,
                 pNumber: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXTLRuntime,
                 pNode: ?*IXMLDOMNode,
                 pNumber: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ancestorChildNumber: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXTLRuntime,
                 bstrNodeName: ?BSTR,
                 pNode: ?*IXMLDOMNode,
                 pNumber: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXTLRuntime,
                 bstrNodeName: ?BSTR,
                 pNode: ?*IXMLDOMNode,
@@ -3006,25 +2964,25 @@ pub const IXTLRuntime = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         absoluteChildNumber: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXTLRuntime,
                 pNode: ?*IXMLDOMNode,
                 pNumber: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXTLRuntime,
                 pNode: ?*IXMLDOMNode,
                 pNumber: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         formatIndex: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXTLRuntime,
                 lIndex: i32,
                 bstrFormat: ?BSTR,
                 pbstrFormattedString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXTLRuntime,
                 lIndex: i32,
                 bstrFormat: ?BSTR,
@@ -3032,13 +2990,13 @@ pub const IXTLRuntime = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         formatNumber: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXTLRuntime,
                 dblNumber: f64,
                 bstrFormat: ?BSTR,
                 pbstrFormattedString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXTLRuntime,
                 dblNumber: f64,
                 bstrFormat: ?BSTR,
@@ -3046,14 +3004,14 @@ pub const IXTLRuntime = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         formatDate: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXTLRuntime,
                 varDate: VARIANT,
                 bstrFormat: ?BSTR,
                 varDestLocale: VARIANT,
                 pbstrFormattedString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXTLRuntime,
                 varDate: VARIANT,
                 bstrFormat: ?BSTR,
@@ -3062,14 +3020,14 @@ pub const IXTLRuntime = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         formatTime: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXTLRuntime,
                 varTime: VARIANT,
                 bstrFormat: ?BSTR,
                 varDestLocale: VARIANT,
                 pbstrFormattedString: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXTLRuntime,
                 varTime: VARIANT,
                 bstrFormat: ?BSTR,
@@ -3079,47 +3037,45 @@ pub const IXTLRuntime = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNode.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXTLRuntime_uniqueID(self: *const T, pNode: ?*IXMLDOMNode, pID: ?*i32) HRESULT {
-                return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).uniqueID(@as(*const IXTLRuntime, @ptrCast(self)), pNode, pID);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXTLRuntime_depth(self: *const T, pNode: ?*IXMLDOMNode, pDepth: ?*i32) HRESULT {
-                return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).depth(@as(*const IXTLRuntime, @ptrCast(self)), pNode, pDepth);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXTLRuntime_childNumber(self: *const T, pNode: ?*IXMLDOMNode, pNumber: ?*i32) HRESULT {
-                return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).childNumber(@as(*const IXTLRuntime, @ptrCast(self)), pNode, pNumber);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXTLRuntime_ancestorChildNumber(self: *const T, bstrNodeName: ?BSTR, pNode: ?*IXMLDOMNode, pNumber: ?*i32) HRESULT {
-                return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).ancestorChildNumber(@as(*const IXTLRuntime, @ptrCast(self)), bstrNodeName, pNode, pNumber);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXTLRuntime_absoluteChildNumber(self: *const T, pNode: ?*IXMLDOMNode, pNumber: ?*i32) HRESULT {
-                return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).absoluteChildNumber(@as(*const IXTLRuntime, @ptrCast(self)), pNode, pNumber);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXTLRuntime_formatIndex(self: *const T, lIndex: i32, bstrFormat: ?BSTR, pbstrFormattedString: ?*?BSTR) HRESULT {
-                return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).formatIndex(@as(*const IXTLRuntime, @ptrCast(self)), lIndex, bstrFormat, pbstrFormattedString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXTLRuntime_formatNumber(self: *const T, dblNumber: f64, bstrFormat: ?BSTR, pbstrFormattedString: ?*?BSTR) HRESULT {
-                return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).formatNumber(@as(*const IXTLRuntime, @ptrCast(self)), dblNumber, bstrFormat, pbstrFormattedString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXTLRuntime_formatDate(self: *const T, varDate: VARIANT, bstrFormat: ?BSTR, varDestLocale: VARIANT, pbstrFormattedString: ?*?BSTR) HRESULT {
-                return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).formatDate(@as(*const IXTLRuntime, @ptrCast(self)), varDate, bstrFormat, varDestLocale, pbstrFormattedString);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXTLRuntime_formatTime(self: *const T, varTime: VARIANT, bstrFormat: ?BSTR, varDestLocale: VARIANT, pbstrFormattedString: ?*?BSTR) HRESULT {
-                return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).formatTime(@as(*const IXTLRuntime, @ptrCast(self)), varTime, bstrFormat, varDestLocale, pbstrFormattedString);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNode.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXTLRuntime_uniqueID(self: *const T, pNode: ?*IXMLDOMNode, pID: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).uniqueID(@as(*const IXTLRuntime, @ptrCast(self)), pNode, pID);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXTLRuntime_depth(self: *const T, pNode: ?*IXMLDOMNode, pDepth: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).depth(@as(*const IXTLRuntime, @ptrCast(self)), pNode, pDepth);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXTLRuntime_childNumber(self: *const T, pNode: ?*IXMLDOMNode, pNumber: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).childNumber(@as(*const IXTLRuntime, @ptrCast(self)), pNode, pNumber);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXTLRuntime_ancestorChildNumber(self: *const T, bstrNodeName: ?BSTR, pNode: ?*IXMLDOMNode, pNumber: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).ancestorChildNumber(@as(*const IXTLRuntime, @ptrCast(self)), bstrNodeName, pNode, pNumber);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXTLRuntime_absoluteChildNumber(self: *const T, pNode: ?*IXMLDOMNode, pNumber: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).absoluteChildNumber(@as(*const IXTLRuntime, @ptrCast(self)), pNode, pNumber);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXTLRuntime_formatIndex(self: *const T, lIndex: i32, bstrFormat: ?BSTR, pbstrFormattedString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).formatIndex(@as(*const IXTLRuntime, @ptrCast(self)), lIndex, bstrFormat, pbstrFormattedString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXTLRuntime_formatNumber(self: *const T, dblNumber: f64, bstrFormat: ?BSTR, pbstrFormattedString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).formatNumber(@as(*const IXTLRuntime, @ptrCast(self)), dblNumber, bstrFormat, pbstrFormattedString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXTLRuntime_formatDate(self: *const T, varDate: VARIANT, bstrFormat: ?BSTR, varDestLocale: VARIANT, pbstrFormattedString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).formatDate(@as(*const IXTLRuntime, @ptrCast(self)), varDate, bstrFormat, varDestLocale, pbstrFormattedString);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXTLRuntime_formatTime(self: *const T, varTime: VARIANT, bstrFormat: ?BSTR, varDestLocale: VARIANT, pbstrFormattedString: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXTLRuntime.VTable, @ptrCast(self.vtable)).formatTime(@as(*const IXTLRuntime, @ptrCast(self)), varTime, bstrFormat, varDestLocale, pbstrFormattedString);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -3130,11 +3086,9 @@ pub const XMLDOMDocumentEvents = extern struct {
         base: IDispatch.VTable,
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -3144,7 +3098,7 @@ pub const IXMLHttpRequest = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         open: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 bstrMethod: ?BSTR,
                 bstrUrl: ?BSTR,
@@ -3152,7 +3106,7 @@ pub const IXMLHttpRequest = extern struct {
                 bstrUser: VARIANT,
                 bstrPassword: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 bstrMethod: ?BSTR,
                 bstrUrl: ?BSTR,
@@ -3162,66 +3116,66 @@ pub const IXMLHttpRequest = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setRequestHeader: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 bstrHeader: ?BSTR,
                 bstrValue: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 bstrHeader: ?BSTR,
                 bstrValue: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getResponseHeader: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 bstrHeader: ?BSTR,
                 pbstrValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 bstrHeader: ?BSTR,
                 pbstrValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getAllResponseHeaders: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 pbstrHeaders: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 pbstrHeaders: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         send: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 varBody: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 varBody: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         abort: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_status: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 plStatus: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 plStatus: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3229,12 +3183,12 @@ pub const IXMLHttpRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_statusText: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 pbstrStatus: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 pbstrStatus: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3242,12 +3196,12 @@ pub const IXMLHttpRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_responseXML: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 ppBody: ?*?*IDispatch,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 ppBody: ?*?*IDispatch,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3255,12 +3209,12 @@ pub const IXMLHttpRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_responseText: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 pbstrBody: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 pbstrBody: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3268,12 +3222,12 @@ pub const IXMLHttpRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_responseBody: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 pvarBody: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 pvarBody: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3281,12 +3235,12 @@ pub const IXMLHttpRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_responseStream: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 pvarBody: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 pvarBody: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3294,12 +3248,12 @@ pub const IXMLHttpRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_readyState: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 plState: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 plState: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3307,79 +3261,77 @@ pub const IXMLHttpRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_onreadystatechange: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHttpRequest,
                 pReadyStateSink: ?*IDispatch,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHttpRequest,
                 pReadyStateSink: ?*IDispatch,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_open(self: *const T, bstrMethod: ?BSTR, bstrUrl: ?BSTR, varAsync: VARIANT, bstrUser: VARIANT, bstrPassword: VARIANT) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).open(@as(*const IXMLHttpRequest, @ptrCast(self)), bstrMethod, bstrUrl, varAsync, bstrUser, bstrPassword);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_setRequestHeader(self: *const T, bstrHeader: ?BSTR, bstrValue: ?BSTR) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).setRequestHeader(@as(*const IXMLHttpRequest, @ptrCast(self)), bstrHeader, bstrValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_getResponseHeader(self: *const T, bstrHeader: ?BSTR, pbstrValue: ?*?BSTR) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).getResponseHeader(@as(*const IXMLHttpRequest, @ptrCast(self)), bstrHeader, pbstrValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_getAllResponseHeaders(self: *const T, pbstrHeaders: ?*?BSTR) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).getAllResponseHeaders(@as(*const IXMLHttpRequest, @ptrCast(self)), pbstrHeaders);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_send(self: *const T, varBody: VARIANT) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).send(@as(*const IXMLHttpRequest, @ptrCast(self)), varBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_abort(self: *const T) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).abort(@as(*const IXMLHttpRequest, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_get_status(self: *const T, plStatus: ?*i32) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_status(@as(*const IXMLHttpRequest, @ptrCast(self)), plStatus);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_get_statusText(self: *const T, pbstrStatus: ?*?BSTR) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_statusText(@as(*const IXMLHttpRequest, @ptrCast(self)), pbstrStatus);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_get_responseXML(self: *const T, ppBody: ?*?*IDispatch) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_responseXML(@as(*const IXMLHttpRequest, @ptrCast(self)), ppBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_get_responseText(self: *const T, pbstrBody: ?*?BSTR) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_responseText(@as(*const IXMLHttpRequest, @ptrCast(self)), pbstrBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_get_responseBody(self: *const T, pvarBody: ?*VARIANT) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_responseBody(@as(*const IXMLHttpRequest, @ptrCast(self)), pvarBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_get_responseStream(self: *const T, pvarBody: ?*VARIANT) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_responseStream(@as(*const IXMLHttpRequest, @ptrCast(self)), pvarBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_get_readyState(self: *const T, plState: ?*i32) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLHttpRequest, @ptrCast(self)), plState);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHttpRequest_put_onreadystatechange(self: *const T, pReadyStateSink: ?*IDispatch) HRESULT {
-                return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).put_onreadystatechange(@as(*const IXMLHttpRequest, @ptrCast(self)), pReadyStateSink);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_open(self: *const T, bstrMethod: ?BSTR, bstrUrl: ?BSTR, varAsync: VARIANT, bstrUser: VARIANT, bstrPassword: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).open(@as(*const IXMLHttpRequest, @ptrCast(self)), bstrMethod, bstrUrl, varAsync, bstrUser, bstrPassword);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_setRequestHeader(self: *const T, bstrHeader: ?BSTR, bstrValue: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).setRequestHeader(@as(*const IXMLHttpRequest, @ptrCast(self)), bstrHeader, bstrValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_getResponseHeader(self: *const T, bstrHeader: ?BSTR, pbstrValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).getResponseHeader(@as(*const IXMLHttpRequest, @ptrCast(self)), bstrHeader, pbstrValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_getAllResponseHeaders(self: *const T, pbstrHeaders: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).getAllResponseHeaders(@as(*const IXMLHttpRequest, @ptrCast(self)), pbstrHeaders);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_send(self: *const T, varBody: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).send(@as(*const IXMLHttpRequest, @ptrCast(self)), varBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_abort(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).abort(@as(*const IXMLHttpRequest, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_get_status(self: *const T, plStatus: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_status(@as(*const IXMLHttpRequest, @ptrCast(self)), plStatus);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_get_statusText(self: *const T, pbstrStatus: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_statusText(@as(*const IXMLHttpRequest, @ptrCast(self)), pbstrStatus);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_get_responseXML(self: *const T, ppBody: ?*?*IDispatch) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_responseXML(@as(*const IXMLHttpRequest, @ptrCast(self)), ppBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_get_responseText(self: *const T, pbstrBody: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_responseText(@as(*const IXMLHttpRequest, @ptrCast(self)), pbstrBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_get_responseBody(self: *const T, pvarBody: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_responseBody(@as(*const IXMLHttpRequest, @ptrCast(self)), pvarBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_get_responseStream(self: *const T, pvarBody: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_responseStream(@as(*const IXMLHttpRequest, @ptrCast(self)), pvarBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_get_readyState(self: *const T, plState: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLHttpRequest, @ptrCast(self)), plState);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHttpRequest_put_onreadystatechange(self: *const T, pReadyStateSink: ?*IDispatch) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHttpRequest.VTable, @ptrCast(self.vtable)).put_onreadystatechange(@as(*const IXMLHttpRequest, @ptrCast(self)), pReadyStateSink);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -3391,12 +3343,12 @@ pub const IXMLDSOControl = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_XMLDocument: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDSOControl,
                 ppDoc: ?*?*IXMLDOMDocument,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDSOControl,
                 ppDoc: ?*?*IXMLDOMDocument,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3404,12 +3356,12 @@ pub const IXMLDSOControl = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_XMLDocument: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDSOControl,
                 ppDoc: ?*IXMLDOMDocument,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDSOControl,
                 ppDoc: ?*IXMLDOMDocument,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3417,12 +3369,12 @@ pub const IXMLDSOControl = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_JavaDSOCompatible: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDSOControl,
                 fJavaDSOCompatible: ?*BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDSOControl,
                 fJavaDSOCompatible: ?*BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3430,12 +3382,12 @@ pub const IXMLDSOControl = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_JavaDSOCompatible: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDSOControl,
                 fJavaDSOCompatible: BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDSOControl,
                 fJavaDSOCompatible: BOOL,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3443,43 +3395,41 @@ pub const IXMLDSOControl = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_readyState: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDSOControl,
                 state: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDSOControl,
                 state: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDSOControl_get_XMLDocument(self: *const T, ppDoc: ?*?*IXMLDOMDocument) HRESULT {
-                return @as(*const IXMLDSOControl.VTable, @ptrCast(self.vtable)).get_XMLDocument(@as(*const IXMLDSOControl, @ptrCast(self)), ppDoc);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDSOControl_put_XMLDocument(self: *const T, ppDoc: ?*IXMLDOMDocument) HRESULT {
-                return @as(*const IXMLDSOControl.VTable, @ptrCast(self.vtable)).put_XMLDocument(@as(*const IXMLDSOControl, @ptrCast(self)), ppDoc);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDSOControl_get_JavaDSOCompatible(self: *const T, fJavaDSOCompatible: ?*BOOL) HRESULT {
-                return @as(*const IXMLDSOControl.VTable, @ptrCast(self.vtable)).get_JavaDSOCompatible(@as(*const IXMLDSOControl, @ptrCast(self)), fJavaDSOCompatible);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDSOControl_put_JavaDSOCompatible(self: *const T, fJavaDSOCompatible: BOOL) HRESULT {
-                return @as(*const IXMLDSOControl.VTable, @ptrCast(self.vtable)).put_JavaDSOCompatible(@as(*const IXMLDSOControl, @ptrCast(self)), fJavaDSOCompatible);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDSOControl_get_readyState(self: *const T, state: ?*i32) HRESULT {
-                return @as(*const IXMLDSOControl.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLDSOControl, @ptrCast(self)), state);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDSOControl_get_XMLDocument(self: *const T, ppDoc: ?*?*IXMLDOMDocument) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDSOControl.VTable, @ptrCast(self.vtable)).get_XMLDocument(@as(*const IXMLDSOControl, @ptrCast(self)), ppDoc);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDSOControl_put_XMLDocument(self: *const T, ppDoc: ?*IXMLDOMDocument) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDSOControl.VTable, @ptrCast(self.vtable)).put_XMLDocument(@as(*const IXMLDSOControl, @ptrCast(self)), ppDoc);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDSOControl_get_JavaDSOCompatible(self: *const T, fJavaDSOCompatible: ?*BOOL) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDSOControl.VTable, @ptrCast(self.vtable)).get_JavaDSOCompatible(@as(*const IXMLDSOControl, @ptrCast(self)), fJavaDSOCompatible);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDSOControl_put_JavaDSOCompatible(self: *const T, fJavaDSOCompatible: BOOL) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDSOControl.VTable, @ptrCast(self.vtable)).put_JavaDSOCompatible(@as(*const IXMLDSOControl, @ptrCast(self)), fJavaDSOCompatible);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDSOControl_get_readyState(self: *const T, state: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDSOControl.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLDSOControl, @ptrCast(self)), state);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -3491,12 +3441,12 @@ pub const IXMLElementCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElementCollection,
                 v: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElementCollection,
                 v: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3504,12 +3454,12 @@ pub const IXMLElementCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElementCollection,
                 p: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElementCollection,
                 p: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3517,24 +3467,24 @@ pub const IXMLElementCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get__newEnum: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElementCollection,
                 ppUnk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElementCollection,
                 ppUnk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         item: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElementCollection,
                 var1: VARIANT,
                 var2: VARIANT,
                 ppDisp: ?*?*IDispatch,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElementCollection,
                 var1: VARIANT,
                 var2: VARIANT,
@@ -3543,27 +3493,25 @@ pub const IXMLElementCollection = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElementCollection_put_length(self: *const T, v: i32) HRESULT {
-                return @as(*const IXMLElementCollection.VTable, @ptrCast(self.vtable)).put_length(@as(*const IXMLElementCollection, @ptrCast(self)), v);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElementCollection_get_length(self: *const T, p: ?*i32) HRESULT {
-                return @as(*const IXMLElementCollection.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLElementCollection, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElementCollection_get__newEnum(self: *const T, ppUnk: ?*?*IUnknown) HRESULT {
-                return @as(*const IXMLElementCollection.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IXMLElementCollection, @ptrCast(self)), ppUnk);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElementCollection_item(self: *const T, var1: VARIANT, var2: VARIANT, ppDisp: ?*?*IDispatch) HRESULT {
-                return @as(*const IXMLElementCollection.VTable, @ptrCast(self.vtable)).item(@as(*const IXMLElementCollection, @ptrCast(self)), var1, var2, ppDisp);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElementCollection_put_length(self: *const T, v: i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElementCollection.VTable, @ptrCast(self.vtable)).put_length(@as(*const IXMLElementCollection, @ptrCast(self)), v);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElementCollection_get_length(self: *const T, p: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElementCollection.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLElementCollection, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElementCollection_get__newEnum(self: *const T, ppUnk: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElementCollection.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IXMLElementCollection, @ptrCast(self)), ppUnk);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElementCollection_item(self: *const T, var1: VARIANT, var2: VARIANT, ppDisp: ?*?*IDispatch) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElementCollection.VTable, @ptrCast(self.vtable)).item(@as(*const IXMLElementCollection, @ptrCast(self)), var1, var2, ppDisp);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -3575,12 +3523,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_root: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?*?*IXMLElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?*?*IXMLElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3588,12 +3536,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_fileSize: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3601,12 +3549,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_fileModifiedDate: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3614,12 +3562,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_fileUpdatedDate: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3627,12 +3575,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_URL: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3640,12 +3588,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_URL: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3653,12 +3601,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_mimeType: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3666,12 +3614,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_readyState: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 pl: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 pl: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3679,12 +3627,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_charset: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3692,12 +3640,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_charset: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3705,12 +3653,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_version: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3718,12 +3666,12 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_doctype: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3731,24 +3679,24 @@ pub const IXMLDocument = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_dtdURL: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createElement: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument,
                 vType: VARIANT,
                 var1: VARIANT,
                 ppElem: ?*?*IXMLElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument,
                 vType: VARIANT,
                 var1: VARIANT,
@@ -3757,67 +3705,65 @@ pub const IXMLDocument = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_root(self: *const T, p: ?*?*IXMLElement) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_root(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_fileSize(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_fileSize(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_fileModifiedDate(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_fileModifiedDate(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_fileUpdatedDate(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_fileUpdatedDate(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_URL(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_URL(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_put_URL(self: *const T, p: ?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).put_URL(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_mimeType(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_mimeType(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_readyState(self: *const T, pl: ?*i32) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLDocument, @ptrCast(self)), pl);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_charset(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_charset(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_put_charset(self: *const T, p: ?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).put_charset(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_version(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_version(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_doctype(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_doctype(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_get_dtdURL(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_dtdURL(@as(*const IXMLDocument, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument_createElement(self: *const T, vType: VARIANT, var1: VARIANT, ppElem: ?*?*IXMLElement) HRESULT {
-                return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).createElement(@as(*const IXMLDocument, @ptrCast(self)), vType, var1, ppElem);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_root(self: *const T, p: ?*?*IXMLElement) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_root(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_fileSize(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_fileSize(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_fileModifiedDate(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_fileModifiedDate(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_fileUpdatedDate(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_fileUpdatedDate(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_URL(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_URL(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_put_URL(self: *const T, p: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).put_URL(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_mimeType(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_mimeType(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_readyState(self: *const T, pl: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLDocument, @ptrCast(self)), pl);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_charset(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_charset(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_put_charset(self: *const T, p: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).put_charset(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_version(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_version(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_doctype(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_doctype(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_get_dtdURL(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).get_dtdURL(@as(*const IXMLDocument, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument_createElement(self: *const T, vType: VARIANT, var1: VARIANT, ppElem: ?*?*IXMLElement) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument.VTable, @ptrCast(self.vtable)).createElement(@as(*const IXMLDocument, @ptrCast(self)), vType, var1, ppElem);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -3829,12 +3775,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_root: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?*?*IXMLElement2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?*?*IXMLElement2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3842,12 +3788,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_fileSize: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3855,12 +3801,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_fileModifiedDate: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3868,12 +3814,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_fileUpdatedDate: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3881,12 +3827,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_URL: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3894,12 +3840,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_URL: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3907,12 +3853,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_mimeType: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3920,12 +3866,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_readyState: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 pl: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 pl: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3933,12 +3879,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_charset: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3946,12 +3892,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_charset: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3959,12 +3905,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_version: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3972,12 +3918,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_doctype: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -3985,24 +3931,24 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_dtdURL: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createElement: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 vType: VARIANT,
                 var1: VARIANT,
                 ppElem: ?*?*IXMLElement2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 vType: VARIANT,
                 var1: VARIANT,
@@ -4012,12 +3958,12 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_async: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 pf: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 pf: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4025,87 +3971,85 @@ pub const IXMLDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_async: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDocument2,
                 f: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDocument2,
                 f: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_root(self: *const T, p: ?*?*IXMLElement2) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_root(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_fileSize(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_fileSize(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_fileModifiedDate(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_fileModifiedDate(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_fileUpdatedDate(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_fileUpdatedDate(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_URL(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_URL(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_put_URL(self: *const T, p: ?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).put_URL(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_mimeType(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_mimeType(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_readyState(self: *const T, pl: ?*i32) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLDocument2, @ptrCast(self)), pl);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_charset(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_charset(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_put_charset(self: *const T, p: ?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).put_charset(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_version(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_version(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_doctype(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_doctype(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_dtdURL(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_dtdURL(@as(*const IXMLDocument2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_createElement(self: *const T, vType: VARIANT, var1: VARIANT, ppElem: ?*?*IXMLElement2) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).createElement(@as(*const IXMLDocument2, @ptrCast(self)), vType, var1, ppElem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_get_async(self: *const T, pf: ?*i16) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_async(@as(*const IXMLDocument2, @ptrCast(self)), pf);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDocument2_put_async(self: *const T, f: i16) HRESULT {
-                return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).put_async(@as(*const IXMLDocument2, @ptrCast(self)), f);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_root(self: *const T, p: ?*?*IXMLElement2) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_root(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_fileSize(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_fileSize(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_fileModifiedDate(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_fileModifiedDate(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_fileUpdatedDate(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_fileUpdatedDate(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_URL(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_URL(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_put_URL(self: *const T, p: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).put_URL(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_mimeType(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_mimeType(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_readyState(self: *const T, pl: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLDocument2, @ptrCast(self)), pl);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_charset(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_charset(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_put_charset(self: *const T, p: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).put_charset(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_version(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_version(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_doctype(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_doctype(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_dtdURL(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_dtdURL(@as(*const IXMLDocument2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_createElement(self: *const T, vType: VARIANT, var1: VARIANT, ppElem: ?*?*IXMLElement2) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).createElement(@as(*const IXMLDocument2, @ptrCast(self)), vType, var1, ppElem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_get_async(self: *const T, pf: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).get_async(@as(*const IXMLDocument2, @ptrCast(self)), pf);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDocument2_put_async(self: *const T, f: i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDocument2.VTable, @ptrCast(self.vtable)).put_async(@as(*const IXMLDocument2, @ptrCast(self)), f);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -4117,12 +4061,12 @@ pub const IXMLElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_tagName: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4130,12 +4074,12 @@ pub const IXMLElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_tagName: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4143,46 +4087,46 @@ pub const IXMLElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_parent: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 ppParent: ?*?*IXMLElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 ppParent: ?*?*IXMLElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 strPropertyName: ?BSTR,
                 PropertyValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 strPropertyName: ?BSTR,
                 PropertyValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 strPropertyName: ?BSTR,
                 PropertyValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 strPropertyName: ?BSTR,
                 PropertyValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 strPropertyName: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 strPropertyName: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4190,12 +4134,12 @@ pub const IXMLElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_children: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 pp: ?*?*IXMLElementCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 pp: ?*?*IXMLElementCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4203,12 +4147,12 @@ pub const IXMLElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_type: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 plType: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 plType: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4216,12 +4160,12 @@ pub const IXMLElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_text: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4229,24 +4173,24 @@ pub const IXMLElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_text: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         addChild: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 pChildElem: ?*IXMLElement,
                 lIndex: i32,
                 lReserved: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 pChildElem: ?*IXMLElement,
                 lIndex: i32,
@@ -4254,70 +4198,68 @@ pub const IXMLElement = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeChild: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement,
                 pChildElem: ?*IXMLElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement,
                 pChildElem: ?*IXMLElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_get_tagName(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).get_tagName(@as(*const IXMLElement, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_put_tagName(self: *const T, p: ?BSTR) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).put_tagName(@as(*const IXMLElement, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_get_parent(self: *const T, ppParent: ?*?*IXMLElement) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).get_parent(@as(*const IXMLElement, @ptrCast(self)), ppParent);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_setAttribute(self: *const T, strPropertyName: ?BSTR, PropertyValue: VARIANT) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).setAttribute(@as(*const IXMLElement, @ptrCast(self)), strPropertyName, PropertyValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_getAttribute(self: *const T, strPropertyName: ?BSTR, PropertyValue: ?*VARIANT) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).getAttribute(@as(*const IXMLElement, @ptrCast(self)), strPropertyName, PropertyValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_removeAttribute(self: *const T, strPropertyName: ?BSTR) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).removeAttribute(@as(*const IXMLElement, @ptrCast(self)), strPropertyName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_get_children(self: *const T, pp: ?*?*IXMLElementCollection) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).get_children(@as(*const IXMLElement, @ptrCast(self)), pp);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_get_type(self: *const T, plType: ?*i32) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).get_type(@as(*const IXMLElement, @ptrCast(self)), plType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_get_text(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).get_text(@as(*const IXMLElement, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_put_text(self: *const T, p: ?BSTR) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).put_text(@as(*const IXMLElement, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_addChild(self: *const T, pChildElem: ?*IXMLElement, lIndex: i32, lReserved: i32) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).addChild(@as(*const IXMLElement, @ptrCast(self)), pChildElem, lIndex, lReserved);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement_removeChild(self: *const T, pChildElem: ?*IXMLElement) HRESULT {
-                return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).removeChild(@as(*const IXMLElement, @ptrCast(self)), pChildElem);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_get_tagName(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).get_tagName(@as(*const IXMLElement, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_put_tagName(self: *const T, p: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).put_tagName(@as(*const IXMLElement, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_get_parent(self: *const T, ppParent: ?*?*IXMLElement) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).get_parent(@as(*const IXMLElement, @ptrCast(self)), ppParent);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_setAttribute(self: *const T, strPropertyName: ?BSTR, PropertyValue: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).setAttribute(@as(*const IXMLElement, @ptrCast(self)), strPropertyName, PropertyValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_getAttribute(self: *const T, strPropertyName: ?BSTR, PropertyValue: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).getAttribute(@as(*const IXMLElement, @ptrCast(self)), strPropertyName, PropertyValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_removeAttribute(self: *const T, strPropertyName: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).removeAttribute(@as(*const IXMLElement, @ptrCast(self)), strPropertyName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_get_children(self: *const T, pp: ?*?*IXMLElementCollection) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).get_children(@as(*const IXMLElement, @ptrCast(self)), pp);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_get_type(self: *const T, plType: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).get_type(@as(*const IXMLElement, @ptrCast(self)), plType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_get_text(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).get_text(@as(*const IXMLElement, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_put_text(self: *const T, p: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).put_text(@as(*const IXMLElement, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_addChild(self: *const T, pChildElem: ?*IXMLElement, lIndex: i32, lReserved: i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).addChild(@as(*const IXMLElement, @ptrCast(self)), pChildElem, lIndex, lReserved);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement_removeChild(self: *const T, pChildElem: ?*IXMLElement) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement.VTable, @ptrCast(self.vtable)).removeChild(@as(*const IXMLElement, @ptrCast(self)), pChildElem);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -4329,12 +4271,12 @@ pub const IXMLElement2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_tagName: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4342,12 +4284,12 @@ pub const IXMLElement2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_tagName: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4355,46 +4297,46 @@ pub const IXMLElement2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_parent: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 ppParent: ?*?*IXMLElement2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 ppParent: ?*?*IXMLElement2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 strPropertyName: ?BSTR,
                 PropertyValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 strPropertyName: ?BSTR,
                 PropertyValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 strPropertyName: ?BSTR,
                 PropertyValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 strPropertyName: ?BSTR,
                 PropertyValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 strPropertyName: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 strPropertyName: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4402,12 +4344,12 @@ pub const IXMLElement2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_children: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 pp: ?*?*IXMLElementCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 pp: ?*?*IXMLElementCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4415,12 +4357,12 @@ pub const IXMLElement2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_type: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 plType: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 plType: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4428,12 +4370,12 @@ pub const IXMLElement2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_text: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 p: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4441,24 +4383,24 @@ pub const IXMLElement2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_text: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 p: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         addChild: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 pChildElem: ?*IXMLElement2,
                 lIndex: i32,
                 lReserved: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 pChildElem: ?*IXMLElement2,
                 lIndex: i32,
@@ -4466,11 +4408,11 @@ pub const IXMLElement2 = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeChild: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 pChildElem: ?*IXMLElement2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 pChildElem: ?*IXMLElement2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4478,75 +4420,73 @@ pub const IXMLElement2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_attributes: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLElement2,
                 pp: ?*?*IXMLElementCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLElement2,
                 pp: ?*?*IXMLElementCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_get_tagName(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_tagName(@as(*const IXMLElement2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_put_tagName(self: *const T, p: ?BSTR) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).put_tagName(@as(*const IXMLElement2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_get_parent(self: *const T, ppParent: ?*?*IXMLElement2) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_parent(@as(*const IXMLElement2, @ptrCast(self)), ppParent);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_setAttribute(self: *const T, strPropertyName: ?BSTR, PropertyValue: VARIANT) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).setAttribute(@as(*const IXMLElement2, @ptrCast(self)), strPropertyName, PropertyValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_getAttribute(self: *const T, strPropertyName: ?BSTR, PropertyValue: ?*VARIANT) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).getAttribute(@as(*const IXMLElement2, @ptrCast(self)), strPropertyName, PropertyValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_removeAttribute(self: *const T, strPropertyName: ?BSTR) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).removeAttribute(@as(*const IXMLElement2, @ptrCast(self)), strPropertyName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_get_children(self: *const T, pp: ?*?*IXMLElementCollection) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_children(@as(*const IXMLElement2, @ptrCast(self)), pp);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_get_type(self: *const T, plType: ?*i32) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_type(@as(*const IXMLElement2, @ptrCast(self)), plType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_get_text(self: *const T, p: ?*?BSTR) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_text(@as(*const IXMLElement2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_put_text(self: *const T, p: ?BSTR) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).put_text(@as(*const IXMLElement2, @ptrCast(self)), p);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_addChild(self: *const T, pChildElem: ?*IXMLElement2, lIndex: i32, lReserved: i32) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).addChild(@as(*const IXMLElement2, @ptrCast(self)), pChildElem, lIndex, lReserved);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_removeChild(self: *const T, pChildElem: ?*IXMLElement2) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).removeChild(@as(*const IXMLElement2, @ptrCast(self)), pChildElem);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLElement2_get_attributes(self: *const T, pp: ?*?*IXMLElementCollection) HRESULT {
-                return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_attributes(@as(*const IXMLElement2, @ptrCast(self)), pp);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_get_tagName(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_tagName(@as(*const IXMLElement2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_put_tagName(self: *const T, p: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).put_tagName(@as(*const IXMLElement2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_get_parent(self: *const T, ppParent: ?*?*IXMLElement2) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_parent(@as(*const IXMLElement2, @ptrCast(self)), ppParent);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_setAttribute(self: *const T, strPropertyName: ?BSTR, PropertyValue: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).setAttribute(@as(*const IXMLElement2, @ptrCast(self)), strPropertyName, PropertyValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_getAttribute(self: *const T, strPropertyName: ?BSTR, PropertyValue: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).getAttribute(@as(*const IXMLElement2, @ptrCast(self)), strPropertyName, PropertyValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_removeAttribute(self: *const T, strPropertyName: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).removeAttribute(@as(*const IXMLElement2, @ptrCast(self)), strPropertyName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_get_children(self: *const T, pp: ?*?*IXMLElementCollection) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_children(@as(*const IXMLElement2, @ptrCast(self)), pp);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_get_type(self: *const T, plType: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_type(@as(*const IXMLElement2, @ptrCast(self)), plType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_get_text(self: *const T, p: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_text(@as(*const IXMLElement2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_put_text(self: *const T, p: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).put_text(@as(*const IXMLElement2, @ptrCast(self)), p);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_addChild(self: *const T, pChildElem: ?*IXMLElement2, lIndex: i32, lReserved: i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).addChild(@as(*const IXMLElement2, @ptrCast(self)), pChildElem, lIndex, lReserved);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_removeChild(self: *const T, pChildElem: ?*IXMLElement2) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).removeChild(@as(*const IXMLElement2, @ptrCast(self)), pChildElem);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLElement2_get_attributes(self: *const T, pp: ?*?*IXMLElementCollection) callconv(.Inline) HRESULT {
+            return @as(*const IXMLElement2.VTable, @ptrCast(self.vtable)).get_attributes(@as(*const IXMLElement2, @ptrCast(self)), pp);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -4558,12 +4498,12 @@ pub const IXMLAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_name: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLAttribute,
                 n: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLAttribute,
                 n: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4571,31 +4511,29 @@ pub const IXMLAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_value: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLAttribute,
                 v: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLAttribute,
                 v: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLAttribute_get_name(self: *const T, n: ?*?BSTR) HRESULT {
-                return @as(*const IXMLAttribute.VTable, @ptrCast(self.vtable)).get_name(@as(*const IXMLAttribute, @ptrCast(self)), n);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLAttribute_get_value(self: *const T, v: ?*?BSTR) HRESULT {
-                return @as(*const IXMLAttribute.VTable, @ptrCast(self.vtable)).get_value(@as(*const IXMLAttribute, @ptrCast(self)), v);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLAttribute_get_name(self: *const T, n: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLAttribute.VTable, @ptrCast(self.vtable)).get_name(@as(*const IXMLAttribute, @ptrCast(self)), n);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLAttribute_get_value(self: *const T, v: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLAttribute.VTable, @ptrCast(self.vtable)).get_value(@as(*const IXMLAttribute, @ptrCast(self)), v);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -4605,26 +4543,24 @@ pub const IXMLError = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         GetErrorInfo: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLError,
                 pErrorReturn: ?*XML_ERROR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLError,
                 pErrorReturn: ?*XML_ERROR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLError_GetErrorInfo(self: *const T, pErrorReturn: ?*XML_ERROR) HRESULT {
-                return @as(*const IXMLError.VTable, @ptrCast(self.vtable)).GetErrorInfo(@as(*const IXMLError, @ptrCast(self)), pErrorReturn);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLError_GetErrorInfo(self: *const T, pErrorReturn: ?*XML_ERROR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLError.VTable, @ptrCast(self.vtable)).GetErrorInfo(@as(*const IXMLError, @ptrCast(self)), pErrorReturn);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -4672,12 +4608,12 @@ pub const IXMLDOMDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_namespaces: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument2,
                 namespaceCollection: ?*?*IXMLDOMSchemaCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument2,
                 namespaceCollection: ?*?*IXMLDOMSchemaCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4685,55 +4621,55 @@ pub const IXMLDOMDocument2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_schemas: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument2,
                 otherCollection: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument2,
                 otherCollection: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_schemas: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument2,
                 otherCollection: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument2,
                 otherCollection: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         validate: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument2,
                 errorObj: ?*?*IXMLDOMParseError,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument2,
                 errorObj: ?*?*IXMLDOMParseError,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument2,
                 name: ?BSTR,
                 value: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument2,
                 name: ?BSTR,
                 value: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument2,
                 name: ?BSTR,
                 value: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument2,
                 name: ?BSTR,
                 value: ?*VARIANT,
@@ -4741,35 +4677,33 @@ pub const IXMLDOMDocument2 = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMDocument.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument2_get_namespaces(self: *const T, namespaceCollection: ?*?*IXMLDOMSchemaCollection) HRESULT {
-                return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).get_namespaces(@as(*const IXMLDOMDocument2, @ptrCast(self)), namespaceCollection);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument2_get_schemas(self: *const T, otherCollection: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).get_schemas(@as(*const IXMLDOMDocument2, @ptrCast(self)), otherCollection);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument2_putref_schemas(self: *const T, otherCollection: VARIANT) HRESULT {
-                return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).putref_schemas(@as(*const IXMLDOMDocument2, @ptrCast(self)), otherCollection);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument2_validate(self: *const T, errorObj: ?*?*IXMLDOMParseError) HRESULT {
-                return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).validate(@as(*const IXMLDOMDocument2, @ptrCast(self)), errorObj);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument2_setProperty(self: *const T, name: ?BSTR, value: VARIANT) HRESULT {
-                return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).setProperty(@as(*const IXMLDOMDocument2, @ptrCast(self)), name, value);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument2_getProperty(self: *const T, name: ?BSTR, value: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).getProperty(@as(*const IXMLDOMDocument2, @ptrCast(self)), name, value);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMDocument.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument2_get_namespaces(self: *const T, namespaceCollection: ?*?*IXMLDOMSchemaCollection) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).get_namespaces(@as(*const IXMLDOMDocument2, @ptrCast(self)), namespaceCollection);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument2_get_schemas(self: *const T, otherCollection: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).get_schemas(@as(*const IXMLDOMDocument2, @ptrCast(self)), otherCollection);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument2_putref_schemas(self: *const T, otherCollection: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).putref_schemas(@as(*const IXMLDOMDocument2, @ptrCast(self)), otherCollection);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument2_validate(self: *const T, errorObj: ?*?*IXMLDOMParseError) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).validate(@as(*const IXMLDOMDocument2, @ptrCast(self)), errorObj);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument2_setProperty(self: *const T, name: ?BSTR, value: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).setProperty(@as(*const IXMLDOMDocument2, @ptrCast(self)), name, value);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument2_getProperty(self: *const T, name: ?BSTR, value: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument2.VTable, @ptrCast(self.vtable)).getProperty(@as(*const IXMLDOMDocument2, @ptrCast(self)), name, value);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -4779,25 +4713,25 @@ pub const IXMLDOMDocument3 = extern struct {
     pub const VTable = extern struct {
         base: IXMLDOMDocument2.VTable,
         validateNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument3,
                 node: ?*IXMLDOMNode,
                 errorObj: ?*?*IXMLDOMParseError,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument3,
                 node: ?*IXMLDOMNode,
                 errorObj: ?*?*IXMLDOMParseError,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         importNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMDocument3,
                 node: ?*IXMLDOMNode,
                 deep: i16,
                 clone: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMDocument3,
                 node: ?*IXMLDOMNode,
                 deep: i16,
@@ -4806,19 +4740,17 @@ pub const IXMLDOMDocument3 = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMDocument2.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument3_validateNode(self: *const T, node: ?*IXMLDOMNode, errorObj: ?*?*IXMLDOMParseError) HRESULT {
-                return @as(*const IXMLDOMDocument3.VTable, @ptrCast(self.vtable)).validateNode(@as(*const IXMLDOMDocument3, @ptrCast(self)), node, errorObj);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMDocument3_importNode(self: *const T, node: ?*IXMLDOMNode, deep: i16, clone: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMDocument3.VTable, @ptrCast(self.vtable)).importNode(@as(*const IXMLDOMDocument3, @ptrCast(self)), node, deep, clone);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMDocument2.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument3_validateNode(self: *const T, node: ?*IXMLDOMNode, errorObj: ?*?*IXMLDOMParseError) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument3.VTable, @ptrCast(self.vtable)).validateNode(@as(*const IXMLDOMDocument3, @ptrCast(self)), node, errorObj);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMDocument3_importNode(self: *const T, node: ?*IXMLDOMNode, deep: i16, clone: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMDocument3.VTable, @ptrCast(self.vtable)).importNode(@as(*const IXMLDOMDocument3, @ptrCast(self)), node, deep, clone);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -4828,35 +4760,35 @@ pub const IXMLDOMSchemaCollection = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         add: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection,
                 namespaceURI: ?BSTR,
                 @"var": VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection,
                 namespaceURI: ?BSTR,
                 @"var": VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         get: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection,
                 namespaceURI: ?BSTR,
                 schemaNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection,
                 namespaceURI: ?BSTR,
                 schemaNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         remove: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection,
                 namespaceURI: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection,
                 namespaceURI: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4864,37 +4796,34 @@ pub const IXMLDOMSchemaCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection,
                 length: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection,
                 length: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
-        // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_namespaceURI: switch (@import("builtin").zig_backend) {
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection,
                 index: i32,
                 length: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection,
                 index: i32,
                 length: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         addCollection: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection,
                 otherCollection: ?*IXMLDOMSchemaCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection,
                 otherCollection: ?*IXMLDOMSchemaCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4902,51 +4831,49 @@ pub const IXMLDOMSchemaCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get__newEnum: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection,
                 ppUnk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection,
                 ppUnk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection_add(self: *const T, namespaceURI: ?BSTR, @"var": VARIANT) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).add(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), namespaceURI, @"var");
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection_get(self: *const T, namespaceURI: ?BSTR, schemaNode: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).get(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), namespaceURI, schemaNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection_remove(self: *const T, namespaceURI: ?BSTR) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).remove(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), namespaceURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection_get_length(self: *const T, length: ?*i32) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), length);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection_get_namespaceURI(self: *const T, index: i32, length: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).get_namespaceURI(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), index, length);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection_addCollection(self: *const T, otherCollection: ?*IXMLDOMSchemaCollection) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).addCollection(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), otherCollection);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection_get__newEnum(self: *const T, ppUnk: ?*?*IUnknown) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), ppUnk);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection_add(self: *const T, namespaceURI: ?BSTR, @"var": VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).add(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), namespaceURI, @"var");
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection_get(self: *const T, namespaceURI: ?BSTR, schemaNode: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).get(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), namespaceURI, schemaNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection_remove(self: *const T, namespaceURI: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).remove(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), namespaceURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection_get_length(self: *const T, length: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), length);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection_get_namespaceURI(self: *const T, index: i32, length: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).get_namespaceURI(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), index, length);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection_addCollection(self: *const T, otherCollection: ?*IXMLDOMSchemaCollection) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).addCollection(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), otherCollection);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection_get__newEnum(self: *const T, ppUnk: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IXMLDOMSchemaCollection, @ptrCast(self)), ppUnk);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -4958,12 +4885,12 @@ pub const IXMLDOMSelection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_expr: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
                 expression: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
                 expression: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4971,12 +4898,12 @@ pub const IXMLDOMSelection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_expr: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
                 expression: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
                 expression: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -4984,95 +4911,95 @@ pub const IXMLDOMSelection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_context: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
                 ppNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
                 ppNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_context: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
                 pNode: ?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
                 pNode: ?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         peekNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
                 ppNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
                 ppNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         matches: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
                 pNode: ?*IXMLDOMNode,
                 ppNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
                 pNode: ?*IXMLDOMNode,
                 ppNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeNext: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
                 ppNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
                 ppNode: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeAll: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         clone: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
                 ppNode: ?*?*IXMLDOMSelection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
                 ppNode: ?*?*IXMLDOMSelection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
                 name: ?BSTR,
                 value: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
                 name: ?BSTR,
                 value: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSelection,
                 name: ?BSTR,
                 value: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSelection,
                 name: ?BSTR,
                 value: VARIANT,
@@ -5080,55 +5007,53 @@ pub const IXMLDOMSelection = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMNodeList.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_get_expr(self: *const T, expression: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).get_expr(@as(*const IXMLDOMSelection, @ptrCast(self)), expression);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_put_expr(self: *const T, expression: ?BSTR) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).put_expr(@as(*const IXMLDOMSelection, @ptrCast(self)), expression);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_get_context(self: *const T, ppNode: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).get_context(@as(*const IXMLDOMSelection, @ptrCast(self)), ppNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_putref_context(self: *const T, pNode: ?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).putref_context(@as(*const IXMLDOMSelection, @ptrCast(self)), pNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_peekNode(self: *const T, ppNode: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).peekNode(@as(*const IXMLDOMSelection, @ptrCast(self)), ppNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_matches(self: *const T, pNode: ?*IXMLDOMNode, ppNode: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).matches(@as(*const IXMLDOMSelection, @ptrCast(self)), pNode, ppNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_removeNext(self: *const T, ppNode: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).removeNext(@as(*const IXMLDOMSelection, @ptrCast(self)), ppNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_removeAll(self: *const T) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).removeAll(@as(*const IXMLDOMSelection, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_clone(self: *const T, ppNode: ?*?*IXMLDOMSelection) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).clone(@as(*const IXMLDOMSelection, @ptrCast(self)), ppNode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_getProperty(self: *const T, name: ?BSTR, value: ?*VARIANT) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).getProperty(@as(*const IXMLDOMSelection, @ptrCast(self)), name, value);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSelection_setProperty(self: *const T, name: ?BSTR, value: VARIANT) HRESULT {
-                return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).setProperty(@as(*const IXMLDOMSelection, @ptrCast(self)), name, value);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMNodeList.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_get_expr(self: *const T, expression: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).get_expr(@as(*const IXMLDOMSelection, @ptrCast(self)), expression);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_put_expr(self: *const T, expression: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).put_expr(@as(*const IXMLDOMSelection, @ptrCast(self)), expression);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_get_context(self: *const T, ppNode: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).get_context(@as(*const IXMLDOMSelection, @ptrCast(self)), ppNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_putref_context(self: *const T, pNode: ?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).putref_context(@as(*const IXMLDOMSelection, @ptrCast(self)), pNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_peekNode(self: *const T, ppNode: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).peekNode(@as(*const IXMLDOMSelection, @ptrCast(self)), ppNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_matches(self: *const T, pNode: ?*IXMLDOMNode, ppNode: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).matches(@as(*const IXMLDOMSelection, @ptrCast(self)), pNode, ppNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_removeNext(self: *const T, ppNode: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).removeNext(@as(*const IXMLDOMSelection, @ptrCast(self)), ppNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_removeAll(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).removeAll(@as(*const IXMLDOMSelection, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_clone(self: *const T, ppNode: ?*?*IXMLDOMSelection) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).clone(@as(*const IXMLDOMSelection, @ptrCast(self)), ppNode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_getProperty(self: *const T, name: ?BSTR, value: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).getProperty(@as(*const IXMLDOMSelection, @ptrCast(self)), name, value);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSelection_setProperty(self: *const T, name: ?BSTR, value: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSelection.VTable, @ptrCast(self.vtable)).setProperty(@as(*const IXMLDOMSelection, @ptrCast(self)), name, value);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -5140,12 +5065,12 @@ pub const IXMLDOMParseError2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_errorXPath: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError2,
                 xpathexpr: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError2,
                 xpathexpr: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5153,23 +5078,23 @@ pub const IXMLDOMParseError2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_allErrors: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError2,
                 allErrors: ?*?*IXMLDOMParseErrorCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError2,
                 allErrors: ?*?*IXMLDOMParseErrorCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         errorParameters: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError2,
                 index: i32,
                 param1: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError2,
                 index: i32,
                 param1: ?*?BSTR,
@@ -5178,39 +5103,37 @@ pub const IXMLDOMParseError2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_errorParametersCount: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseError2,
                 count: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseError2,
                 count: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMParseError.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError2_get_errorXPath(self: *const T, xpathexpr: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMParseError2.VTable, @ptrCast(self.vtable)).get_errorXPath(@as(*const IXMLDOMParseError2, @ptrCast(self)), xpathexpr);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError2_get_allErrors(self: *const T, allErrors: ?*?*IXMLDOMParseErrorCollection) HRESULT {
-                return @as(*const IXMLDOMParseError2.VTable, @ptrCast(self.vtable)).get_allErrors(@as(*const IXMLDOMParseError2, @ptrCast(self)), allErrors);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError2_errorParameters(self: *const T, index: i32, param1: ?*?BSTR) HRESULT {
-                return @as(*const IXMLDOMParseError2.VTable, @ptrCast(self.vtable)).errorParameters(@as(*const IXMLDOMParseError2, @ptrCast(self)), index, param1);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseError2_get_errorParametersCount(self: *const T, count: ?*i32) HRESULT {
-                return @as(*const IXMLDOMParseError2.VTable, @ptrCast(self.vtable)).get_errorParametersCount(@as(*const IXMLDOMParseError2, @ptrCast(self)), count);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMParseError.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError2_get_errorXPath(self: *const T, xpathexpr: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError2.VTable, @ptrCast(self.vtable)).get_errorXPath(@as(*const IXMLDOMParseError2, @ptrCast(self)), xpathexpr);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError2_get_allErrors(self: *const T, allErrors: ?*?*IXMLDOMParseErrorCollection) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError2.VTable, @ptrCast(self.vtable)).get_allErrors(@as(*const IXMLDOMParseError2, @ptrCast(self)), allErrors);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError2_errorParameters(self: *const T, index: i32, param1: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError2.VTable, @ptrCast(self.vtable)).errorParameters(@as(*const IXMLDOMParseError2, @ptrCast(self)), index, param1);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseError2_get_errorParametersCount(self: *const T, count: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseError2.VTable, @ptrCast(self.vtable)).get_errorParametersCount(@as(*const IXMLDOMParseError2, @ptrCast(self)), count);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -5219,16 +5142,13 @@ pub const IID_IXMLDOMParseErrorCollection = &IID_IXMLDOMParseErrorCollection_Val
 pub const IXMLDOMParseErrorCollection = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
-        // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_item: switch (@import("builtin").zig_backend) {
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseErrorCollection,
                 index: i32,
                 @"error": ?*?*IXMLDOMParseError2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseErrorCollection,
                 index: i32,
                 @"error": ?*?*IXMLDOMParseError2,
@@ -5237,12 +5157,12 @@ pub const IXMLDOMParseErrorCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseErrorCollection,
                 length: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseErrorCollection,
                 length: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5250,64 +5170,62 @@ pub const IXMLDOMParseErrorCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_next: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseErrorCollection,
                 @"error": ?*?*IXMLDOMParseError2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseErrorCollection,
                 @"error": ?*?*IXMLDOMParseError2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         reset: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseErrorCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseErrorCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get__newEnum: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMParseErrorCollection,
                 ppunk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMParseErrorCollection,
                 ppunk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseErrorCollection_get_item(self: *const T, index: i32, @"error": ?*?*IXMLDOMParseError2) HRESULT {
-                return @as(*const IXMLDOMParseErrorCollection.VTable, @ptrCast(self.vtable)).get_item(@as(*const IXMLDOMParseErrorCollection, @ptrCast(self)), index, @"error");
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseErrorCollection_get_length(self: *const T, length: ?*i32) HRESULT {
-                return @as(*const IXMLDOMParseErrorCollection.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLDOMParseErrorCollection, @ptrCast(self)), length);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseErrorCollection_get_next(self: *const T, @"error": ?*?*IXMLDOMParseError2) HRESULT {
-                return @as(*const IXMLDOMParseErrorCollection.VTable, @ptrCast(self.vtable)).get_next(@as(*const IXMLDOMParseErrorCollection, @ptrCast(self)), @"error");
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseErrorCollection_reset(self: *const T) HRESULT {
-                return @as(*const IXMLDOMParseErrorCollection.VTable, @ptrCast(self.vtable)).reset(@as(*const IXMLDOMParseErrorCollection, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMParseErrorCollection_get__newEnum(self: *const T, ppunk: ?*?*IUnknown) HRESULT {
-                return @as(*const IXMLDOMParseErrorCollection.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IXMLDOMParseErrorCollection, @ptrCast(self)), ppunk);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseErrorCollection_get_item(self: *const T, index: i32, @"error": ?*?*IXMLDOMParseError2) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseErrorCollection.VTable, @ptrCast(self.vtable)).get_item(@as(*const IXMLDOMParseErrorCollection, @ptrCast(self)), index, @"error");
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseErrorCollection_get_length(self: *const T, length: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseErrorCollection.VTable, @ptrCast(self.vtable)).get_length(@as(*const IXMLDOMParseErrorCollection, @ptrCast(self)), length);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseErrorCollection_get_next(self: *const T, @"error": ?*?*IXMLDOMParseError2) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseErrorCollection.VTable, @ptrCast(self.vtable)).get_next(@as(*const IXMLDOMParseErrorCollection, @ptrCast(self)), @"error");
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseErrorCollection_reset(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseErrorCollection.VTable, @ptrCast(self.vtable)).reset(@as(*const IXMLDOMParseErrorCollection, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMParseErrorCollection_get__newEnum(self: *const T, ppunk: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMParseErrorCollection.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IXMLDOMParseErrorCollection, @ptrCast(self)), ppunk);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -5319,12 +5237,12 @@ pub const IXSLProcessor = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_input: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 @"var": VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 @"var": VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5332,12 +5250,12 @@ pub const IXSLProcessor = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_input: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 pVar: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 pVar: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5345,23 +5263,23 @@ pub const IXSLProcessor = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_ownerTemplate: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 ppTemplate: ?*?*IXSLTemplate,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 ppTemplate: ?*?*IXSLTemplate,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setStartMode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 mode: ?BSTR,
                 namespaceURI: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 mode: ?BSTR,
                 namespaceURI: ?BSTR,
@@ -5370,12 +5288,12 @@ pub const IXSLProcessor = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_startMode: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 mode: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 mode: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5383,12 +5301,12 @@ pub const IXSLProcessor = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_startModeURI: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 namespaceURI: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 namespaceURI: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5396,12 +5314,12 @@ pub const IXSLProcessor = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_output: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 output: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 output: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5409,55 +5327,55 @@ pub const IXSLProcessor = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_output: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 pOutput: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 pOutput: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         transform: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 pDone: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 pDone: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         reset: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_readyState: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 pReadyState: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 pReadyState: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         addParameter: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 baseName: ?BSTR,
                 parameter: VARIANT,
                 namespaceURI: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 baseName: ?BSTR,
                 parameter: VARIANT,
@@ -5465,12 +5383,12 @@ pub const IXSLProcessor = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         addObject: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 obj: ?*IDispatch,
                 namespaceURI: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 obj: ?*IDispatch,
                 namespaceURI: ?BSTR,
@@ -5479,79 +5397,77 @@ pub const IXSLProcessor = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_stylesheet: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLProcessor,
                 stylesheet: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLProcessor,
                 stylesheet: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_put_input(self: *const T, @"var": VARIANT) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).put_input(@as(*const IXSLProcessor, @ptrCast(self)), @"var");
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_get_input(self: *const T, pVar: ?*VARIANT) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_input(@as(*const IXSLProcessor, @ptrCast(self)), pVar);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_get_ownerTemplate(self: *const T, ppTemplate: ?*?*IXSLTemplate) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_ownerTemplate(@as(*const IXSLProcessor, @ptrCast(self)), ppTemplate);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_setStartMode(self: *const T, mode: ?BSTR, namespaceURI: ?BSTR) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).setStartMode(@as(*const IXSLProcessor, @ptrCast(self)), mode, namespaceURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_get_startMode(self: *const T, mode: ?*?BSTR) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_startMode(@as(*const IXSLProcessor, @ptrCast(self)), mode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_get_startModeURI(self: *const T, namespaceURI: ?*?BSTR) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_startModeURI(@as(*const IXSLProcessor, @ptrCast(self)), namespaceURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_put_output(self: *const T, output: VARIANT) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).put_output(@as(*const IXSLProcessor, @ptrCast(self)), output);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_get_output(self: *const T, pOutput: ?*VARIANT) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_output(@as(*const IXSLProcessor, @ptrCast(self)), pOutput);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_transform(self: *const T, pDone: ?*i16) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).transform(@as(*const IXSLProcessor, @ptrCast(self)), pDone);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_reset(self: *const T) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).reset(@as(*const IXSLProcessor, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_get_readyState(self: *const T, pReadyState: ?*i32) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXSLProcessor, @ptrCast(self)), pReadyState);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_addParameter(self: *const T, baseName: ?BSTR, parameter: VARIANT, namespaceURI: ?BSTR) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).addParameter(@as(*const IXSLProcessor, @ptrCast(self)), baseName, parameter, namespaceURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_addObject(self: *const T, obj: ?*IDispatch, namespaceURI: ?BSTR) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).addObject(@as(*const IXSLProcessor, @ptrCast(self)), obj, namespaceURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLProcessor_get_stylesheet(self: *const T, stylesheet: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_stylesheet(@as(*const IXSLProcessor, @ptrCast(self)), stylesheet);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_put_input(self: *const T, @"var": VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).put_input(@as(*const IXSLProcessor, @ptrCast(self)), @"var");
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_get_input(self: *const T, pVar: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_input(@as(*const IXSLProcessor, @ptrCast(self)), pVar);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_get_ownerTemplate(self: *const T, ppTemplate: ?*?*IXSLTemplate) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_ownerTemplate(@as(*const IXSLProcessor, @ptrCast(self)), ppTemplate);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_setStartMode(self: *const T, mode: ?BSTR, namespaceURI: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).setStartMode(@as(*const IXSLProcessor, @ptrCast(self)), mode, namespaceURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_get_startMode(self: *const T, mode: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_startMode(@as(*const IXSLProcessor, @ptrCast(self)), mode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_get_startModeURI(self: *const T, namespaceURI: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_startModeURI(@as(*const IXSLProcessor, @ptrCast(self)), namespaceURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_put_output(self: *const T, output: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).put_output(@as(*const IXSLProcessor, @ptrCast(self)), output);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_get_output(self: *const T, pOutput: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_output(@as(*const IXSLProcessor, @ptrCast(self)), pOutput);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_transform(self: *const T, pDone: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).transform(@as(*const IXSLProcessor, @ptrCast(self)), pDone);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_reset(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).reset(@as(*const IXSLProcessor, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_get_readyState(self: *const T, pReadyState: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXSLProcessor, @ptrCast(self)), pReadyState);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_addParameter(self: *const T, baseName: ?BSTR, parameter: VARIANT, namespaceURI: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).addParameter(@as(*const IXSLProcessor, @ptrCast(self)), baseName, parameter, namespaceURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_addObject(self: *const T, obj: ?*IDispatch, namespaceURI: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).addObject(@as(*const IXSLProcessor, @ptrCast(self)), obj, namespaceURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLProcessor_get_stylesheet(self: *const T, stylesheet: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXSLProcessor.VTable, @ptrCast(self.vtable)).get_stylesheet(@as(*const IXSLProcessor, @ptrCast(self)), stylesheet);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -5561,11 +5477,11 @@ pub const IXSLTemplate = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         putref_stylesheet: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLTemplate,
                 stylesheet: ?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLTemplate,
                 stylesheet: ?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5573,45 +5489,43 @@ pub const IXSLTemplate = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_stylesheet: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLTemplate,
                 stylesheet: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLTemplate,
                 stylesheet: ?*?*IXMLDOMNode,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         createProcessor: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXSLTemplate,
                 ppProcessor: ?*?*IXSLProcessor,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXSLTemplate,
                 ppProcessor: ?*?*IXSLProcessor,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLTemplate_putref_stylesheet(self: *const T, stylesheet: ?*IXMLDOMNode) HRESULT {
-                return @as(*const IXSLTemplate.VTable, @ptrCast(self.vtable)).putref_stylesheet(@as(*const IXSLTemplate, @ptrCast(self)), stylesheet);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLTemplate_get_stylesheet(self: *const T, stylesheet: ?*?*IXMLDOMNode) HRESULT {
-                return @as(*const IXSLTemplate.VTable, @ptrCast(self.vtable)).get_stylesheet(@as(*const IXSLTemplate, @ptrCast(self)), stylesheet);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXSLTemplate_createProcessor(self: *const T, ppProcessor: ?*?*IXSLProcessor) HRESULT {
-                return @as(*const IXSLTemplate.VTable, @ptrCast(self.vtable)).createProcessor(@as(*const IXSLTemplate, @ptrCast(self)), ppProcessor);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLTemplate_putref_stylesheet(self: *const T, stylesheet: ?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXSLTemplate.VTable, @ptrCast(self.vtable)).putref_stylesheet(@as(*const IXSLTemplate, @ptrCast(self)), stylesheet);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLTemplate_get_stylesheet(self: *const T, stylesheet: ?*?*IXMLDOMNode) callconv(.Inline) HRESULT {
+            return @as(*const IXSLTemplate.VTable, @ptrCast(self.vtable)).get_stylesheet(@as(*const IXSLTemplate, @ptrCast(self)), stylesheet);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXSLTemplate_createProcessor(self: *const T, ppProcessor: ?*?*IXSLProcessor) callconv(.Inline) HRESULT {
+            return @as(*const IXSLTemplate.VTable, @ptrCast(self.vtable)).createProcessor(@as(*const IXSLTemplate, @ptrCast(self)), ppProcessor);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -5621,7 +5535,7 @@ pub const IXMLHTTPRequest = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         open: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 bstrMethod: ?BSTR,
                 bstrUrl: ?BSTR,
@@ -5629,7 +5543,7 @@ pub const IXMLHTTPRequest = extern struct {
                 bstrUser: VARIANT,
                 bstrPassword: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 bstrMethod: ?BSTR,
                 bstrUrl: ?BSTR,
@@ -5639,66 +5553,66 @@ pub const IXMLHTTPRequest = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setRequestHeader: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 bstrHeader: ?BSTR,
                 bstrValue: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 bstrHeader: ?BSTR,
                 bstrValue: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getResponseHeader: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 bstrHeader: ?BSTR,
                 pbstrValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 bstrHeader: ?BSTR,
                 pbstrValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getAllResponseHeaders: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 pbstrHeaders: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 pbstrHeaders: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         send: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 varBody: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 varBody: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         abort: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_status: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 plStatus: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 plStatus: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5706,12 +5620,12 @@ pub const IXMLHTTPRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_statusText: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 pbstrStatus: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 pbstrStatus: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5719,12 +5633,12 @@ pub const IXMLHTTPRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_responseXML: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 ppBody: ?*?*IDispatch,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 ppBody: ?*?*IDispatch,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5732,12 +5646,12 @@ pub const IXMLHTTPRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_responseText: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 pbstrBody: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 pbstrBody: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5745,12 +5659,12 @@ pub const IXMLHTTPRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_responseBody: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 pvarBody: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 pvarBody: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5758,12 +5672,12 @@ pub const IXMLHTTPRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_responseStream: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 pvarBody: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 pvarBody: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5771,12 +5685,12 @@ pub const IXMLHTTPRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_readyState: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 plState: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 plState: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -5784,79 +5698,77 @@ pub const IXMLHTTPRequest = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_onreadystatechange: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest,
                 pReadyStateSink: ?*IDispatch,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest,
                 pReadyStateSink: ?*IDispatch,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_open(self: *const T, bstrMethod: ?BSTR, bstrUrl: ?BSTR, varAsync: VARIANT, bstrUser: VARIANT, bstrPassword: VARIANT) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).open(@as(*const IXMLHTTPRequest, @ptrCast(self)), bstrMethod, bstrUrl, varAsync, bstrUser, bstrPassword);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_setRequestHeader(self: *const T, bstrHeader: ?BSTR, bstrValue: ?BSTR) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).setRequestHeader(@as(*const IXMLHTTPRequest, @ptrCast(self)), bstrHeader, bstrValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_getResponseHeader(self: *const T, bstrHeader: ?BSTR, pbstrValue: ?*?BSTR) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).getResponseHeader(@as(*const IXMLHTTPRequest, @ptrCast(self)), bstrHeader, pbstrValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_getAllResponseHeaders(self: *const T, pbstrHeaders: ?*?BSTR) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).getAllResponseHeaders(@as(*const IXMLHTTPRequest, @ptrCast(self)), pbstrHeaders);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_send(self: *const T, varBody: VARIANT) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).send(@as(*const IXMLHTTPRequest, @ptrCast(self)), varBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_abort(self: *const T) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).abort(@as(*const IXMLHTTPRequest, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_get_status(self: *const T, plStatus: ?*i32) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_status(@as(*const IXMLHTTPRequest, @ptrCast(self)), plStatus);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_get_statusText(self: *const T, pbstrStatus: ?*?BSTR) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_statusText(@as(*const IXMLHTTPRequest, @ptrCast(self)), pbstrStatus);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_get_responseXML(self: *const T, ppBody: ?*?*IDispatch) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_responseXML(@as(*const IXMLHTTPRequest, @ptrCast(self)), ppBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_get_responseText(self: *const T, pbstrBody: ?*?BSTR) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_responseText(@as(*const IXMLHTTPRequest, @ptrCast(self)), pbstrBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_get_responseBody(self: *const T, pvarBody: ?*VARIANT) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_responseBody(@as(*const IXMLHTTPRequest, @ptrCast(self)), pvarBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_get_responseStream(self: *const T, pvarBody: ?*VARIANT) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_responseStream(@as(*const IXMLHTTPRequest, @ptrCast(self)), pvarBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_get_readyState(self: *const T, plState: ?*i32) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLHTTPRequest, @ptrCast(self)), plState);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest_put_onreadystatechange(self: *const T, pReadyStateSink: ?*IDispatch) HRESULT {
-                return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).put_onreadystatechange(@as(*const IXMLHTTPRequest, @ptrCast(self)), pReadyStateSink);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_open(self: *const T, bstrMethod: ?BSTR, bstrUrl: ?BSTR, varAsync: VARIANT, bstrUser: VARIANT, bstrPassword: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).open(@as(*const IXMLHTTPRequest, @ptrCast(self)), bstrMethod, bstrUrl, varAsync, bstrUser, bstrPassword);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_setRequestHeader(self: *const T, bstrHeader: ?BSTR, bstrValue: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).setRequestHeader(@as(*const IXMLHTTPRequest, @ptrCast(self)), bstrHeader, bstrValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_getResponseHeader(self: *const T, bstrHeader: ?BSTR, pbstrValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).getResponseHeader(@as(*const IXMLHTTPRequest, @ptrCast(self)), bstrHeader, pbstrValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_getAllResponseHeaders(self: *const T, pbstrHeaders: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).getAllResponseHeaders(@as(*const IXMLHTTPRequest, @ptrCast(self)), pbstrHeaders);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_send(self: *const T, varBody: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).send(@as(*const IXMLHTTPRequest, @ptrCast(self)), varBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_abort(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).abort(@as(*const IXMLHTTPRequest, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_get_status(self: *const T, plStatus: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_status(@as(*const IXMLHTTPRequest, @ptrCast(self)), plStatus);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_get_statusText(self: *const T, pbstrStatus: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_statusText(@as(*const IXMLHTTPRequest, @ptrCast(self)), pbstrStatus);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_get_responseXML(self: *const T, ppBody: ?*?*IDispatch) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_responseXML(@as(*const IXMLHTTPRequest, @ptrCast(self)), ppBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_get_responseText(self: *const T, pbstrBody: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_responseText(@as(*const IXMLHTTPRequest, @ptrCast(self)), pbstrBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_get_responseBody(self: *const T, pvarBody: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_responseBody(@as(*const IXMLHTTPRequest, @ptrCast(self)), pvarBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_get_responseStream(self: *const T, pvarBody: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_responseStream(@as(*const IXMLHTTPRequest, @ptrCast(self)), pvarBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_get_readyState(self: *const T, plState: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).get_readyState(@as(*const IXMLHTTPRequest, @ptrCast(self)), plState);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest_put_onreadystatechange(self: *const T, pReadyStateSink: ?*IDispatch) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest.VTable, @ptrCast(self.vtable)).put_onreadystatechange(@as(*const IXMLHTTPRequest, @ptrCast(self)), pReadyStateSink);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -5903,14 +5815,14 @@ pub const IServerXMLHTTPRequest = extern struct {
     pub const VTable = extern struct {
         base: IXMLHTTPRequest.VTable,
         setTimeouts: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IServerXMLHTTPRequest,
                 resolveTimeout: i32,
                 connectTimeout: i32,
                 sendTimeout: i32,
                 receiveTimeout: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IServerXMLHTTPRequest,
                 resolveTimeout: i32,
                 connectTimeout: i32,
@@ -5919,36 +5831,36 @@ pub const IServerXMLHTTPRequest = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         waitForResponse: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IServerXMLHTTPRequest,
                 timeoutInSeconds: VARIANT,
                 isSuccessful: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IServerXMLHTTPRequest,
                 timeoutInSeconds: VARIANT,
                 isSuccessful: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getOption: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IServerXMLHTTPRequest,
                 option: SERVERXMLHTTP_OPTION,
                 value: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IServerXMLHTTPRequest,
                 option: SERVERXMLHTTP_OPTION,
                 value: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setOption: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IServerXMLHTTPRequest,
                 option: SERVERXMLHTTP_OPTION,
                 value: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IServerXMLHTTPRequest,
                 option: SERVERXMLHTTP_OPTION,
                 value: VARIANT,
@@ -5956,27 +5868,25 @@ pub const IServerXMLHTTPRequest = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLHTTPRequest.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IServerXMLHTTPRequest_setTimeouts(self: *const T, resolveTimeout: i32, connectTimeout: i32, sendTimeout: i32, receiveTimeout: i32) HRESULT {
-                return @as(*const IServerXMLHTTPRequest.VTable, @ptrCast(self.vtable)).setTimeouts(@as(*const IServerXMLHTTPRequest, @ptrCast(self)), resolveTimeout, connectTimeout, sendTimeout, receiveTimeout);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IServerXMLHTTPRequest_waitForResponse(self: *const T, timeoutInSeconds: VARIANT, isSuccessful: ?*i16) HRESULT {
-                return @as(*const IServerXMLHTTPRequest.VTable, @ptrCast(self.vtable)).waitForResponse(@as(*const IServerXMLHTTPRequest, @ptrCast(self)), timeoutInSeconds, isSuccessful);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IServerXMLHTTPRequest_getOption(self: *const T, option: SERVERXMLHTTP_OPTION, value: ?*VARIANT) HRESULT {
-                return @as(*const IServerXMLHTTPRequest.VTable, @ptrCast(self.vtable)).getOption(@as(*const IServerXMLHTTPRequest, @ptrCast(self)), option, value);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IServerXMLHTTPRequest_setOption(self: *const T, option: SERVERXMLHTTP_OPTION, value: VARIANT) HRESULT {
-                return @as(*const IServerXMLHTTPRequest.VTable, @ptrCast(self.vtable)).setOption(@as(*const IServerXMLHTTPRequest, @ptrCast(self)), option, value);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLHTTPRequest.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IServerXMLHTTPRequest_setTimeouts(self: *const T, resolveTimeout: i32, connectTimeout: i32, sendTimeout: i32, receiveTimeout: i32) callconv(.Inline) HRESULT {
+            return @as(*const IServerXMLHTTPRequest.VTable, @ptrCast(self.vtable)).setTimeouts(@as(*const IServerXMLHTTPRequest, @ptrCast(self)), resolveTimeout, connectTimeout, sendTimeout, receiveTimeout);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IServerXMLHTTPRequest_waitForResponse(self: *const T, timeoutInSeconds: VARIANT, isSuccessful: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IServerXMLHTTPRequest.VTable, @ptrCast(self.vtable)).waitForResponse(@as(*const IServerXMLHTTPRequest, @ptrCast(self)), timeoutInSeconds, isSuccessful);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IServerXMLHTTPRequest_getOption(self: *const T, option: SERVERXMLHTTP_OPTION, value: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IServerXMLHTTPRequest.VTable, @ptrCast(self.vtable)).getOption(@as(*const IServerXMLHTTPRequest, @ptrCast(self)), option, value);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IServerXMLHTTPRequest_setOption(self: *const T, option: SERVERXMLHTTP_OPTION, value: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IServerXMLHTTPRequest.VTable, @ptrCast(self.vtable)).setOption(@as(*const IServerXMLHTTPRequest, @ptrCast(self)), option, value);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -5986,13 +5896,13 @@ pub const IServerXMLHTTPRequest2 = extern struct {
     pub const VTable = extern struct {
         base: IServerXMLHTTPRequest.VTable,
         setProxy: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IServerXMLHTTPRequest2,
                 proxySetting: SXH_PROXY_SETTING,
                 varProxyServer: VARIANT,
                 varBypassList: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IServerXMLHTTPRequest2,
                 proxySetting: SXH_PROXY_SETTING,
                 varProxyServer: VARIANT,
@@ -6000,12 +5910,12 @@ pub const IServerXMLHTTPRequest2 = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setProxyCredentials: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IServerXMLHTTPRequest2,
                 bstrUserName: ?BSTR,
                 bstrPassword: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IServerXMLHTTPRequest2,
                 bstrUserName: ?BSTR,
                 bstrPassword: ?BSTR,
@@ -6013,19 +5923,17 @@ pub const IServerXMLHTTPRequest2 = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IServerXMLHTTPRequest.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IServerXMLHTTPRequest2_setProxy(self: *const T, proxySetting: SXH_PROXY_SETTING, varProxyServer: VARIANT, varBypassList: VARIANT) HRESULT {
-                return @as(*const IServerXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).setProxy(@as(*const IServerXMLHTTPRequest2, @ptrCast(self)), proxySetting, varProxyServer, varBypassList);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IServerXMLHTTPRequest2_setProxyCredentials(self: *const T, bstrUserName: ?BSTR, bstrPassword: ?BSTR) HRESULT {
-                return @as(*const IServerXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).setProxyCredentials(@as(*const IServerXMLHTTPRequest2, @ptrCast(self)), bstrUserName, bstrPassword);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IServerXMLHTTPRequest.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IServerXMLHTTPRequest2_setProxy(self: *const T, proxySetting: SXH_PROXY_SETTING, varProxyServer: VARIANT, varBypassList: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IServerXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).setProxy(@as(*const IServerXMLHTTPRequest2, @ptrCast(self)), proxySetting, varProxyServer, varBypassList);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IServerXMLHTTPRequest2_setProxyCredentials(self: *const T, bstrUserName: ?BSTR, bstrPassword: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IServerXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).setProxyCredentials(@as(*const IServerXMLHTTPRequest2, @ptrCast(self)), bstrUserName, bstrPassword);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -6035,272 +5943,270 @@ pub const ISAXXMLReader = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         getFeature: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pwchName: ?[*:0]const u16,
                 pvfValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pwchName: ?[*:0]const u16,
                 pvfValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putFeature: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pwchName: ?[*:0]const u16,
                 vfValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pwchName: ?[*:0]const u16,
                 vfValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pwchName: ?[*:0]const u16,
                 pvarValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pwchName: ?[*:0]const u16,
                 pvarValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pwchName: ?[*:0]const u16,
                 varValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pwchName: ?[*:0]const u16,
                 varValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getEntityResolver: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 ppResolver: ?*?*ISAXEntityResolver,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 ppResolver: ?*?*ISAXEntityResolver,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putEntityResolver: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pResolver: ?*ISAXEntityResolver,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pResolver: ?*ISAXEntityResolver,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getContentHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 ppHandler: ?*?*ISAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 ppHandler: ?*?*ISAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putContentHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pHandler: ?*ISAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pHandler: ?*ISAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getDTDHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 ppHandler: ?*?*ISAXDTDHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 ppHandler: ?*?*ISAXDTDHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putDTDHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pHandler: ?*ISAXDTDHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pHandler: ?*ISAXDTDHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getErrorHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 ppHandler: ?*?*ISAXErrorHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 ppHandler: ?*?*ISAXErrorHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putErrorHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pHandler: ?*ISAXErrorHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pHandler: ?*ISAXErrorHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getBaseURL: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 ppwchBaseUrl: ?*const ?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 ppwchBaseUrl: ?*const ?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putBaseURL: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pwchBaseUrl: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pwchBaseUrl: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getSecureBaseURL: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 ppwchSecureBaseUrl: ?*const ?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 ppwchSecureBaseUrl: ?*const ?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putSecureBaseURL: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pwchSecureBaseUrl: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pwchSecureBaseUrl: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         parse: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 varInput: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 varInput: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         parseURL: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLReader,
                 pwchUrl: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLReader,
                 pwchUrl: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_getFeature(self: *const T, pwchName: ?[*:0]const u16, pvfValue: ?*i16) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getFeature(@as(*const ISAXXMLReader, @ptrCast(self)), pwchName, pvfValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_putFeature(self: *const T, pwchName: ?[*:0]const u16, vfValue: i16) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putFeature(@as(*const ISAXXMLReader, @ptrCast(self)), pwchName, vfValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_getProperty(self: *const T, pwchName: ?[*:0]const u16, pvarValue: ?*VARIANT) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getProperty(@as(*const ISAXXMLReader, @ptrCast(self)), pwchName, pvarValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_putProperty(self: *const T, pwchName: ?[*:0]const u16, varValue: VARIANT) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putProperty(@as(*const ISAXXMLReader, @ptrCast(self)), pwchName, varValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_getEntityResolver(self: *const T, ppResolver: ?*?*ISAXEntityResolver) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getEntityResolver(@as(*const ISAXXMLReader, @ptrCast(self)), ppResolver);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_putEntityResolver(self: *const T, pResolver: ?*ISAXEntityResolver) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putEntityResolver(@as(*const ISAXXMLReader, @ptrCast(self)), pResolver);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_getContentHandler(self: *const T, ppHandler: ?*?*ISAXContentHandler) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getContentHandler(@as(*const ISAXXMLReader, @ptrCast(self)), ppHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_putContentHandler(self: *const T, pHandler: ?*ISAXContentHandler) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putContentHandler(@as(*const ISAXXMLReader, @ptrCast(self)), pHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_getDTDHandler(self: *const T, ppHandler: ?*?*ISAXDTDHandler) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getDTDHandler(@as(*const ISAXXMLReader, @ptrCast(self)), ppHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_putDTDHandler(self: *const T, pHandler: ?*ISAXDTDHandler) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putDTDHandler(@as(*const ISAXXMLReader, @ptrCast(self)), pHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_getErrorHandler(self: *const T, ppHandler: ?*?*ISAXErrorHandler) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getErrorHandler(@as(*const ISAXXMLReader, @ptrCast(self)), ppHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_putErrorHandler(self: *const T, pHandler: ?*ISAXErrorHandler) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putErrorHandler(@as(*const ISAXXMLReader, @ptrCast(self)), pHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_getBaseURL(self: *const T, ppwchBaseUrl: ?*const ?*u16) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getBaseURL(@as(*const ISAXXMLReader, @ptrCast(self)), ppwchBaseUrl);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_putBaseURL(self: *const T, pwchBaseUrl: ?[*:0]const u16) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putBaseURL(@as(*const ISAXXMLReader, @ptrCast(self)), pwchBaseUrl);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_getSecureBaseURL(self: *const T, ppwchSecureBaseUrl: ?*const ?*u16) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getSecureBaseURL(@as(*const ISAXXMLReader, @ptrCast(self)), ppwchSecureBaseUrl);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_putSecureBaseURL(self: *const T, pwchSecureBaseUrl: ?[*:0]const u16) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putSecureBaseURL(@as(*const ISAXXMLReader, @ptrCast(self)), pwchSecureBaseUrl);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_parse(self: *const T, varInput: VARIANT) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).parse(@as(*const ISAXXMLReader, @ptrCast(self)), varInput);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLReader_parseURL(self: *const T, pwchUrl: ?[*:0]const u16) HRESULT {
-                return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).parseURL(@as(*const ISAXXMLReader, @ptrCast(self)), pwchUrl);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_getFeature(self: *const T, pwchName: ?[*:0]const u16, pvfValue: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getFeature(@as(*const ISAXXMLReader, @ptrCast(self)), pwchName, pvfValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_putFeature(self: *const T, pwchName: ?[*:0]const u16, vfValue: i16) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putFeature(@as(*const ISAXXMLReader, @ptrCast(self)), pwchName, vfValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_getProperty(self: *const T, pwchName: ?[*:0]const u16, pvarValue: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getProperty(@as(*const ISAXXMLReader, @ptrCast(self)), pwchName, pvarValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_putProperty(self: *const T, pwchName: ?[*:0]const u16, varValue: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putProperty(@as(*const ISAXXMLReader, @ptrCast(self)), pwchName, varValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_getEntityResolver(self: *const T, ppResolver: ?*?*ISAXEntityResolver) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getEntityResolver(@as(*const ISAXXMLReader, @ptrCast(self)), ppResolver);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_putEntityResolver(self: *const T, pResolver: ?*ISAXEntityResolver) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putEntityResolver(@as(*const ISAXXMLReader, @ptrCast(self)), pResolver);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_getContentHandler(self: *const T, ppHandler: ?*?*ISAXContentHandler) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getContentHandler(@as(*const ISAXXMLReader, @ptrCast(self)), ppHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_putContentHandler(self: *const T, pHandler: ?*ISAXContentHandler) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putContentHandler(@as(*const ISAXXMLReader, @ptrCast(self)), pHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_getDTDHandler(self: *const T, ppHandler: ?*?*ISAXDTDHandler) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getDTDHandler(@as(*const ISAXXMLReader, @ptrCast(self)), ppHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_putDTDHandler(self: *const T, pHandler: ?*ISAXDTDHandler) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putDTDHandler(@as(*const ISAXXMLReader, @ptrCast(self)), pHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_getErrorHandler(self: *const T, ppHandler: ?*?*ISAXErrorHandler) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getErrorHandler(@as(*const ISAXXMLReader, @ptrCast(self)), ppHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_putErrorHandler(self: *const T, pHandler: ?*ISAXErrorHandler) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putErrorHandler(@as(*const ISAXXMLReader, @ptrCast(self)), pHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_getBaseURL(self: *const T, ppwchBaseUrl: ?*const ?*u16) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getBaseURL(@as(*const ISAXXMLReader, @ptrCast(self)), ppwchBaseUrl);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_putBaseURL(self: *const T, pwchBaseUrl: ?[*:0]const u16) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putBaseURL(@as(*const ISAXXMLReader, @ptrCast(self)), pwchBaseUrl);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_getSecureBaseURL(self: *const T, ppwchSecureBaseUrl: ?*const ?*u16) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).getSecureBaseURL(@as(*const ISAXXMLReader, @ptrCast(self)), ppwchSecureBaseUrl);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_putSecureBaseURL(self: *const T, pwchSecureBaseUrl: ?[*:0]const u16) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).putSecureBaseURL(@as(*const ISAXXMLReader, @ptrCast(self)), pwchSecureBaseUrl);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_parse(self: *const T, varInput: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).parse(@as(*const ISAXXMLReader, @ptrCast(self)), varInput);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLReader_parseURL(self: *const T, pwchUrl: ?[*:0]const u16) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLReader.VTable, @ptrCast(self.vtable)).parseURL(@as(*const ISAXXMLReader, @ptrCast(self)), pwchUrl);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -6310,40 +6216,38 @@ pub const ISAXXMLFilter = extern struct {
     pub const VTable = extern struct {
         base: ISAXXMLReader.VTable,
         getParent: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLFilter,
                 ppReader: ?*?*ISAXXMLReader,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLFilter,
                 ppReader: ?*?*ISAXXMLReader,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putParent: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXXMLFilter,
                 pReader: ?*ISAXXMLReader,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXXMLFilter,
                 pReader: ?*ISAXXMLReader,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISAXXMLReader.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLFilter_getParent(self: *const T, ppReader: ?*?*ISAXXMLReader) HRESULT {
-                return @as(*const ISAXXMLFilter.VTable, @ptrCast(self.vtable)).getParent(@as(*const ISAXXMLFilter, @ptrCast(self)), ppReader);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXXMLFilter_putParent(self: *const T, pReader: ?*ISAXXMLReader) HRESULT {
-                return @as(*const ISAXXMLFilter.VTable, @ptrCast(self.vtable)).putParent(@as(*const ISAXXMLFilter, @ptrCast(self)), pReader);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISAXXMLReader.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLFilter_getParent(self: *const T, ppReader: ?*?*ISAXXMLReader) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLFilter.VTable, @ptrCast(self.vtable)).getParent(@as(*const ISAXXMLFilter, @ptrCast(self)), ppReader);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXXMLFilter_putParent(self: *const T, pReader: ?*ISAXXMLReader) callconv(.Inline) HRESULT {
+            return @as(*const ISAXXMLFilter.VTable, @ptrCast(self.vtable)).putParent(@as(*const ISAXXMLFilter, @ptrCast(self)), pReader);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -6353,68 +6257,66 @@ pub const ISAXLocator = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         getColumnNumber: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLocator,
                 pnColumn: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLocator,
                 pnColumn: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getLineNumber: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLocator,
                 pnLine: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLocator,
                 pnLine: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getPublicId: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLocator,
                 ppwchPublicId: ?*const ?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLocator,
                 ppwchPublicId: ?*const ?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getSystemId: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLocator,
                 ppwchSystemId: ?*const ?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLocator,
                 ppwchSystemId: ?*const ?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLocator_getColumnNumber(self: *const T, pnColumn: ?*i32) HRESULT {
-                return @as(*const ISAXLocator.VTable, @ptrCast(self.vtable)).getColumnNumber(@as(*const ISAXLocator, @ptrCast(self)), pnColumn);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLocator_getLineNumber(self: *const T, pnLine: ?*i32) HRESULT {
-                return @as(*const ISAXLocator.VTable, @ptrCast(self.vtable)).getLineNumber(@as(*const ISAXLocator, @ptrCast(self)), pnLine);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLocator_getPublicId(self: *const T, ppwchPublicId: ?*const ?*u16) HRESULT {
-                return @as(*const ISAXLocator.VTable, @ptrCast(self.vtable)).getPublicId(@as(*const ISAXLocator, @ptrCast(self)), ppwchPublicId);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLocator_getSystemId(self: *const T, ppwchSystemId: ?*const ?*u16) HRESULT {
-                return @as(*const ISAXLocator.VTable, @ptrCast(self.vtable)).getSystemId(@as(*const ISAXLocator, @ptrCast(self)), ppwchSystemId);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLocator_getColumnNumber(self: *const T, pnColumn: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLocator.VTable, @ptrCast(self.vtable)).getColumnNumber(@as(*const ISAXLocator, @ptrCast(self)), pnColumn);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLocator_getLineNumber(self: *const T, pnLine: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLocator.VTable, @ptrCast(self.vtable)).getLineNumber(@as(*const ISAXLocator, @ptrCast(self)), pnLine);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLocator_getPublicId(self: *const T, ppwchPublicId: ?*const ?*u16) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLocator.VTable, @ptrCast(self.vtable)).getPublicId(@as(*const ISAXLocator, @ptrCast(self)), ppwchPublicId);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLocator_getSystemId(self: *const T, ppwchSystemId: ?*const ?*u16) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLocator.VTable, @ptrCast(self.vtable)).getSystemId(@as(*const ISAXLocator, @ptrCast(self)), ppwchSystemId);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -6424,13 +6326,13 @@ pub const ISAXEntityResolver = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         resolveEntity: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXEntityResolver,
                 pwchPublicId: ?[*:0]const u16,
                 pwchSystemId: ?[*:0]const u16,
                 pvarInput: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXEntityResolver,
                 pwchPublicId: ?[*:0]const u16,
                 pwchSystemId: ?[*:0]const u16,
@@ -6439,15 +6341,13 @@ pub const ISAXEntityResolver = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXEntityResolver_resolveEntity(self: *const T, pwchPublicId: ?[*:0]const u16, pwchSystemId: ?[*:0]const u16, pvarInput: ?*VARIANT) HRESULT {
-                return @as(*const ISAXEntityResolver.VTable, @ptrCast(self.vtable)).resolveEntity(@as(*const ISAXEntityResolver, @ptrCast(self)), pwchPublicId, pwchSystemId, pvarInput);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXEntityResolver_resolveEntity(self: *const T, pwchPublicId: ?[*:0]const u16, pwchSystemId: ?[*:0]const u16, pvarInput: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISAXEntityResolver.VTable, @ptrCast(self.vtable)).resolveEntity(@as(*const ISAXEntityResolver, @ptrCast(self)), pwchPublicId, pwchSystemId, pvarInput);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -6457,40 +6357,40 @@ pub const ISAXContentHandler = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         putDocumentLocator: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
                 pLocator: ?*ISAXLocator,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
                 pLocator: ?*ISAXLocator,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         startDocument: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endDocument: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         startPrefixMapping: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
                 pwchPrefix: ?[*:0]const u16,
                 cchPrefix: i32,
                 pwchUri: ?[*:0]const u16,
                 cchUri: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
                 pwchPrefix: ?[*:0]const u16,
                 cchPrefix: i32,
@@ -6499,19 +6399,19 @@ pub const ISAXContentHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endPrefixMapping: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
                 pwchPrefix: ?[*:0]const u16,
                 cchPrefix: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
                 pwchPrefix: ?[*:0]const u16,
                 cchPrefix: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         startElement: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
                 pwchNamespaceUri: ?[*:0]const u16,
                 cchNamespaceUri: i32,
@@ -6521,7 +6421,7 @@ pub const ISAXContentHandler = extern struct {
                 cchQName: i32,
                 pAttributes: ?*ISAXAttributes,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
                 pwchNamespaceUri: ?[*:0]const u16,
                 cchNamespaceUri: i32,
@@ -6533,7 +6433,7 @@ pub const ISAXContentHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endElement: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
                 pwchNamespaceUri: ?[*:0]const u16,
                 cchNamespaceUri: i32,
@@ -6542,7 +6442,7 @@ pub const ISAXContentHandler = extern struct {
                 pwchQName: ?[*:0]const u16,
                 cchQName: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
                 pwchNamespaceUri: ?[*:0]const u16,
                 cchNamespaceUri: i32,
@@ -6553,38 +6453,38 @@ pub const ISAXContentHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         characters: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
                 pwchChars: ?[*:0]const u16,
                 cchChars: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
                 pwchChars: ?[*:0]const u16,
                 cchChars: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ignorableWhitespace: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
                 pwchChars: ?[*:0]const u16,
                 cchChars: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
                 pwchChars: ?[*:0]const u16,
                 cchChars: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         processingInstruction: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
                 pwchTarget: ?[*:0]const u16,
                 cchTarget: i32,
                 pwchData: ?[*:0]const u16,
                 cchData: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
                 pwchTarget: ?[*:0]const u16,
                 cchTarget: i32,
@@ -6593,12 +6493,12 @@ pub const ISAXContentHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         skippedEntity: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXContentHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXContentHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -6606,55 +6506,53 @@ pub const ISAXContentHandler = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_putDocumentLocator(self: *const T, pLocator: ?*ISAXLocator) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).putDocumentLocator(@as(*const ISAXContentHandler, @ptrCast(self)), pLocator);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_startDocument(self: *const T) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).startDocument(@as(*const ISAXContentHandler, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_endDocument(self: *const T) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).endDocument(@as(*const ISAXContentHandler, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_startPrefixMapping(self: *const T, pwchPrefix: ?[*:0]const u16, cchPrefix: i32, pwchUri: ?[*:0]const u16, cchUri: i32) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).startPrefixMapping(@as(*const ISAXContentHandler, @ptrCast(self)), pwchPrefix, cchPrefix, pwchUri, cchUri);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_endPrefixMapping(self: *const T, pwchPrefix: ?[*:0]const u16, cchPrefix: i32) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).endPrefixMapping(@as(*const ISAXContentHandler, @ptrCast(self)), pwchPrefix, cchPrefix);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_startElement(self: *const T, pwchNamespaceUri: ?[*:0]const u16, cchNamespaceUri: i32, pwchLocalName: ?[*:0]const u16, cchLocalName: i32, pwchQName: ?[*:0]const u16, cchQName: i32, pAttributes: ?*ISAXAttributes) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).startElement(@as(*const ISAXContentHandler, @ptrCast(self)), pwchNamespaceUri, cchNamespaceUri, pwchLocalName, cchLocalName, pwchQName, cchQName, pAttributes);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_endElement(self: *const T, pwchNamespaceUri: ?[*:0]const u16, cchNamespaceUri: i32, pwchLocalName: ?[*:0]const u16, cchLocalName: i32, pwchQName: ?[*:0]const u16, cchQName: i32) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).endElement(@as(*const ISAXContentHandler, @ptrCast(self)), pwchNamespaceUri, cchNamespaceUri, pwchLocalName, cchLocalName, pwchQName, cchQName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_characters(self: *const T, pwchChars: ?[*:0]const u16, cchChars: i32) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).characters(@as(*const ISAXContentHandler, @ptrCast(self)), pwchChars, cchChars);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_ignorableWhitespace(self: *const T, pwchChars: ?[*:0]const u16, cchChars: i32) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).ignorableWhitespace(@as(*const ISAXContentHandler, @ptrCast(self)), pwchChars, cchChars);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_processingInstruction(self: *const T, pwchTarget: ?[*:0]const u16, cchTarget: i32, pwchData: ?[*:0]const u16, cchData: i32) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).processingInstruction(@as(*const ISAXContentHandler, @ptrCast(self)), pwchTarget, cchTarget, pwchData, cchData);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXContentHandler_skippedEntity(self: *const T, pwchName: ?[*:0]const u16, cchName: i32) HRESULT {
-                return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).skippedEntity(@as(*const ISAXContentHandler, @ptrCast(self)), pwchName, cchName);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_putDocumentLocator(self: *const T, pLocator: ?*ISAXLocator) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).putDocumentLocator(@as(*const ISAXContentHandler, @ptrCast(self)), pLocator);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_startDocument(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).startDocument(@as(*const ISAXContentHandler, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_endDocument(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).endDocument(@as(*const ISAXContentHandler, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_startPrefixMapping(self: *const T, pwchPrefix: ?[*:0]const u16, cchPrefix: i32, pwchUri: ?[*:0]const u16, cchUri: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).startPrefixMapping(@as(*const ISAXContentHandler, @ptrCast(self)), pwchPrefix, cchPrefix, pwchUri, cchUri);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_endPrefixMapping(self: *const T, pwchPrefix: ?[*:0]const u16, cchPrefix: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).endPrefixMapping(@as(*const ISAXContentHandler, @ptrCast(self)), pwchPrefix, cchPrefix);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_startElement(self: *const T, pwchNamespaceUri: ?[*:0]const u16, cchNamespaceUri: i32, pwchLocalName: ?[*:0]const u16, cchLocalName: i32, pwchQName: ?[*:0]const u16, cchQName: i32, pAttributes: ?*ISAXAttributes) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).startElement(@as(*const ISAXContentHandler, @ptrCast(self)), pwchNamespaceUri, cchNamespaceUri, pwchLocalName, cchLocalName, pwchQName, cchQName, pAttributes);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_endElement(self: *const T, pwchNamespaceUri: ?[*:0]const u16, cchNamespaceUri: i32, pwchLocalName: ?[*:0]const u16, cchLocalName: i32, pwchQName: ?[*:0]const u16, cchQName: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).endElement(@as(*const ISAXContentHandler, @ptrCast(self)), pwchNamespaceUri, cchNamespaceUri, pwchLocalName, cchLocalName, pwchQName, cchQName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_characters(self: *const T, pwchChars: ?[*:0]const u16, cchChars: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).characters(@as(*const ISAXContentHandler, @ptrCast(self)), pwchChars, cchChars);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_ignorableWhitespace(self: *const T, pwchChars: ?[*:0]const u16, cchChars: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).ignorableWhitespace(@as(*const ISAXContentHandler, @ptrCast(self)), pwchChars, cchChars);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_processingInstruction(self: *const T, pwchTarget: ?[*:0]const u16, cchTarget: i32, pwchData: ?[*:0]const u16, cchData: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).processingInstruction(@as(*const ISAXContentHandler, @ptrCast(self)), pwchTarget, cchTarget, pwchData, cchData);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXContentHandler_skippedEntity(self: *const T, pwchName: ?[*:0]const u16, cchName: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXContentHandler.VTable, @ptrCast(self.vtable)).skippedEntity(@as(*const ISAXContentHandler, @ptrCast(self)), pwchName, cchName);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -6664,7 +6562,7 @@ pub const ISAXDTDHandler = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         notationDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXDTDHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -6673,7 +6571,7 @@ pub const ISAXDTDHandler = extern struct {
                 pwchSystemId: ?[*:0]const u16,
                 cchSystemId: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXDTDHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -6684,7 +6582,7 @@ pub const ISAXDTDHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         unparsedEntityDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXDTDHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -6695,7 +6593,7 @@ pub const ISAXDTDHandler = extern struct {
                 pwchNotationName: ?[*:0]const u16,
                 cchNotationName: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXDTDHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -6709,19 +6607,17 @@ pub const ISAXDTDHandler = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXDTDHandler_notationDecl(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchPublicId: ?[*:0]const u16, cchPublicId: i32, pwchSystemId: ?[*:0]const u16, cchSystemId: i32) HRESULT {
-                return @as(*const ISAXDTDHandler.VTable, @ptrCast(self.vtable)).notationDecl(@as(*const ISAXDTDHandler, @ptrCast(self)), pwchName, cchName, pwchPublicId, cchPublicId, pwchSystemId, cchSystemId);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXDTDHandler_unparsedEntityDecl(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchPublicId: ?[*:0]const u16, cchPublicId: i32, pwchSystemId: ?[*:0]const u16, cchSystemId: i32, pwchNotationName: ?[*:0]const u16, cchNotationName: i32) HRESULT {
-                return @as(*const ISAXDTDHandler.VTable, @ptrCast(self.vtable)).unparsedEntityDecl(@as(*const ISAXDTDHandler, @ptrCast(self)), pwchName, cchName, pwchPublicId, cchPublicId, pwchSystemId, cchSystemId, pwchNotationName, cchNotationName);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXDTDHandler_notationDecl(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchPublicId: ?[*:0]const u16, cchPublicId: i32, pwchSystemId: ?[*:0]const u16, cchSystemId: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXDTDHandler.VTable, @ptrCast(self.vtable)).notationDecl(@as(*const ISAXDTDHandler, @ptrCast(self)), pwchName, cchName, pwchPublicId, cchPublicId, pwchSystemId, cchSystemId);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXDTDHandler_unparsedEntityDecl(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchPublicId: ?[*:0]const u16, cchPublicId: i32, pwchSystemId: ?[*:0]const u16, cchSystemId: i32, pwchNotationName: ?[*:0]const u16, cchNotationName: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXDTDHandler.VTable, @ptrCast(self.vtable)).unparsedEntityDecl(@as(*const ISAXDTDHandler, @ptrCast(self)), pwchName, cchName, pwchPublicId, cchPublicId, pwchSystemId, cchSystemId, pwchNotationName, cchNotationName);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -6731,13 +6627,13 @@ pub const ISAXErrorHandler = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         @"error": switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXErrorHandler,
                 pLocator: ?*ISAXLocator,
                 pwchErrorMessage: ?[*:0]const u16,
                 hrErrorCode: HRESULT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXErrorHandler,
                 pLocator: ?*ISAXLocator,
                 pwchErrorMessage: ?[*:0]const u16,
@@ -6745,13 +6641,13 @@ pub const ISAXErrorHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         fatalError: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXErrorHandler,
                 pLocator: ?*ISAXLocator,
                 pwchErrorMessage: ?[*:0]const u16,
                 hrErrorCode: HRESULT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXErrorHandler,
                 pLocator: ?*ISAXLocator,
                 pwchErrorMessage: ?[*:0]const u16,
@@ -6759,13 +6655,13 @@ pub const ISAXErrorHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ignorableWarning: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXErrorHandler,
                 pLocator: ?*ISAXLocator,
                 pwchErrorMessage: ?[*:0]const u16,
                 hrErrorCode: HRESULT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXErrorHandler,
                 pLocator: ?*ISAXLocator,
                 pwchErrorMessage: ?[*:0]const u16,
@@ -6774,23 +6670,21 @@ pub const ISAXErrorHandler = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXErrorHandler_error(self: *const T, pLocator: ?*ISAXLocator, pwchErrorMessage: ?[*:0]const u16, hrErrorCode: HRESULT) HRESULT {
-                return @as(*const ISAXErrorHandler.VTable, @ptrCast(self.vtable)).@"error"(@as(*const ISAXErrorHandler, @ptrCast(self)), pLocator, pwchErrorMessage, hrErrorCode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXErrorHandler_fatalError(self: *const T, pLocator: ?*ISAXLocator, pwchErrorMessage: ?[*:0]const u16, hrErrorCode: HRESULT) HRESULT {
-                return @as(*const ISAXErrorHandler.VTable, @ptrCast(self.vtable)).fatalError(@as(*const ISAXErrorHandler, @ptrCast(self)), pLocator, pwchErrorMessage, hrErrorCode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXErrorHandler_ignorableWarning(self: *const T, pLocator: ?*ISAXLocator, pwchErrorMessage: ?[*:0]const u16, hrErrorCode: HRESULT) HRESULT {
-                return @as(*const ISAXErrorHandler.VTable, @ptrCast(self.vtable)).ignorableWarning(@as(*const ISAXErrorHandler, @ptrCast(self)), pLocator, pwchErrorMessage, hrErrorCode);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXErrorHandler_error(self: *const T, pLocator: ?*ISAXLocator, pwchErrorMessage: ?[*:0]const u16, hrErrorCode: HRESULT) callconv(.Inline) HRESULT {
+            return @as(*const ISAXErrorHandler.VTable, @ptrCast(self.vtable)).@"error"(@as(*const ISAXErrorHandler, @ptrCast(self)), pLocator, pwchErrorMessage, hrErrorCode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXErrorHandler_fatalError(self: *const T, pLocator: ?*ISAXLocator, pwchErrorMessage: ?[*:0]const u16, hrErrorCode: HRESULT) callconv(.Inline) HRESULT {
+            return @as(*const ISAXErrorHandler.VTable, @ptrCast(self.vtable)).fatalError(@as(*const ISAXErrorHandler, @ptrCast(self)), pLocator, pwchErrorMessage, hrErrorCode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXErrorHandler_ignorableWarning(self: *const T, pLocator: ?*ISAXLocator, pwchErrorMessage: ?[*:0]const u16, hrErrorCode: HRESULT) callconv(.Inline) HRESULT {
+            return @as(*const ISAXErrorHandler.VTable, @ptrCast(self.vtable)).ignorableWarning(@as(*const ISAXErrorHandler, @ptrCast(self)), pLocator, pwchErrorMessage, hrErrorCode);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -6800,7 +6694,7 @@ pub const ISAXLexicalHandler = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         startDTD: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLexicalHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -6809,7 +6703,7 @@ pub const ISAXLexicalHandler = extern struct {
                 pwchSystemId: ?[*:0]const u16,
                 cchSystemId: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLexicalHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -6820,60 +6714,60 @@ pub const ISAXLexicalHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endDTD: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         startEntity: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLexicalHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLexicalHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endEntity: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLexicalHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLexicalHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         startCDATA: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endCDATA: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         comment: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXLexicalHandler,
                 pwchChars: ?[*:0]const u16,
                 cchChars: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXLexicalHandler,
                 pwchChars: ?[*:0]const u16,
                 cchChars: i32,
@@ -6881,39 +6775,37 @@ pub const ISAXLexicalHandler = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLexicalHandler_startDTD(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchPublicId: ?[*:0]const u16, cchPublicId: i32, pwchSystemId: ?[*:0]const u16, cchSystemId: i32) HRESULT {
-                return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).startDTD(@as(*const ISAXLexicalHandler, @ptrCast(self)), pwchName, cchName, pwchPublicId, cchPublicId, pwchSystemId, cchSystemId);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLexicalHandler_endDTD(self: *const T) HRESULT {
-                return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).endDTD(@as(*const ISAXLexicalHandler, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLexicalHandler_startEntity(self: *const T, pwchName: ?[*:0]const u16, cchName: i32) HRESULT {
-                return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).startEntity(@as(*const ISAXLexicalHandler, @ptrCast(self)), pwchName, cchName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLexicalHandler_endEntity(self: *const T, pwchName: ?[*:0]const u16, cchName: i32) HRESULT {
-                return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).endEntity(@as(*const ISAXLexicalHandler, @ptrCast(self)), pwchName, cchName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLexicalHandler_startCDATA(self: *const T) HRESULT {
-                return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).startCDATA(@as(*const ISAXLexicalHandler, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLexicalHandler_endCDATA(self: *const T) HRESULT {
-                return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).endCDATA(@as(*const ISAXLexicalHandler, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXLexicalHandler_comment(self: *const T, pwchChars: ?[*:0]const u16, cchChars: i32) HRESULT {
-                return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).comment(@as(*const ISAXLexicalHandler, @ptrCast(self)), pwchChars, cchChars);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLexicalHandler_startDTD(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchPublicId: ?[*:0]const u16, cchPublicId: i32, pwchSystemId: ?[*:0]const u16, cchSystemId: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).startDTD(@as(*const ISAXLexicalHandler, @ptrCast(self)), pwchName, cchName, pwchPublicId, cchPublicId, pwchSystemId, cchSystemId);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLexicalHandler_endDTD(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).endDTD(@as(*const ISAXLexicalHandler, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLexicalHandler_startEntity(self: *const T, pwchName: ?[*:0]const u16, cchName: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).startEntity(@as(*const ISAXLexicalHandler, @ptrCast(self)), pwchName, cchName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLexicalHandler_endEntity(self: *const T, pwchName: ?[*:0]const u16, cchName: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).endEntity(@as(*const ISAXLexicalHandler, @ptrCast(self)), pwchName, cchName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLexicalHandler_startCDATA(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).startCDATA(@as(*const ISAXLexicalHandler, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLexicalHandler_endCDATA(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).endCDATA(@as(*const ISAXLexicalHandler, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXLexicalHandler_comment(self: *const T, pwchChars: ?[*:0]const u16, cchChars: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXLexicalHandler.VTable, @ptrCast(self.vtable)).comment(@as(*const ISAXLexicalHandler, @ptrCast(self)), pwchChars, cchChars);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -6923,14 +6815,14 @@ pub const ISAXDeclHandler = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         elementDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXDeclHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
                 pwchModel: ?[*:0]const u16,
                 cchModel: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXDeclHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -6939,7 +6831,7 @@ pub const ISAXDeclHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         attributeDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXDeclHandler,
                 pwchElementName: ?[*:0]const u16,
                 cchElementName: i32,
@@ -6952,7 +6844,7 @@ pub const ISAXDeclHandler = extern struct {
                 pwchValue: ?[*:0]const u16,
                 cchValue: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXDeclHandler,
                 pwchElementName: ?[*:0]const u16,
                 cchElementName: i32,
@@ -6967,14 +6859,14 @@ pub const ISAXDeclHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         internalEntityDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXDeclHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
                 pwchValue: ?[*:0]const u16,
                 cchValue: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXDeclHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -6983,7 +6875,7 @@ pub const ISAXDeclHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         externalEntityDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXDeclHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -6992,7 +6884,7 @@ pub const ISAXDeclHandler = extern struct {
                 pwchSystemId: ?[*:0]const u16,
                 cchSystemId: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXDeclHandler,
                 pwchName: ?[*:0]const u16,
                 cchName: i32,
@@ -7004,27 +6896,25 @@ pub const ISAXDeclHandler = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXDeclHandler_elementDecl(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchModel: ?[*:0]const u16, cchModel: i32) HRESULT {
-                return @as(*const ISAXDeclHandler.VTable, @ptrCast(self.vtable)).elementDecl(@as(*const ISAXDeclHandler, @ptrCast(self)), pwchName, cchName, pwchModel, cchModel);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXDeclHandler_attributeDecl(self: *const T, pwchElementName: ?[*:0]const u16, cchElementName: i32, pwchAttributeName: ?[*:0]const u16, cchAttributeName: i32, pwchType: ?[*:0]const u16, cchType: i32, pwchValueDefault: ?[*:0]const u16, cchValueDefault: i32, pwchValue: ?[*:0]const u16, cchValue: i32) HRESULT {
-                return @as(*const ISAXDeclHandler.VTable, @ptrCast(self.vtable)).attributeDecl(@as(*const ISAXDeclHandler, @ptrCast(self)), pwchElementName, cchElementName, pwchAttributeName, cchAttributeName, pwchType, cchType, pwchValueDefault, cchValueDefault, pwchValue, cchValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXDeclHandler_internalEntityDecl(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchValue: ?[*:0]const u16, cchValue: i32) HRESULT {
-                return @as(*const ISAXDeclHandler.VTable, @ptrCast(self.vtable)).internalEntityDecl(@as(*const ISAXDeclHandler, @ptrCast(self)), pwchName, cchName, pwchValue, cchValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXDeclHandler_externalEntityDecl(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchPublicId: ?[*:0]const u16, cchPublicId: i32, pwchSystemId: ?[*:0]const u16, cchSystemId: i32) HRESULT {
-                return @as(*const ISAXDeclHandler.VTable, @ptrCast(self.vtable)).externalEntityDecl(@as(*const ISAXDeclHandler, @ptrCast(self)), pwchName, cchName, pwchPublicId, cchPublicId, pwchSystemId, cchSystemId);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXDeclHandler_elementDecl(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchModel: ?[*:0]const u16, cchModel: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXDeclHandler.VTable, @ptrCast(self.vtable)).elementDecl(@as(*const ISAXDeclHandler, @ptrCast(self)), pwchName, cchName, pwchModel, cchModel);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXDeclHandler_attributeDecl(self: *const T, pwchElementName: ?[*:0]const u16, cchElementName: i32, pwchAttributeName: ?[*:0]const u16, cchAttributeName: i32, pwchType: ?[*:0]const u16, cchType: i32, pwchValueDefault: ?[*:0]const u16, cchValueDefault: i32, pwchValue: ?[*:0]const u16, cchValue: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXDeclHandler.VTable, @ptrCast(self.vtable)).attributeDecl(@as(*const ISAXDeclHandler, @ptrCast(self)), pwchElementName, cchElementName, pwchAttributeName, cchAttributeName, pwchType, cchType, pwchValueDefault, cchValueDefault, pwchValue, cchValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXDeclHandler_internalEntityDecl(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchValue: ?[*:0]const u16, cchValue: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXDeclHandler.VTable, @ptrCast(self.vtable)).internalEntityDecl(@as(*const ISAXDeclHandler, @ptrCast(self)), pwchName, cchName, pwchValue, cchValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXDeclHandler_externalEntityDecl(self: *const T, pwchName: ?[*:0]const u16, cchName: i32, pwchPublicId: ?[*:0]const u16, cchPublicId: i32, pwchSystemId: ?[*:0]const u16, cchSystemId: i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXDeclHandler.VTable, @ptrCast(self.vtable)).externalEntityDecl(@as(*const ISAXDeclHandler, @ptrCast(self)), pwchName, cchName, pwchPublicId, cchPublicId, pwchSystemId, cchSystemId);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -7034,23 +6924,23 @@ pub const ISAXAttributes = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         getLength: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 pnLength: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 pnLength: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getURI: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchUri: ?*const ?*u16,
                 pcchUri: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchUri: ?*const ?*u16,
@@ -7058,13 +6948,13 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getLocalName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchLocalName: ?*const ?*u16,
                 pcchLocalName: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchLocalName: ?*const ?*u16,
@@ -7072,13 +6962,13 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getQName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchQName: ?*const ?*u16,
                 pcchQName: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchQName: ?*const ?*u16,
@@ -7086,7 +6976,7 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchUri: ?*const ?*u16,
@@ -7096,7 +6986,7 @@ pub const ISAXAttributes = extern struct {
                 ppwchQName: ?*const ?*u16,
                 pcchQName: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchUri: ?*const ?*u16,
@@ -7108,7 +6998,7 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getIndexFromName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 pwchUri: ?[*:0]const u16,
                 cchUri: i32,
@@ -7116,7 +7006,7 @@ pub const ISAXAttributes = extern struct {
                 cchLocalName: i32,
                 pnIndex: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 pwchUri: ?[*:0]const u16,
                 cchUri: i32,
@@ -7126,13 +7016,13 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getIndexFromQName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 pwchQName: ?[*:0]const u16,
                 cchQName: i32,
                 pnIndex: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 pwchQName: ?[*:0]const u16,
                 cchQName: i32,
@@ -7140,13 +7030,13 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getType: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchType: ?*const ?*u16,
                 pcchType: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchType: ?*const ?*u16,
@@ -7154,7 +7044,7 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getTypeFromName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 pwchUri: ?[*:0]const u16,
                 cchUri: i32,
@@ -7163,7 +7053,7 @@ pub const ISAXAttributes = extern struct {
                 ppwchType: ?*const ?*u16,
                 pcchType: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 pwchUri: ?[*:0]const u16,
                 cchUri: i32,
@@ -7174,14 +7064,14 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getTypeFromQName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 pwchQName: ?[*:0]const u16,
                 cchQName: i32,
                 ppwchType: ?*const ?*u16,
                 pcchType: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 pwchQName: ?[*:0]const u16,
                 cchQName: i32,
@@ -7190,13 +7080,13 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getValue: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchValue: ?*const ?*u16,
                 pcchValue: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 nIndex: i32,
                 ppwchValue: ?*const ?*u16,
@@ -7204,7 +7094,7 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getValueFromName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 pwchUri: ?[*:0]const u16,
                 cchUri: i32,
@@ -7213,7 +7103,7 @@ pub const ISAXAttributes = extern struct {
                 ppwchValue: ?*const ?*u16,
                 pcchValue: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 pwchUri: ?[*:0]const u16,
                 cchUri: i32,
@@ -7224,14 +7114,14 @@ pub const ISAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getValueFromQName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISAXAttributes,
                 pwchQName: ?[*:0]const u16,
                 cchQName: i32,
                 ppwchValue: ?*const ?*u16,
                 pcchValue: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISAXAttributes,
                 pwchQName: ?[*:0]const u16,
                 cchQName: i32,
@@ -7241,63 +7131,61 @@ pub const ISAXAttributes = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getLength(self: *const T, pnLength: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getLength(@as(*const ISAXAttributes, @ptrCast(self)), pnLength);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getURI(self: *const T, nIndex: i32, ppwchUri: ?*const ?*u16, pcchUri: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getURI(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchUri, pcchUri);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getLocalName(self: *const T, nIndex: i32, ppwchLocalName: ?*const ?*u16, pcchLocalName: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getLocalName(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchLocalName, pcchLocalName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getQName(self: *const T, nIndex: i32, ppwchQName: ?*const ?*u16, pcchQName: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getQName(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchQName, pcchQName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getName(self: *const T, nIndex: i32, ppwchUri: ?*const ?*u16, pcchUri: ?*i32, ppwchLocalName: ?*const ?*u16, pcchLocalName: ?*i32, ppwchQName: ?*const ?*u16, pcchQName: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getName(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchUri, pcchUri, ppwchLocalName, pcchLocalName, ppwchQName, pcchQName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getIndexFromName(self: *const T, pwchUri: ?[*:0]const u16, cchUri: i32, pwchLocalName: ?[*:0]const u16, cchLocalName: i32, pnIndex: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getIndexFromName(@as(*const ISAXAttributes, @ptrCast(self)), pwchUri, cchUri, pwchLocalName, cchLocalName, pnIndex);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getIndexFromQName(self: *const T, pwchQName: ?[*:0]const u16, cchQName: i32, pnIndex: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getIndexFromQName(@as(*const ISAXAttributes, @ptrCast(self)), pwchQName, cchQName, pnIndex);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getType(self: *const T, nIndex: i32, ppwchType: ?*const ?*u16, pcchType: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getType(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchType, pcchType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getTypeFromName(self: *const T, pwchUri: ?[*:0]const u16, cchUri: i32, pwchLocalName: ?[*:0]const u16, cchLocalName: i32, ppwchType: ?*const ?*u16, pcchType: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getTypeFromName(@as(*const ISAXAttributes, @ptrCast(self)), pwchUri, cchUri, pwchLocalName, cchLocalName, ppwchType, pcchType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getTypeFromQName(self: *const T, pwchQName: ?[*:0]const u16, cchQName: i32, ppwchType: ?*const ?*u16, pcchType: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getTypeFromQName(@as(*const ISAXAttributes, @ptrCast(self)), pwchQName, cchQName, ppwchType, pcchType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getValue(self: *const T, nIndex: i32, ppwchValue: ?*const ?*u16, pcchValue: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getValue(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchValue, pcchValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getValueFromName(self: *const T, pwchUri: ?[*:0]const u16, cchUri: i32, pwchLocalName: ?[*:0]const u16, cchLocalName: i32, ppwchValue: ?*const ?*u16, pcchValue: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getValueFromName(@as(*const ISAXAttributes, @ptrCast(self)), pwchUri, cchUri, pwchLocalName, cchLocalName, ppwchValue, pcchValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISAXAttributes_getValueFromQName(self: *const T, pwchQName: ?[*:0]const u16, cchQName: i32, ppwchValue: ?*const ?*u16, pcchValue: ?*i32) HRESULT {
-                return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getValueFromQName(@as(*const ISAXAttributes, @ptrCast(self)), pwchQName, cchQName, ppwchValue, pcchValue);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getLength(self: *const T, pnLength: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getLength(@as(*const ISAXAttributes, @ptrCast(self)), pnLength);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getURI(self: *const T, nIndex: i32, ppwchUri: ?*const ?*u16, pcchUri: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getURI(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchUri, pcchUri);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getLocalName(self: *const T, nIndex: i32, ppwchLocalName: ?*const ?*u16, pcchLocalName: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getLocalName(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchLocalName, pcchLocalName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getQName(self: *const T, nIndex: i32, ppwchQName: ?*const ?*u16, pcchQName: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getQName(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchQName, pcchQName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getName(self: *const T, nIndex: i32, ppwchUri: ?*const ?*u16, pcchUri: ?*i32, ppwchLocalName: ?*const ?*u16, pcchLocalName: ?*i32, ppwchQName: ?*const ?*u16, pcchQName: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getName(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchUri, pcchUri, ppwchLocalName, pcchLocalName, ppwchQName, pcchQName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getIndexFromName(self: *const T, pwchUri: ?[*:0]const u16, cchUri: i32, pwchLocalName: ?[*:0]const u16, cchLocalName: i32, pnIndex: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getIndexFromName(@as(*const ISAXAttributes, @ptrCast(self)), pwchUri, cchUri, pwchLocalName, cchLocalName, pnIndex);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getIndexFromQName(self: *const T, pwchQName: ?[*:0]const u16, cchQName: i32, pnIndex: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getIndexFromQName(@as(*const ISAXAttributes, @ptrCast(self)), pwchQName, cchQName, pnIndex);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getType(self: *const T, nIndex: i32, ppwchType: ?*const ?*u16, pcchType: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getType(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchType, pcchType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getTypeFromName(self: *const T, pwchUri: ?[*:0]const u16, cchUri: i32, pwchLocalName: ?[*:0]const u16, cchLocalName: i32, ppwchType: ?*const ?*u16, pcchType: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getTypeFromName(@as(*const ISAXAttributes, @ptrCast(self)), pwchUri, cchUri, pwchLocalName, cchLocalName, ppwchType, pcchType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getTypeFromQName(self: *const T, pwchQName: ?[*:0]const u16, cchQName: i32, ppwchType: ?*const ?*u16, pcchType: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getTypeFromQName(@as(*const ISAXAttributes, @ptrCast(self)), pwchQName, cchQName, ppwchType, pcchType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getValue(self: *const T, nIndex: i32, ppwchValue: ?*const ?*u16, pcchValue: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getValue(@as(*const ISAXAttributes, @ptrCast(self)), nIndex, ppwchValue, pcchValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getValueFromName(self: *const T, pwchUri: ?[*:0]const u16, cchUri: i32, pwchLocalName: ?[*:0]const u16, cchLocalName: i32, ppwchValue: ?*const ?*u16, pcchValue: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getValueFromName(@as(*const ISAXAttributes, @ptrCast(self)), pwchUri, cchUri, pwchLocalName, cchLocalName, ppwchValue, pcchValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISAXAttributes_getValueFromQName(self: *const T, pwchQName: ?[*:0]const u16, cchQName: i32, ppwchValue: ?*const ?*u16, pcchValue: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISAXAttributes.VTable, @ptrCast(self.vtable)).getValueFromQName(@as(*const ISAXAttributes, @ptrCast(self)), pwchQName, cchQName, ppwchValue, pcchValue);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -7307,48 +7195,48 @@ pub const IVBSAXXMLReader = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         getFeature: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 strName: ?BSTR,
                 fValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 strName: ?BSTR,
                 fValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putFeature: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 strName: ?BSTR,
                 fValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 strName: ?BSTR,
                 fValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 strName: ?BSTR,
                 varValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 strName: ?BSTR,
                 varValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 strName: ?BSTR,
                 varValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 strName: ?BSTR,
                 varValue: VARIANT,
@@ -7357,22 +7245,22 @@ pub const IVBSAXXMLReader = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_entityResolver: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 oResolver: ?*?*IVBSAXEntityResolver,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 oResolver: ?*?*IVBSAXEntityResolver,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_entityResolver: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 oResolver: ?*IVBSAXEntityResolver,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 oResolver: ?*IVBSAXEntityResolver,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -7380,22 +7268,22 @@ pub const IVBSAXXMLReader = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_contentHandler: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*?*IVBSAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*?*IVBSAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_contentHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*IVBSAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*IVBSAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -7403,22 +7291,22 @@ pub const IVBSAXXMLReader = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_dtdHandler: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*?*IVBSAXDTDHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*?*IVBSAXDTDHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_dtdHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*IVBSAXDTDHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*IVBSAXDTDHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -7426,22 +7314,22 @@ pub const IVBSAXXMLReader = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_errorHandler: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*?*IVBSAXErrorHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*?*IVBSAXErrorHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_errorHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*IVBSAXErrorHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 oHandler: ?*IVBSAXErrorHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -7449,12 +7337,12 @@ pub const IVBSAXXMLReader = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_baseURL: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 strBaseURL: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 strBaseURL: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -7462,12 +7350,12 @@ pub const IVBSAXXMLReader = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_baseURL: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 strBaseURL: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 strBaseURL: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -7475,12 +7363,12 @@ pub const IVBSAXXMLReader = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_secureBaseURL: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 strSecureBaseURL: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 strSecureBaseURL: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -7488,115 +7376,113 @@ pub const IVBSAXXMLReader = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_secureBaseURL: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 strSecureBaseURL: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 strSecureBaseURL: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         parse: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 varInput: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 varInput: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         parseURL: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLReader,
                 strURL: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLReader,
                 strURL: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_getFeature(self: *const T, strName: ?BSTR, fValue: ?*i16) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).getFeature(@as(*const IVBSAXXMLReader, @ptrCast(self)), strName, fValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_putFeature(self: *const T, strName: ?BSTR, fValue: i16) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putFeature(@as(*const IVBSAXXMLReader, @ptrCast(self)), strName, fValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_getProperty(self: *const T, strName: ?BSTR, varValue: ?*VARIANT) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).getProperty(@as(*const IVBSAXXMLReader, @ptrCast(self)), strName, varValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_putProperty(self: *const T, strName: ?BSTR, varValue: VARIANT) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putProperty(@as(*const IVBSAXXMLReader, @ptrCast(self)), strName, varValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_get_entityResolver(self: *const T, oResolver: ?*?*IVBSAXEntityResolver) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_entityResolver(@as(*const IVBSAXXMLReader, @ptrCast(self)), oResolver);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_putref_entityResolver(self: *const T, oResolver: ?*IVBSAXEntityResolver) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putref_entityResolver(@as(*const IVBSAXXMLReader, @ptrCast(self)), oResolver);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_get_contentHandler(self: *const T, oHandler: ?*?*IVBSAXContentHandler) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_contentHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_putref_contentHandler(self: *const T, oHandler: ?*IVBSAXContentHandler) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putref_contentHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_get_dtdHandler(self: *const T, oHandler: ?*?*IVBSAXDTDHandler) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_dtdHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_putref_dtdHandler(self: *const T, oHandler: ?*IVBSAXDTDHandler) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putref_dtdHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_get_errorHandler(self: *const T, oHandler: ?*?*IVBSAXErrorHandler) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_errorHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_putref_errorHandler(self: *const T, oHandler: ?*IVBSAXErrorHandler) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putref_errorHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_get_baseURL(self: *const T, strBaseURL: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_baseURL(@as(*const IVBSAXXMLReader, @ptrCast(self)), strBaseURL);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_put_baseURL(self: *const T, strBaseURL: ?BSTR) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).put_baseURL(@as(*const IVBSAXXMLReader, @ptrCast(self)), strBaseURL);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_get_secureBaseURL(self: *const T, strSecureBaseURL: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_secureBaseURL(@as(*const IVBSAXXMLReader, @ptrCast(self)), strSecureBaseURL);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_put_secureBaseURL(self: *const T, strSecureBaseURL: ?BSTR) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).put_secureBaseURL(@as(*const IVBSAXXMLReader, @ptrCast(self)), strSecureBaseURL);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_parse(self: *const T, varInput: VARIANT) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).parse(@as(*const IVBSAXXMLReader, @ptrCast(self)), varInput);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLReader_parseURL(self: *const T, strURL: ?BSTR) HRESULT {
-                return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).parseURL(@as(*const IVBSAXXMLReader, @ptrCast(self)), strURL);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_getFeature(self: *const T, strName: ?BSTR, fValue: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).getFeature(@as(*const IVBSAXXMLReader, @ptrCast(self)), strName, fValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_putFeature(self: *const T, strName: ?BSTR, fValue: i16) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putFeature(@as(*const IVBSAXXMLReader, @ptrCast(self)), strName, fValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_getProperty(self: *const T, strName: ?BSTR, varValue: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).getProperty(@as(*const IVBSAXXMLReader, @ptrCast(self)), strName, varValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_putProperty(self: *const T, strName: ?BSTR, varValue: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putProperty(@as(*const IVBSAXXMLReader, @ptrCast(self)), strName, varValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_get_entityResolver(self: *const T, oResolver: ?*?*IVBSAXEntityResolver) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_entityResolver(@as(*const IVBSAXXMLReader, @ptrCast(self)), oResolver);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_putref_entityResolver(self: *const T, oResolver: ?*IVBSAXEntityResolver) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putref_entityResolver(@as(*const IVBSAXXMLReader, @ptrCast(self)), oResolver);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_get_contentHandler(self: *const T, oHandler: ?*?*IVBSAXContentHandler) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_contentHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_putref_contentHandler(self: *const T, oHandler: ?*IVBSAXContentHandler) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putref_contentHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_get_dtdHandler(self: *const T, oHandler: ?*?*IVBSAXDTDHandler) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_dtdHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_putref_dtdHandler(self: *const T, oHandler: ?*IVBSAXDTDHandler) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putref_dtdHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_get_errorHandler(self: *const T, oHandler: ?*?*IVBSAXErrorHandler) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_errorHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_putref_errorHandler(self: *const T, oHandler: ?*IVBSAXErrorHandler) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).putref_errorHandler(@as(*const IVBSAXXMLReader, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_get_baseURL(self: *const T, strBaseURL: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_baseURL(@as(*const IVBSAXXMLReader, @ptrCast(self)), strBaseURL);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_put_baseURL(self: *const T, strBaseURL: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).put_baseURL(@as(*const IVBSAXXMLReader, @ptrCast(self)), strBaseURL);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_get_secureBaseURL(self: *const T, strSecureBaseURL: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).get_secureBaseURL(@as(*const IVBSAXXMLReader, @ptrCast(self)), strSecureBaseURL);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_put_secureBaseURL(self: *const T, strSecureBaseURL: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).put_secureBaseURL(@as(*const IVBSAXXMLReader, @ptrCast(self)), strSecureBaseURL);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_parse(self: *const T, varInput: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).parse(@as(*const IVBSAXXMLReader, @ptrCast(self)), varInput);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLReader_parseURL(self: *const T, strURL: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLReader.VTable, @ptrCast(self.vtable)).parseURL(@as(*const IVBSAXXMLReader, @ptrCast(self)), strURL);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -7608,41 +7494,39 @@ pub const IVBSAXXMLFilter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_parent: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLFilter,
                 oReader: ?*?*IVBSAXXMLReader,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLFilter,
                 oReader: ?*?*IVBSAXXMLReader,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_parent: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXXMLFilter,
                 oReader: ?*IVBSAXXMLReader,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXXMLFilter,
                 oReader: ?*IVBSAXXMLReader,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLFilter_get_parent(self: *const T, oReader: ?*?*IVBSAXXMLReader) HRESULT {
-                return @as(*const IVBSAXXMLFilter.VTable, @ptrCast(self.vtable)).get_parent(@as(*const IVBSAXXMLFilter, @ptrCast(self)), oReader);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXXMLFilter_putref_parent(self: *const T, oReader: ?*IVBSAXXMLReader) HRESULT {
-                return @as(*const IVBSAXXMLFilter.VTable, @ptrCast(self.vtable)).putref_parent(@as(*const IVBSAXXMLFilter, @ptrCast(self)), oReader);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLFilter_get_parent(self: *const T, oReader: ?*?*IVBSAXXMLReader) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLFilter.VTable, @ptrCast(self.vtable)).get_parent(@as(*const IVBSAXXMLFilter, @ptrCast(self)), oReader);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXXMLFilter_putref_parent(self: *const T, oReader: ?*IVBSAXXMLReader) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXXMLFilter.VTable, @ptrCast(self.vtable)).putref_parent(@as(*const IVBSAXXMLFilter, @ptrCast(self)), oReader);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -7654,12 +7538,12 @@ pub const IVBSAXLocator = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_columnNumber: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLocator,
                 nColumn: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLocator,
                 nColumn: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -7667,12 +7551,12 @@ pub const IVBSAXLocator = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_lineNumber: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLocator,
                 nLine: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLocator,
                 nLine: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -7680,12 +7564,12 @@ pub const IVBSAXLocator = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_publicId: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLocator,
                 strPublicId: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLocator,
                 strPublicId: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -7693,39 +7577,37 @@ pub const IVBSAXLocator = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_systemId: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLocator,
                 strSystemId: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLocator,
                 strSystemId: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLocator_get_columnNumber(self: *const T, nColumn: ?*i32) HRESULT {
-                return @as(*const IVBSAXLocator.VTable, @ptrCast(self.vtable)).get_columnNumber(@as(*const IVBSAXLocator, @ptrCast(self)), nColumn);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLocator_get_lineNumber(self: *const T, nLine: ?*i32) HRESULT {
-                return @as(*const IVBSAXLocator.VTable, @ptrCast(self.vtable)).get_lineNumber(@as(*const IVBSAXLocator, @ptrCast(self)), nLine);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLocator_get_publicId(self: *const T, strPublicId: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXLocator.VTable, @ptrCast(self.vtable)).get_publicId(@as(*const IVBSAXLocator, @ptrCast(self)), strPublicId);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLocator_get_systemId(self: *const T, strSystemId: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXLocator.VTable, @ptrCast(self.vtable)).get_systemId(@as(*const IVBSAXLocator, @ptrCast(self)), strSystemId);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLocator_get_columnNumber(self: *const T, nColumn: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLocator.VTable, @ptrCast(self.vtable)).get_columnNumber(@as(*const IVBSAXLocator, @ptrCast(self)), nColumn);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLocator_get_lineNumber(self: *const T, nLine: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLocator.VTable, @ptrCast(self.vtable)).get_lineNumber(@as(*const IVBSAXLocator, @ptrCast(self)), nLine);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLocator_get_publicId(self: *const T, strPublicId: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLocator.VTable, @ptrCast(self.vtable)).get_publicId(@as(*const IVBSAXLocator, @ptrCast(self)), strPublicId);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLocator_get_systemId(self: *const T, strSystemId: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLocator.VTable, @ptrCast(self.vtable)).get_systemId(@as(*const IVBSAXLocator, @ptrCast(self)), strSystemId);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -7735,13 +7617,13 @@ pub const IVBSAXEntityResolver = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         resolveEntity: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXEntityResolver,
                 strPublicId: ?*?BSTR,
                 strSystemId: ?*?BSTR,
                 varInput: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXEntityResolver,
                 strPublicId: ?*?BSTR,
                 strSystemId: ?*?BSTR,
@@ -7750,15 +7632,13 @@ pub const IVBSAXEntityResolver = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXEntityResolver_resolveEntity(self: *const T, strPublicId: ?*?BSTR, strSystemId: ?*?BSTR, varInput: ?*VARIANT) HRESULT {
-                return @as(*const IVBSAXEntityResolver.VTable, @ptrCast(self.vtable)).resolveEntity(@as(*const IVBSAXEntityResolver, @ptrCast(self)), strPublicId, strSystemId, varInput);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXEntityResolver_resolveEntity(self: *const T, strPublicId: ?*?BSTR, strSystemId: ?*?BSTR, varInput: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXEntityResolver.VTable, @ptrCast(self.vtable)).resolveEntity(@as(*const IVBSAXEntityResolver, @ptrCast(self)), strPublicId, strSystemId, varInput);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -7768,62 +7648,62 @@ pub const IVBSAXContentHandler = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         putref_documentLocator: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
                 oLocator: ?*IVBSAXLocator,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
                 oLocator: ?*IVBSAXLocator,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         startDocument: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endDocument: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         startPrefixMapping: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
                 strPrefix: ?*?BSTR,
                 strURI: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
                 strPrefix: ?*?BSTR,
                 strURI: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endPrefixMapping: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
                 strPrefix: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
                 strPrefix: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         startElement: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
                 strNamespaceURI: ?*?BSTR,
                 strLocalName: ?*?BSTR,
                 strQName: ?*?BSTR,
                 oAttributes: ?*IVBSAXAttributes,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
                 strNamespaceURI: ?*?BSTR,
                 strLocalName: ?*?BSTR,
@@ -7832,13 +7712,13 @@ pub const IVBSAXContentHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endElement: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
                 strNamespaceURI: ?*?BSTR,
                 strLocalName: ?*?BSTR,
                 strQName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
                 strNamespaceURI: ?*?BSTR,
                 strLocalName: ?*?BSTR,
@@ -7846,98 +7726,96 @@ pub const IVBSAXContentHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         characters: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
                 strChars: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
                 strChars: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ignorableWhitespace: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
                 strChars: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
                 strChars: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         processingInstruction: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
                 strTarget: ?*?BSTR,
                 strData: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
                 strTarget: ?*?BSTR,
                 strData: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         skippedEntity: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXContentHandler,
                 strName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXContentHandler,
                 strName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_putref_documentLocator(self: *const T, oLocator: ?*IVBSAXLocator) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).putref_documentLocator(@as(*const IVBSAXContentHandler, @ptrCast(self)), oLocator);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_startDocument(self: *const T) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).startDocument(@as(*const IVBSAXContentHandler, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_endDocument(self: *const T) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).endDocument(@as(*const IVBSAXContentHandler, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_startPrefixMapping(self: *const T, strPrefix: ?*?BSTR, strURI: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).startPrefixMapping(@as(*const IVBSAXContentHandler, @ptrCast(self)), strPrefix, strURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_endPrefixMapping(self: *const T, strPrefix: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).endPrefixMapping(@as(*const IVBSAXContentHandler, @ptrCast(self)), strPrefix);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_startElement(self: *const T, strNamespaceURI: ?*?BSTR, strLocalName: ?*?BSTR, strQName: ?*?BSTR, oAttributes: ?*IVBSAXAttributes) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).startElement(@as(*const IVBSAXContentHandler, @ptrCast(self)), strNamespaceURI, strLocalName, strQName, oAttributes);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_endElement(self: *const T, strNamespaceURI: ?*?BSTR, strLocalName: ?*?BSTR, strQName: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).endElement(@as(*const IVBSAXContentHandler, @ptrCast(self)), strNamespaceURI, strLocalName, strQName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_characters(self: *const T, strChars: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).characters(@as(*const IVBSAXContentHandler, @ptrCast(self)), strChars);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_ignorableWhitespace(self: *const T, strChars: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).ignorableWhitespace(@as(*const IVBSAXContentHandler, @ptrCast(self)), strChars);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_processingInstruction(self: *const T, strTarget: ?*?BSTR, strData: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).processingInstruction(@as(*const IVBSAXContentHandler, @ptrCast(self)), strTarget, strData);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXContentHandler_skippedEntity(self: *const T, strName: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).skippedEntity(@as(*const IVBSAXContentHandler, @ptrCast(self)), strName);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_putref_documentLocator(self: *const T, oLocator: ?*IVBSAXLocator) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).putref_documentLocator(@as(*const IVBSAXContentHandler, @ptrCast(self)), oLocator);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_startDocument(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).startDocument(@as(*const IVBSAXContentHandler, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_endDocument(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).endDocument(@as(*const IVBSAXContentHandler, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_startPrefixMapping(self: *const T, strPrefix: ?*?BSTR, strURI: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).startPrefixMapping(@as(*const IVBSAXContentHandler, @ptrCast(self)), strPrefix, strURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_endPrefixMapping(self: *const T, strPrefix: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).endPrefixMapping(@as(*const IVBSAXContentHandler, @ptrCast(self)), strPrefix);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_startElement(self: *const T, strNamespaceURI: ?*?BSTR, strLocalName: ?*?BSTR, strQName: ?*?BSTR, oAttributes: ?*IVBSAXAttributes) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).startElement(@as(*const IVBSAXContentHandler, @ptrCast(self)), strNamespaceURI, strLocalName, strQName, oAttributes);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_endElement(self: *const T, strNamespaceURI: ?*?BSTR, strLocalName: ?*?BSTR, strQName: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).endElement(@as(*const IVBSAXContentHandler, @ptrCast(self)), strNamespaceURI, strLocalName, strQName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_characters(self: *const T, strChars: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).characters(@as(*const IVBSAXContentHandler, @ptrCast(self)), strChars);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_ignorableWhitespace(self: *const T, strChars: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).ignorableWhitespace(@as(*const IVBSAXContentHandler, @ptrCast(self)), strChars);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_processingInstruction(self: *const T, strTarget: ?*?BSTR, strData: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).processingInstruction(@as(*const IVBSAXContentHandler, @ptrCast(self)), strTarget, strData);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXContentHandler_skippedEntity(self: *const T, strName: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXContentHandler.VTable, @ptrCast(self.vtable)).skippedEntity(@as(*const IVBSAXContentHandler, @ptrCast(self)), strName);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -7947,13 +7825,13 @@ pub const IVBSAXDTDHandler = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         notationDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXDTDHandler,
                 strName: ?*?BSTR,
                 strPublicId: ?*?BSTR,
                 strSystemId: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXDTDHandler,
                 strName: ?*?BSTR,
                 strPublicId: ?*?BSTR,
@@ -7961,14 +7839,14 @@ pub const IVBSAXDTDHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         unparsedEntityDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXDTDHandler,
                 strName: ?*?BSTR,
                 strPublicId: ?*?BSTR,
                 strSystemId: ?*?BSTR,
                 strNotationName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXDTDHandler,
                 strName: ?*?BSTR,
                 strPublicId: ?*?BSTR,
@@ -7978,19 +7856,17 @@ pub const IVBSAXDTDHandler = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXDTDHandler_notationDecl(self: *const T, strName: ?*?BSTR, strPublicId: ?*?BSTR, strSystemId: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXDTDHandler.VTable, @ptrCast(self.vtable)).notationDecl(@as(*const IVBSAXDTDHandler, @ptrCast(self)), strName, strPublicId, strSystemId);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXDTDHandler_unparsedEntityDecl(self: *const T, strName: ?*?BSTR, strPublicId: ?*?BSTR, strSystemId: ?*?BSTR, strNotationName: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXDTDHandler.VTable, @ptrCast(self.vtable)).unparsedEntityDecl(@as(*const IVBSAXDTDHandler, @ptrCast(self)), strName, strPublicId, strSystemId, strNotationName);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXDTDHandler_notationDecl(self: *const T, strName: ?*?BSTR, strPublicId: ?*?BSTR, strSystemId: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXDTDHandler.VTable, @ptrCast(self.vtable)).notationDecl(@as(*const IVBSAXDTDHandler, @ptrCast(self)), strName, strPublicId, strSystemId);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXDTDHandler_unparsedEntityDecl(self: *const T, strName: ?*?BSTR, strPublicId: ?*?BSTR, strSystemId: ?*?BSTR, strNotationName: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXDTDHandler.VTable, @ptrCast(self.vtable)).unparsedEntityDecl(@as(*const IVBSAXDTDHandler, @ptrCast(self)), strName, strPublicId, strSystemId, strNotationName);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -8000,13 +7876,13 @@ pub const IVBSAXErrorHandler = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         @"error": switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXErrorHandler,
                 oLocator: ?*IVBSAXLocator,
                 strErrorMessage: ?*?BSTR,
                 nErrorCode: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXErrorHandler,
                 oLocator: ?*IVBSAXLocator,
                 strErrorMessage: ?*?BSTR,
@@ -8014,13 +7890,13 @@ pub const IVBSAXErrorHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         fatalError: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXErrorHandler,
                 oLocator: ?*IVBSAXLocator,
                 strErrorMessage: ?*?BSTR,
                 nErrorCode: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXErrorHandler,
                 oLocator: ?*IVBSAXLocator,
                 strErrorMessage: ?*?BSTR,
@@ -8028,13 +7904,13 @@ pub const IVBSAXErrorHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ignorableWarning: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXErrorHandler,
                 oLocator: ?*IVBSAXLocator,
                 strErrorMessage: ?*?BSTR,
                 nErrorCode: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXErrorHandler,
                 oLocator: ?*IVBSAXLocator,
                 strErrorMessage: ?*?BSTR,
@@ -8043,23 +7919,21 @@ pub const IVBSAXErrorHandler = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXErrorHandler_error(self: *const T, oLocator: ?*IVBSAXLocator, strErrorMessage: ?*?BSTR, nErrorCode: i32) HRESULT {
-                return @as(*const IVBSAXErrorHandler.VTable, @ptrCast(self.vtable)).@"error"(@as(*const IVBSAXErrorHandler, @ptrCast(self)), oLocator, strErrorMessage, nErrorCode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXErrorHandler_fatalError(self: *const T, oLocator: ?*IVBSAXLocator, strErrorMessage: ?*?BSTR, nErrorCode: i32) HRESULT {
-                return @as(*const IVBSAXErrorHandler.VTable, @ptrCast(self.vtable)).fatalError(@as(*const IVBSAXErrorHandler, @ptrCast(self)), oLocator, strErrorMessage, nErrorCode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXErrorHandler_ignorableWarning(self: *const T, oLocator: ?*IVBSAXLocator, strErrorMessage: ?*?BSTR, nErrorCode: i32) HRESULT {
-                return @as(*const IVBSAXErrorHandler.VTable, @ptrCast(self.vtable)).ignorableWarning(@as(*const IVBSAXErrorHandler, @ptrCast(self)), oLocator, strErrorMessage, nErrorCode);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXErrorHandler_error(self: *const T, oLocator: ?*IVBSAXLocator, strErrorMessage: ?*?BSTR, nErrorCode: i32) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXErrorHandler.VTable, @ptrCast(self.vtable)).@"error"(@as(*const IVBSAXErrorHandler, @ptrCast(self)), oLocator, strErrorMessage, nErrorCode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXErrorHandler_fatalError(self: *const T, oLocator: ?*IVBSAXLocator, strErrorMessage: ?*?BSTR, nErrorCode: i32) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXErrorHandler.VTable, @ptrCast(self.vtable)).fatalError(@as(*const IVBSAXErrorHandler, @ptrCast(self)), oLocator, strErrorMessage, nErrorCode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXErrorHandler_ignorableWarning(self: *const T, oLocator: ?*IVBSAXLocator, strErrorMessage: ?*?BSTR, nErrorCode: i32) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXErrorHandler.VTable, @ptrCast(self.vtable)).ignorableWarning(@as(*const IVBSAXErrorHandler, @ptrCast(self)), oLocator, strErrorMessage, nErrorCode);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -8069,13 +7943,13 @@ pub const IVBSAXLexicalHandler = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         startDTD: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLexicalHandler,
                 strName: ?*?BSTR,
                 strPublicId: ?*?BSTR,
                 strSystemId: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLexicalHandler,
                 strName: ?*?BSTR,
                 strPublicId: ?*?BSTR,
@@ -8083,94 +7957,92 @@ pub const IVBSAXLexicalHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endDTD: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         startEntity: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLexicalHandler,
                 strName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLexicalHandler,
                 strName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endEntity: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLexicalHandler,
                 strName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLexicalHandler,
                 strName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         startCDATA: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         endCDATA: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLexicalHandler,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         comment: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXLexicalHandler,
                 strChars: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXLexicalHandler,
                 strChars: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLexicalHandler_startDTD(self: *const T, strName: ?*?BSTR, strPublicId: ?*?BSTR, strSystemId: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).startDTD(@as(*const IVBSAXLexicalHandler, @ptrCast(self)), strName, strPublicId, strSystemId);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLexicalHandler_endDTD(self: *const T) HRESULT {
-                return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).endDTD(@as(*const IVBSAXLexicalHandler, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLexicalHandler_startEntity(self: *const T, strName: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).startEntity(@as(*const IVBSAXLexicalHandler, @ptrCast(self)), strName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLexicalHandler_endEntity(self: *const T, strName: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).endEntity(@as(*const IVBSAXLexicalHandler, @ptrCast(self)), strName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLexicalHandler_startCDATA(self: *const T) HRESULT {
-                return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).startCDATA(@as(*const IVBSAXLexicalHandler, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLexicalHandler_endCDATA(self: *const T) HRESULT {
-                return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).endCDATA(@as(*const IVBSAXLexicalHandler, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXLexicalHandler_comment(self: *const T, strChars: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).comment(@as(*const IVBSAXLexicalHandler, @ptrCast(self)), strChars);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLexicalHandler_startDTD(self: *const T, strName: ?*?BSTR, strPublicId: ?*?BSTR, strSystemId: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).startDTD(@as(*const IVBSAXLexicalHandler, @ptrCast(self)), strName, strPublicId, strSystemId);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLexicalHandler_endDTD(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).endDTD(@as(*const IVBSAXLexicalHandler, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLexicalHandler_startEntity(self: *const T, strName: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).startEntity(@as(*const IVBSAXLexicalHandler, @ptrCast(self)), strName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLexicalHandler_endEntity(self: *const T, strName: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).endEntity(@as(*const IVBSAXLexicalHandler, @ptrCast(self)), strName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLexicalHandler_startCDATA(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).startCDATA(@as(*const IVBSAXLexicalHandler, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLexicalHandler_endCDATA(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).endCDATA(@as(*const IVBSAXLexicalHandler, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXLexicalHandler_comment(self: *const T, strChars: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXLexicalHandler.VTable, @ptrCast(self.vtable)).comment(@as(*const IVBSAXLexicalHandler, @ptrCast(self)), strChars);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -8180,19 +8052,19 @@ pub const IVBSAXDeclHandler = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         elementDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXDeclHandler,
                 strName: ?*?BSTR,
                 strModel: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXDeclHandler,
                 strName: ?*?BSTR,
                 strModel: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         attributeDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXDeclHandler,
                 strElementName: ?*?BSTR,
                 strAttributeName: ?*?BSTR,
@@ -8200,7 +8072,7 @@ pub const IVBSAXDeclHandler = extern struct {
                 strValueDefault: ?*?BSTR,
                 strValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXDeclHandler,
                 strElementName: ?*?BSTR,
                 strAttributeName: ?*?BSTR,
@@ -8210,25 +8082,25 @@ pub const IVBSAXDeclHandler = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         internalEntityDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXDeclHandler,
                 strName: ?*?BSTR,
                 strValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXDeclHandler,
                 strName: ?*?BSTR,
                 strValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         externalEntityDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXDeclHandler,
                 strName: ?*?BSTR,
                 strPublicId: ?*?BSTR,
                 strSystemId: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXDeclHandler,
                 strName: ?*?BSTR,
                 strPublicId: ?*?BSTR,
@@ -8237,27 +8109,25 @@ pub const IVBSAXDeclHandler = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXDeclHandler_elementDecl(self: *const T, strName: ?*?BSTR, strModel: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXDeclHandler.VTable, @ptrCast(self.vtable)).elementDecl(@as(*const IVBSAXDeclHandler, @ptrCast(self)), strName, strModel);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXDeclHandler_attributeDecl(self: *const T, strElementName: ?*?BSTR, strAttributeName: ?*?BSTR, strType: ?*?BSTR, strValueDefault: ?*?BSTR, strValue: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXDeclHandler.VTable, @ptrCast(self.vtable)).attributeDecl(@as(*const IVBSAXDeclHandler, @ptrCast(self)), strElementName, strAttributeName, strType, strValueDefault, strValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXDeclHandler_internalEntityDecl(self: *const T, strName: ?*?BSTR, strValue: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXDeclHandler.VTable, @ptrCast(self.vtable)).internalEntityDecl(@as(*const IVBSAXDeclHandler, @ptrCast(self)), strName, strValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXDeclHandler_externalEntityDecl(self: *const T, strName: ?*?BSTR, strPublicId: ?*?BSTR, strSystemId: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXDeclHandler.VTable, @ptrCast(self.vtable)).externalEntityDecl(@as(*const IVBSAXDeclHandler, @ptrCast(self)), strName, strPublicId, strSystemId);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXDeclHandler_elementDecl(self: *const T, strName: ?*?BSTR, strModel: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXDeclHandler.VTable, @ptrCast(self.vtable)).elementDecl(@as(*const IVBSAXDeclHandler, @ptrCast(self)), strName, strModel);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXDeclHandler_attributeDecl(self: *const T, strElementName: ?*?BSTR, strAttributeName: ?*?BSTR, strType: ?*?BSTR, strValueDefault: ?*?BSTR, strValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXDeclHandler.VTable, @ptrCast(self.vtable)).attributeDecl(@as(*const IVBSAXDeclHandler, @ptrCast(self)), strElementName, strAttributeName, strType, strValueDefault, strValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXDeclHandler_internalEntityDecl(self: *const T, strName: ?*?BSTR, strValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXDeclHandler.VTable, @ptrCast(self.vtable)).internalEntityDecl(@as(*const IVBSAXDeclHandler, @ptrCast(self)), strName, strValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXDeclHandler_externalEntityDecl(self: *const T, strName: ?*?BSTR, strPublicId: ?*?BSTR, strSystemId: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXDeclHandler.VTable, @ptrCast(self.vtable)).externalEntityDecl(@as(*const IVBSAXDeclHandler, @ptrCast(self)), strName, strPublicId, strSystemId);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -8269,60 +8139,60 @@ pub const IVBSAXAttributes = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 nLength: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 nLength: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getURI: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 nIndex: i32,
                 strURI: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 nIndex: i32,
                 strURI: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getLocalName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 nIndex: i32,
                 strLocalName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 nIndex: i32,
                 strLocalName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getQName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 nIndex: i32,
                 strQName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 nIndex: i32,
                 strQName: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getIndexFromName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 strURI: ?BSTR,
                 strLocalName: ?BSTR,
                 nIndex: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 strURI: ?BSTR,
                 strLocalName: ?BSTR,
@@ -8330,37 +8200,37 @@ pub const IVBSAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getIndexFromQName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 strQName: ?BSTR,
                 nIndex: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 strQName: ?BSTR,
                 nIndex: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getType: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 nIndex: i32,
                 strType: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 nIndex: i32,
                 strType: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getTypeFromName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 strURI: ?BSTR,
                 strLocalName: ?BSTR,
                 strType: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 strURI: ?BSTR,
                 strLocalName: ?BSTR,
@@ -8368,37 +8238,37 @@ pub const IVBSAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getTypeFromQName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 strQName: ?BSTR,
                 strType: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 strQName: ?BSTR,
                 strType: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getValue: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 nIndex: i32,
                 strValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 nIndex: i32,
                 strValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getValueFromName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 strURI: ?BSTR,
                 strLocalName: ?BSTR,
                 strValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 strURI: ?BSTR,
                 strLocalName: ?BSTR,
@@ -8406,12 +8276,12 @@ pub const IVBSAXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getValueFromQName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBSAXAttributes,
                 strQName: ?BSTR,
                 strValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBSAXAttributes,
                 strQName: ?BSTR,
                 strValue: ?*?BSTR,
@@ -8419,59 +8289,57 @@ pub const IVBSAXAttributes = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_get_length(self: *const T, nLength: ?*i32) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).get_length(@as(*const IVBSAXAttributes, @ptrCast(self)), nLength);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getURI(self: *const T, nIndex: i32, strURI: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getURI(@as(*const IVBSAXAttributes, @ptrCast(self)), nIndex, strURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getLocalName(self: *const T, nIndex: i32, strLocalName: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getLocalName(@as(*const IVBSAXAttributes, @ptrCast(self)), nIndex, strLocalName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getQName(self: *const T, nIndex: i32, strQName: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getQName(@as(*const IVBSAXAttributes, @ptrCast(self)), nIndex, strQName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getIndexFromName(self: *const T, strURI: ?BSTR, strLocalName: ?BSTR, nIndex: ?*i32) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getIndexFromName(@as(*const IVBSAXAttributes, @ptrCast(self)), strURI, strLocalName, nIndex);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getIndexFromQName(self: *const T, strQName: ?BSTR, nIndex: ?*i32) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getIndexFromQName(@as(*const IVBSAXAttributes, @ptrCast(self)), strQName, nIndex);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getType(self: *const T, nIndex: i32, strType: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getType(@as(*const IVBSAXAttributes, @ptrCast(self)), nIndex, strType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getTypeFromName(self: *const T, strURI: ?BSTR, strLocalName: ?BSTR, strType: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getTypeFromName(@as(*const IVBSAXAttributes, @ptrCast(self)), strURI, strLocalName, strType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getTypeFromQName(self: *const T, strQName: ?BSTR, strType: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getTypeFromQName(@as(*const IVBSAXAttributes, @ptrCast(self)), strQName, strType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getValue(self: *const T, nIndex: i32, strValue: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getValue(@as(*const IVBSAXAttributes, @ptrCast(self)), nIndex, strValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getValueFromName(self: *const T, strURI: ?BSTR, strLocalName: ?BSTR, strValue: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getValueFromName(@as(*const IVBSAXAttributes, @ptrCast(self)), strURI, strLocalName, strValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBSAXAttributes_getValueFromQName(self: *const T, strQName: ?BSTR, strValue: ?*?BSTR) HRESULT {
-                return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getValueFromQName(@as(*const IVBSAXAttributes, @ptrCast(self)), strQName, strValue);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_get_length(self: *const T, nLength: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).get_length(@as(*const IVBSAXAttributes, @ptrCast(self)), nLength);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getURI(self: *const T, nIndex: i32, strURI: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getURI(@as(*const IVBSAXAttributes, @ptrCast(self)), nIndex, strURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getLocalName(self: *const T, nIndex: i32, strLocalName: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getLocalName(@as(*const IVBSAXAttributes, @ptrCast(self)), nIndex, strLocalName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getQName(self: *const T, nIndex: i32, strQName: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getQName(@as(*const IVBSAXAttributes, @ptrCast(self)), nIndex, strQName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getIndexFromName(self: *const T, strURI: ?BSTR, strLocalName: ?BSTR, nIndex: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getIndexFromName(@as(*const IVBSAXAttributes, @ptrCast(self)), strURI, strLocalName, nIndex);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getIndexFromQName(self: *const T, strQName: ?BSTR, nIndex: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getIndexFromQName(@as(*const IVBSAXAttributes, @ptrCast(self)), strQName, nIndex);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getType(self: *const T, nIndex: i32, strType: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getType(@as(*const IVBSAXAttributes, @ptrCast(self)), nIndex, strType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getTypeFromName(self: *const T, strURI: ?BSTR, strLocalName: ?BSTR, strType: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getTypeFromName(@as(*const IVBSAXAttributes, @ptrCast(self)), strURI, strLocalName, strType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getTypeFromQName(self: *const T, strQName: ?BSTR, strType: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getTypeFromQName(@as(*const IVBSAXAttributes, @ptrCast(self)), strQName, strType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getValue(self: *const T, nIndex: i32, strValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getValue(@as(*const IVBSAXAttributes, @ptrCast(self)), nIndex, strValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getValueFromName(self: *const T, strURI: ?BSTR, strLocalName: ?BSTR, strValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getValueFromName(@as(*const IVBSAXAttributes, @ptrCast(self)), strURI, strLocalName, strValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBSAXAttributes_getValueFromQName(self: *const T, strQName: ?BSTR, strValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBSAXAttributes.VTable, @ptrCast(self.vtable)).getValueFromQName(@as(*const IVBSAXAttributes, @ptrCast(self)), strQName, strValue);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -8483,12 +8351,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_output: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 varDestination: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 varDestination: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8496,12 +8364,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_output: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 varDestination: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 varDestination: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8509,12 +8377,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_encoding: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 strEncoding: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 strEncoding: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8522,12 +8390,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_encoding: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 strEncoding: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 strEncoding: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8535,12 +8403,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_byteOrderMark: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 fWriteByteOrderMark: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 fWriteByteOrderMark: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8548,12 +8416,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_byteOrderMark: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 fWriteByteOrderMark: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 fWriteByteOrderMark: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8561,12 +8429,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_indent: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 fIndentMode: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 fIndentMode: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8574,12 +8442,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_indent: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 fIndentMode: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 fIndentMode: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8587,12 +8455,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_standalone: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 fValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 fValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8600,12 +8468,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_standalone: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 fValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 fValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8613,12 +8481,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_omitXMLDeclaration: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 fValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 fValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8626,12 +8494,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_omitXMLDeclaration: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 fValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 fValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8639,12 +8507,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_version: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 strVersion: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 strVersion: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8652,12 +8520,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_version: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 strVersion: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 strVersion: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8665,12 +8533,12 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_disableOutputEscaping: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 fValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 fValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -8678,99 +8546,97 @@ pub const IMXWriter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_disableOutputEscaping: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
                 fValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
                 fValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         flush: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXWriter,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXWriter,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_put_output(self: *const T, varDestination: VARIANT) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_output(@as(*const IMXWriter, @ptrCast(self)), varDestination);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_get_output(self: *const T, varDestination: ?*VARIANT) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_output(@as(*const IMXWriter, @ptrCast(self)), varDestination);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_put_encoding(self: *const T, strEncoding: ?BSTR) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_encoding(@as(*const IMXWriter, @ptrCast(self)), strEncoding);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_get_encoding(self: *const T, strEncoding: ?*?BSTR) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_encoding(@as(*const IMXWriter, @ptrCast(self)), strEncoding);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_put_byteOrderMark(self: *const T, fWriteByteOrderMark: i16) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_byteOrderMark(@as(*const IMXWriter, @ptrCast(self)), fWriteByteOrderMark);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_get_byteOrderMark(self: *const T, fWriteByteOrderMark: ?*i16) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_byteOrderMark(@as(*const IMXWriter, @ptrCast(self)), fWriteByteOrderMark);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_put_indent(self: *const T, fIndentMode: i16) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_indent(@as(*const IMXWriter, @ptrCast(self)), fIndentMode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_get_indent(self: *const T, fIndentMode: ?*i16) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_indent(@as(*const IMXWriter, @ptrCast(self)), fIndentMode);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_put_standalone(self: *const T, fValue: i16) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_standalone(@as(*const IMXWriter, @ptrCast(self)), fValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_get_standalone(self: *const T, fValue: ?*i16) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_standalone(@as(*const IMXWriter, @ptrCast(self)), fValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_put_omitXMLDeclaration(self: *const T, fValue: i16) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_omitXMLDeclaration(@as(*const IMXWriter, @ptrCast(self)), fValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_get_omitXMLDeclaration(self: *const T, fValue: ?*i16) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_omitXMLDeclaration(@as(*const IMXWriter, @ptrCast(self)), fValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_put_version(self: *const T, strVersion: ?BSTR) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_version(@as(*const IMXWriter, @ptrCast(self)), strVersion);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_get_version(self: *const T, strVersion: ?*?BSTR) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_version(@as(*const IMXWriter, @ptrCast(self)), strVersion);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_put_disableOutputEscaping(self: *const T, fValue: i16) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_disableOutputEscaping(@as(*const IMXWriter, @ptrCast(self)), fValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_get_disableOutputEscaping(self: *const T, fValue: ?*i16) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_disableOutputEscaping(@as(*const IMXWriter, @ptrCast(self)), fValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXWriter_flush(self: *const T) HRESULT {
-                return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).flush(@as(*const IMXWriter, @ptrCast(self)));
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_put_output(self: *const T, varDestination: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_output(@as(*const IMXWriter, @ptrCast(self)), varDestination);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_get_output(self: *const T, varDestination: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_output(@as(*const IMXWriter, @ptrCast(self)), varDestination);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_put_encoding(self: *const T, strEncoding: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_encoding(@as(*const IMXWriter, @ptrCast(self)), strEncoding);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_get_encoding(self: *const T, strEncoding: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_encoding(@as(*const IMXWriter, @ptrCast(self)), strEncoding);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_put_byteOrderMark(self: *const T, fWriteByteOrderMark: i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_byteOrderMark(@as(*const IMXWriter, @ptrCast(self)), fWriteByteOrderMark);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_get_byteOrderMark(self: *const T, fWriteByteOrderMark: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_byteOrderMark(@as(*const IMXWriter, @ptrCast(self)), fWriteByteOrderMark);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_put_indent(self: *const T, fIndentMode: i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_indent(@as(*const IMXWriter, @ptrCast(self)), fIndentMode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_get_indent(self: *const T, fIndentMode: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_indent(@as(*const IMXWriter, @ptrCast(self)), fIndentMode);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_put_standalone(self: *const T, fValue: i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_standalone(@as(*const IMXWriter, @ptrCast(self)), fValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_get_standalone(self: *const T, fValue: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_standalone(@as(*const IMXWriter, @ptrCast(self)), fValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_put_omitXMLDeclaration(self: *const T, fValue: i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_omitXMLDeclaration(@as(*const IMXWriter, @ptrCast(self)), fValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_get_omitXMLDeclaration(self: *const T, fValue: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_omitXMLDeclaration(@as(*const IMXWriter, @ptrCast(self)), fValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_put_version(self: *const T, strVersion: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_version(@as(*const IMXWriter, @ptrCast(self)), strVersion);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_get_version(self: *const T, strVersion: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_version(@as(*const IMXWriter, @ptrCast(self)), strVersion);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_put_disableOutputEscaping(self: *const T, fValue: i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).put_disableOutputEscaping(@as(*const IMXWriter, @ptrCast(self)), fValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_get_disableOutputEscaping(self: *const T, fValue: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).get_disableOutputEscaping(@as(*const IMXWriter, @ptrCast(self)), fValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXWriter_flush(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMXWriter.VTable, @ptrCast(self.vtable)).flush(@as(*const IMXWriter, @ptrCast(self)));
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -8780,7 +8646,7 @@ pub const IMXAttributes = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         addAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
                 strURI: ?BSTR,
                 strLocalName: ?BSTR,
@@ -8788,7 +8654,7 @@ pub const IMXAttributes = extern struct {
                 strType: ?BSTR,
                 strValue: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
                 strURI: ?BSTR,
                 strLocalName: ?BSTR,
@@ -8798,37 +8664,37 @@ pub const IMXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         addAttributeFromIndex: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
                 varAtts: VARIANT,
                 nIndex: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
                 varAtts: VARIANT,
                 nIndex: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         clear: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         removeAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setAttribute: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strURI: ?BSTR,
@@ -8837,7 +8703,7 @@ pub const IMXAttributes = extern struct {
                 strType: ?BSTR,
                 strValue: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strURI: ?BSTR,
@@ -8848,70 +8714,70 @@ pub const IMXAttributes = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setAttributes: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
                 varAtts: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
                 varAtts: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setLocalName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strLocalName: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strLocalName: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setQName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strQName: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strQName: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setType: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strType: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strType: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setURI: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strURI: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strURI: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         setValue: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strValue: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXAttributes,
                 nIndex: i32,
                 strValue: ?BSTR,
@@ -8919,55 +8785,53 @@ pub const IMXAttributes = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_addAttribute(self: *const T, strURI: ?BSTR, strLocalName: ?BSTR, strQName: ?BSTR, strType: ?BSTR, strValue: ?BSTR) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).addAttribute(@as(*const IMXAttributes, @ptrCast(self)), strURI, strLocalName, strQName, strType, strValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_addAttributeFromIndex(self: *const T, varAtts: VARIANT, nIndex: i32) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).addAttributeFromIndex(@as(*const IMXAttributes, @ptrCast(self)), varAtts, nIndex);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_clear(self: *const T) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).clear(@as(*const IMXAttributes, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_removeAttribute(self: *const T, nIndex: i32) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).removeAttribute(@as(*const IMXAttributes, @ptrCast(self)), nIndex);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_setAttribute(self: *const T, nIndex: i32, strURI: ?BSTR, strLocalName: ?BSTR, strQName: ?BSTR, strType: ?BSTR, strValue: ?BSTR) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setAttribute(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strURI, strLocalName, strQName, strType, strValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_setAttributes(self: *const T, varAtts: VARIANT) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setAttributes(@as(*const IMXAttributes, @ptrCast(self)), varAtts);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_setLocalName(self: *const T, nIndex: i32, strLocalName: ?BSTR) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setLocalName(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strLocalName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_setQName(self: *const T, nIndex: i32, strQName: ?BSTR) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setQName(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strQName);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_setType(self: *const T, nIndex: i32, strType: ?BSTR) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setType(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_setURI(self: *const T, nIndex: i32, strURI: ?BSTR) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setURI(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXAttributes_setValue(self: *const T, nIndex: i32, strValue: ?BSTR) HRESULT {
-                return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setValue(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strValue);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_addAttribute(self: *const T, strURI: ?BSTR, strLocalName: ?BSTR, strQName: ?BSTR, strType: ?BSTR, strValue: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).addAttribute(@as(*const IMXAttributes, @ptrCast(self)), strURI, strLocalName, strQName, strType, strValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_addAttributeFromIndex(self: *const T, varAtts: VARIANT, nIndex: i32) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).addAttributeFromIndex(@as(*const IMXAttributes, @ptrCast(self)), varAtts, nIndex);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_clear(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).clear(@as(*const IMXAttributes, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_removeAttribute(self: *const T, nIndex: i32) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).removeAttribute(@as(*const IMXAttributes, @ptrCast(self)), nIndex);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_setAttribute(self: *const T, nIndex: i32, strURI: ?BSTR, strLocalName: ?BSTR, strQName: ?BSTR, strType: ?BSTR, strValue: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setAttribute(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strURI, strLocalName, strQName, strType, strValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_setAttributes(self: *const T, varAtts: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setAttributes(@as(*const IMXAttributes, @ptrCast(self)), varAtts);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_setLocalName(self: *const T, nIndex: i32, strLocalName: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setLocalName(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strLocalName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_setQName(self: *const T, nIndex: i32, strQName: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setQName(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strQName);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_setType(self: *const T, nIndex: i32, strType: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setType(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_setURI(self: *const T, nIndex: i32, strURI: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setURI(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXAttributes_setValue(self: *const T, nIndex: i32, strValue: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXAttributes.VTable, @ptrCast(self.vtable)).setValue(@as(*const IMXAttributes, @ptrCast(self)), nIndex, strValue);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -8977,48 +8841,46 @@ pub const IMXReaderControl = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         abort: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXReaderControl,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXReaderControl,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         @"resume": switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXReaderControl,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXReaderControl,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         @"suspend": switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXReaderControl,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXReaderControl,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXReaderControl_abort(self: *const T) HRESULT {
-                return @as(*const IMXReaderControl.VTable, @ptrCast(self.vtable)).abort(@as(*const IMXReaderControl, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXReaderControl_resume(self: *const T) HRESULT {
-                return @as(*const IMXReaderControl.VTable, @ptrCast(self.vtable)).@"resume"(@as(*const IMXReaderControl, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXReaderControl_suspend(self: *const T) HRESULT {
-                return @as(*const IMXReaderControl.VTable, @ptrCast(self.vtable)).@"suspend"(@as(*const IMXReaderControl, @ptrCast(self)));
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXReaderControl_abort(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMXReaderControl.VTable, @ptrCast(self.vtable)).abort(@as(*const IMXReaderControl, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXReaderControl_resume(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMXReaderControl.VTable, @ptrCast(self.vtable)).@"resume"(@as(*const IMXReaderControl, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXReaderControl_suspend(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMXReaderControl.VTable, @ptrCast(self.vtable)).@"suspend"(@as(*const IMXReaderControl, @ptrCast(self)));
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -9028,26 +8890,24 @@ pub const IMXSchemaDeclHandler = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         schemaElementDecl: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXSchemaDeclHandler,
                 oSchemaElement: ?*ISchemaElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXSchemaDeclHandler,
                 oSchemaElement: ?*ISchemaElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXSchemaDeclHandler_schemaElementDecl(self: *const T, oSchemaElement: ?*ISchemaElement) HRESULT {
-                return @as(*const IMXSchemaDeclHandler.VTable, @ptrCast(self.vtable)).schemaElementDecl(@as(*const IMXSchemaDeclHandler, @ptrCast(self)), oSchemaElement);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXSchemaDeclHandler_schemaElementDecl(self: *const T, oSchemaElement: ?*ISchemaElement) callconv(.Inline) HRESULT {
+            return @as(*const IMXSchemaDeclHandler.VTable, @ptrCast(self.vtable)).schemaElementDecl(@as(*const IMXSchemaDeclHandler, @ptrCast(self)), oSchemaElement);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -9056,16 +8916,13 @@ pub const IID_IMXNamespacePrefixes = &IID_IMXNamespacePrefixes_Value;
 pub const IMXNamespacePrefixes = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
-        // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_item: switch (@import("builtin").zig_backend) {
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespacePrefixes,
                 index: i32,
                 prefix: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespacePrefixes,
                 index: i32,
                 prefix: ?*?BSTR,
@@ -9074,12 +8931,12 @@ pub const IMXNamespacePrefixes = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespacePrefixes,
                 length: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespacePrefixes,
                 length: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -9087,35 +8944,33 @@ pub const IMXNamespacePrefixes = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get__newEnum: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespacePrefixes,
                 ppUnk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespacePrefixes,
                 ppUnk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespacePrefixes_get_item(self: *const T, index: i32, prefix: ?*?BSTR) HRESULT {
-                return @as(*const IMXNamespacePrefixes.VTable, @ptrCast(self.vtable)).get_item(@as(*const IMXNamespacePrefixes, @ptrCast(self)), index, prefix);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespacePrefixes_get_length(self: *const T, length: ?*i32) HRESULT {
-                return @as(*const IMXNamespacePrefixes.VTable, @ptrCast(self.vtable)).get_length(@as(*const IMXNamespacePrefixes, @ptrCast(self)), length);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespacePrefixes_get__newEnum(self: *const T, ppUnk: ?*?*IUnknown) HRESULT {
-                return @as(*const IMXNamespacePrefixes.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IMXNamespacePrefixes, @ptrCast(self)), ppUnk);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespacePrefixes_get_item(self: *const T, index: i32, prefix: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespacePrefixes.VTable, @ptrCast(self.vtable)).get_item(@as(*const IMXNamespacePrefixes, @ptrCast(self)), index, prefix);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespacePrefixes_get_length(self: *const T, length: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespacePrefixes.VTable, @ptrCast(self.vtable)).get_length(@as(*const IMXNamespacePrefixes, @ptrCast(self)), length);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespacePrefixes_get__newEnum(self: *const T, ppUnk: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespacePrefixes.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const IMXNamespacePrefixes, @ptrCast(self)), ppUnk);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -9127,12 +8982,12 @@ pub const IVBMXNamespaceManager = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_allowOverride: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
                 fOverride: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
                 fOverride: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -9140,106 +8995,106 @@ pub const IVBMXNamespaceManager = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_allowOverride: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
                 fOverride: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
                 fOverride: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         reset: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         pushContext: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         pushNodeContext: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
                 contextNode: ?*IXMLDOMNode,
                 fDeep: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
                 contextNode: ?*IXMLDOMNode,
                 fDeep: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         popContext: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         declarePrefix: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
                 prefix: ?BSTR,
                 namespaceURI: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
                 prefix: ?BSTR,
                 namespaceURI: ?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getDeclaredPrefixes: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
                 prefixes: ?*?*IMXNamespacePrefixes,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
                 prefixes: ?*?*IMXNamespacePrefixes,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getPrefixes: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
                 namespaceURI: ?BSTR,
                 prefixes: ?*?*IMXNamespacePrefixes,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
                 namespaceURI: ?BSTR,
                 prefixes: ?*?*IMXNamespacePrefixes,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getURI: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
                 prefix: ?BSTR,
                 uri: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
                 prefix: ?BSTR,
                 uri: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getURIFromNode: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IVBMXNamespaceManager,
                 strPrefix: ?BSTR,
                 contextNode: ?*IXMLDOMNode,
                 uri: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IVBMXNamespaceManager,
                 strPrefix: ?BSTR,
                 contextNode: ?*IXMLDOMNode,
@@ -9248,55 +9103,53 @@ pub const IVBMXNamespaceManager = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_put_allowOverride(self: *const T, fOverride: i16) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).put_allowOverride(@as(*const IVBMXNamespaceManager, @ptrCast(self)), fOverride);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_get_allowOverride(self: *const T, fOverride: ?*i16) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).get_allowOverride(@as(*const IVBMXNamespaceManager, @ptrCast(self)), fOverride);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_reset(self: *const T) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).reset(@as(*const IVBMXNamespaceManager, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_pushContext(self: *const T) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).pushContext(@as(*const IVBMXNamespaceManager, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_pushNodeContext(self: *const T, contextNode: ?*IXMLDOMNode, fDeep: i16) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).pushNodeContext(@as(*const IVBMXNamespaceManager, @ptrCast(self)), contextNode, fDeep);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_popContext(self: *const T) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).popContext(@as(*const IVBMXNamespaceManager, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_declarePrefix(self: *const T, prefix: ?BSTR, namespaceURI: ?BSTR) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).declarePrefix(@as(*const IVBMXNamespaceManager, @ptrCast(self)), prefix, namespaceURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_getDeclaredPrefixes(self: *const T, prefixes: ?*?*IMXNamespacePrefixes) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).getDeclaredPrefixes(@as(*const IVBMXNamespaceManager, @ptrCast(self)), prefixes);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_getPrefixes(self: *const T, namespaceURI: ?BSTR, prefixes: ?*?*IMXNamespacePrefixes) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).getPrefixes(@as(*const IVBMXNamespaceManager, @ptrCast(self)), namespaceURI, prefixes);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_getURI(self: *const T, prefix: ?BSTR, uri: ?*VARIANT) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).getURI(@as(*const IVBMXNamespaceManager, @ptrCast(self)), prefix, uri);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IVBMXNamespaceManager_getURIFromNode(self: *const T, strPrefix: ?BSTR, contextNode: ?*IXMLDOMNode, uri: ?*VARIANT) HRESULT {
-                return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).getURIFromNode(@as(*const IVBMXNamespaceManager, @ptrCast(self)), strPrefix, contextNode, uri);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_put_allowOverride(self: *const T, fOverride: i16) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).put_allowOverride(@as(*const IVBMXNamespaceManager, @ptrCast(self)), fOverride);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_get_allowOverride(self: *const T, fOverride: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).get_allowOverride(@as(*const IVBMXNamespaceManager, @ptrCast(self)), fOverride);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_reset(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).reset(@as(*const IVBMXNamespaceManager, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_pushContext(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).pushContext(@as(*const IVBMXNamespaceManager, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_pushNodeContext(self: *const T, contextNode: ?*IXMLDOMNode, fDeep: i16) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).pushNodeContext(@as(*const IVBMXNamespaceManager, @ptrCast(self)), contextNode, fDeep);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_popContext(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).popContext(@as(*const IVBMXNamespaceManager, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_declarePrefix(self: *const T, prefix: ?BSTR, namespaceURI: ?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).declarePrefix(@as(*const IVBMXNamespaceManager, @ptrCast(self)), prefix, namespaceURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_getDeclaredPrefixes(self: *const T, prefixes: ?*?*IMXNamespacePrefixes) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).getDeclaredPrefixes(@as(*const IVBMXNamespaceManager, @ptrCast(self)), prefixes);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_getPrefixes(self: *const T, namespaceURI: ?BSTR, prefixes: ?*?*IMXNamespacePrefixes) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).getPrefixes(@as(*const IVBMXNamespaceManager, @ptrCast(self)), namespaceURI, prefixes);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_getURI(self: *const T, prefix: ?BSTR, uri: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).getURI(@as(*const IVBMXNamespaceManager, @ptrCast(self)), prefix, uri);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IVBMXNamespaceManager_getURIFromNode(self: *const T, strPrefix: ?BSTR, contextNode: ?*IXMLDOMNode, uri: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IVBMXNamespaceManager.VTable, @ptrCast(self.vtable)).getURIFromNode(@as(*const IVBMXNamespaceManager, @ptrCast(self)), strPrefix, contextNode, uri);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -9306,81 +9159,81 @@ pub const IMXNamespaceManager = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         putAllowOverride: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespaceManager,
                 fOverride: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespaceManager,
                 fOverride: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getAllowOverride: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespaceManager,
                 fOverride: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespaceManager,
                 fOverride: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         reset: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         pushContext: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         pushNodeContext: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespaceManager,
                 contextNode: ?*IXMLDOMNode,
                 fDeep: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespaceManager,
                 contextNode: ?*IXMLDOMNode,
                 fDeep: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         popContext: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespaceManager,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         declarePrefix: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespaceManager,
                 prefix: ?[*:0]const u16,
                 namespaceURI: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespaceManager,
                 prefix: ?[*:0]const u16,
                 namespaceURI: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getDeclaredPrefix: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespaceManager,
                 nIndex: i32,
                 pwchPrefix: [*:0]u16,
                 pcchPrefix: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespaceManager,
                 nIndex: i32,
                 pwchPrefix: [*:0]u16,
@@ -9388,14 +9241,14 @@ pub const IMXNamespaceManager = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getPrefix: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespaceManager,
                 pwszNamespaceURI: ?[*:0]const u16,
                 nIndex: i32,
                 pwchPrefix: [*:0]u16,
                 pcchPrefix: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespaceManager,
                 pwszNamespaceURI: ?[*:0]const u16,
                 nIndex: i32,
@@ -9404,14 +9257,14 @@ pub const IMXNamespaceManager = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getURI: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXNamespaceManager,
                 pwchPrefix: ?[*:0]const u16,
                 pContextNode: ?*IXMLDOMNode,
                 pwchUri: [*:0]u16,
                 pcchUri: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXNamespaceManager,
                 pwchPrefix: ?[*:0]const u16,
                 pContextNode: ?*IXMLDOMNode,
@@ -9421,51 +9274,49 @@ pub const IMXNamespaceManager = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespaceManager_putAllowOverride(self: *const T, fOverride: i16) HRESULT {
-                return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).putAllowOverride(@as(*const IMXNamespaceManager, @ptrCast(self)), fOverride);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespaceManager_getAllowOverride(self: *const T, fOverride: ?*i16) HRESULT {
-                return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).getAllowOverride(@as(*const IMXNamespaceManager, @ptrCast(self)), fOverride);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespaceManager_reset(self: *const T) HRESULT {
-                return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).reset(@as(*const IMXNamespaceManager, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespaceManager_pushContext(self: *const T) HRESULT {
-                return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).pushContext(@as(*const IMXNamespaceManager, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespaceManager_pushNodeContext(self: *const T, contextNode: ?*IXMLDOMNode, fDeep: i16) HRESULT {
-                return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).pushNodeContext(@as(*const IMXNamespaceManager, @ptrCast(self)), contextNode, fDeep);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespaceManager_popContext(self: *const T) HRESULT {
-                return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).popContext(@as(*const IMXNamespaceManager, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespaceManager_declarePrefix(self: *const T, prefix: ?[*:0]const u16, namespaceURI: ?[*:0]const u16) HRESULT {
-                return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).declarePrefix(@as(*const IMXNamespaceManager, @ptrCast(self)), prefix, namespaceURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespaceManager_getDeclaredPrefix(self: *const T, nIndex: i32, pwchPrefix: [*:0]u16, pcchPrefix: ?*i32) HRESULT {
-                return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).getDeclaredPrefix(@as(*const IMXNamespaceManager, @ptrCast(self)), nIndex, pwchPrefix, pcchPrefix);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespaceManager_getPrefix(self: *const T, pwszNamespaceURI: ?[*:0]const u16, nIndex: i32, pwchPrefix: [*:0]u16, pcchPrefix: ?*i32) HRESULT {
-                return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).getPrefix(@as(*const IMXNamespaceManager, @ptrCast(self)), pwszNamespaceURI, nIndex, pwchPrefix, pcchPrefix);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXNamespaceManager_getURI(self: *const T, pwchPrefix: ?[*:0]const u16, pContextNode: ?*IXMLDOMNode, pwchUri: [*:0]u16, pcchUri: ?*i32) HRESULT {
-                return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).getURI(@as(*const IMXNamespaceManager, @ptrCast(self)), pwchPrefix, pContextNode, pwchUri, pcchUri);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespaceManager_putAllowOverride(self: *const T, fOverride: i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).putAllowOverride(@as(*const IMXNamespaceManager, @ptrCast(self)), fOverride);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespaceManager_getAllowOverride(self: *const T, fOverride: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).getAllowOverride(@as(*const IMXNamespaceManager, @ptrCast(self)), fOverride);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespaceManager_reset(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).reset(@as(*const IMXNamespaceManager, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespaceManager_pushContext(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).pushContext(@as(*const IMXNamespaceManager, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespaceManager_pushNodeContext(self: *const T, contextNode: ?*IXMLDOMNode, fDeep: i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).pushNodeContext(@as(*const IMXNamespaceManager, @ptrCast(self)), contextNode, fDeep);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespaceManager_popContext(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).popContext(@as(*const IMXNamespaceManager, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespaceManager_declarePrefix(self: *const T, prefix: ?[*:0]const u16, namespaceURI: ?[*:0]const u16) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).declarePrefix(@as(*const IMXNamespaceManager, @ptrCast(self)), prefix, namespaceURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespaceManager_getDeclaredPrefix(self: *const T, nIndex: i32, pwchPrefix: [*:0]u16, pcchPrefix: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).getDeclaredPrefix(@as(*const IMXNamespaceManager, @ptrCast(self)), nIndex, pwchPrefix, pcchPrefix);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespaceManager_getPrefix(self: *const T, pwszNamespaceURI: ?[*:0]const u16, nIndex: i32, pwchPrefix: [*:0]u16, pcchPrefix: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).getPrefix(@as(*const IMXNamespaceManager, @ptrCast(self)), pwszNamespaceURI, nIndex, pwchPrefix, pcchPrefix);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXNamespaceManager_getURI(self: *const T, pwchPrefix: ?[*:0]const u16, pContextNode: ?*IXMLDOMNode, pwchUri: [*:0]u16, pcchUri: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const IMXNamespaceManager.VTable, @ptrCast(self.vtable)).getURI(@as(*const IMXNamespaceManager, @ptrCast(self)), pwchPrefix, pContextNode, pwchUri, pcchUri);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -9475,48 +9326,48 @@ pub const IMXXMLFilter = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
         getFeature: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 strName: ?BSTR,
                 fValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 strName: ?BSTR,
                 fValue: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putFeature: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 strName: ?BSTR,
                 fValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 strName: ?BSTR,
                 fValue: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 strName: ?BSTR,
                 varValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 strName: ?BSTR,
                 varValue: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 strName: ?BSTR,
                 varValue: VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 strName: ?BSTR,
                 varValue: VARIANT,
@@ -9525,22 +9376,22 @@ pub const IMXXMLFilter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_entityResolver: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 oResolver: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 oResolver: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_entityResolver: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 oResolver: ?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 oResolver: ?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -9548,22 +9399,22 @@ pub const IMXXMLFilter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_contentHandler: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_contentHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -9571,22 +9422,22 @@ pub const IMXXMLFilter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_dtdHandler: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_dtdHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -9594,81 +9445,79 @@ pub const IMXXMLFilter = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_errorHandler: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         putref_errorHandler: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IMXXMLFilter,
                 oHandler: ?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_getFeature(self: *const T, strName: ?BSTR, fValue: ?*i16) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).getFeature(@as(*const IMXXMLFilter, @ptrCast(self)), strName, fValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_putFeature(self: *const T, strName: ?BSTR, fValue: i16) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putFeature(@as(*const IMXXMLFilter, @ptrCast(self)), strName, fValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_getProperty(self: *const T, strName: ?BSTR, varValue: ?*VARIANT) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).getProperty(@as(*const IMXXMLFilter, @ptrCast(self)), strName, varValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_putProperty(self: *const T, strName: ?BSTR, varValue: VARIANT) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putProperty(@as(*const IMXXMLFilter, @ptrCast(self)), strName, varValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_get_entityResolver(self: *const T, oResolver: ?*?*IUnknown) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).get_entityResolver(@as(*const IMXXMLFilter, @ptrCast(self)), oResolver);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_putref_entityResolver(self: *const T, oResolver: ?*IUnknown) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putref_entityResolver(@as(*const IMXXMLFilter, @ptrCast(self)), oResolver);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_get_contentHandler(self: *const T, oHandler: ?*?*IUnknown) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).get_contentHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_putref_contentHandler(self: *const T, oHandler: ?*IUnknown) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putref_contentHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_get_dtdHandler(self: *const T, oHandler: ?*?*IUnknown) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).get_dtdHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_putref_dtdHandler(self: *const T, oHandler: ?*IUnknown) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putref_dtdHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_get_errorHandler(self: *const T, oHandler: ?*?*IUnknown) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).get_errorHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IMXXMLFilter_putref_errorHandler(self: *const T, oHandler: ?*IUnknown) HRESULT {
-                return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putref_errorHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_getFeature(self: *const T, strName: ?BSTR, fValue: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).getFeature(@as(*const IMXXMLFilter, @ptrCast(self)), strName, fValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_putFeature(self: *const T, strName: ?BSTR, fValue: i16) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putFeature(@as(*const IMXXMLFilter, @ptrCast(self)), strName, fValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_getProperty(self: *const T, strName: ?BSTR, varValue: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).getProperty(@as(*const IMXXMLFilter, @ptrCast(self)), strName, varValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_putProperty(self: *const T, strName: ?BSTR, varValue: VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putProperty(@as(*const IMXXMLFilter, @ptrCast(self)), strName, varValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_get_entityResolver(self: *const T, oResolver: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).get_entityResolver(@as(*const IMXXMLFilter, @ptrCast(self)), oResolver);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_putref_entityResolver(self: *const T, oResolver: ?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putref_entityResolver(@as(*const IMXXMLFilter, @ptrCast(self)), oResolver);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_get_contentHandler(self: *const T, oHandler: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).get_contentHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_putref_contentHandler(self: *const T, oHandler: ?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putref_contentHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_get_dtdHandler(self: *const T, oHandler: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).get_dtdHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_putref_dtdHandler(self: *const T, oHandler: ?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putref_dtdHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_get_errorHandler(self: *const T, oHandler: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).get_errorHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IMXXMLFilter_putref_errorHandler(self: *const T, oHandler: ?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const IMXXMLFilter.VTable, @ptrCast(self.vtable)).putref_errorHandler(@as(*const IMXXMLFilter, @ptrCast(self)), oHandler);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -9899,22 +9748,22 @@ pub const IXMLDOMSchemaCollection2 = extern struct {
     pub const VTable = extern struct {
         base: IXMLDOMSchemaCollection.VTable,
         validate: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         put_validateOnLoad: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection2,
                 validateOnLoad: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection2,
                 validateOnLoad: i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -9922,35 +9771,35 @@ pub const IXMLDOMSchemaCollection2 = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_validateOnLoad: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection2,
                 validateOnLoad: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection2,
                 validateOnLoad: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getSchema: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection2,
                 namespaceURI: ?BSTR,
                 schema: ?*?*ISchema,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection2,
                 namespaceURI: ?BSTR,
                 schema: ?*?*ISchema,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         getDeclaration: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLDOMSchemaCollection2,
                 node: ?*IXMLDOMNode,
                 item: ?*?*ISchemaItem,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLDOMSchemaCollection2,
                 node: ?*IXMLDOMNode,
                 item: ?*?*ISchemaItem,
@@ -9958,31 +9807,29 @@ pub const IXMLDOMSchemaCollection2 = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLDOMSchemaCollection.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection2_validate(self: *const T) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection2.VTable, @ptrCast(self.vtable)).validate(@as(*const IXMLDOMSchemaCollection2, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection2_put_validateOnLoad(self: *const T, validateOnLoad: i16) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection2.VTable, @ptrCast(self.vtable)).put_validateOnLoad(@as(*const IXMLDOMSchemaCollection2, @ptrCast(self)), validateOnLoad);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection2_get_validateOnLoad(self: *const T, validateOnLoad: ?*i16) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection2.VTable, @ptrCast(self.vtable)).get_validateOnLoad(@as(*const IXMLDOMSchemaCollection2, @ptrCast(self)), validateOnLoad);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection2_getSchema(self: *const T, namespaceURI: ?BSTR, schema: ?*?*ISchema) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection2.VTable, @ptrCast(self.vtable)).getSchema(@as(*const IXMLDOMSchemaCollection2, @ptrCast(self)), namespaceURI, schema);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLDOMSchemaCollection2_getDeclaration(self: *const T, node: ?*IXMLDOMNode, item: ?*?*ISchemaItem) HRESULT {
-                return @as(*const IXMLDOMSchemaCollection2.VTable, @ptrCast(self.vtable)).getDeclaration(@as(*const IXMLDOMSchemaCollection2, @ptrCast(self)), node, item);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLDOMSchemaCollection.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection2_validate(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection2.VTable, @ptrCast(self.vtable)).validate(@as(*const IXMLDOMSchemaCollection2, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection2_put_validateOnLoad(self: *const T, validateOnLoad: i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection2.VTable, @ptrCast(self.vtable)).put_validateOnLoad(@as(*const IXMLDOMSchemaCollection2, @ptrCast(self)), validateOnLoad);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection2_get_validateOnLoad(self: *const T, validateOnLoad: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection2.VTable, @ptrCast(self.vtable)).get_validateOnLoad(@as(*const IXMLDOMSchemaCollection2, @ptrCast(self)), validateOnLoad);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection2_getSchema(self: *const T, namespaceURI: ?BSTR, schema: ?*?*ISchema) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection2.VTable, @ptrCast(self.vtable)).getSchema(@as(*const IXMLDOMSchemaCollection2, @ptrCast(self)), namespaceURI, schema);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLDOMSchemaCollection2_getDeclaration(self: *const T, node: ?*IXMLDOMNode, item: ?*?*ISchemaItem) callconv(.Inline) HRESULT {
+            return @as(*const IXMLDOMSchemaCollection2.VTable, @ptrCast(self.vtable)).getDeclaration(@as(*const IXMLDOMSchemaCollection2, @ptrCast(self)), node, item);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -9991,16 +9838,13 @@ pub const IID_ISchemaStringCollection = &IID_ISchemaStringCollection_Value;
 pub const ISchemaStringCollection = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
-        // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_item: switch (@import("builtin").zig_backend) {
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaStringCollection,
                 index: i32,
                 bstr: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaStringCollection,
                 index: i32,
                 bstr: ?*?BSTR,
@@ -10009,12 +9853,12 @@ pub const ISchemaStringCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaStringCollection,
                 length: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaStringCollection,
                 length: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10022,35 +9866,33 @@ pub const ISchemaStringCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get__newEnum: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaStringCollection,
                 ppunk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaStringCollection,
                 ppunk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaStringCollection_get_item(self: *const T, index: i32, bstr: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaStringCollection.VTable, @ptrCast(self.vtable)).get_item(@as(*const ISchemaStringCollection, @ptrCast(self)), index, bstr);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaStringCollection_get_length(self: *const T, length: ?*i32) HRESULT {
-                return @as(*const ISchemaStringCollection.VTable, @ptrCast(self.vtable)).get_length(@as(*const ISchemaStringCollection, @ptrCast(self)), length);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaStringCollection_get__newEnum(self: *const T, ppunk: ?*?*IUnknown) HRESULT {
-                return @as(*const ISchemaStringCollection.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const ISchemaStringCollection, @ptrCast(self)), ppunk);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaStringCollection_get_item(self: *const T, index: i32, bstr: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaStringCollection.VTable, @ptrCast(self.vtable)).get_item(@as(*const ISchemaStringCollection, @ptrCast(self)), index, bstr);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaStringCollection_get_length(self: *const T, length: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaStringCollection.VTable, @ptrCast(self.vtable)).get_length(@as(*const ISchemaStringCollection, @ptrCast(self)), length);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaStringCollection_get__newEnum(self: *const T, ppunk: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaStringCollection.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const ISchemaStringCollection, @ptrCast(self)), ppunk);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -10059,41 +9901,38 @@ pub const IID_ISchemaItemCollection = &IID_ISchemaItemCollection_Value;
 pub const ISchemaItemCollection = extern struct {
     pub const VTable = extern struct {
         base: IDispatch.VTable,
-        // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_item: switch (@import("builtin").zig_backend) {
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItemCollection,
                 index: i32,
                 item: ?*?*ISchemaItem,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItemCollection,
                 index: i32,
                 item: ?*?*ISchemaItem,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         itemByName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItemCollection,
                 name: ?BSTR,
                 item: ?*?*ISchemaItem,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItemCollection,
                 name: ?BSTR,
                 item: ?*?*ISchemaItem,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         itemByQName: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItemCollection,
                 name: ?BSTR,
                 namespaceURI: ?BSTR,
                 item: ?*?*ISchemaItem,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItemCollection,
                 name: ?BSTR,
                 namespaceURI: ?BSTR,
@@ -10103,12 +9942,12 @@ pub const ISchemaItemCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItemCollection,
                 length: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItemCollection,
                 length: ?*i32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10116,43 +9955,41 @@ pub const ISchemaItemCollection = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get__newEnum: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItemCollection,
                 ppunk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItemCollection,
                 ppunk: ?*?*IUnknown,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItemCollection_get_item(self: *const T, index: i32, item: ?*?*ISchemaItem) HRESULT {
-                return @as(*const ISchemaItemCollection.VTable, @ptrCast(self.vtable)).get_item(@as(*const ISchemaItemCollection, @ptrCast(self)), index, item);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItemCollection_itemByName(self: *const T, name: ?BSTR, item: ?*?*ISchemaItem) HRESULT {
-                return @as(*const ISchemaItemCollection.VTable, @ptrCast(self.vtable)).itemByName(@as(*const ISchemaItemCollection, @ptrCast(self)), name, item);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItemCollection_itemByQName(self: *const T, name: ?BSTR, namespaceURI: ?BSTR, item: ?*?*ISchemaItem) HRESULT {
-                return @as(*const ISchemaItemCollection.VTable, @ptrCast(self.vtable)).itemByQName(@as(*const ISchemaItemCollection, @ptrCast(self)), name, namespaceURI, item);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItemCollection_get_length(self: *const T, length: ?*i32) HRESULT {
-                return @as(*const ISchemaItemCollection.VTable, @ptrCast(self.vtable)).get_length(@as(*const ISchemaItemCollection, @ptrCast(self)), length);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItemCollection_get__newEnum(self: *const T, ppunk: ?*?*IUnknown) HRESULT {
-                return @as(*const ISchemaItemCollection.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const ISchemaItemCollection, @ptrCast(self)), ppunk);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItemCollection_get_item(self: *const T, index: i32, item: ?*?*ISchemaItem) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItemCollection.VTable, @ptrCast(self.vtable)).get_item(@as(*const ISchemaItemCollection, @ptrCast(self)), index, item);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItemCollection_itemByName(self: *const T, name: ?BSTR, item: ?*?*ISchemaItem) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItemCollection.VTable, @ptrCast(self.vtable)).itemByName(@as(*const ISchemaItemCollection, @ptrCast(self)), name, item);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItemCollection_itemByQName(self: *const T, name: ?BSTR, namespaceURI: ?BSTR, item: ?*?*ISchemaItem) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItemCollection.VTable, @ptrCast(self.vtable)).itemByQName(@as(*const ISchemaItemCollection, @ptrCast(self)), name, namespaceURI, item);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItemCollection_get_length(self: *const T, length: ?*i32) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItemCollection.VTable, @ptrCast(self.vtable)).get_length(@as(*const ISchemaItemCollection, @ptrCast(self)), length);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItemCollection_get__newEnum(self: *const T, ppunk: ?*?*IUnknown) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItemCollection.VTable, @ptrCast(self.vtable)).get__newEnum(@as(*const ISchemaItemCollection, @ptrCast(self)), ppunk);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -10164,12 +10001,12 @@ pub const ISchemaItem = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_name: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItem,
                 name: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItem,
                 name: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10177,12 +10014,12 @@ pub const ISchemaItem = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_namespaceURI: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItem,
                 namespaceURI: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItem,
                 namespaceURI: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10190,12 +10027,12 @@ pub const ISchemaItem = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_schema: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItem,
                 schema: ?*?*ISchema,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItem,
                 schema: ?*?*ISchema,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10203,12 +10040,12 @@ pub const ISchemaItem = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_id: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItem,
                 id: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItem,
                 id: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10216,12 +10053,12 @@ pub const ISchemaItem = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_itemType: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItem,
                 itemType: ?*SOMITEMTYPE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItem,
                 itemType: ?*SOMITEMTYPE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10229,23 +10066,23 @@ pub const ISchemaItem = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_unhandledAttributes: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItem,
                 attributes: ?*?*IVBSAXAttributes,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItem,
                 attributes: ?*?*IVBSAXAttributes,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         writeAnnotation: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaItem,
                 annotationSink: ?*IUnknown,
                 isWritten: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaItem,
                 annotationSink: ?*IUnknown,
                 isWritten: ?*i16,
@@ -10253,39 +10090,37 @@ pub const ISchemaItem = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IDispatch.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItem_get_name(self: *const T, name: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_name(@as(*const ISchemaItem, @ptrCast(self)), name);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItem_get_namespaceURI(self: *const T, namespaceURI: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_namespaceURI(@as(*const ISchemaItem, @ptrCast(self)), namespaceURI);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItem_get_schema(self: *const T, schema: ?*?*ISchema) HRESULT {
-                return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_schema(@as(*const ISchemaItem, @ptrCast(self)), schema);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItem_get_id(self: *const T, id: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_id(@as(*const ISchemaItem, @ptrCast(self)), id);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItem_get_itemType(self: *const T, itemType: ?*SOMITEMTYPE) HRESULT {
-                return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_itemType(@as(*const ISchemaItem, @ptrCast(self)), itemType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItem_get_unhandledAttributes(self: *const T, attributes: ?*?*IVBSAXAttributes) HRESULT {
-                return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_unhandledAttributes(@as(*const ISchemaItem, @ptrCast(self)), attributes);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaItem_writeAnnotation(self: *const T, annotationSink: ?*IUnknown, isWritten: ?*i16) HRESULT {
-                return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).writeAnnotation(@as(*const ISchemaItem, @ptrCast(self)), annotationSink, isWritten);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IDispatch.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItem_get_name(self: *const T, name: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_name(@as(*const ISchemaItem, @ptrCast(self)), name);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItem_get_namespaceURI(self: *const T, namespaceURI: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_namespaceURI(@as(*const ISchemaItem, @ptrCast(self)), namespaceURI);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItem_get_schema(self: *const T, schema: ?*?*ISchema) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_schema(@as(*const ISchemaItem, @ptrCast(self)), schema);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItem_get_id(self: *const T, id: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_id(@as(*const ISchemaItem, @ptrCast(self)), id);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItem_get_itemType(self: *const T, itemType: ?*SOMITEMTYPE) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_itemType(@as(*const ISchemaItem, @ptrCast(self)), itemType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItem_get_unhandledAttributes(self: *const T, attributes: ?*?*IVBSAXAttributes) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).get_unhandledAttributes(@as(*const ISchemaItem, @ptrCast(self)), attributes);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaItem_writeAnnotation(self: *const T, annotationSink: ?*IUnknown, isWritten: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaItem.VTable, @ptrCast(self.vtable)).writeAnnotation(@as(*const ISchemaItem, @ptrCast(self)), annotationSink, isWritten);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -10297,12 +10132,12 @@ pub const ISchema = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_targetNamespace: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchema,
                 targetNamespace: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchema,
                 targetNamespace: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10310,12 +10145,12 @@ pub const ISchema = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_version: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchema,
                 version: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchema,
                 version: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10323,12 +10158,12 @@ pub const ISchema = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_types: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchema,
                 types: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchema,
                 types: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10336,12 +10171,12 @@ pub const ISchema = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_elements: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchema,
                 elements: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchema,
                 elements: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10349,12 +10184,12 @@ pub const ISchema = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_attributes: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchema,
                 attributes: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchema,
                 attributes: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10362,12 +10197,12 @@ pub const ISchema = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_attributeGroups: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchema,
                 attributeGroups: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchema,
                 attributeGroups: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10375,12 +10210,12 @@ pub const ISchema = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_modelGroups: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchema,
                 modelGroups: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchema,
                 modelGroups: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10388,12 +10223,12 @@ pub const ISchema = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_notations: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchema,
                 notations: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchema,
                 notations: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10401,59 +10236,57 @@ pub const ISchema = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_schemaLocations: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchema,
                 schemaLocations: ?*?*ISchemaStringCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchema,
                 schemaLocations: ?*?*ISchemaStringCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaItem.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchema_get_targetNamespace(self: *const T, targetNamespace: ?*?BSTR) HRESULT {
-                return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_targetNamespace(@as(*const ISchema, @ptrCast(self)), targetNamespace);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchema_get_version(self: *const T, version: ?*?BSTR) HRESULT {
-                return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_version(@as(*const ISchema, @ptrCast(self)), version);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchema_get_types(self: *const T, types: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_types(@as(*const ISchema, @ptrCast(self)), types);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchema_get_elements(self: *const T, elements: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_elements(@as(*const ISchema, @ptrCast(self)), elements);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchema_get_attributes(self: *const T, attributes: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_attributes(@as(*const ISchema, @ptrCast(self)), attributes);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchema_get_attributeGroups(self: *const T, attributeGroups: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_attributeGroups(@as(*const ISchema, @ptrCast(self)), attributeGroups);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchema_get_modelGroups(self: *const T, modelGroups: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_modelGroups(@as(*const ISchema, @ptrCast(self)), modelGroups);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchema_get_notations(self: *const T, notations: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_notations(@as(*const ISchema, @ptrCast(self)), notations);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchema_get_schemaLocations(self: *const T, schemaLocations: ?*?*ISchemaStringCollection) HRESULT {
-                return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_schemaLocations(@as(*const ISchema, @ptrCast(self)), schemaLocations);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaItem.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchema_get_targetNamespace(self: *const T, targetNamespace: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_targetNamespace(@as(*const ISchema, @ptrCast(self)), targetNamespace);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchema_get_version(self: *const T, version: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_version(@as(*const ISchema, @ptrCast(self)), version);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchema_get_types(self: *const T, types: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_types(@as(*const ISchema, @ptrCast(self)), types);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchema_get_elements(self: *const T, elements: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_elements(@as(*const ISchema, @ptrCast(self)), elements);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchema_get_attributes(self: *const T, attributes: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_attributes(@as(*const ISchema, @ptrCast(self)), attributes);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchema_get_attributeGroups(self: *const T, attributeGroups: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_attributeGroups(@as(*const ISchema, @ptrCast(self)), attributeGroups);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchema_get_modelGroups(self: *const T, modelGroups: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_modelGroups(@as(*const ISchema, @ptrCast(self)), modelGroups);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchema_get_notations(self: *const T, notations: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_notations(@as(*const ISchema, @ptrCast(self)), notations);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchema_get_schemaLocations(self: *const T, schemaLocations: ?*?*ISchemaStringCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchema.VTable, @ptrCast(self.vtable)).get_schemaLocations(@as(*const ISchema, @ptrCast(self)), schemaLocations);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -10465,12 +10298,12 @@ pub const ISchemaParticle = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_minOccurs: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaParticle,
                 minOccurs: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaParticle,
                 minOccurs: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10478,31 +10311,29 @@ pub const ISchemaParticle = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_maxOccurs: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaParticle,
                 maxOccurs: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaParticle,
                 maxOccurs: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaItem.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaParticle_get_minOccurs(self: *const T, minOccurs: ?*VARIANT) HRESULT {
-                return @as(*const ISchemaParticle.VTable, @ptrCast(self.vtable)).get_minOccurs(@as(*const ISchemaParticle, @ptrCast(self)), minOccurs);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaParticle_get_maxOccurs(self: *const T, maxOccurs: ?*VARIANT) HRESULT {
-                return @as(*const ISchemaParticle.VTable, @ptrCast(self.vtable)).get_maxOccurs(@as(*const ISchemaParticle, @ptrCast(self)), maxOccurs);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaItem.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaParticle_get_minOccurs(self: *const T, minOccurs: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaParticle.VTable, @ptrCast(self.vtable)).get_minOccurs(@as(*const ISchemaParticle, @ptrCast(self)), minOccurs);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaParticle_get_maxOccurs(self: *const T, maxOccurs: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaParticle.VTable, @ptrCast(self.vtable)).get_maxOccurs(@as(*const ISchemaParticle, @ptrCast(self)), maxOccurs);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -10514,12 +10345,12 @@ pub const ISchemaAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_type: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaAttribute,
                 type: ?*?*ISchemaType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaAttribute,
                 type: ?*?*ISchemaType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10527,12 +10358,12 @@ pub const ISchemaAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_scope: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaAttribute,
                 scope: ?*?*ISchemaComplexType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaAttribute,
                 scope: ?*?*ISchemaComplexType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10540,12 +10371,12 @@ pub const ISchemaAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_defaultValue: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaAttribute,
                 defaultValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaAttribute,
                 defaultValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10553,12 +10384,12 @@ pub const ISchemaAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_fixedValue: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaAttribute,
                 fixedValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaAttribute,
                 fixedValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10566,12 +10397,12 @@ pub const ISchemaAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_use: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaAttribute,
                 use: ?*SCHEMAUSE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaAttribute,
                 use: ?*SCHEMAUSE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10579,47 +10410,45 @@ pub const ISchemaAttribute = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_isReference: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaAttribute,
                 reference: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaAttribute,
                 reference: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaItem.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaAttribute_get_type(self: *const T, type_: ?*?*ISchemaType) HRESULT {
-                return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_type(@as(*const ISchemaAttribute, @ptrCast(self)), type_);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaAttribute_get_scope(self: *const T, scope: ?*?*ISchemaComplexType) HRESULT {
-                return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_scope(@as(*const ISchemaAttribute, @ptrCast(self)), scope);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaAttribute_get_defaultValue(self: *const T, defaultValue: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_defaultValue(@as(*const ISchemaAttribute, @ptrCast(self)), defaultValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaAttribute_get_fixedValue(self: *const T, fixedValue: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_fixedValue(@as(*const ISchemaAttribute, @ptrCast(self)), fixedValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaAttribute_get_use(self: *const T, use: ?*SCHEMAUSE) HRESULT {
-                return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_use(@as(*const ISchemaAttribute, @ptrCast(self)), use);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaAttribute_get_isReference(self: *const T, reference: ?*i16) HRESULT {
-                return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_isReference(@as(*const ISchemaAttribute, @ptrCast(self)), reference);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaItem.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaAttribute_get_type(self: *const T, type_: ?*?*ISchemaType) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_type(@as(*const ISchemaAttribute, @ptrCast(self)), type_);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaAttribute_get_scope(self: *const T, scope: ?*?*ISchemaComplexType) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_scope(@as(*const ISchemaAttribute, @ptrCast(self)), scope);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaAttribute_get_defaultValue(self: *const T, defaultValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_defaultValue(@as(*const ISchemaAttribute, @ptrCast(self)), defaultValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaAttribute_get_fixedValue(self: *const T, fixedValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_fixedValue(@as(*const ISchemaAttribute, @ptrCast(self)), fixedValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaAttribute_get_use(self: *const T, use: ?*SCHEMAUSE) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_use(@as(*const ISchemaAttribute, @ptrCast(self)), use);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaAttribute_get_isReference(self: *const T, reference: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaAttribute.VTable, @ptrCast(self.vtable)).get_isReference(@as(*const ISchemaAttribute, @ptrCast(self)), reference);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -10631,12 +10460,12 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_type: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 type: ?*?*ISchemaType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 type: ?*?*ISchemaType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10644,12 +10473,12 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_scope: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 scope: ?*?*ISchemaComplexType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 scope: ?*?*ISchemaComplexType,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10657,12 +10486,12 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_defaultValue: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 defaultValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 defaultValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10670,12 +10499,12 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_fixedValue: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 fixedValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 fixedValue: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10683,12 +10512,12 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_isNillable: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 nillable: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 nillable: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10696,12 +10525,12 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_identityConstraints: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 constraints: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 constraints: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10709,12 +10538,12 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_substitutionGroup: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 element: ?*?*ISchemaElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 element: ?*?*ISchemaElement,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10722,12 +10551,12 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_substitutionGroupExclusions: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 exclusions: ?*SCHEMADERIVATIONMETHOD,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 exclusions: ?*SCHEMADERIVATIONMETHOD,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10735,12 +10564,12 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_disallowedSubstitutions: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 disallowed: ?*SCHEMADERIVATIONMETHOD,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 disallowed: ?*SCHEMADERIVATIONMETHOD,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10748,12 +10577,12 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_isAbstract: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 abstract: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 abstract: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10761,67 +10590,65 @@ pub const ISchemaElement = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_isReference: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaElement,
                 reference: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaElement,
                 reference: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaParticle.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_type(self: *const T, type_: ?*?*ISchemaType) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_type(@as(*const ISchemaElement, @ptrCast(self)), type_);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_scope(self: *const T, scope: ?*?*ISchemaComplexType) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_scope(@as(*const ISchemaElement, @ptrCast(self)), scope);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_defaultValue(self: *const T, defaultValue: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_defaultValue(@as(*const ISchemaElement, @ptrCast(self)), defaultValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_fixedValue(self: *const T, fixedValue: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_fixedValue(@as(*const ISchemaElement, @ptrCast(self)), fixedValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_isNillable(self: *const T, nillable: ?*i16) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_isNillable(@as(*const ISchemaElement, @ptrCast(self)), nillable);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_identityConstraints(self: *const T, constraints: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_identityConstraints(@as(*const ISchemaElement, @ptrCast(self)), constraints);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_substitutionGroup(self: *const T, element: ?*?*ISchemaElement) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_substitutionGroup(@as(*const ISchemaElement, @ptrCast(self)), element);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_substitutionGroupExclusions(self: *const T, exclusions: ?*SCHEMADERIVATIONMETHOD) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_substitutionGroupExclusions(@as(*const ISchemaElement, @ptrCast(self)), exclusions);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_disallowedSubstitutions(self: *const T, disallowed: ?*SCHEMADERIVATIONMETHOD) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_disallowedSubstitutions(@as(*const ISchemaElement, @ptrCast(self)), disallowed);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_isAbstract(self: *const T, abstract: ?*i16) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_isAbstract(@as(*const ISchemaElement, @ptrCast(self)), abstract);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaElement_get_isReference(self: *const T, reference: ?*i16) HRESULT {
-                return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_isReference(@as(*const ISchemaElement, @ptrCast(self)), reference);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaParticle.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_type(self: *const T, type_: ?*?*ISchemaType) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_type(@as(*const ISchemaElement, @ptrCast(self)), type_);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_scope(self: *const T, scope: ?*?*ISchemaComplexType) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_scope(@as(*const ISchemaElement, @ptrCast(self)), scope);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_defaultValue(self: *const T, defaultValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_defaultValue(@as(*const ISchemaElement, @ptrCast(self)), defaultValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_fixedValue(self: *const T, fixedValue: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_fixedValue(@as(*const ISchemaElement, @ptrCast(self)), fixedValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_isNillable(self: *const T, nillable: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_isNillable(@as(*const ISchemaElement, @ptrCast(self)), nillable);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_identityConstraints(self: *const T, constraints: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_identityConstraints(@as(*const ISchemaElement, @ptrCast(self)), constraints);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_substitutionGroup(self: *const T, element: ?*?*ISchemaElement) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_substitutionGroup(@as(*const ISchemaElement, @ptrCast(self)), element);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_substitutionGroupExclusions(self: *const T, exclusions: ?*SCHEMADERIVATIONMETHOD) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_substitutionGroupExclusions(@as(*const ISchemaElement, @ptrCast(self)), exclusions);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_disallowedSubstitutions(self: *const T, disallowed: ?*SCHEMADERIVATIONMETHOD) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_disallowedSubstitutions(@as(*const ISchemaElement, @ptrCast(self)), disallowed);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_isAbstract(self: *const T, abstract: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_isAbstract(@as(*const ISchemaElement, @ptrCast(self)), abstract);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaElement_get_isReference(self: *const T, reference: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaElement.VTable, @ptrCast(self.vtable)).get_isReference(@as(*const ISchemaElement, @ptrCast(self)), reference);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -10833,12 +10660,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_baseTypes: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 baseTypes: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 baseTypes: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10846,12 +10673,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_final: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 final: ?*SCHEMADERIVATIONMETHOD,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 final: ?*SCHEMADERIVATIONMETHOD,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10859,12 +10686,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_variety: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 variety: ?*SCHEMATYPEVARIETY,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 variety: ?*SCHEMATYPEVARIETY,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10872,23 +10699,23 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_derivedBy: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 derivedBy: ?*SCHEMADERIVATIONMETHOD,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 derivedBy: ?*SCHEMADERIVATIONMETHOD,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         isValid: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 data: ?BSTR,
                 valid: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 data: ?BSTR,
                 valid: ?*i16,
@@ -10897,12 +10724,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_minExclusive: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 minExclusive: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 minExclusive: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10910,12 +10737,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_minInclusive: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 minInclusive: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 minInclusive: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10923,12 +10750,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_maxExclusive: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 maxExclusive: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 maxExclusive: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10936,12 +10763,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_maxInclusive: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 maxInclusive: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 maxInclusive: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10949,12 +10776,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_totalDigits: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 totalDigits: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 totalDigits: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10962,12 +10789,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_fractionDigits: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 fractionDigits: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 fractionDigits: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10975,12 +10802,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_length: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 length: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 length: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -10988,12 +10815,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_minLength: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 minLength: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 minLength: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11001,12 +10828,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_maxLength: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 maxLength: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 maxLength: ?*VARIANT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11014,12 +10841,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_enumeration: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 enumeration: ?*?*ISchemaStringCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 enumeration: ?*?*ISchemaStringCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11027,12 +10854,12 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_whitespace: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 whitespace: ?*SCHEMAWHITESPACE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 whitespace: ?*SCHEMAWHITESPACE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11040,91 +10867,89 @@ pub const ISchemaType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_patterns: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaType,
                 patterns: ?*?*ISchemaStringCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaType,
                 patterns: ?*?*ISchemaStringCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaItem.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_baseTypes(self: *const T, baseTypes: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_baseTypes(@as(*const ISchemaType, @ptrCast(self)), baseTypes);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_final(self: *const T, final: ?*SCHEMADERIVATIONMETHOD) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_final(@as(*const ISchemaType, @ptrCast(self)), final);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_variety(self: *const T, variety: ?*SCHEMATYPEVARIETY) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_variety(@as(*const ISchemaType, @ptrCast(self)), variety);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_derivedBy(self: *const T, derivedBy: ?*SCHEMADERIVATIONMETHOD) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_derivedBy(@as(*const ISchemaType, @ptrCast(self)), derivedBy);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_isValid(self: *const T, data: ?BSTR, valid: ?*i16) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).isValid(@as(*const ISchemaType, @ptrCast(self)), data, valid);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_minExclusive(self: *const T, minExclusive: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_minExclusive(@as(*const ISchemaType, @ptrCast(self)), minExclusive);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_minInclusive(self: *const T, minInclusive: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_minInclusive(@as(*const ISchemaType, @ptrCast(self)), minInclusive);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_maxExclusive(self: *const T, maxExclusive: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_maxExclusive(@as(*const ISchemaType, @ptrCast(self)), maxExclusive);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_maxInclusive(self: *const T, maxInclusive: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_maxInclusive(@as(*const ISchemaType, @ptrCast(self)), maxInclusive);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_totalDigits(self: *const T, totalDigits: ?*VARIANT) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_totalDigits(@as(*const ISchemaType, @ptrCast(self)), totalDigits);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_fractionDigits(self: *const T, fractionDigits: ?*VARIANT) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_fractionDigits(@as(*const ISchemaType, @ptrCast(self)), fractionDigits);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_length(self: *const T, length: ?*VARIANT) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_length(@as(*const ISchemaType, @ptrCast(self)), length);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_minLength(self: *const T, minLength: ?*VARIANT) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_minLength(@as(*const ISchemaType, @ptrCast(self)), minLength);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_maxLength(self: *const T, maxLength: ?*VARIANT) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_maxLength(@as(*const ISchemaType, @ptrCast(self)), maxLength);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_enumeration(self: *const T, enumeration: ?*?*ISchemaStringCollection) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_enumeration(@as(*const ISchemaType, @ptrCast(self)), enumeration);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_whitespace(self: *const T, whitespace: ?*SCHEMAWHITESPACE) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_whitespace(@as(*const ISchemaType, @ptrCast(self)), whitespace);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaType_get_patterns(self: *const T, patterns: ?*?*ISchemaStringCollection) HRESULT {
-                return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_patterns(@as(*const ISchemaType, @ptrCast(self)), patterns);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaItem.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_baseTypes(self: *const T, baseTypes: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_baseTypes(@as(*const ISchemaType, @ptrCast(self)), baseTypes);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_final(self: *const T, final: ?*SCHEMADERIVATIONMETHOD) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_final(@as(*const ISchemaType, @ptrCast(self)), final);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_variety(self: *const T, variety: ?*SCHEMATYPEVARIETY) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_variety(@as(*const ISchemaType, @ptrCast(self)), variety);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_derivedBy(self: *const T, derivedBy: ?*SCHEMADERIVATIONMETHOD) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_derivedBy(@as(*const ISchemaType, @ptrCast(self)), derivedBy);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_isValid(self: *const T, data: ?BSTR, valid: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).isValid(@as(*const ISchemaType, @ptrCast(self)), data, valid);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_minExclusive(self: *const T, minExclusive: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_minExclusive(@as(*const ISchemaType, @ptrCast(self)), minExclusive);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_minInclusive(self: *const T, minInclusive: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_minInclusive(@as(*const ISchemaType, @ptrCast(self)), minInclusive);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_maxExclusive(self: *const T, maxExclusive: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_maxExclusive(@as(*const ISchemaType, @ptrCast(self)), maxExclusive);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_maxInclusive(self: *const T, maxInclusive: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_maxInclusive(@as(*const ISchemaType, @ptrCast(self)), maxInclusive);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_totalDigits(self: *const T, totalDigits: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_totalDigits(@as(*const ISchemaType, @ptrCast(self)), totalDigits);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_fractionDigits(self: *const T, fractionDigits: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_fractionDigits(@as(*const ISchemaType, @ptrCast(self)), fractionDigits);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_length(self: *const T, length: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_length(@as(*const ISchemaType, @ptrCast(self)), length);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_minLength(self: *const T, minLength: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_minLength(@as(*const ISchemaType, @ptrCast(self)), minLength);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_maxLength(self: *const T, maxLength: ?*VARIANT) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_maxLength(@as(*const ISchemaType, @ptrCast(self)), maxLength);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_enumeration(self: *const T, enumeration: ?*?*ISchemaStringCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_enumeration(@as(*const ISchemaType, @ptrCast(self)), enumeration);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_whitespace(self: *const T, whitespace: ?*SCHEMAWHITESPACE) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_whitespace(@as(*const ISchemaType, @ptrCast(self)), whitespace);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaType_get_patterns(self: *const T, patterns: ?*?*ISchemaStringCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaType.VTable, @ptrCast(self.vtable)).get_patterns(@as(*const ISchemaType, @ptrCast(self)), patterns);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -11136,12 +10961,12 @@ pub const ISchemaComplexType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_isAbstract: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaComplexType,
                 abstract: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaComplexType,
                 abstract: ?*i16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11149,12 +10974,12 @@ pub const ISchemaComplexType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_anyAttribute: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaComplexType,
                 anyAttribute: ?*?*ISchemaAny,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaComplexType,
                 anyAttribute: ?*?*ISchemaAny,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11162,12 +10987,12 @@ pub const ISchemaComplexType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_attributes: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaComplexType,
                 attributes: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaComplexType,
                 attributes: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11175,12 +11000,12 @@ pub const ISchemaComplexType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_contentType: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaComplexType,
                 contentType: ?*SCHEMACONTENTTYPE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaComplexType,
                 contentType: ?*SCHEMACONTENTTYPE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11188,12 +11013,12 @@ pub const ISchemaComplexType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_contentModel: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaComplexType,
                 contentModel: ?*?*ISchemaModelGroup,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaComplexType,
                 contentModel: ?*?*ISchemaModelGroup,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11201,47 +11026,45 @@ pub const ISchemaComplexType = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_prohibitedSubstitutions: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaComplexType,
                 prohibited: ?*SCHEMADERIVATIONMETHOD,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaComplexType,
                 prohibited: ?*SCHEMADERIVATIONMETHOD,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaType.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaComplexType_get_isAbstract(self: *const T, abstract: ?*i16) HRESULT {
-                return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_isAbstract(@as(*const ISchemaComplexType, @ptrCast(self)), abstract);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaComplexType_get_anyAttribute(self: *const T, anyAttribute: ?*?*ISchemaAny) HRESULT {
-                return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_anyAttribute(@as(*const ISchemaComplexType, @ptrCast(self)), anyAttribute);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaComplexType_get_attributes(self: *const T, attributes: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_attributes(@as(*const ISchemaComplexType, @ptrCast(self)), attributes);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaComplexType_get_contentType(self: *const T, contentType: ?*SCHEMACONTENTTYPE) HRESULT {
-                return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_contentType(@as(*const ISchemaComplexType, @ptrCast(self)), contentType);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaComplexType_get_contentModel(self: *const T, contentModel: ?*?*ISchemaModelGroup) HRESULT {
-                return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_contentModel(@as(*const ISchemaComplexType, @ptrCast(self)), contentModel);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaComplexType_get_prohibitedSubstitutions(self: *const T, prohibited: ?*SCHEMADERIVATIONMETHOD) HRESULT {
-                return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_prohibitedSubstitutions(@as(*const ISchemaComplexType, @ptrCast(self)), prohibited);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaType.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaComplexType_get_isAbstract(self: *const T, abstract: ?*i16) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_isAbstract(@as(*const ISchemaComplexType, @ptrCast(self)), abstract);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaComplexType_get_anyAttribute(self: *const T, anyAttribute: ?*?*ISchemaAny) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_anyAttribute(@as(*const ISchemaComplexType, @ptrCast(self)), anyAttribute);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaComplexType_get_attributes(self: *const T, attributes: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_attributes(@as(*const ISchemaComplexType, @ptrCast(self)), attributes);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaComplexType_get_contentType(self: *const T, contentType: ?*SCHEMACONTENTTYPE) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_contentType(@as(*const ISchemaComplexType, @ptrCast(self)), contentType);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaComplexType_get_contentModel(self: *const T, contentModel: ?*?*ISchemaModelGroup) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_contentModel(@as(*const ISchemaComplexType, @ptrCast(self)), contentModel);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaComplexType_get_prohibitedSubstitutions(self: *const T, prohibited: ?*SCHEMADERIVATIONMETHOD) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaComplexType.VTable, @ptrCast(self.vtable)).get_prohibitedSubstitutions(@as(*const ISchemaComplexType, @ptrCast(self)), prohibited);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -11253,12 +11076,12 @@ pub const ISchemaAttributeGroup = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_anyAttribute: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaAttributeGroup,
                 anyAttribute: ?*?*ISchemaAny,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaAttributeGroup,
                 anyAttribute: ?*?*ISchemaAny,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11266,31 +11089,29 @@ pub const ISchemaAttributeGroup = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_attributes: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaAttributeGroup,
                 attributes: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaAttributeGroup,
                 attributes: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaItem.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaAttributeGroup_get_anyAttribute(self: *const T, anyAttribute: ?*?*ISchemaAny) HRESULT {
-                return @as(*const ISchemaAttributeGroup.VTable, @ptrCast(self.vtable)).get_anyAttribute(@as(*const ISchemaAttributeGroup, @ptrCast(self)), anyAttribute);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaAttributeGroup_get_attributes(self: *const T, attributes: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchemaAttributeGroup.VTable, @ptrCast(self.vtable)).get_attributes(@as(*const ISchemaAttributeGroup, @ptrCast(self)), attributes);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaItem.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaAttributeGroup_get_anyAttribute(self: *const T, anyAttribute: ?*?*ISchemaAny) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaAttributeGroup.VTable, @ptrCast(self.vtable)).get_anyAttribute(@as(*const ISchemaAttributeGroup, @ptrCast(self)), anyAttribute);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaAttributeGroup_get_attributes(self: *const T, attributes: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaAttributeGroup.VTable, @ptrCast(self.vtable)).get_attributes(@as(*const ISchemaAttributeGroup, @ptrCast(self)), attributes);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -11302,27 +11123,25 @@ pub const ISchemaModelGroup = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_particles: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaModelGroup,
                 particles: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaModelGroup,
                 particles: ?*?*ISchemaItemCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaParticle.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaModelGroup_get_particles(self: *const T, particles: ?*?*ISchemaItemCollection) HRESULT {
-                return @as(*const ISchemaModelGroup.VTable, @ptrCast(self.vtable)).get_particles(@as(*const ISchemaModelGroup, @ptrCast(self)), particles);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaParticle.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaModelGroup_get_particles(self: *const T, particles: ?*?*ISchemaItemCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaModelGroup.VTable, @ptrCast(self.vtable)).get_particles(@as(*const ISchemaModelGroup, @ptrCast(self)), particles);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -11334,12 +11153,12 @@ pub const ISchemaAny = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_namespaces: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaAny,
                 namespaces: ?*?*ISchemaStringCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaAny,
                 namespaces: ?*?*ISchemaStringCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11347,31 +11166,29 @@ pub const ISchemaAny = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_processContents: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaAny,
                 processContents: ?*SCHEMAPROCESSCONTENTS,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaAny,
                 processContents: ?*SCHEMAPROCESSCONTENTS,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaParticle.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaAny_get_namespaces(self: *const T, namespaces: ?*?*ISchemaStringCollection) HRESULT {
-                return @as(*const ISchemaAny.VTable, @ptrCast(self.vtable)).get_namespaces(@as(*const ISchemaAny, @ptrCast(self)), namespaces);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaAny_get_processContents(self: *const T, processContents: ?*SCHEMAPROCESSCONTENTS) HRESULT {
-                return @as(*const ISchemaAny.VTable, @ptrCast(self.vtable)).get_processContents(@as(*const ISchemaAny, @ptrCast(self)), processContents);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaParticle.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaAny_get_namespaces(self: *const T, namespaces: ?*?*ISchemaStringCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaAny.VTable, @ptrCast(self.vtable)).get_namespaces(@as(*const ISchemaAny, @ptrCast(self)), namespaces);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaAny_get_processContents(self: *const T, processContents: ?*SCHEMAPROCESSCONTENTS) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaAny.VTable, @ptrCast(self.vtable)).get_processContents(@as(*const ISchemaAny, @ptrCast(self)), processContents);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -11383,12 +11200,12 @@ pub const ISchemaIdentityConstraint = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_selector: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaIdentityConstraint,
                 selector: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaIdentityConstraint,
                 selector: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11396,12 +11213,12 @@ pub const ISchemaIdentityConstraint = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_fields: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaIdentityConstraint,
                 fields: ?*?*ISchemaStringCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaIdentityConstraint,
                 fields: ?*?*ISchemaStringCollection,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11409,35 +11226,33 @@ pub const ISchemaIdentityConstraint = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_referencedKey: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaIdentityConstraint,
                 key: ?*?*ISchemaIdentityConstraint,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaIdentityConstraint,
                 key: ?*?*ISchemaIdentityConstraint,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaItem.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaIdentityConstraint_get_selector(self: *const T, selector: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaIdentityConstraint.VTable, @ptrCast(self.vtable)).get_selector(@as(*const ISchemaIdentityConstraint, @ptrCast(self)), selector);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaIdentityConstraint_get_fields(self: *const T, fields: ?*?*ISchemaStringCollection) HRESULT {
-                return @as(*const ISchemaIdentityConstraint.VTable, @ptrCast(self.vtable)).get_fields(@as(*const ISchemaIdentityConstraint, @ptrCast(self)), fields);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaIdentityConstraint_get_referencedKey(self: *const T, key: ?*?*ISchemaIdentityConstraint) HRESULT {
-                return @as(*const ISchemaIdentityConstraint.VTable, @ptrCast(self.vtable)).get_referencedKey(@as(*const ISchemaIdentityConstraint, @ptrCast(self)), key);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaItem.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaIdentityConstraint_get_selector(self: *const T, selector: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaIdentityConstraint.VTable, @ptrCast(self.vtable)).get_selector(@as(*const ISchemaIdentityConstraint, @ptrCast(self)), selector);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaIdentityConstraint_get_fields(self: *const T, fields: ?*?*ISchemaStringCollection) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaIdentityConstraint.VTable, @ptrCast(self.vtable)).get_fields(@as(*const ISchemaIdentityConstraint, @ptrCast(self)), fields);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaIdentityConstraint_get_referencedKey(self: *const T, key: ?*?*ISchemaIdentityConstraint) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaIdentityConstraint.VTable, @ptrCast(self.vtable)).get_referencedKey(@as(*const ISchemaIdentityConstraint, @ptrCast(self)), key);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -11449,12 +11264,12 @@ pub const ISchemaNotation = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_systemIdentifier: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaNotation,
                 uri: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaNotation,
                 uri: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -11462,31 +11277,29 @@ pub const ISchemaNotation = extern struct {
         // TODO: this function has a "SpecialName", should Zig do anything with this?
         get_publicIdentifier: switch (@import("builtin").zig_backend) {
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const ISchemaNotation,
                 uri: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
             // TODO: this function has a "SpecialName", should Zig do anything with this?
-            else => *const fn (
+            else => *const fn(
                 self: *const ISchemaNotation,
                 uri: ?*?BSTR,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace ISchemaItem.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaNotation_get_systemIdentifier(self: *const T, uri: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaNotation.VTable, @ptrCast(self.vtable)).get_systemIdentifier(@as(*const ISchemaNotation, @ptrCast(self)), uri);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ISchemaNotation_get_publicIdentifier(self: *const T, uri: ?*?BSTR) HRESULT {
-                return @as(*const ISchemaNotation.VTable, @ptrCast(self.vtable)).get_publicIdentifier(@as(*const ISchemaNotation, @ptrCast(self)), uri);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace ISchemaItem.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaNotation_get_systemIdentifier(self: *const T, uri: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaNotation.VTable, @ptrCast(self.vtable)).get_systemIdentifier(@as(*const ISchemaNotation, @ptrCast(self)), uri);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn ISchemaNotation_get_publicIdentifier(self: *const T, uri: ?*?BSTR) callconv(.Inline) HRESULT {
+            return @as(*const ISchemaNotation.VTable, @ptrCast(self.vtable)).get_publicIdentifier(@as(*const ISchemaNotation, @ptrCast(self)), uri);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -11644,25 +11457,25 @@ pub const IXMLHTTPRequest2Callback = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         OnRedirect: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2Callback,
                 pXHR: ?*IXMLHTTPRequest2,
                 pwszRedirectUrl: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2Callback,
                 pXHR: ?*IXMLHTTPRequest2,
                 pwszRedirectUrl: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         OnHeadersAvailable: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2Callback,
                 pXHR: ?*IXMLHTTPRequest2,
                 dwStatus: u32,
                 pwszStatus: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2Callback,
                 pXHR: ?*IXMLHTTPRequest2,
                 dwStatus: u32,
@@ -11670,36 +11483,36 @@ pub const IXMLHTTPRequest2Callback = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         OnDataAvailable: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2Callback,
                 pXHR: ?*IXMLHTTPRequest2,
                 pResponseStream: ?*ISequentialStream,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2Callback,
                 pXHR: ?*IXMLHTTPRequest2,
                 pResponseStream: ?*ISequentialStream,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         OnResponseReceived: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2Callback,
                 pXHR: ?*IXMLHTTPRequest2,
                 pResponseStream: ?*ISequentialStream,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2Callback,
                 pXHR: ?*IXMLHTTPRequest2,
                 pResponseStream: ?*ISequentialStream,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         OnError: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2Callback,
                 pXHR: ?*IXMLHTTPRequest2,
                 hrError: HRESULT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2Callback,
                 pXHR: ?*IXMLHTTPRequest2,
                 hrError: HRESULT,
@@ -11707,31 +11520,29 @@ pub const IXMLHTTPRequest2Callback = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2Callback_OnRedirect(self: *const T, pXHR: ?*IXMLHTTPRequest2, pwszRedirectUrl: ?[*:0]const u16) HRESULT {
-                return @as(*const IXMLHTTPRequest2Callback.VTable, @ptrCast(self.vtable)).OnRedirect(@as(*const IXMLHTTPRequest2Callback, @ptrCast(self)), pXHR, pwszRedirectUrl);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2Callback_OnHeadersAvailable(self: *const T, pXHR: ?*IXMLHTTPRequest2, dwStatus: u32, pwszStatus: ?[*:0]const u16) HRESULT {
-                return @as(*const IXMLHTTPRequest2Callback.VTable, @ptrCast(self.vtable)).OnHeadersAvailable(@as(*const IXMLHTTPRequest2Callback, @ptrCast(self)), pXHR, dwStatus, pwszStatus);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2Callback_OnDataAvailable(self: *const T, pXHR: ?*IXMLHTTPRequest2, pResponseStream: ?*ISequentialStream) HRESULT {
-                return @as(*const IXMLHTTPRequest2Callback.VTable, @ptrCast(self.vtable)).OnDataAvailable(@as(*const IXMLHTTPRequest2Callback, @ptrCast(self)), pXHR, pResponseStream);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2Callback_OnResponseReceived(self: *const T, pXHR: ?*IXMLHTTPRequest2, pResponseStream: ?*ISequentialStream) HRESULT {
-                return @as(*const IXMLHTTPRequest2Callback.VTable, @ptrCast(self.vtable)).OnResponseReceived(@as(*const IXMLHTTPRequest2Callback, @ptrCast(self)), pXHR, pResponseStream);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2Callback_OnError(self: *const T, pXHR: ?*IXMLHTTPRequest2, hrError: HRESULT) HRESULT {
-                return @as(*const IXMLHTTPRequest2Callback.VTable, @ptrCast(self.vtable)).OnError(@as(*const IXMLHTTPRequest2Callback, @ptrCast(self)), pXHR, hrError);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2Callback_OnRedirect(self: *const T, pXHR: ?*IXMLHTTPRequest2, pwszRedirectUrl: ?[*:0]const u16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2Callback.VTable, @ptrCast(self.vtable)).OnRedirect(@as(*const IXMLHTTPRequest2Callback, @ptrCast(self)), pXHR, pwszRedirectUrl);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2Callback_OnHeadersAvailable(self: *const T, pXHR: ?*IXMLHTTPRequest2, dwStatus: u32, pwszStatus: ?[*:0]const u16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2Callback.VTable, @ptrCast(self.vtable)).OnHeadersAvailable(@as(*const IXMLHTTPRequest2Callback, @ptrCast(self)), pXHR, dwStatus, pwszStatus);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2Callback_OnDataAvailable(self: *const T, pXHR: ?*IXMLHTTPRequest2, pResponseStream: ?*ISequentialStream) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2Callback.VTable, @ptrCast(self.vtable)).OnDataAvailable(@as(*const IXMLHTTPRequest2Callback, @ptrCast(self)), pXHR, pResponseStream);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2Callback_OnResponseReceived(self: *const T, pXHR: ?*IXMLHTTPRequest2, pResponseStream: ?*ISequentialStream) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2Callback.VTable, @ptrCast(self.vtable)).OnResponseReceived(@as(*const IXMLHTTPRequest2Callback, @ptrCast(self)), pXHR, pResponseStream);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2Callback_OnError(self: *const T, pXHR: ?*IXMLHTTPRequest2, hrError: HRESULT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2Callback.VTable, @ptrCast(self.vtable)).OnError(@as(*const IXMLHTTPRequest2Callback, @ptrCast(self)), pXHR, hrError);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -11742,7 +11553,7 @@ pub const IXMLHTTPRequest2 = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         Open: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2,
                 pwszMethod: ?[*:0]const u16,
                 pwszUrl: ?[*:0]const u16,
@@ -11752,7 +11563,7 @@ pub const IXMLHTTPRequest2 = extern struct {
                 pwszProxyUserName: ?[*:0]const u16,
                 pwszProxyPassword: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2,
                 pwszMethod: ?[*:0]const u16,
                 pwszUrl: ?[*:0]const u16,
@@ -11764,83 +11575,83 @@ pub const IXMLHTTPRequest2 = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Send: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2,
                 pBody: ?*ISequentialStream,
                 cbBody: u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2,
                 pBody: ?*ISequentialStream,
                 cbBody: u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         Abort: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetCookie: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2,
                 pCookie: ?*const XHR_COOKIE,
                 pdwCookieState: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2,
                 pCookie: ?*const XHR_COOKIE,
                 pdwCookieState: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetCustomResponseStream: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2,
                 pSequentialStream: ?*ISequentialStream,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2,
                 pSequentialStream: ?*ISequentialStream,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetProperty: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2,
                 eProperty: XHR_PROPERTY,
                 ullValue: u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2,
                 eProperty: XHR_PROPERTY,
                 ullValue: u64,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetRequestHeader: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2,
                 pwszHeader: ?[*:0]const u16,
                 pwszValue: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2,
                 pwszHeader: ?[*:0]const u16,
                 pwszValue: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetAllResponseHeaders: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2,
                 ppwszHeaders: ?*?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2,
                 ppwszHeaders: ?*?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetCookie: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2,
                 pwszUrl: ?[*:0]const u16,
                 pwszName: ?[*:0]const u16,
@@ -11848,7 +11659,7 @@ pub const IXMLHTTPRequest2 = extern struct {
                 pcCookies: ?*u32,
                 ppCookies: [*]?*XHR_COOKIE,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2,
                 pwszUrl: ?[*:0]const u16,
                 pwszName: ?[*:0]const u16,
@@ -11858,12 +11669,12 @@ pub const IXMLHTTPRequest2 = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetResponseHeader: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest2,
                 pwszHeader: ?[*:0]const u16,
                 ppwszValue: ?*?*u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest2,
                 pwszHeader: ?[*:0]const u16,
                 ppwszValue: ?*?*u16,
@@ -11871,51 +11682,49 @@ pub const IXMLHTTPRequest2 = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2_Open(self: *const T, pwszMethod: ?[*:0]const u16, pwszUrl: ?[*:0]const u16, pStatusCallback: ?*IXMLHTTPRequest2Callback, pwszUserName: ?[*:0]const u16, pwszPassword: ?[*:0]const u16, pwszProxyUserName: ?[*:0]const u16, pwszProxyPassword: ?[*:0]const u16) HRESULT {
-                return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).Open(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pwszMethod, pwszUrl, pStatusCallback, pwszUserName, pwszPassword, pwszProxyUserName, pwszProxyPassword);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2_Send(self: *const T, pBody: ?*ISequentialStream, cbBody: u64) HRESULT {
-                return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).Send(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pBody, cbBody);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2_Abort(self: *const T) HRESULT {
-                return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).Abort(@as(*const IXMLHTTPRequest2, @ptrCast(self)));
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2_SetCookie(self: *const T, pCookie: ?*const XHR_COOKIE, pdwCookieState: ?*u32) HRESULT {
-                return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).SetCookie(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pCookie, pdwCookieState);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2_SetCustomResponseStream(self: *const T, pSequentialStream: ?*ISequentialStream) HRESULT {
-                return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).SetCustomResponseStream(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pSequentialStream);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2_SetProperty(self: *const T, eProperty: XHR_PROPERTY, ullValue: u64) HRESULT {
-                return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).SetProperty(@as(*const IXMLHTTPRequest2, @ptrCast(self)), eProperty, ullValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2_SetRequestHeader(self: *const T, pwszHeader: ?[*:0]const u16, pwszValue: ?[*:0]const u16) HRESULT {
-                return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).SetRequestHeader(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pwszHeader, pwszValue);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2_GetAllResponseHeaders(self: *const T, ppwszHeaders: ?*?*u16) HRESULT {
-                return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).GetAllResponseHeaders(@as(*const IXMLHTTPRequest2, @ptrCast(self)), ppwszHeaders);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2_GetCookie(self: *const T, pwszUrl: ?[*:0]const u16, pwszName: ?[*:0]const u16, dwFlags: u32, pcCookies: ?*u32, ppCookies: [*]?*XHR_COOKIE) HRESULT {
-                return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).GetCookie(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pwszUrl, pwszName, dwFlags, pcCookies, ppCookies);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest2_GetResponseHeader(self: *const T, pwszHeader: ?[*:0]const u16, ppwszValue: ?*?*u16) HRESULT {
-                return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).GetResponseHeader(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pwszHeader, ppwszValue);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2_Open(self: *const T, pwszMethod: ?[*:0]const u16, pwszUrl: ?[*:0]const u16, pStatusCallback: ?*IXMLHTTPRequest2Callback, pwszUserName: ?[*:0]const u16, pwszPassword: ?[*:0]const u16, pwszProxyUserName: ?[*:0]const u16, pwszProxyPassword: ?[*:0]const u16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).Open(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pwszMethod, pwszUrl, pStatusCallback, pwszUserName, pwszPassword, pwszProxyUserName, pwszProxyPassword);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2_Send(self: *const T, pBody: ?*ISequentialStream, cbBody: u64) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).Send(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pBody, cbBody);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2_Abort(self: *const T) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).Abort(@as(*const IXMLHTTPRequest2, @ptrCast(self)));
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2_SetCookie(self: *const T, pCookie: ?*const XHR_COOKIE, pdwCookieState: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).SetCookie(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pCookie, pdwCookieState);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2_SetCustomResponseStream(self: *const T, pSequentialStream: ?*ISequentialStream) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).SetCustomResponseStream(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pSequentialStream);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2_SetProperty(self: *const T, eProperty: XHR_PROPERTY, ullValue: u64) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).SetProperty(@as(*const IXMLHTTPRequest2, @ptrCast(self)), eProperty, ullValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2_SetRequestHeader(self: *const T, pwszHeader: ?[*:0]const u16, pwszValue: ?[*:0]const u16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).SetRequestHeader(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pwszHeader, pwszValue);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2_GetAllResponseHeaders(self: *const T, ppwszHeaders: ?*?*u16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).GetAllResponseHeaders(@as(*const IXMLHTTPRequest2, @ptrCast(self)), ppwszHeaders);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2_GetCookie(self: *const T, pwszUrl: ?[*:0]const u16, pwszName: ?[*:0]const u16, dwFlags: u32, pcCookies: ?*u32, ppCookies: [*]?*XHR_COOKIE) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).GetCookie(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pwszUrl, pwszName, dwFlags, pcCookies, ppCookies);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest2_GetResponseHeader(self: *const T, pwszHeader: ?[*:0]const u16, ppwszValue: ?*?*u16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest2.VTable, @ptrCast(self.vtable)).GetResponseHeader(@as(*const IXMLHTTPRequest2, @ptrCast(self)), pwszHeader, ppwszValue);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -11931,14 +11740,14 @@ pub const IXMLHTTPRequest3Callback = extern struct {
     pub const VTable = extern struct {
         base: IXMLHTTPRequest2Callback.VTable,
         OnServerCertificateReceived: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest3Callback,
                 pXHR: ?*IXMLHTTPRequest3,
                 dwCertificateErrors: u32,
                 cServerCertificateChain: u32,
                 rgServerCertificateChain: [*]const XHR_CERT,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest3Callback,
                 pXHR: ?*IXMLHTTPRequest3,
                 dwCertificateErrors: u32,
@@ -11947,13 +11756,13 @@ pub const IXMLHTTPRequest3Callback = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         OnClientCertificateRequested: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest3Callback,
                 pXHR: ?*IXMLHTTPRequest3,
                 cIssuerList: u32,
                 rgpwszIssuerList: [*]const ?*const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest3Callback,
                 pXHR: ?*IXMLHTTPRequest3,
                 cIssuerList: u32,
@@ -11962,19 +11771,17 @@ pub const IXMLHTTPRequest3Callback = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLHTTPRequest2Callback.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest3Callback_OnServerCertificateReceived(self: *const T, pXHR: ?*IXMLHTTPRequest3, dwCertificateErrors: u32, cServerCertificateChain: u32, rgServerCertificateChain: [*]const XHR_CERT) HRESULT {
-                return @as(*const IXMLHTTPRequest3Callback.VTable, @ptrCast(self.vtable)).OnServerCertificateReceived(@as(*const IXMLHTTPRequest3Callback, @ptrCast(self)), pXHR, dwCertificateErrors, cServerCertificateChain, rgServerCertificateChain);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest3Callback_OnClientCertificateRequested(self: *const T, pXHR: ?*IXMLHTTPRequest3, cIssuerList: u32, rgpwszIssuerList: [*]const ?*const u16) HRESULT {
-                return @as(*const IXMLHTTPRequest3Callback.VTable, @ptrCast(self.vtable)).OnClientCertificateRequested(@as(*const IXMLHTTPRequest3Callback, @ptrCast(self)), pXHR, cIssuerList, rgpwszIssuerList);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLHTTPRequest2Callback.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest3Callback_OnServerCertificateReceived(self: *const T, pXHR: ?*IXMLHTTPRequest3, dwCertificateErrors: u32, cServerCertificateChain: u32, rgServerCertificateChain: [*]const XHR_CERT) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest3Callback.VTable, @ptrCast(self.vtable)).OnServerCertificateReceived(@as(*const IXMLHTTPRequest3Callback, @ptrCast(self)), pXHR, dwCertificateErrors, cServerCertificateChain, rgServerCertificateChain);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest3Callback_OnClientCertificateRequested(self: *const T, pXHR: ?*IXMLHTTPRequest3, cIssuerList: u32, rgpwszIssuerList: [*]const ?*const u16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest3Callback.VTable, @ptrCast(self.vtable)).OnClientCertificateRequested(@as(*const IXMLHTTPRequest3Callback, @ptrCast(self)), pXHR, cIssuerList, rgpwszIssuerList);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -11985,13 +11792,13 @@ pub const IXMLHTTPRequest3 = extern struct {
     pub const VTable = extern struct {
         base: IXMLHTTPRequest2.VTable,
         SetClientCertificate: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IXMLHTTPRequest3,
                 cbClientCertificateHash: u32,
                 pbClientCertificateHash: [*:0]const u8,
                 pwszPin: ?[*:0]const u16,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IXMLHTTPRequest3,
                 cbClientCertificateHash: u32,
                 pbClientCertificateHash: [*:0]const u8,
@@ -12000,17 +11807,16 @@ pub const IXMLHTTPRequest3 = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IXMLHTTPRequest2.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IXMLHTTPRequest3_SetClientCertificate(self: *const T, cbClientCertificateHash: u32, pbClientCertificateHash: [*:0]const u8, pwszPin: ?[*:0]const u16) HRESULT {
-                return @as(*const IXMLHTTPRequest3.VTable, @ptrCast(self.vtable)).SetClientCertificate(@as(*const IXMLHTTPRequest3, @ptrCast(self)), cbClientCertificateHash, pbClientCertificateHash, pwszPin);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IXMLHTTPRequest2.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IXMLHTTPRequest3_SetClientCertificate(self: *const T, cbClientCertificateHash: u32, pbClientCertificateHash: [*:0]const u8, pwszPin: ?[*:0]const u16) callconv(.Inline) HRESULT {
+            return @as(*const IXMLHTTPRequest3.VTable, @ptrCast(self.vtable)).SetClientCertificate(@as(*const IXMLHTTPRequest3, @ptrCast(self)), cbClientCertificateHash, pbClientCertificateHash, pwszPin);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
+
 
 //--------------------------------------------------------------------------------
 // Section: Functions (0)
@@ -12021,9 +11827,13 @@ pub const IXMLHTTPRequest3 = extern struct {
 //--------------------------------------------------------------------------------
 const thismodule = @This();
 pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {},
-    .wide => struct {},
-    .unspecified => if (@import("builtin").is_test) struct {} else struct {},
+    .ansi => struct {
+    },
+    .wide => struct {
+    },
+    .unspecified => if (@import("builtin").is_test) struct {
+    } else struct {
+    },
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (10)
@@ -12040,13 +11850,13 @@ const PWSTR = @import("../../foundation.zig").PWSTR;
 const VARIANT = @import("../../system/com.zig").VARIANT;
 
 test {
-    @setEvalBranchQuota(comptime @import("std").meta.declarations(@This()).len * 3);
+    @setEvalBranchQuota(
+        comptime @import("std").meta.declarations(@This()).len * 3
+    );
 
     // reference all the pub declarations
     if (!@import("builtin").is_test) return;
     inline for (comptime @import("std").meta.declarations(@This())) |decl| {
-        if (decl.is_pub) {
-            _ = @field(@This(), decl.name);
-        }
+        _ = @field(@This(), decl.name);
     }
 }

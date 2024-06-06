@@ -87,7 +87,7 @@ pub const WCS_DEFAULT = @as(i32, 0);
 pub const WCS_ICCONLY = @as(i32, 65536);
 
 //--------------------------------------------------------------------------------
-// Section: Types (49)
+// Section: Types (50)
 //--------------------------------------------------------------------------------
 pub const ICM_COMMAND = enum(u32) {
     ADDPROFILE = 1,
@@ -106,6 +106,17 @@ pub const ICM_REGISTERICMATCHER = ICM_COMMAND.REGISTERICMATCHER;
 pub const ICM_UNREGISTERICMATCHER = ICM_COMMAND.UNREGISTERICMATCHER;
 pub const ICM_QUERYMATCH = ICM_COMMAND.QUERYMATCH;
 
+pub const ICM_MODE = enum(i32) {
+    OFF = 1,
+    ON = 2,
+    QUERY = 3,
+    DONE_OUTSIDEDC = 4,
+};
+pub const ICM_OFF = ICM_MODE.OFF;
+pub const ICM_ON = ICM_MODE.ON;
+pub const ICM_QUERY = ICM_MODE.QUERY;
+pub const ICM_DONE_OUTSIDEDC = ICM_MODE.DONE_OUTSIDEDC;
+
 pub const COLOR_MATCH_TO_TARGET_ACTION = enum(i32) {
     ENABLE = 1,
     DISABLE = 2,
@@ -116,7 +127,8 @@ pub const CS_DISABLE = COLOR_MATCH_TO_TARGET_ACTION.DISABLE;
 pub const CS_DELETE_TRANSFORM = COLOR_MATCH_TO_TARGET_ACTION.DELETE_TRANSFORM;
 
 // TODO: this type has a FreeFunc 'DeleteColorSpace', what can Zig do with this information?
-pub const HCOLORSPACE = *opaque {};
+// TODO: this type has an InvalidHandleValue of '0', what can Zig do with this information?
+pub const HCOLORSPACE = *opaque{};
 
 pub const LOGCOLORSPACEA = extern struct {
     lcsSignature: u32,
@@ -145,26 +157,26 @@ pub const LOGCOLORSPACEW = extern struct {
 };
 
 pub const ICMENUMPROCA = switch (@import("builtin").zig_backend) {
-    .stage1 => fn (
+    .stage1 => fn(
         param0: ?PSTR,
         param1: LPARAM,
     ) callconv(@import("std").os.windows.WINAPI) i32,
-    else => *const fn (
+    else => *const fn(
         param0: ?PSTR,
         param1: LPARAM,
     ) callconv(@import("std").os.windows.WINAPI) i32,
-};
+} ;
 
 pub const ICMENUMPROCW = switch (@import("builtin").zig_backend) {
-    .stage1 => fn (
+    .stage1 => fn(
         param0: ?PWSTR,
         param1: LPARAM,
     ) callconv(@import("std").os.windows.WINAPI) i32,
-    else => *const fn (
+    else => *const fn(
         param0: ?PWSTR,
         param1: LPARAM,
     ) callconv(@import("std").os.windows.WINAPI) i32,
-};
+} ;
 
 pub const EMRCREATECOLORSPACE = extern struct {
     emr: EMR,
@@ -254,13 +266,13 @@ pub const IDeviceModelPlugIn = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         Initialize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 bstrXml: ?BSTR,
                 cNumModels: u32,
                 iModelPosition: u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 bstrXml: ?BSTR,
                 cNumModels: u32,
@@ -268,24 +280,24 @@ pub const IDeviceModelPlugIn = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetNumChannels: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 pNumChannels: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 pNumChannels: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         DeviceToColorimetricColors: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 cColors: u32,
                 cChannels: u32,
                 pDeviceValues: ?*const f32,
                 pXYZColors: [*]XYZColorF,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 cColors: u32,
                 cChannels: u32,
@@ -294,14 +306,14 @@ pub const IDeviceModelPlugIn = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ColorimetricToDeviceColors: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 cColors: u32,
                 cChannels: u32,
                 pXYZColors: [*]const XYZColorF,
                 pDeviceValues: ?*f32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 cColors: u32,
                 cChannels: u32,
@@ -310,7 +322,7 @@ pub const IDeviceModelPlugIn = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         ColorimetricToDeviceColorsWithBlack: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 cColors: u32,
                 cChannels: u32,
@@ -318,7 +330,7 @@ pub const IDeviceModelPlugIn = extern struct {
                 pBlackInformation: [*]const BlackInformation,
                 pDeviceValues: ?*f32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 cColors: u32,
                 cChannels: u32,
@@ -328,41 +340,41 @@ pub const IDeviceModelPlugIn = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SetTransformDeviceModelInfo: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 iModelPosition: u32,
                 pIDeviceModelOther: ?*IDeviceModelPlugIn,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 iModelPosition: u32,
                 pIDeviceModelOther: ?*IDeviceModelPlugIn,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetPrimarySamples: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 pPrimaryColor: ?*PrimaryXYZColors,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 pPrimaryColor: ?*PrimaryXYZColors,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetGamutBoundaryMeshSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 pNumVertices: ?*u32,
                 pNumTriangles: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 pNumVertices: ?*u32,
                 pNumTriangles: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetGamutBoundaryMesh: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 cChannels: u32,
                 cVertices: u32,
@@ -370,7 +382,7 @@ pub const IDeviceModelPlugIn = extern struct {
                 pVertices: ?*f32,
                 pTriangles: [*]GamutShellTriangle,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 cChannels: u32,
                 cVertices: u32,
@@ -380,22 +392,22 @@ pub const IDeviceModelPlugIn = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetNeutralAxisSize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 pcColors: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 pcColors: ?*u32,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         GetNeutralAxis: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IDeviceModelPlugIn,
                 cColors: u32,
                 pXYZColors: [*]XYZColorF,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IDeviceModelPlugIn,
                 cColors: u32,
                 pXYZColors: [*]XYZColorF,
@@ -403,55 +415,53 @@ pub const IDeviceModelPlugIn = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_Initialize(self: *const T, bstrXml: ?BSTR, cNumModels: u32, iModelPosition: u32) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).Initialize(@as(*const IDeviceModelPlugIn, @ptrCast(self)), bstrXml, cNumModels, iModelPosition);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_GetNumChannels(self: *const T, pNumChannels: ?*u32) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetNumChannels(@as(*const IDeviceModelPlugIn, @ptrCast(self)), pNumChannels);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_DeviceToColorimetricColors(self: *const T, cColors: u32, cChannels: u32, pDeviceValues: ?*const f32, pXYZColors: [*]XYZColorF) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).DeviceToColorimetricColors(@as(*const IDeviceModelPlugIn, @ptrCast(self)), cColors, cChannels, pDeviceValues, pXYZColors);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_ColorimetricToDeviceColors(self: *const T, cColors: u32, cChannels: u32, pXYZColors: [*]const XYZColorF, pDeviceValues: ?*f32) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).ColorimetricToDeviceColors(@as(*const IDeviceModelPlugIn, @ptrCast(self)), cColors, cChannels, pXYZColors, pDeviceValues);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_ColorimetricToDeviceColorsWithBlack(self: *const T, cColors: u32, cChannels: u32, pXYZColors: [*]const XYZColorF, pBlackInformation: [*]const BlackInformation, pDeviceValues: ?*f32) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).ColorimetricToDeviceColorsWithBlack(@as(*const IDeviceModelPlugIn, @ptrCast(self)), cColors, cChannels, pXYZColors, pBlackInformation, pDeviceValues);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_SetTransformDeviceModelInfo(self: *const T, iModelPosition: u32, pIDeviceModelOther: ?*IDeviceModelPlugIn) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).SetTransformDeviceModelInfo(@as(*const IDeviceModelPlugIn, @ptrCast(self)), iModelPosition, pIDeviceModelOther);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_GetPrimarySamples(self: *const T, pPrimaryColor: ?*PrimaryXYZColors) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetPrimarySamples(@as(*const IDeviceModelPlugIn, @ptrCast(self)), pPrimaryColor);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_GetGamutBoundaryMeshSize(self: *const T, pNumVertices: ?*u32, pNumTriangles: ?*u32) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetGamutBoundaryMeshSize(@as(*const IDeviceModelPlugIn, @ptrCast(self)), pNumVertices, pNumTriangles);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_GetGamutBoundaryMesh(self: *const T, cChannels: u32, cVertices: u32, cTriangles: u32, pVertices: ?*f32, pTriangles: [*]GamutShellTriangle) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetGamutBoundaryMesh(@as(*const IDeviceModelPlugIn, @ptrCast(self)), cChannels, cVertices, cTriangles, pVertices, pTriangles);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_GetNeutralAxisSize(self: *const T, pcColors: ?*u32) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetNeutralAxisSize(@as(*const IDeviceModelPlugIn, @ptrCast(self)), pcColors);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IDeviceModelPlugIn_GetNeutralAxis(self: *const T, cColors: u32, pXYZColors: [*]XYZColorF) HRESULT {
-                return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetNeutralAxis(@as(*const IDeviceModelPlugIn, @ptrCast(self)), cColors, pXYZColors);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_Initialize(self: *const T, bstrXml: ?BSTR, cNumModels: u32, iModelPosition: u32) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).Initialize(@as(*const IDeviceModelPlugIn, @ptrCast(self)), bstrXml, cNumModels, iModelPosition);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_GetNumChannels(self: *const T, pNumChannels: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetNumChannels(@as(*const IDeviceModelPlugIn, @ptrCast(self)), pNumChannels);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_DeviceToColorimetricColors(self: *const T, cColors: u32, cChannels: u32, pDeviceValues: ?*const f32, pXYZColors: [*]XYZColorF) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).DeviceToColorimetricColors(@as(*const IDeviceModelPlugIn, @ptrCast(self)), cColors, cChannels, pDeviceValues, pXYZColors);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_ColorimetricToDeviceColors(self: *const T, cColors: u32, cChannels: u32, pXYZColors: [*]const XYZColorF, pDeviceValues: ?*f32) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).ColorimetricToDeviceColors(@as(*const IDeviceModelPlugIn, @ptrCast(self)), cColors, cChannels, pXYZColors, pDeviceValues);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_ColorimetricToDeviceColorsWithBlack(self: *const T, cColors: u32, cChannels: u32, pXYZColors: [*]const XYZColorF, pBlackInformation: [*]const BlackInformation, pDeviceValues: ?*f32) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).ColorimetricToDeviceColorsWithBlack(@as(*const IDeviceModelPlugIn, @ptrCast(self)), cColors, cChannels, pXYZColors, pBlackInformation, pDeviceValues);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_SetTransformDeviceModelInfo(self: *const T, iModelPosition: u32, pIDeviceModelOther: ?*IDeviceModelPlugIn) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).SetTransformDeviceModelInfo(@as(*const IDeviceModelPlugIn, @ptrCast(self)), iModelPosition, pIDeviceModelOther);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_GetPrimarySamples(self: *const T, pPrimaryColor: ?*PrimaryXYZColors) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetPrimarySamples(@as(*const IDeviceModelPlugIn, @ptrCast(self)), pPrimaryColor);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_GetGamutBoundaryMeshSize(self: *const T, pNumVertices: ?*u32, pNumTriangles: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetGamutBoundaryMeshSize(@as(*const IDeviceModelPlugIn, @ptrCast(self)), pNumVertices, pNumTriangles);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_GetGamutBoundaryMesh(self: *const T, cChannels: u32, cVertices: u32, cTriangles: u32, pVertices: ?*f32, pTriangles: [*]GamutShellTriangle) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetGamutBoundaryMesh(@as(*const IDeviceModelPlugIn, @ptrCast(self)), cChannels, cVertices, cTriangles, pVertices, pTriangles);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_GetNeutralAxisSize(self: *const T, pcColors: ?*u32) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetNeutralAxisSize(@as(*const IDeviceModelPlugIn, @ptrCast(self)), pcColors);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IDeviceModelPlugIn_GetNeutralAxis(self: *const T, cColors: u32, pXYZColors: [*]XYZColorF) callconv(.Inline) HRESULT {
+            return @as(*const IDeviceModelPlugIn.VTable, @ptrCast(self.vtable)).GetNeutralAxis(@as(*const IDeviceModelPlugIn, @ptrCast(self)), cColors, pXYZColors);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -461,7 +471,7 @@ pub const IGamutMapModelPlugIn = extern struct {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
         Initialize: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IGamutMapModelPlugIn,
                 bstrXml: ?BSTR,
                 pSrcPlugIn: ?*IDeviceModelPlugIn,
@@ -469,7 +479,7 @@ pub const IGamutMapModelPlugIn = extern struct {
                 pSrcGBD: ?*GamutBoundaryDescription,
                 pDestGBD: ?*GamutBoundaryDescription,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IGamutMapModelPlugIn,
                 bstrXml: ?BSTR,
                 pSrcPlugIn: ?*IDeviceModelPlugIn,
@@ -479,13 +489,13 @@ pub const IGamutMapModelPlugIn = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         },
         SourceToDestinationAppearanceColors: switch (@import("builtin").zig_backend) {
-            .stage1 => fn (
+            .stage1 => fn(
                 self: *const IGamutMapModelPlugIn,
                 cColors: u32,
                 pInputColors: [*]const JChColorF,
                 pOutputColors: [*]JChColorF,
             ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-            else => *const fn (
+            else => *const fn(
                 self: *const IGamutMapModelPlugIn,
                 cColors: u32,
                 pInputColors: [*]const JChColorF,
@@ -494,19 +504,17 @@ pub const IGamutMapModelPlugIn = extern struct {
         },
     };
     vtable: *const VTable,
-    pub fn MethodMixin(comptime T: type) type {
-        return struct {
-            pub usingnamespace IUnknown.MethodMixin(T);
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IGamutMapModelPlugIn_Initialize(self: *const T, bstrXml: ?BSTR, pSrcPlugIn: ?*IDeviceModelPlugIn, pDestPlugIn: ?*IDeviceModelPlugIn, pSrcGBD: ?*GamutBoundaryDescription, pDestGBD: ?*GamutBoundaryDescription) HRESULT {
-                return @as(*const IGamutMapModelPlugIn.VTable, @ptrCast(self.vtable)).Initialize(@as(*const IGamutMapModelPlugIn, @ptrCast(self)), bstrXml, pSrcPlugIn, pDestPlugIn, pSrcGBD, pDestGBD);
-            }
-            // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn IGamutMapModelPlugIn_SourceToDestinationAppearanceColors(self: *const T, cColors: u32, pInputColors: [*]const JChColorF, pOutputColors: [*]JChColorF) HRESULT {
-                return @as(*const IGamutMapModelPlugIn.VTable, @ptrCast(self.vtable)).SourceToDestinationAppearanceColors(@as(*const IGamutMapModelPlugIn, @ptrCast(self)), cColors, pInputColors, pOutputColors);
-            }
-        };
-    }
+    pub fn MethodMixin(comptime T: type) type { return struct {
+        pub usingnamespace IUnknown.MethodMixin(T);
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IGamutMapModelPlugIn_Initialize(self: *const T, bstrXml: ?BSTR, pSrcPlugIn: ?*IDeviceModelPlugIn, pDestPlugIn: ?*IDeviceModelPlugIn, pSrcGBD: ?*GamutBoundaryDescription, pDestGBD: ?*GamutBoundaryDescription) callconv(.Inline) HRESULT {
+            return @as(*const IGamutMapModelPlugIn.VTable, @ptrCast(self.vtable)).Initialize(@as(*const IGamutMapModelPlugIn, @ptrCast(self)), bstrXml, pSrcPlugIn, pDestPlugIn, pSrcGBD, pDestGBD);
+        }
+        // NOTE: method is namespaced with interface name to avoid conflicts for now
+        pub fn IGamutMapModelPlugIn_SourceToDestinationAppearanceColors(self: *const T, cColors: u32, pInputColors: [*]const JChColorF, pOutputColors: [*]JChColorF) callconv(.Inline) HRESULT {
+            return @as(*const IGamutMapModelPlugIn.VTable, @ptrCast(self.vtable)).SourceToDestinationAppearanceColors(@as(*const IGamutMapModelPlugIn, @ptrCast(self)), cColors, pInputColors, pOutputColors);
+        }
+    };}
     pub usingnamespace MethodMixin(@This());
 };
 
@@ -745,17 +753,17 @@ pub const BM_R10G10B10A2_XR = BMFORMAT.R10G10B10A2_XR;
 pub const BM_R16G16B16A16_FLOAT = BMFORMAT.R16G16B16A16_FLOAT;
 
 pub const LPBMCALLBACKFN = switch (@import("builtin").zig_backend) {
-    .stage1 => fn (
+    .stage1 => fn(
         param0: u32,
         param1: u32,
         param2: LPARAM,
     ) callconv(@import("std").os.windows.WINAPI) BOOL,
-    else => *const fn (
+    else => *const fn(
         param0: u32,
         param1: u32,
         param2: LPARAM,
     ) callconv(@import("std").os.windows.WINAPI) BOOL,
-};
+} ;
 
 pub const PROFILEHEADER = extern struct {
     phSize: u32,
@@ -837,16 +845,10 @@ pub const WCS_PROFILE_MANAGEMENT_SCOPE_SYSTEM_WIDE = WCS_PROFILE_MANAGEMENT_SCOP
 pub const WCS_PROFILE_MANAGEMENT_SCOPE_CURRENT_USER = WCS_PROFILE_MANAGEMENT_SCOPE.CURRENT_USER;
 
 // TODO: this function pointer causes dependency loop problems, so it's stubbed out
-pub const PCMSCALLBACKW = switch (@import("builtin").zig_backend) {
-    .stage1 => fn () callconv(@import("std").os.windows.WINAPI) void,
-    else => *const fn () callconv(@import("std").os.windows.WINAPI) void,
-};
+pub const PCMSCALLBACKW = switch (@import("builtin").zig_backend) { .stage1 => fn() callconv(@import("std").os.windows.WINAPI) void, else => *const fn() callconv(@import("std").os.windows.WINAPI) void};
 
 // TODO: this function pointer causes dependency loop problems, so it's stubbed out
-pub const PCMSCALLBACKA = switch (@import("builtin").zig_backend) {
-    .stage1 => fn () callconv(@import("std").os.windows.WINAPI) void,
-    else => *const fn () callconv(@import("std").os.windows.WINAPI) void,
-};
+pub const PCMSCALLBACKA = switch (@import("builtin").zig_backend) { .stage1 => fn() callconv(@import("std").os.windows.WINAPI) void, else => *const fn() callconv(@import("std").os.windows.WINAPI) void};
 
 pub const COLORMATCHSETUPW = extern struct {
     dwSize: u32,
@@ -912,13 +914,14 @@ pub const WCS_DEVICE_CAPABILITIES_TYPE = enum(i32) {
 pub const VideoCardGammaTable = WCS_DEVICE_CAPABILITIES_TYPE.VideoCardGammaTable;
 pub const MicrosoftHardwareColorV2 = WCS_DEVICE_CAPABILITIES_TYPE.MicrosoftHardwareColorV2;
 
+
 //--------------------------------------------------------------------------------
 // Section: Functions (121)
 //--------------------------------------------------------------------------------
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "gdi32" fn SetICMMode(
     hdc: ?HDC,
-    mode: i32,
+    mode: ICM_MODE,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
 // TODO: this type is limited to platform 'windows5.0'
@@ -1764,6 +1767,7 @@ pub extern "mscms" fn ColorProfileGetDisplayUserScope(
     scope: ?*WCS_PROFILE_MANAGEMENT_SCOPE,
 ) callconv(@import("std").os.windows.WINAPI) HRESULT;
 
+
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (26)
 //--------------------------------------------------------------------------------
@@ -1826,32 +1830,32 @@ pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
         pub const WcsOpenColorProfile = thismodule.WcsOpenColorProfileW;
     },
     .unspecified => if (@import("builtin").is_test) struct {
-        pub const LOGCOLORSPACE = *opaque {};
-        pub const ICMENUMPROC = *opaque {};
-        pub const ENUMTYPE = *opaque {};
-        pub const PCMSCALLBACK = *opaque {};
-        pub const COLORMATCHSETUP = *opaque {};
-        pub const GetLogColorSpace = *opaque {};
-        pub const CreateColorSpace = *opaque {};
-        pub const GetICMProfile = *opaque {};
-        pub const SetICMProfile = *opaque {};
-        pub const EnumICMProfiles = *opaque {};
-        pub const UpdateICMRegKey = *opaque {};
-        pub const OpenColorProfile = *opaque {};
-        pub const CreateProfileFromLogColorSpace = *opaque {};
-        pub const CreateColorTransform = *opaque {};
-        pub const RegisterCMM = *opaque {};
-        pub const UnregisterCMM = *opaque {};
-        pub const GetColorDirectory = *opaque {};
-        pub const InstallColorProfile = *opaque {};
-        pub const UninstallColorProfile = *opaque {};
-        pub const EnumColorProfiles = *opaque {};
-        pub const SetStandardColorSpaceProfile = *opaque {};
-        pub const GetStandardColorSpaceProfile = *opaque {};
-        pub const AssociateColorProfileWithDevice = *opaque {};
-        pub const DisassociateColorProfileFromDevice = *opaque {};
-        pub const SetupColorMatching = *opaque {};
-        pub const WcsOpenColorProfile = *opaque {};
+        pub const LOGCOLORSPACE = *opaque{};
+        pub const ICMENUMPROC = *opaque{};
+        pub const ENUMTYPE = *opaque{};
+        pub const PCMSCALLBACK = *opaque{};
+        pub const COLORMATCHSETUP = *opaque{};
+        pub const GetLogColorSpace = *opaque{};
+        pub const CreateColorSpace = *opaque{};
+        pub const GetICMProfile = *opaque{};
+        pub const SetICMProfile = *opaque{};
+        pub const EnumICMProfiles = *opaque{};
+        pub const UpdateICMRegKey = *opaque{};
+        pub const OpenColorProfile = *opaque{};
+        pub const CreateProfileFromLogColorSpace = *opaque{};
+        pub const CreateColorTransform = *opaque{};
+        pub const RegisterCMM = *opaque{};
+        pub const UnregisterCMM = *opaque{};
+        pub const GetColorDirectory = *opaque{};
+        pub const InstallColorProfile = *opaque{};
+        pub const UninstallColorProfile = *opaque{};
+        pub const EnumColorProfiles = *opaque{};
+        pub const SetStandardColorSpaceProfile = *opaque{};
+        pub const GetStandardColorSpaceProfile = *opaque{};
+        pub const AssociateColorProfileWithDevice = *opaque{};
+        pub const DisassociateColorProfileFromDevice = *opaque{};
+        pub const SetupColorMatching = *opaque{};
+        pub const WcsOpenColorProfile = *opaque{};
     } else struct {
         pub const LOGCOLORSPACE = @compileError("'LOGCOLORSPACE' requires that UNICODE be set to true or false in the root module");
         pub const ICMENUMPROC = @compileError("'ICMENUMPROC' requires that UNICODE be set to true or false in the root module");
@@ -1905,23 +1909,17 @@ const RGBTRIPLE = @import("../graphics/gdi.zig").RGBTRIPLE;
 
 test {
     // The following '_ = <FuncPtrType>' lines are a workaround for https://github.com/ziglang/zig/issues/4476
-    if (@hasDecl(@This(), "ICMENUMPROCA")) {
-        _ = ICMENUMPROCA;
-    }
-    if (@hasDecl(@This(), "ICMENUMPROCW")) {
-        _ = ICMENUMPROCW;
-    }
-    if (@hasDecl(@This(), "LPBMCALLBACKFN")) {
-        _ = LPBMCALLBACKFN;
-    }
+    if (@hasDecl(@This(), "ICMENUMPROCA")) { _ = ICMENUMPROCA; }
+    if (@hasDecl(@This(), "ICMENUMPROCW")) { _ = ICMENUMPROCW; }
+    if (@hasDecl(@This(), "LPBMCALLBACKFN")) { _ = LPBMCALLBACKFN; }
 
-    @setEvalBranchQuota(comptime @import("std").meta.declarations(@This()).len * 3);
+    @setEvalBranchQuota(
+        comptime @import("std").meta.declarations(@This()).len * 3
+    );
 
     // reference all the pub declarations
     if (!@import("builtin").is_test) return;
     inline for (comptime @import("std").meta.declarations(@This())) |decl| {
-        if (decl.is_pub) {
-            _ = @field(@This(), decl.name);
-        }
+        _ = @field(@This(), decl.name);
     }
 }
