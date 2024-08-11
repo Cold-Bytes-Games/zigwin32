@@ -5795,10 +5795,11 @@ pub const ID3D12Device = extern struct {
             ) callconv(@import("std").os.windows.WINAPI) D3D12_RESOURCE_ALLOCATION_INFO,
             else => *const fn (
                 self: *const ID3D12Device,
+                out: *D3D12_RESOURCE_ALLOCATION_INFO,
                 visibleMask: u32,
                 numResourceDescs: u32,
                 pResourceDescs: [*]const D3D12_RESOURCE_DESC,
-            ) callconv(@import("std").os.windows.WINAPI) D3D12_RESOURCE_ALLOCATION_INFO,
+            ) callconv(@import("std").os.windows.WINAPI) void,
         },
         GetCustomHeapProperties: switch (@import("builtin").zig_backend) {
             .stage1 => fn (
@@ -6154,8 +6155,8 @@ pub const ID3D12Device = extern struct {
                 return @as(*const ID3D12Device.VTable, @ptrCast(self.vtable)).CopyDescriptorsSimple(@as(*const ID3D12Device, @ptrCast(self)), NumDescriptors, DestDescriptorRangeStart, SrcDescriptorRangeStart, DescriptorHeapsType);
             }
             // NOTE: method is namespaced with interface name to avoid conflicts for now
-            pub inline fn ID3D12Device_GetResourceAllocationInfo(self: *const T, visibleMask: u32, numResourceDescs: u32, pResourceDescs: [*]const D3D12_RESOURCE_DESC) D3D12_RESOURCE_ALLOCATION_INFO {
-                return @as(*const ID3D12Device.VTable, @ptrCast(self.vtable)).GetResourceAllocationInfo(@as(*const ID3D12Device, @ptrCast(self)), visibleMask, numResourceDescs, pResourceDescs);
+            pub inline fn ID3D12Device_GetResourceAllocationInfo(self: *const T, out: *D3D12_RESOURCE_ALLOCATION_INFO, visibleMask: u32, numResourceDescs: u32, pResourceDescs: [*]const D3D12_RESOURCE_DESC) void {
+                return @as(*const ID3D12Device.VTable, @ptrCast(self.vtable)).GetResourceAllocationInfo(@as(*const ID3D12Device, @ptrCast(self)), out, visibleMask, numResourceDescs, pResourceDescs);
             }
             // NOTE: method is namespaced with interface name to avoid conflicts for now
             pub inline fn ID3D12Device_GetCustomHeapProperties(self: *const T, nodeMask: u32, heapType: D3D12_HEAP_TYPE) D3D12_HEAP_PROPERTIES {
