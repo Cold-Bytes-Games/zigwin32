@@ -3721,7 +3721,7 @@ pub const ID3D12Resource = extern union {
     pub fn Unmap(self: *const ID3D12Resource, Subresource: u32, pWrittenRange: ?*const D3D12_RANGE) callconv(.Inline) void {
         return self.vtable.Unmap(self, Subresource, pWrittenRange);
     }
-    pub fn GetDesc(self: *const ID3D12Resource, desc: *D3D12_RESOURCE_DESC) callconv(.Inline) D3D12_RESOURCE_DESC {
+    pub fn GetDesc(self: *const ID3D12Resource, desc: *D3D12_RESOURCE_DESC) callconv(.Inline) void {
         return self.vtable.GetDesc(self, desc);
     }
     pub fn GetGPUVirtualAddress(self: *const ID3D12Resource) callconv(.Inline) u64 {
@@ -3846,10 +3846,12 @@ pub const ID3D12DescriptorHeap = extern union {
         ) callconv(@import("std").os.windows.WINAPI) D3D12_DESCRIPTOR_HEAP_DESC,
         GetCPUDescriptorHandleForHeapStart: *const fn (
             self: *const ID3D12DescriptorHeap,
-        ) callconv(@import("std").os.windows.WINAPI) D3D12_CPU_DESCRIPTOR_HANDLE,
+            handle: *D3D12_CPU_DESCRIPTOR_HANDLE,
+        ) callconv(@import("std").os.windows.WINAPI) void,
         GetGPUDescriptorHandleForHeapStart: *const fn (
             self: *const ID3D12DescriptorHeap,
-        ) callconv(@import("std").os.windows.WINAPI) D3D12_GPU_DESCRIPTOR_HANDLE,
+            handle: *D3D12_GPU_DESCRIPTOR_HANDLE,
+        ) callconv(@import("std").os.windows.WINAPI) void,
     };
     vtable: *const VTable,
     ID3D12Pageable: ID3D12Pageable,
@@ -3859,11 +3861,11 @@ pub const ID3D12DescriptorHeap = extern union {
     pub fn GetDesc(self: *const ID3D12DescriptorHeap) callconv(.Inline) D3D12_DESCRIPTOR_HEAP_DESC {
         return self.vtable.GetDesc(self);
     }
-    pub fn GetCPUDescriptorHandleForHeapStart(self: *const ID3D12DescriptorHeap) callconv(.Inline) D3D12_CPU_DESCRIPTOR_HANDLE {
-        return self.vtable.GetCPUDescriptorHandleForHeapStart(self);
+    pub fn GetCPUDescriptorHandleForHeapStart(self: *const ID3D12DescriptorHeap, handle: *D3D12_CPU_DESCRIPTOR_HANDLE) callconv(.Inline) void {
+        return self.vtable.GetCPUDescriptorHandleForHeapStart(self, handle);
     }
-    pub fn GetGPUDescriptorHandleForHeapStart(self: *const ID3D12DescriptorHeap) callconv(.Inline) D3D12_GPU_DESCRIPTOR_HANDLE {
-        return self.vtable.GetGPUDescriptorHandleForHeapStart(self);
+    pub fn GetGPUDescriptorHandleForHeapStart(self: *const ID3D12DescriptorHeap, handle: *D3D12_GPU_DESCRIPTOR_HANDLE) callconv(.Inline) void {
+        return self.vtable.GetGPUDescriptorHandleForHeapStart(self, handle);
     }
 };
 
@@ -4735,10 +4737,11 @@ pub const ID3D12Device = extern union {
         ) callconv(@import("std").os.windows.WINAPI) void,
         GetResourceAllocationInfo: *const fn (
             self: *const ID3D12Device,
+            alloc_info: *D3D12_RESOURCE_ALLOCATION_INFO,
             visibleMask: u32,
             numResourceDescs: u32,
             pResourceDescs: [*]const D3D12_RESOURCE_DESC,
-        ) callconv(@import("std").os.windows.WINAPI) D3D12_RESOURCE_ALLOCATION_INFO,
+        ) callconv(@import("std").os.windows.WINAPI) void,
         GetCustomHeapProperties: *const fn (
             self: *const ID3D12Device,
             nodeMask: u32,
@@ -4917,8 +4920,14 @@ pub const ID3D12Device = extern union {
     pub fn CopyDescriptorsSimple(self: *const ID3D12Device, NumDescriptors: u32, DestDescriptorRangeStart: D3D12_CPU_DESCRIPTOR_HANDLE, SrcDescriptorRangeStart: D3D12_CPU_DESCRIPTOR_HANDLE, DescriptorHeapsType: D3D12_DESCRIPTOR_HEAP_TYPE) callconv(.Inline) void {
         return self.vtable.CopyDescriptorsSimple(self, NumDescriptors, DestDescriptorRangeStart, SrcDescriptorRangeStart, DescriptorHeapsType);
     }
-    pub fn GetResourceAllocationInfo(self: *const ID3D12Device, visibleMask: u32, numResourceDescs: u32, pResourceDescs: [*]const D3D12_RESOURCE_DESC) callconv(.Inline) D3D12_RESOURCE_ALLOCATION_INFO {
-        return self.vtable.GetResourceAllocationInfo(self, visibleMask, numResourceDescs, pResourceDescs);
+    pub fn GetResourceAllocationInfo(
+        self: *const ID3D12Device,
+        alloc_info: *D3D12_RESOURCE_ALLOCATION_INFO,
+        visibleMask: u32,
+        numResourceDescs: u32,
+        pResourceDescs: [*]const D3D12_RESOURCE_DESC,
+    ) callconv(.Inline) void {
+        return self.vtable.GetResourceAllocationInfo(self, alloc_info, visibleMask, numResourceDescs, pResourceDescs);
     }
     pub fn GetCustomHeapProperties(self: *const ID3D12Device, nodeMask: u32, heapType: D3D12_HEAP_TYPE) callconv(.Inline) D3D12_HEAP_PROPERTIES {
         return self.vtable.GetCustomHeapProperties(self, nodeMask, heapType);
