@@ -1717,7 +1717,7 @@ pub const IVssSnapshotMgmt = extern union {
             self: *const IVssSnapshotMgmt,
             ProviderId: Guid,
             InterfaceId: ?*const Guid,
-            ppItf: ?*?*IUnknown,
+            ppItf: **IUnknown,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         QueryVolumesSupportedForSnapshots: *const fn(
             self: *const IVssSnapshotMgmt,
@@ -1734,7 +1734,7 @@ pub const IVssSnapshotMgmt = extern union {
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn GetProviderMgmtInterface(self: *const IVssSnapshotMgmt, ProviderId: Guid, InterfaceId: ?*const Guid, ppItf: ?*?*IUnknown) callconv(.Inline) HRESULT {
+    pub fn GetProviderMgmtInterface(self: *const IVssSnapshotMgmt, ProviderId: Guid, InterfaceId: ?*const Guid, ppItf: **IUnknown) callconv(.Inline) HRESULT {
         return self.vtable.GetProviderMgmtInterface(self, ProviderId, InterfaceId, ppItf);
     }
     pub fn QueryVolumesSupportedForSnapshots(self: *const IVssSnapshotMgmt, ProviderId: Guid, lContext: i32, ppEnum: ?*?*IVssEnumMgmtObject) callconv(.Inline) HRESULT {
@@ -2445,16 +2445,6 @@ pub extern "vssapi" fn CreateVssExpressWriterInternal(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (10)
 //--------------------------------------------------------------------------------

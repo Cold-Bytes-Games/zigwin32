@@ -1182,23 +1182,13 @@ pub extern "xaudio2_8" fn CreateAudioReverb(
 
 pub extern "hrtfapo" fn CreateHrtfApo(
     init: ?*const HrtfApoInit,
-    xApo: ?*?*IXAPO,
+    xApo: **IXAPO,
 ) callconv(@import("std").os.windows.WINAPI) HRESULT;
 
 
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (7)
 //--------------------------------------------------------------------------------

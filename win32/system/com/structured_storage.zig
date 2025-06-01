@@ -141,7 +141,7 @@ pub const STGFMT = enum(u32) {
     FILE = 3,
     ANY = 4,
     DOCFILE = 5,
-    // DOCUMENT = 0, this enum value conflicts with STORAGE
+    pub const DOCUMENT = .STORAGE;
 };
 pub const STGFMT_STORAGE = STGFMT.STORAGE;
 pub const STGFMT_NATIVE = STGFMT.NATIVE;
@@ -1313,7 +1313,7 @@ pub extern "ole32" fn GetHGlobalFromStream(
 pub extern "ole32" fn CoGetInterfaceAndReleaseStream(
     pStm: ?*IStream,
     iid: ?*const Guid,
-    ppv: ?*?*anyopaque,
+    ppv: **anyopaque,
 ) callconv(@import("std").os.windows.WINAPI) HRESULT;
 
 // TODO: this type is limited to platform 'windows5.0'
@@ -1593,16 +1593,6 @@ pub extern "propsys" fn StgDeserializePropVariant(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (30)
 //--------------------------------------------------------------------------------

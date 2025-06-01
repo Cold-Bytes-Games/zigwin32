@@ -841,8 +841,8 @@ pub const SDP_SPECIFICTYPE = enum(i32) {
     INT64 = 800,
     INT128 = 1056,
     UUID16 = 304,
-    // UUID32 = 544, this enum value conflicts with INT32
     UUID128 = 1072,
+    pub const UUID32 = .INT32;
 };
 pub const SDP_ST_NONE = SDP_SPECIFICTYPE.NONE;
 pub const SDP_ST_UINT8 = SDP_SPECIFICTYPE.UINT8;
@@ -1694,16 +1694,6 @@ pub extern "bluetoothapis" fn BluetoothGATTUnregisterEvent(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (9)
 //--------------------------------------------------------------------------------

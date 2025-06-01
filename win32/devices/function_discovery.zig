@@ -811,7 +811,7 @@ pub const IFunctionDiscoveryProvider = extern union {
             iProviderInstanceContext: isize,
             guidService: ?*const Guid,
             riid: ?*const Guid,
-            ppIUnknown: ?*?*IUnknown,
+            ppIUnknown: **IUnknown,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         InstanceReleased: *const fn(
             self: *const IFunctionDiscoveryProvider,
@@ -839,7 +839,7 @@ pub const IFunctionDiscoveryProvider = extern union {
     pub fn InstancePropertyStoreFlush(self: *const IFunctionDiscoveryProvider, pIFunctionInstance: ?*IFunctionInstance, iProviderInstanceContext: isize) callconv(.Inline) HRESULT {
         return self.vtable.InstancePropertyStoreFlush(self, pIFunctionInstance, iProviderInstanceContext);
     }
-    pub fn InstanceQueryService(self: *const IFunctionDiscoveryProvider, pIFunctionInstance: ?*IFunctionInstance, iProviderInstanceContext: isize, guidService: ?*const Guid, riid: ?*const Guid, ppIUnknown: ?*?*IUnknown) callconv(.Inline) HRESULT {
+    pub fn InstanceQueryService(self: *const IFunctionDiscoveryProvider, pIFunctionInstance: ?*IFunctionInstance, iProviderInstanceContext: isize, guidService: ?*const Guid, riid: ?*const Guid, ppIUnknown: **IUnknown) callconv(.Inline) HRESULT {
         return self.vtable.InstanceQueryService(self, pIFunctionInstance, iProviderInstanceContext, guidService, riid, ppIUnknown);
     }
     pub fn InstanceReleased(self: *const IFunctionDiscoveryProvider, pIFunctionInstance: ?*IFunctionInstance, iProviderInstanceContext: isize) callconv(.Inline) HRESULT {
@@ -1128,12 +1128,12 @@ pub const IFunctionDiscoveryServiceProvider = extern union {
             self: *const IFunctionDiscoveryServiceProvider,
             pIFunctionInstance: ?*IFunctionInstance,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn Initialize(self: *const IFunctionDiscoveryServiceProvider, pIFunctionInstance: ?*IFunctionInstance, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn Initialize(self: *const IFunctionDiscoveryServiceProvider, pIFunctionInstance: ?*IFunctionInstance, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.Initialize(self, pIFunctionInstance, riid, ppv);
     }
 };
@@ -1231,16 +1231,6 @@ pub const CLSID_PropertyStoreCollection = &CLSID_PropertyStoreCollection_Value;
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (10)
 //--------------------------------------------------------------------------------

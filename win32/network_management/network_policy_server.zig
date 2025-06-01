@@ -23,7 +23,6 @@ pub const CLSID_SdoMachine = &CLSID_SdoMachine_Value;
 pub const ATTRIBUTEID = enum(u32) {
     ATTRIBUTE_UNDEFINED = 0,
     ATTRIBUTE_MIN_VALUE = 1,
-    // RADIUS_ATTRIBUTE_USER_NAME = 1, this enum value conflicts with ATTRIBUTE_MIN_VALUE
     RADIUS_ATTRIBUTE_USER_PASSWORD = 2,
     RADIUS_ATTRIBUTE_CHAP_PASSWORD = 3,
     RADIUS_ATTRIBUTE_NAS_IP_ADDRESS = 4,
@@ -264,6 +263,7 @@ pub const ATTRIBUTEID = enum(u32) {
     RAS_ATTRIBUTE_BAP_REQUIRED = 4294967208,
     RAS_ATTRIBUTE_BAP_LINE_DOWN_TIME = 4294967209,
     RAS_ATTRIBUTE_BAP_LINE_DOWN_LIMIT = 4294967210,
+    pub const RADIUS_ATTRIBUTE_USER_NAME = .ATTRIBUTE_MIN_VALUE;
 };
 pub const ATTRIBUTE_UNDEFINED = ATTRIBUTEID.ATTRIBUTE_UNDEFINED;
 pub const ATTRIBUTE_MIN_VALUE = ATTRIBUTEID.ATTRIBUTE_MIN_VALUE;
@@ -1771,16 +1771,6 @@ pub const PRADIUS_EXTENSION_PROCESS_2 = *const fn(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (6)
 //--------------------------------------------------------------------------------

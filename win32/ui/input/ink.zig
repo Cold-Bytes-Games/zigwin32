@@ -104,7 +104,7 @@ pub const IInkDesktopHost = extern union {
         CreateInkPresenter: *const fn(
             self: *const IInkDesktopHost,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         CreateAndInitializeInkPresenter: *const fn(
             self: *const IInkDesktopHost,
@@ -112,7 +112,7 @@ pub const IInkDesktopHost = extern union {
             width: f32,
             height: f32,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
@@ -120,10 +120,10 @@ pub const IInkDesktopHost = extern union {
     pub fn QueueWorkItem(self: *const IInkDesktopHost, workItem: ?*IInkHostWorkItem) callconv(.Inline) HRESULT {
         return self.vtable.QueueWorkItem(self, workItem);
     }
-    pub fn CreateInkPresenter(self: *const IInkDesktopHost, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateInkPresenter(self: *const IInkDesktopHost, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateInkPresenter(self, riid, ppv);
     }
-    pub fn CreateAndInitializeInkPresenter(self: *const IInkDesktopHost, rootVisual: ?*IUnknown, width: f32, height: f32, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateAndInitializeInkPresenter(self: *const IInkDesktopHost, rootVisual: ?*IUnknown, width: f32, height: f32, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateAndInitializeInkPresenter(self, rootVisual, width, height, riid, ppv);
     }
 };
@@ -187,16 +187,6 @@ pub const IInkD2DRenderer2 = extern union {
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (4)
 //--------------------------------------------------------------------------------

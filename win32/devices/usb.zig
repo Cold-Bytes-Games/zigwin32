@@ -1832,9 +1832,9 @@ pub const USBFN_DIRECTION = enum(i32) {
     Minimum = 0,
     In = 1,
     Out = 2,
-    // Tx = 1, this enum value conflicts with In
-    // Rx = 2, this enum value conflicts with Out
     Maximum = 3,
+    pub const Tx = .In;
+    pub const Rx = .Out;
 };
 pub const UsbfnDirectionMinimum = USBFN_DIRECTION.Minimum;
 pub const UsbfnDirectionIn = USBFN_DIRECTION.In;
@@ -2276,16 +2276,6 @@ pub extern "winusb" fn WinUsb_StopTrackingForTimeSync(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (6)
 //--------------------------------------------------------------------------------

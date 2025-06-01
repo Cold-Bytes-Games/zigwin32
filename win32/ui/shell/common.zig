@@ -48,7 +48,6 @@ pub const SHELLDETAILS = extern struct {
 
 pub const PERCEIVED = enum(i32) {
     FIRST = -3,
-    // CUSTOM = -3, this enum value conflicts with FIRST
     UNSPECIFIED = -2,
     FOLDER = -1,
     UNKNOWN = 0,
@@ -62,7 +61,8 @@ pub const PERCEIVED = enum(i32) {
     APPLICATION = 8,
     GAMEMEDIA = 9,
     CONTACTS = 10,
-    // LAST = 10, this enum value conflicts with CONTACTS
+    pub const CUSTOM = .FIRST;
+    pub const LAST = .CONTACTS;
 };
 pub const PERCEIVED_TYPE_FIRST = PERCEIVED.FIRST;
 pub const PERCEIVED_TYPE_CUSTOM = PERCEIVED.FIRST;
@@ -180,7 +180,7 @@ pub const IObjectArray = extern union {
             self: *const IObjectArray,
             uiIndex: u32,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
@@ -188,7 +188,7 @@ pub const IObjectArray = extern union {
     pub fn GetCount(self: *const IObjectArray, pcObjects: ?*u32) callconv(.Inline) HRESULT {
         return self.vtable.GetCount(self, pcObjects);
     }
-    pub fn GetAt(self: *const IObjectArray, uiIndex: u32, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn GetAt(self: *const IObjectArray, uiIndex: u32, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.GetAt(self, uiIndex, riid, ppv);
     }
 };
@@ -240,16 +240,6 @@ pub const IObjectCollection = extern union {
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (4)
 //--------------------------------------------------------------------------------

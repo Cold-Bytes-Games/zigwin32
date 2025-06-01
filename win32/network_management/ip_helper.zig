@@ -578,9 +578,9 @@ pub const IF_ACCESS_TYPE = enum(i32) {
     LOOPBACK = 1,
     BROADCAST = 2,
     POINT_TO_POINT = 3,
-    // POINTTOPOINT = 3, this enum value conflicts with POINT_TO_POINT
     POINT_TO_MULTI_POINT = 4,
-    // POINTTOMULTIPOINT = 4, this enum value conflicts with POINT_TO_MULTI_POINT
+    pub const POINTTOPOINT = .POINT_TO_POINT;
+    pub const POINTTOMULTIPOINT = .POINT_TO_MULTI_POINT;
 };
 pub const IF_ACCESS_LOOPBACK = IF_ACCESS_TYPE.LOOPBACK;
 pub const IF_ACCESS_BROADCAST = IF_ACCESS_TYPE.BROADCAST;
@@ -1595,10 +1595,10 @@ pub const TCP_RTO_ALGORITHM = enum(i32) {
     TcpRtoAlgorithmConstant = 2,
     TcpRtoAlgorithmRsre = 3,
     TcpRtoAlgorithmVanj = 4,
-    // MIB_TCP_RTO_OTHER = 1, this enum value conflicts with TcpRtoAlgorithmOther
-    // MIB_TCP_RTO_CONSTANT = 2, this enum value conflicts with TcpRtoAlgorithmConstant
-    // MIB_TCP_RTO_RSRE = 3, this enum value conflicts with TcpRtoAlgorithmRsre
-    // MIB_TCP_RTO_VANJ = 4, this enum value conflicts with TcpRtoAlgorithmVanj
+    pub const MIB_TCP_RTO_OTHER = .TcpRtoAlgorithmOther;
+    pub const MIB_TCP_RTO_CONSTANT = .TcpRtoAlgorithmConstant;
+    pub const MIB_TCP_RTO_RSRE = .TcpRtoAlgorithmRsre;
+    pub const MIB_TCP_RTO_VANJ = .TcpRtoAlgorithmVanj;
 };
 pub const TcpRtoAlgorithmOther = TCP_RTO_ALGORITHM.TcpRtoAlgorithmOther;
 pub const TcpRtoAlgorithmConstant = TCP_RTO_ALGORITHM.TcpRtoAlgorithmConstant;
@@ -3839,23 +3839,19 @@ pub extern "iphlpapi" fn PfTestPacket(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (2)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-        pub const ConvertInterfaceNameToLuid = thismodule.ConvertInterfaceNameToLuidA;
-        pub const ConvertInterfaceLuidToName = thismodule.ConvertInterfaceLuidToNameA;
-    },
-    .wide => struct {
-        pub const ConvertInterfaceNameToLuid = thismodule.ConvertInterfaceNameToLuidW;
-        pub const ConvertInterfaceLuidToName = thismodule.ConvertInterfaceLuidToNameW;
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-        pub const ConvertInterfaceNameToLuid = *opaque{};
-        pub const ConvertInterfaceLuidToName = *opaque{};
-    } else struct {
-        pub const ConvertInterfaceNameToLuid = @compileError("'ConvertInterfaceNameToLuid' requires that UNICODE be set to true or false in the root module");
-        pub const ConvertInterfaceLuidToName = @compileError("'ConvertInterfaceLuidToName' requires that UNICODE be set to true or false in the root module");
-    },
+pub const ConvertInterfaceNameToLuid = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ConvertInterfaceNameToLuidA,
+    .wide => @This().ConvertInterfaceNameToLuidW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ConvertInterfaceNameToLuid' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ConvertInterfaceLuidToName = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ConvertInterfaceLuidToNameA,
+    .wide => @This().ConvertInterfaceLuidToNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ConvertInterfaceLuidToName' requires that UNICODE be set to true or false in the root module",
+    ),
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (41)

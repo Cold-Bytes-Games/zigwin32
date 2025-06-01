@@ -413,12 +413,12 @@ pub const INetDiagHelperUtilFactory = extern union {
         CreateUtilityInstance: *const fn(
             self: *const INetDiagHelperUtilFactory,
             riid: ?*const Guid,
-            ppvObject: ?*?*anyopaque,
+            ppvObject: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn CreateUtilityInstance(self: *const INetDiagHelperUtilFactory, riid: ?*const Guid, ppvObject: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateUtilityInstance(self: *const INetDiagHelperUtilFactory, riid: ?*const Guid, ppvObject: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateUtilityInstance(self, riid, ppvObject);
     }
 };
@@ -618,16 +618,6 @@ pub extern "ndfapi" fn NdfGetTraceFile(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (11)
 //--------------------------------------------------------------------------------

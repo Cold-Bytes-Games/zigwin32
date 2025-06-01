@@ -516,18 +516,18 @@ pub const HTTP_HEADER_ID = enum(i32) {
     Translate = 39,
     UserAgent = 40,
     RequestMaximum = 41,
-    // AcceptRanges = 20, this enum value conflicts with Accept
-    // Age = 21, this enum value conflicts with AcceptCharset
-    // Etag = 22, this enum value conflicts with AcceptEncoding
-    // Location = 23, this enum value conflicts with AcceptLanguage
-    // ProxyAuthenticate = 24, this enum value conflicts with Authorization
-    // RetryAfter = 25, this enum value conflicts with Cookie
-    // Server = 26, this enum value conflicts with Expect
-    // SetCookie = 27, this enum value conflicts with From
-    // Vary = 28, this enum value conflicts with Host
-    // WwwAuthenticate = 29, this enum value conflicts with IfMatch
-    // ResponseMaximum = 30, this enum value conflicts with IfModifiedSince
-    // Maximum = 41, this enum value conflicts with RequestMaximum
+    pub const AcceptRanges = .Accept;
+    pub const Age = .AcceptCharset;
+    pub const Etag = .AcceptEncoding;
+    pub const Location = .AcceptLanguage;
+    pub const ProxyAuthenticate = .Authorization;
+    pub const RetryAfter = .Cookie;
+    pub const Server = .Expect;
+    pub const SetCookie = .From;
+    pub const Vary = .Host;
+    pub const WwwAuthenticate = .IfMatch;
+    pub const ResponseMaximum = .IfModifiedSince;
+    pub const Maximum = .RequestMaximum;
 };
 pub const HttpHeaderCacheControl = HTTP_HEADER_ID.CacheControl;
 pub const HttpHeaderConnection = HTTP_HEADER_ID.Connection;
@@ -1759,19 +1759,12 @@ pub extern "httpapi" fn HttpGetExtension(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (1)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-        pub const HTTP_SERVICE_BINDING_ = thismodule.HTTP_SERVICE_BINDING_A;
-    },
-    .wide => struct {
-        pub const HTTP_SERVICE_BINDING_ = thismodule.HTTP_SERVICE_BINDING_W;
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-        pub const HTTP_SERVICE_BINDING_ = *opaque{};
-    } else struct {
-        pub const HTTP_SERVICE_BINDING_ = @compileError("'HTTP_SERVICE_BINDING_' requires that UNICODE be set to true or false in the root module");
-    },
+pub const HTTP_SERVICE_BINDING_ = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().HTTP_SERVICE_BINDING_A,
+    .wide => @This().HTTP_SERVICE_BINDING_W,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'HTTP_SERVICE_BINDING_' requires that UNICODE be set to true or false in the root module",
+    ),
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (13)

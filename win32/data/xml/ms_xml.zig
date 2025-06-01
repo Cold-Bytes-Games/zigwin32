@@ -3360,9 +3360,9 @@ pub const SXH_SERVER_CERT_IGNORE_ALL_SERVER_ERRORS = SXH_SERVER_CERT_OPTION.ALL_
 
 pub const SXH_PROXY_SETTING = enum(i32) {
     DEFAULT = 0,
-    // PRECONFIG = 0, this enum value conflicts with DEFAULT
     DIRECT = 1,
     PROXY = 2,
+    pub const PRECONFIG = .DEFAULT;
 };
 pub const SXH_PROXY_SET_DEFAULT = SXH_PROXY_SETTING.DEFAULT;
 pub const SXH_PROXY_SET_PRECONFIG = SXH_PROXY_SETTING.DEFAULT;
@@ -6742,16 +6742,6 @@ pub const IXMLHTTPRequest3 = extern union {
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (10)
 //--------------------------------------------------------------------------------

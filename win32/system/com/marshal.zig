@@ -565,7 +565,7 @@ pub extern "ole32" fn CoMarshalInterface(
 pub extern "ole32" fn CoUnmarshalInterface(
     pStm: ?*IStream,
     riid: ?*const Guid,
-    ppv: ?*?*anyopaque,
+    ppv: **anyopaque,
 ) callconv(@import("std").os.windows.WINAPI) HRESULT;
 
 // TODO: this type is limited to platform 'windows5.0'
@@ -847,16 +847,6 @@ pub extern "ole32" fn HPALETTE_UserFree64(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (17)
 //--------------------------------------------------------------------------------

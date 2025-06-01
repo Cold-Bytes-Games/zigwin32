@@ -145,12 +145,12 @@ pub const ISOLATIONLEVEL = enum(i32) {
     UNSPECIFIED = -1,
     CHAOS = 16,
     READUNCOMMITTED = 256,
-    // BROWSE = 256, this enum value conflicts with READUNCOMMITTED
     CURSORSTABILITY = 4096,
-    // READCOMMITTED = 4096, this enum value conflicts with CURSORSTABILITY
     REPEATABLEREAD = 65536,
     SERIALIZABLE = 1048576,
-    // ISOLATED = 1048576, this enum value conflicts with SERIALIZABLE
+    pub const BROWSE = .READUNCOMMITTED;
+    pub const READCOMMITTED = .CURSORSTABILITY;
+    pub const ISOLATED = .SERIALIZABLE;
 };
 pub const ISOLATIONLEVEL_UNSPECIFIED = ISOLATIONLEVEL.UNSPECIFIED;
 pub const ISOLATIONLEVEL_CHAOS = ISOLATIONLEVEL.CHAOS;
@@ -212,9 +212,9 @@ pub const XACTTC = enum(i32) {
     NONE = 0,
     SYNC_PHASEONE = 1,
     SYNC_PHASETWO = 2,
-    // SYNC = 2, this enum value conflicts with SYNC_PHASETWO
     ASYNC_PHASEONE = 4,
-    // ASYNC = 4, this enum value conflicts with ASYNC_PHASEONE
+    pub const SYNC = .SYNC_PHASETWO;
+    pub const ASYNC = .ASYNC_PHASEONE;
 };
 pub const XACTTC_NONE = XACTTC.NONE;
 pub const XACTTC_SYNC_PHASEONE = XACTTC.SYNC_PHASEONE;
@@ -761,12 +761,12 @@ pub const ITransactionImport = extern union {
             cbTransactionCookie: u32,
             rgbTransactionCookie: [*:0]u8,
             piid: ?*const Guid,
-            ppvTransaction: ?*?*anyopaque,
+            ppvTransaction: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn Import(self: *const ITransactionImport, cbTransactionCookie: u32, rgbTransactionCookie: [*:0]u8, piid: ?*const Guid, ppvTransaction: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn Import(self: *const ITransactionImport, cbTransactionCookie: u32, rgbTransactionCookie: [*:0]u8, piid: ?*const Guid, ppvTransaction: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.Import(self, cbTransactionCookie, rgbTransactionCookie, piid, ppvTransaction);
     }
 };
@@ -2634,23 +2634,19 @@ pub extern "xolehlp" fn DtcGetTransactionManagerExW(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (2)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-        pub const DTC_GET_TRANSACTION_MANAGER_EX_ = thismodule.DTC_GET_TRANSACTION_MANAGER_EX_A;
-        pub const DtcGetTransactionManagerEx = thismodule.DtcGetTransactionManagerExA;
-    },
-    .wide => struct {
-        pub const DTC_GET_TRANSACTION_MANAGER_EX_ = thismodule.DTC_GET_TRANSACTION_MANAGER_EX_W;
-        pub const DtcGetTransactionManagerEx = thismodule.DtcGetTransactionManagerExW;
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-        pub const DTC_GET_TRANSACTION_MANAGER_EX_ = *opaque{};
-        pub const DtcGetTransactionManagerEx = *opaque{};
-    } else struct {
-        pub const DTC_GET_TRANSACTION_MANAGER_EX_ = @compileError("'DTC_GET_TRANSACTION_MANAGER_EX_' requires that UNICODE be set to true or false in the root module");
-        pub const DtcGetTransactionManagerEx = @compileError("'DtcGetTransactionManagerEx' requires that UNICODE be set to true or false in the root module");
-    },
+pub const DTC_GET_TRANSACTION_MANAGER_EX_ = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().DTC_GET_TRANSACTION_MANAGER_EX_A,
+    .wide => @This().DTC_GET_TRANSACTION_MANAGER_EX_W,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'DTC_GET_TRANSACTION_MANAGER_EX_' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const DtcGetTransactionManagerEx = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().DtcGetTransactionManagerExA,
+    .wide => @This().DtcGetTransactionManagerExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'DtcGetTransactionManagerEx' requires that UNICODE be set to true or false in the root module",
+    ),
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (10)

@@ -4403,19 +4403,9 @@ pub const AZ_PROP_CONSTANTS = enum(i32) {
     PROP_CHILD_CREATE = 5,
     MAX_APPLICATION_NAME_LENGTH = 512,
     MAX_OPERATION_NAME_LENGTH = 64,
-    // MAX_TASK_NAME_LENGTH = 64, this enum value conflicts with MAX_OPERATION_NAME_LENGTH
     MAX_SCOPE_NAME_LENGTH = 65536,
-    // MAX_GROUP_NAME_LENGTH = 64, this enum value conflicts with MAX_OPERATION_NAME_LENGTH
-    // MAX_ROLE_NAME_LENGTH = 64, this enum value conflicts with MAX_OPERATION_NAME_LENGTH
-    // MAX_NAME_LENGTH = 65536, this enum value conflicts with MAX_SCOPE_NAME_LENGTH
     MAX_DESCRIPTION_LENGTH = 1024,
     MAX_APPLICATION_DATA_LENGTH = 4096,
-    // SUBMIT_FLAG_ABORT = 1, this enum value conflicts with PROP_NAME
-    // SUBMIT_FLAG_FLUSH = 2, this enum value conflicts with PROP_DESCRIPTION
-    // MAX_POLICY_URL_LENGTH = 65536, this enum value conflicts with MAX_SCOPE_NAME_LENGTH
-    // AZSTORE_FLAG_CREATE = 1, this enum value conflicts with PROP_NAME
-    // AZSTORE_FLAG_MANAGE_STORE_ONLY = 2, this enum value conflicts with PROP_DESCRIPTION
-    // AZSTORE_FLAG_BATCH_UPDATE = 4, this enum value conflicts with PROP_APPLICATION_DATA
     AZSTORE_FLAG_AUDIT_IS_CRITICAL = 8,
     AZSTORE_FORCE_APPLICATION_CLOSE = 16,
     AZSTORE_NT6_FUNCTION_LEVEL = 32,
@@ -4439,18 +4429,10 @@ pub const AZ_PROP_CONSTANTS = enum(i32) {
     PROP_TASK_TASKS = 303,
     PROP_TASK_BIZRULE_IMPORTED_PATH = 304,
     PROP_TASK_IS_ROLE_DEFINITION = 305,
-    // MAX_TASK_BIZRULE_LENGTH = 65536, this enum value conflicts with MAX_SCOPE_NAME_LENGTH
-    // MAX_TASK_BIZRULE_LANGUAGE_LENGTH = 64, this enum value conflicts with MAX_OPERATION_NAME_LENGTH
-    // MAX_TASK_BIZRULE_IMPORTED_PATH_LENGTH = 512, this enum value conflicts with MAX_APPLICATION_NAME_LENGTH
-    // MAX_BIZRULE_STRING = 65536, this enum value conflicts with MAX_SCOPE_NAME_LENGTH
     PROP_GROUP_TYPE = 400,
-    // GROUPTYPE_LDAP_QUERY = 1, this enum value conflicts with PROP_NAME
-    // GROUPTYPE_BASIC = 2, this enum value conflicts with PROP_DESCRIPTION
-    // GROUPTYPE_BIZRULE = 3, this enum value conflicts with PROP_WRITABLE
     PROP_GROUP_APP_MEMBERS = 401,
     PROP_GROUP_APP_NON_MEMBERS = 402,
     PROP_GROUP_LDAP_QUERY = 403,
-    // MAX_GROUP_LDAP_QUERY_LENGTH = 4096, this enum value conflicts with MAX_APPLICATION_DATA_LENGTH
     PROP_GROUP_MEMBERS = 404,
     PROP_GROUP_NON_MEMBERS = 405,
     PROP_GROUP_MEMBERS_NAME = 406,
@@ -4458,10 +4440,6 @@ pub const AZ_PROP_CONSTANTS = enum(i32) {
     PROP_GROUP_BIZRULE = 408,
     PROP_GROUP_BIZRULE_LANGUAGE = 409,
     PROP_GROUP_BIZRULE_IMPORTED_PATH = 410,
-    // MAX_GROUP_BIZRULE_LENGTH = 65536, this enum value conflicts with MAX_SCOPE_NAME_LENGTH
-    // MAX_GROUP_BIZRULE_LANGUAGE_LENGTH = 64, this enum value conflicts with MAX_OPERATION_NAME_LENGTH
-    // MAX_GROUP_BIZRULE_IMPORTED_PATH_LENGTH = 512, this enum value conflicts with MAX_APPLICATION_NAME_LENGTH
-    // PROP_ROLE_APP_MEMBERS = 500, this enum value conflicts with AZSTORE_MIN_DOMAIN_TIMEOUT
     PROP_ROLE_MEMBERS = 501,
     PROP_ROLE_OPERATIONS = 502,
     PROP_ROLE_TASKS = 504,
@@ -4479,7 +4457,6 @@ pub const AZ_PROP_CONSTANTS = enum(i32) {
     PROP_CLIENT_CONTEXT_LDAP_QUERY_DN = 709,
     PROP_APPLICATION_AUTHZ_INTERFACE_CLSID = 800,
     PROP_APPLICATION_VERSION = 801,
-    // MAX_APPLICATION_VERSION_LENGTH = 512, this enum value conflicts with MAX_APPLICATION_NAME_LENGTH
     PROP_APPLICATION_NAME = 802,
     PROP_APPLICATION_BIZRULE_ENABLED = 803,
     PROP_APPLY_STORE_SACL = 900,
@@ -4490,10 +4467,33 @@ pub const AZ_PROP_CONSTANTS = enum(i32) {
     PROP_POLICY_ADMINS_NAME = 905,
     PROP_POLICY_READERS_NAME = 906,
     PROP_DELEGATED_POLICY_USERS_NAME = 907,
-    // CLIENT_CONTEXT_SKIP_GROUP = 1, this enum value conflicts with PROP_NAME
-    // CLIENT_CONTEXT_SKIP_LDAP_QUERY = 1, this enum value conflicts with PROP_NAME
-    // CLIENT_CONTEXT_GET_GROUP_RECURSIVE = 2, this enum value conflicts with PROP_DESCRIPTION
-    // CLIENT_CONTEXT_GET_GROUPS_STORE_LEVEL_ONLY = 2, this enum value conflicts with PROP_DESCRIPTION
+    pub const MAX_TASK_NAME_LENGTH = .MAX_OPERATION_NAME_LENGTH;
+    pub const MAX_GROUP_NAME_LENGTH = .MAX_OPERATION_NAME_LENGTH;
+    pub const MAX_ROLE_NAME_LENGTH = .MAX_OPERATION_NAME_LENGTH;
+    pub const MAX_NAME_LENGTH = .MAX_SCOPE_NAME_LENGTH;
+    pub const SUBMIT_FLAG_ABORT = .PROP_NAME;
+    pub const SUBMIT_FLAG_FLUSH = .PROP_DESCRIPTION;
+    pub const MAX_POLICY_URL_LENGTH = .MAX_SCOPE_NAME_LENGTH;
+    pub const AZSTORE_FLAG_CREATE = .PROP_NAME;
+    pub const AZSTORE_FLAG_MANAGE_STORE_ONLY = .PROP_DESCRIPTION;
+    pub const AZSTORE_FLAG_BATCH_UPDATE = .PROP_APPLICATION_DATA;
+    pub const MAX_TASK_BIZRULE_LENGTH = .MAX_SCOPE_NAME_LENGTH;
+    pub const MAX_TASK_BIZRULE_LANGUAGE_LENGTH = .MAX_OPERATION_NAME_LENGTH;
+    pub const MAX_TASK_BIZRULE_IMPORTED_PATH_LENGTH = .MAX_APPLICATION_NAME_LENGTH;
+    pub const MAX_BIZRULE_STRING = .MAX_SCOPE_NAME_LENGTH;
+    pub const GROUPTYPE_LDAP_QUERY = .PROP_NAME;
+    pub const GROUPTYPE_BASIC = .PROP_DESCRIPTION;
+    pub const GROUPTYPE_BIZRULE = .PROP_WRITABLE;
+    pub const MAX_GROUP_LDAP_QUERY_LENGTH = .MAX_APPLICATION_DATA_LENGTH;
+    pub const MAX_GROUP_BIZRULE_LENGTH = .MAX_SCOPE_NAME_LENGTH;
+    pub const MAX_GROUP_BIZRULE_LANGUAGE_LENGTH = .MAX_OPERATION_NAME_LENGTH;
+    pub const MAX_GROUP_BIZRULE_IMPORTED_PATH_LENGTH = .MAX_APPLICATION_NAME_LENGTH;
+    pub const PROP_ROLE_APP_MEMBERS = .AZSTORE_MIN_DOMAIN_TIMEOUT;
+    pub const MAX_APPLICATION_VERSION_LENGTH = .MAX_APPLICATION_NAME_LENGTH;
+    pub const CLIENT_CONTEXT_SKIP_GROUP = .PROP_NAME;
+    pub const CLIENT_CONTEXT_SKIP_LDAP_QUERY = .PROP_NAME;
+    pub const CLIENT_CONTEXT_GET_GROUP_RECURSIVE = .PROP_DESCRIPTION;
+    pub const CLIENT_CONTEXT_GET_GROUPS_STORE_LEVEL_ONLY = .PROP_DESCRIPTION;
 };
 pub const AZ_PROP_NAME = AZ_PROP_CONSTANTS.PROP_NAME;
 pub const AZ_PROP_DESCRIPTION = AZ_PROP_CONSTANTS.PROP_DESCRIPTION;
@@ -5364,167 +5364,271 @@ pub extern "advapi32" fn ConvertSecurityDescriptorToStringSecurityDescriptorW(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (38)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-        pub const OBJECTS_AND_NAME_ = thismodule.OBJECTS_AND_NAME_A;
-        pub const TRUSTEE_ = thismodule.TRUSTEE_A;
-        pub const EXPLICIT_ACCESS_ = thismodule.EXPLICIT_ACCESS_A;
-        pub const ACTRL_ACCESS_ENTRY = thismodule.ACTRL_ACCESS_ENTRYA;
-        pub const ACTRL_ACCESS_ENTRY_LIST = thismodule.ACTRL_ACCESS_ENTRY_LISTA;
-        pub const ACTRL_PROPERTY_ENTRY = thismodule.ACTRL_PROPERTY_ENTRYA;
-        pub const ACTRL_ACCESS = thismodule.ACTRL_ACCESSA;
-        pub const TRUSTEE_ACCESS = thismodule.TRUSTEE_ACCESSA;
-        pub const ACTRL_ACCESS_INFO = thismodule.ACTRL_ACCESS_INFOA;
-        pub const ACTRL_CONTROL_INFO = thismodule.ACTRL_CONTROL_INFOA;
-        pub const INHERITED_FROM = thismodule.INHERITED_FROMA;
-        pub const SetEntriesInAcl = thismodule.SetEntriesInAclA;
-        pub const GetExplicitEntriesFromAcl = thismodule.GetExplicitEntriesFromAclA;
-        pub const GetEffectiveRightsFromAcl = thismodule.GetEffectiveRightsFromAclA;
-        pub const GetAuditedPermissionsFromAcl = thismodule.GetAuditedPermissionsFromAclA;
-        pub const GetNamedSecurityInfo = thismodule.GetNamedSecurityInfoA;
-        pub const SetNamedSecurityInfo = thismodule.SetNamedSecurityInfoA;
-        pub const GetInheritanceSource = thismodule.GetInheritanceSourceA;
-        pub const TreeResetNamedSecurityInfo = thismodule.TreeResetNamedSecurityInfoA;
-        pub const TreeSetNamedSecurityInfo = thismodule.TreeSetNamedSecurityInfoA;
-        pub const BuildSecurityDescriptor = thismodule.BuildSecurityDescriptorA;
-        pub const LookupSecurityDescriptorParts = thismodule.LookupSecurityDescriptorPartsA;
-        pub const BuildExplicitAccessWithName = thismodule.BuildExplicitAccessWithNameA;
-        pub const BuildImpersonateExplicitAccessWithName = thismodule.BuildImpersonateExplicitAccessWithNameA;
-        pub const BuildTrusteeWithName = thismodule.BuildTrusteeWithNameA;
-        pub const BuildImpersonateTrustee = thismodule.BuildImpersonateTrusteeA;
-        pub const BuildTrusteeWithSid = thismodule.BuildTrusteeWithSidA;
-        pub const BuildTrusteeWithObjectsAndSid = thismodule.BuildTrusteeWithObjectsAndSidA;
-        pub const BuildTrusteeWithObjectsAndName = thismodule.BuildTrusteeWithObjectsAndNameA;
-        pub const GetTrusteeName = thismodule.GetTrusteeNameA;
-        pub const GetTrusteeType = thismodule.GetTrusteeTypeA;
-        pub const GetTrusteeForm = thismodule.GetTrusteeFormA;
-        pub const GetMultipleTrusteeOperation = thismodule.GetMultipleTrusteeOperationA;
-        pub const GetMultipleTrustee = thismodule.GetMultipleTrusteeA;
-        pub const ConvertSidToStringSid = thismodule.ConvertSidToStringSidA;
-        pub const ConvertStringSidToSid = thismodule.ConvertStringSidToSidA;
-        pub const ConvertStringSecurityDescriptorToSecurityDescriptor = thismodule.ConvertStringSecurityDescriptorToSecurityDescriptorA;
-        pub const ConvertSecurityDescriptorToStringSecurityDescriptor = thismodule.ConvertSecurityDescriptorToStringSecurityDescriptorA;
-    },
-    .wide => struct {
-        pub const OBJECTS_AND_NAME_ = thismodule.OBJECTS_AND_NAME_W;
-        pub const TRUSTEE_ = thismodule.TRUSTEE_W;
-        pub const EXPLICIT_ACCESS_ = thismodule.EXPLICIT_ACCESS_W;
-        pub const ACTRL_ACCESS_ENTRY = thismodule.ACTRL_ACCESS_ENTRYW;
-        pub const ACTRL_ACCESS_ENTRY_LIST = thismodule.ACTRL_ACCESS_ENTRY_LISTW;
-        pub const ACTRL_PROPERTY_ENTRY = thismodule.ACTRL_PROPERTY_ENTRYW;
-        pub const ACTRL_ACCESS = thismodule.ACTRL_ACCESSW;
-        pub const TRUSTEE_ACCESS = thismodule.TRUSTEE_ACCESSW;
-        pub const ACTRL_ACCESS_INFO = thismodule.ACTRL_ACCESS_INFOW;
-        pub const ACTRL_CONTROL_INFO = thismodule.ACTRL_CONTROL_INFOW;
-        pub const INHERITED_FROM = thismodule.INHERITED_FROMW;
-        pub const SetEntriesInAcl = thismodule.SetEntriesInAclW;
-        pub const GetExplicitEntriesFromAcl = thismodule.GetExplicitEntriesFromAclW;
-        pub const GetEffectiveRightsFromAcl = thismodule.GetEffectiveRightsFromAclW;
-        pub const GetAuditedPermissionsFromAcl = thismodule.GetAuditedPermissionsFromAclW;
-        pub const GetNamedSecurityInfo = thismodule.GetNamedSecurityInfoW;
-        pub const SetNamedSecurityInfo = thismodule.SetNamedSecurityInfoW;
-        pub const GetInheritanceSource = thismodule.GetInheritanceSourceW;
-        pub const TreeResetNamedSecurityInfo = thismodule.TreeResetNamedSecurityInfoW;
-        pub const TreeSetNamedSecurityInfo = thismodule.TreeSetNamedSecurityInfoW;
-        pub const BuildSecurityDescriptor = thismodule.BuildSecurityDescriptorW;
-        pub const LookupSecurityDescriptorParts = thismodule.LookupSecurityDescriptorPartsW;
-        pub const BuildExplicitAccessWithName = thismodule.BuildExplicitAccessWithNameW;
-        pub const BuildImpersonateExplicitAccessWithName = thismodule.BuildImpersonateExplicitAccessWithNameW;
-        pub const BuildTrusteeWithName = thismodule.BuildTrusteeWithNameW;
-        pub const BuildImpersonateTrustee = thismodule.BuildImpersonateTrusteeW;
-        pub const BuildTrusteeWithSid = thismodule.BuildTrusteeWithSidW;
-        pub const BuildTrusteeWithObjectsAndSid = thismodule.BuildTrusteeWithObjectsAndSidW;
-        pub const BuildTrusteeWithObjectsAndName = thismodule.BuildTrusteeWithObjectsAndNameW;
-        pub const GetTrusteeName = thismodule.GetTrusteeNameW;
-        pub const GetTrusteeType = thismodule.GetTrusteeTypeW;
-        pub const GetTrusteeForm = thismodule.GetTrusteeFormW;
-        pub const GetMultipleTrusteeOperation = thismodule.GetMultipleTrusteeOperationW;
-        pub const GetMultipleTrustee = thismodule.GetMultipleTrusteeW;
-        pub const ConvertSidToStringSid = thismodule.ConvertSidToStringSidW;
-        pub const ConvertStringSidToSid = thismodule.ConvertStringSidToSidW;
-        pub const ConvertStringSecurityDescriptorToSecurityDescriptor = thismodule.ConvertStringSecurityDescriptorToSecurityDescriptorW;
-        pub const ConvertSecurityDescriptorToStringSecurityDescriptor = thismodule.ConvertSecurityDescriptorToStringSecurityDescriptorW;
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-        pub const OBJECTS_AND_NAME_ = *opaque{};
-        pub const TRUSTEE_ = *opaque{};
-        pub const EXPLICIT_ACCESS_ = *opaque{};
-        pub const ACTRL_ACCESS_ENTRY = *opaque{};
-        pub const ACTRL_ACCESS_ENTRY_LIST = *opaque{};
-        pub const ACTRL_PROPERTY_ENTRY = *opaque{};
-        pub const ACTRL_ACCESS = *opaque{};
-        pub const TRUSTEE_ACCESS = *opaque{};
-        pub const ACTRL_ACCESS_INFO = *opaque{};
-        pub const ACTRL_CONTROL_INFO = *opaque{};
-        pub const INHERITED_FROM = *opaque{};
-        pub const SetEntriesInAcl = *opaque{};
-        pub const GetExplicitEntriesFromAcl = *opaque{};
-        pub const GetEffectiveRightsFromAcl = *opaque{};
-        pub const GetAuditedPermissionsFromAcl = *opaque{};
-        pub const GetNamedSecurityInfo = *opaque{};
-        pub const SetNamedSecurityInfo = *opaque{};
-        pub const GetInheritanceSource = *opaque{};
-        pub const TreeResetNamedSecurityInfo = *opaque{};
-        pub const TreeSetNamedSecurityInfo = *opaque{};
-        pub const BuildSecurityDescriptor = *opaque{};
-        pub const LookupSecurityDescriptorParts = *opaque{};
-        pub const BuildExplicitAccessWithName = *opaque{};
-        pub const BuildImpersonateExplicitAccessWithName = *opaque{};
-        pub const BuildTrusteeWithName = *opaque{};
-        pub const BuildImpersonateTrustee = *opaque{};
-        pub const BuildTrusteeWithSid = *opaque{};
-        pub const BuildTrusteeWithObjectsAndSid = *opaque{};
-        pub const BuildTrusteeWithObjectsAndName = *opaque{};
-        pub const GetTrusteeName = *opaque{};
-        pub const GetTrusteeType = *opaque{};
-        pub const GetTrusteeForm = *opaque{};
-        pub const GetMultipleTrusteeOperation = *opaque{};
-        pub const GetMultipleTrustee = *opaque{};
-        pub const ConvertSidToStringSid = *opaque{};
-        pub const ConvertStringSidToSid = *opaque{};
-        pub const ConvertStringSecurityDescriptorToSecurityDescriptor = *opaque{};
-        pub const ConvertSecurityDescriptorToStringSecurityDescriptor = *opaque{};
-    } else struct {
-        pub const OBJECTS_AND_NAME_ = @compileError("'OBJECTS_AND_NAME_' requires that UNICODE be set to true or false in the root module");
-        pub const TRUSTEE_ = @compileError("'TRUSTEE_' requires that UNICODE be set to true or false in the root module");
-        pub const EXPLICIT_ACCESS_ = @compileError("'EXPLICIT_ACCESS_' requires that UNICODE be set to true or false in the root module");
-        pub const ACTRL_ACCESS_ENTRY = @compileError("'ACTRL_ACCESS_ENTRY' requires that UNICODE be set to true or false in the root module");
-        pub const ACTRL_ACCESS_ENTRY_LIST = @compileError("'ACTRL_ACCESS_ENTRY_LIST' requires that UNICODE be set to true or false in the root module");
-        pub const ACTRL_PROPERTY_ENTRY = @compileError("'ACTRL_PROPERTY_ENTRY' requires that UNICODE be set to true or false in the root module");
-        pub const ACTRL_ACCESS = @compileError("'ACTRL_ACCESS' requires that UNICODE be set to true or false in the root module");
-        pub const TRUSTEE_ACCESS = @compileError("'TRUSTEE_ACCESS' requires that UNICODE be set to true or false in the root module");
-        pub const ACTRL_ACCESS_INFO = @compileError("'ACTRL_ACCESS_INFO' requires that UNICODE be set to true or false in the root module");
-        pub const ACTRL_CONTROL_INFO = @compileError("'ACTRL_CONTROL_INFO' requires that UNICODE be set to true or false in the root module");
-        pub const INHERITED_FROM = @compileError("'INHERITED_FROM' requires that UNICODE be set to true or false in the root module");
-        pub const SetEntriesInAcl = @compileError("'SetEntriesInAcl' requires that UNICODE be set to true or false in the root module");
-        pub const GetExplicitEntriesFromAcl = @compileError("'GetExplicitEntriesFromAcl' requires that UNICODE be set to true or false in the root module");
-        pub const GetEffectiveRightsFromAcl = @compileError("'GetEffectiveRightsFromAcl' requires that UNICODE be set to true or false in the root module");
-        pub const GetAuditedPermissionsFromAcl = @compileError("'GetAuditedPermissionsFromAcl' requires that UNICODE be set to true or false in the root module");
-        pub const GetNamedSecurityInfo = @compileError("'GetNamedSecurityInfo' requires that UNICODE be set to true or false in the root module");
-        pub const SetNamedSecurityInfo = @compileError("'SetNamedSecurityInfo' requires that UNICODE be set to true or false in the root module");
-        pub const GetInheritanceSource = @compileError("'GetInheritanceSource' requires that UNICODE be set to true or false in the root module");
-        pub const TreeResetNamedSecurityInfo = @compileError("'TreeResetNamedSecurityInfo' requires that UNICODE be set to true or false in the root module");
-        pub const TreeSetNamedSecurityInfo = @compileError("'TreeSetNamedSecurityInfo' requires that UNICODE be set to true or false in the root module");
-        pub const BuildSecurityDescriptor = @compileError("'BuildSecurityDescriptor' requires that UNICODE be set to true or false in the root module");
-        pub const LookupSecurityDescriptorParts = @compileError("'LookupSecurityDescriptorParts' requires that UNICODE be set to true or false in the root module");
-        pub const BuildExplicitAccessWithName = @compileError("'BuildExplicitAccessWithName' requires that UNICODE be set to true or false in the root module");
-        pub const BuildImpersonateExplicitAccessWithName = @compileError("'BuildImpersonateExplicitAccessWithName' requires that UNICODE be set to true or false in the root module");
-        pub const BuildTrusteeWithName = @compileError("'BuildTrusteeWithName' requires that UNICODE be set to true or false in the root module");
-        pub const BuildImpersonateTrustee = @compileError("'BuildImpersonateTrustee' requires that UNICODE be set to true or false in the root module");
-        pub const BuildTrusteeWithSid = @compileError("'BuildTrusteeWithSid' requires that UNICODE be set to true or false in the root module");
-        pub const BuildTrusteeWithObjectsAndSid = @compileError("'BuildTrusteeWithObjectsAndSid' requires that UNICODE be set to true or false in the root module");
-        pub const BuildTrusteeWithObjectsAndName = @compileError("'BuildTrusteeWithObjectsAndName' requires that UNICODE be set to true or false in the root module");
-        pub const GetTrusteeName = @compileError("'GetTrusteeName' requires that UNICODE be set to true or false in the root module");
-        pub const GetTrusteeType = @compileError("'GetTrusteeType' requires that UNICODE be set to true or false in the root module");
-        pub const GetTrusteeForm = @compileError("'GetTrusteeForm' requires that UNICODE be set to true or false in the root module");
-        pub const GetMultipleTrusteeOperation = @compileError("'GetMultipleTrusteeOperation' requires that UNICODE be set to true or false in the root module");
-        pub const GetMultipleTrustee = @compileError("'GetMultipleTrustee' requires that UNICODE be set to true or false in the root module");
-        pub const ConvertSidToStringSid = @compileError("'ConvertSidToStringSid' requires that UNICODE be set to true or false in the root module");
-        pub const ConvertStringSidToSid = @compileError("'ConvertStringSidToSid' requires that UNICODE be set to true or false in the root module");
-        pub const ConvertStringSecurityDescriptorToSecurityDescriptor = @compileError("'ConvertStringSecurityDescriptorToSecurityDescriptor' requires that UNICODE be set to true or false in the root module");
-        pub const ConvertSecurityDescriptorToStringSecurityDescriptor = @compileError("'ConvertSecurityDescriptorToStringSecurityDescriptor' requires that UNICODE be set to true or false in the root module");
-    },
+pub const OBJECTS_AND_NAME_ = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().OBJECTS_AND_NAME_A,
+    .wide => @This().OBJECTS_AND_NAME_W,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'OBJECTS_AND_NAME_' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const TRUSTEE_ = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().TRUSTEE_A,
+    .wide => @This().TRUSTEE_W,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'TRUSTEE_' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const EXPLICIT_ACCESS_ = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().EXPLICIT_ACCESS_A,
+    .wide => @This().EXPLICIT_ACCESS_W,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'EXPLICIT_ACCESS_' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ACTRL_ACCESS_ENTRY = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ACTRL_ACCESS_ENTRYA,
+    .wide => @This().ACTRL_ACCESS_ENTRYW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ACTRL_ACCESS_ENTRY' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ACTRL_ACCESS_ENTRY_LIST = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ACTRL_ACCESS_ENTRY_LISTA,
+    .wide => @This().ACTRL_ACCESS_ENTRY_LISTW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ACTRL_ACCESS_ENTRY_LIST' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ACTRL_PROPERTY_ENTRY = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ACTRL_PROPERTY_ENTRYA,
+    .wide => @This().ACTRL_PROPERTY_ENTRYW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ACTRL_PROPERTY_ENTRY' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ACTRL_ACCESS = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ACTRL_ACCESSA,
+    .wide => @This().ACTRL_ACCESSW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ACTRL_ACCESS' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const TRUSTEE_ACCESS = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().TRUSTEE_ACCESSA,
+    .wide => @This().TRUSTEE_ACCESSW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'TRUSTEE_ACCESS' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ACTRL_ACCESS_INFO = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ACTRL_ACCESS_INFOA,
+    .wide => @This().ACTRL_ACCESS_INFOW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ACTRL_ACCESS_INFO' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ACTRL_CONTROL_INFO = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ACTRL_CONTROL_INFOA,
+    .wide => @This().ACTRL_CONTROL_INFOW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ACTRL_CONTROL_INFO' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const INHERITED_FROM = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().INHERITED_FROMA,
+    .wide => @This().INHERITED_FROMW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'INHERITED_FROM' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const SetEntriesInAcl = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().SetEntriesInAclA,
+    .wide => @This().SetEntriesInAclW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'SetEntriesInAcl' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetExplicitEntriesFromAcl = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetExplicitEntriesFromAclA,
+    .wide => @This().GetExplicitEntriesFromAclW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetExplicitEntriesFromAcl' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetEffectiveRightsFromAcl = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetEffectiveRightsFromAclA,
+    .wide => @This().GetEffectiveRightsFromAclW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetEffectiveRightsFromAcl' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetAuditedPermissionsFromAcl = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetAuditedPermissionsFromAclA,
+    .wide => @This().GetAuditedPermissionsFromAclW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetAuditedPermissionsFromAcl' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetNamedSecurityInfo = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetNamedSecurityInfoA,
+    .wide => @This().GetNamedSecurityInfoW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetNamedSecurityInfo' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const SetNamedSecurityInfo = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().SetNamedSecurityInfoA,
+    .wide => @This().SetNamedSecurityInfoW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'SetNamedSecurityInfo' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetInheritanceSource = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetInheritanceSourceA,
+    .wide => @This().GetInheritanceSourceW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetInheritanceSource' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const TreeResetNamedSecurityInfo = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().TreeResetNamedSecurityInfoA,
+    .wide => @This().TreeResetNamedSecurityInfoW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'TreeResetNamedSecurityInfo' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const TreeSetNamedSecurityInfo = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().TreeSetNamedSecurityInfoA,
+    .wide => @This().TreeSetNamedSecurityInfoW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'TreeSetNamedSecurityInfo' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const BuildSecurityDescriptor = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().BuildSecurityDescriptorA,
+    .wide => @This().BuildSecurityDescriptorW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'BuildSecurityDescriptor' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const LookupSecurityDescriptorParts = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().LookupSecurityDescriptorPartsA,
+    .wide => @This().LookupSecurityDescriptorPartsW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'LookupSecurityDescriptorParts' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const BuildExplicitAccessWithName = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().BuildExplicitAccessWithNameA,
+    .wide => @This().BuildExplicitAccessWithNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'BuildExplicitAccessWithName' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const BuildImpersonateExplicitAccessWithName = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().BuildImpersonateExplicitAccessWithNameA,
+    .wide => @This().BuildImpersonateExplicitAccessWithNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'BuildImpersonateExplicitAccessWithName' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const BuildTrusteeWithName = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().BuildTrusteeWithNameA,
+    .wide => @This().BuildTrusteeWithNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'BuildTrusteeWithName' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const BuildImpersonateTrustee = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().BuildImpersonateTrusteeA,
+    .wide => @This().BuildImpersonateTrusteeW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'BuildImpersonateTrustee' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const BuildTrusteeWithSid = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().BuildTrusteeWithSidA,
+    .wide => @This().BuildTrusteeWithSidW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'BuildTrusteeWithSid' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const BuildTrusteeWithObjectsAndSid = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().BuildTrusteeWithObjectsAndSidA,
+    .wide => @This().BuildTrusteeWithObjectsAndSidW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'BuildTrusteeWithObjectsAndSid' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const BuildTrusteeWithObjectsAndName = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().BuildTrusteeWithObjectsAndNameA,
+    .wide => @This().BuildTrusteeWithObjectsAndNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'BuildTrusteeWithObjectsAndName' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetTrusteeName = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetTrusteeNameA,
+    .wide => @This().GetTrusteeNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetTrusteeName' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetTrusteeType = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetTrusteeTypeA,
+    .wide => @This().GetTrusteeTypeW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetTrusteeType' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetTrusteeForm = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetTrusteeFormA,
+    .wide => @This().GetTrusteeFormW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetTrusteeForm' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetMultipleTrusteeOperation = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetMultipleTrusteeOperationA,
+    .wide => @This().GetMultipleTrusteeOperationW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetMultipleTrusteeOperation' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetMultipleTrustee = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetMultipleTrusteeA,
+    .wide => @This().GetMultipleTrusteeW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetMultipleTrustee' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ConvertSidToStringSid = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ConvertSidToStringSidA,
+    .wide => @This().ConvertSidToStringSidW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ConvertSidToStringSid' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ConvertStringSidToSid = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ConvertStringSidToSidA,
+    .wide => @This().ConvertStringSidToSidW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ConvertStringSidToSid' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ConvertStringSecurityDescriptorToSecurityDescriptor = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ConvertStringSecurityDescriptorToSecurityDescriptorA,
+    .wide => @This().ConvertStringSecurityDescriptorToSecurityDescriptorW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ConvertStringSecurityDescriptorToSecurityDescriptor' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const ConvertSecurityDescriptorToStringSecurityDescriptor = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().ConvertSecurityDescriptorToStringSecurityDescriptorA,
+    .wide => @This().ConvertSecurityDescriptorToStringSecurityDescriptorW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'ConvertSecurityDescriptorToStringSecurityDescriptor' requires that UNICODE be set to true or false in the root module",
+    ),
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (27)

@@ -2496,13 +2496,13 @@ pub const NL_SUFFIX_ORIGIN = enum(i32) {
     NlsoDhcp = 3,
     NlsoLinkLayerAddress = 4,
     NlsoRandom = 5,
-    // IpSuffixOriginOther = 0, this enum value conflicts with NlsoOther
-    // IpSuffixOriginManual = 1, this enum value conflicts with NlsoManual
-    // IpSuffixOriginWellKnown = 2, this enum value conflicts with NlsoWellKnown
-    // IpSuffixOriginDhcp = 3, this enum value conflicts with NlsoDhcp
-    // IpSuffixOriginLinkLayerAddress = 4, this enum value conflicts with NlsoLinkLayerAddress
-    // IpSuffixOriginRandom = 5, this enum value conflicts with NlsoRandom
     IpSuffixOriginUnchanged = 16,
+    pub const IpSuffixOriginOther = .NlsoOther;
+    pub const IpSuffixOriginManual = .NlsoManual;
+    pub const IpSuffixOriginWellKnown = .NlsoWellKnown;
+    pub const IpSuffixOriginDhcp = .NlsoDhcp;
+    pub const IpSuffixOriginLinkLayerAddress = .NlsoLinkLayerAddress;
+    pub const IpSuffixOriginRandom = .NlsoRandom;
 };
 pub const NlsoOther = NL_SUFFIX_ORIGIN.NlsoOther;
 pub const NlsoManual = NL_SUFFIX_ORIGIN.NlsoManual;
@@ -2524,11 +2524,11 @@ pub const NL_DAD_STATE = enum(i32) {
     NldsDuplicate = 2,
     NldsDeprecated = 3,
     NldsPreferred = 4,
-    // IpDadStateInvalid = 0, this enum value conflicts with NldsInvalid
-    // IpDadStateTentative = 1, this enum value conflicts with NldsTentative
-    // IpDadStateDuplicate = 2, this enum value conflicts with NldsDuplicate
-    // IpDadStateDeprecated = 3, this enum value conflicts with NldsDeprecated
-    // IpDadStatePreferred = 4, this enum value conflicts with NldsPreferred
+    pub const IpDadStateInvalid = .NldsInvalid;
+    pub const IpDadStateTentative = .NldsTentative;
+    pub const IpDadStateDuplicate = .NldsDuplicate;
+    pub const IpDadStateDeprecated = .NldsDeprecated;
+    pub const IpDadStatePreferred = .NldsPreferred;
 };
 pub const NldsInvalid = NL_DAD_STATE.NldsInvalid;
 pub const NldsTentative = NL_DAD_STATE.NldsTentative;
@@ -2561,50 +2561,50 @@ pub const NL_ROUTE_PROTOCOL = enum(i32) {
     RouteProtocolDvmrp = 17,
     RouteProtocolRpl = 18,
     RouteProtocolDhcp = 19,
-    // MIB_IPPROTO_OTHER = 1, this enum value conflicts with RouteProtocolOther
-    // PROTO_IP_OTHER = 1, this enum value conflicts with RouteProtocolOther
-    // MIB_IPPROTO_LOCAL = 2, this enum value conflicts with RouteProtocolLocal
-    // PROTO_IP_LOCAL = 2, this enum value conflicts with RouteProtocolLocal
-    // MIB_IPPROTO_NETMGMT = 3, this enum value conflicts with RouteProtocolNetMgmt
-    // PROTO_IP_NETMGMT = 3, this enum value conflicts with RouteProtocolNetMgmt
-    // MIB_IPPROTO_ICMP = 4, this enum value conflicts with RouteProtocolIcmp
-    // PROTO_IP_ICMP = 4, this enum value conflicts with RouteProtocolIcmp
-    // MIB_IPPROTO_EGP = 5, this enum value conflicts with RouteProtocolEgp
-    // PROTO_IP_EGP = 5, this enum value conflicts with RouteProtocolEgp
-    // MIB_IPPROTO_GGP = 6, this enum value conflicts with RouteProtocolGgp
-    // PROTO_IP_GGP = 6, this enum value conflicts with RouteProtocolGgp
-    // MIB_IPPROTO_HELLO = 7, this enum value conflicts with RouteProtocolHello
-    // PROTO_IP_HELLO = 7, this enum value conflicts with RouteProtocolHello
-    // MIB_IPPROTO_RIP = 8, this enum value conflicts with RouteProtocolRip
-    // PROTO_IP_RIP = 8, this enum value conflicts with RouteProtocolRip
-    // MIB_IPPROTO_IS_IS = 9, this enum value conflicts with RouteProtocolIsIs
-    // PROTO_IP_IS_IS = 9, this enum value conflicts with RouteProtocolIsIs
-    // MIB_IPPROTO_ES_IS = 10, this enum value conflicts with RouteProtocolEsIs
-    // PROTO_IP_ES_IS = 10, this enum value conflicts with RouteProtocolEsIs
-    // MIB_IPPROTO_CISCO = 11, this enum value conflicts with RouteProtocolCisco
-    // PROTO_IP_CISCO = 11, this enum value conflicts with RouteProtocolCisco
-    // MIB_IPPROTO_BBN = 12, this enum value conflicts with RouteProtocolBbn
-    // PROTO_IP_BBN = 12, this enum value conflicts with RouteProtocolBbn
-    // MIB_IPPROTO_OSPF = 13, this enum value conflicts with RouteProtocolOspf
-    // PROTO_IP_OSPF = 13, this enum value conflicts with RouteProtocolOspf
-    // MIB_IPPROTO_BGP = 14, this enum value conflicts with RouteProtocolBgp
-    // PROTO_IP_BGP = 14, this enum value conflicts with RouteProtocolBgp
-    // MIB_IPPROTO_IDPR = 15, this enum value conflicts with RouteProtocolIdpr
-    // PROTO_IP_IDPR = 15, this enum value conflicts with RouteProtocolIdpr
-    // MIB_IPPROTO_EIGRP = 16, this enum value conflicts with RouteProtocolEigrp
-    // PROTO_IP_EIGRP = 16, this enum value conflicts with RouteProtocolEigrp
-    // MIB_IPPROTO_DVMRP = 17, this enum value conflicts with RouteProtocolDvmrp
-    // PROTO_IP_DVMRP = 17, this enum value conflicts with RouteProtocolDvmrp
-    // MIB_IPPROTO_RPL = 18, this enum value conflicts with RouteProtocolRpl
-    // PROTO_IP_RPL = 18, this enum value conflicts with RouteProtocolRpl
-    // MIB_IPPROTO_DHCP = 19, this enum value conflicts with RouteProtocolDhcp
-    // PROTO_IP_DHCP = 19, this enum value conflicts with RouteProtocolDhcp
     MIB_IPPROTO_NT_AUTOSTATIC = 10002,
-    // PROTO_IP_NT_AUTOSTATIC = 10002, this enum value conflicts with MIB_IPPROTO_NT_AUTOSTATIC
     MIB_IPPROTO_NT_STATIC = 10006,
-    // PROTO_IP_NT_STATIC = 10006, this enum value conflicts with MIB_IPPROTO_NT_STATIC
     MIB_IPPROTO_NT_STATIC_NON_DOD = 10007,
-    // PROTO_IP_NT_STATIC_NON_DOD = 10007, this enum value conflicts with MIB_IPPROTO_NT_STATIC_NON_DOD
+    pub const MIB_IPPROTO_OTHER = .RouteProtocolOther;
+    pub const PROTO_IP_OTHER = .RouteProtocolOther;
+    pub const MIB_IPPROTO_LOCAL = .RouteProtocolLocal;
+    pub const PROTO_IP_LOCAL = .RouteProtocolLocal;
+    pub const MIB_IPPROTO_NETMGMT = .RouteProtocolNetMgmt;
+    pub const PROTO_IP_NETMGMT = .RouteProtocolNetMgmt;
+    pub const MIB_IPPROTO_ICMP = .RouteProtocolIcmp;
+    pub const PROTO_IP_ICMP = .RouteProtocolIcmp;
+    pub const MIB_IPPROTO_EGP = .RouteProtocolEgp;
+    pub const PROTO_IP_EGP = .RouteProtocolEgp;
+    pub const MIB_IPPROTO_GGP = .RouteProtocolGgp;
+    pub const PROTO_IP_GGP = .RouteProtocolGgp;
+    pub const MIB_IPPROTO_HELLO = .RouteProtocolHello;
+    pub const PROTO_IP_HELLO = .RouteProtocolHello;
+    pub const MIB_IPPROTO_RIP = .RouteProtocolRip;
+    pub const PROTO_IP_RIP = .RouteProtocolRip;
+    pub const MIB_IPPROTO_IS_IS = .RouteProtocolIsIs;
+    pub const PROTO_IP_IS_IS = .RouteProtocolIsIs;
+    pub const MIB_IPPROTO_ES_IS = .RouteProtocolEsIs;
+    pub const PROTO_IP_ES_IS = .RouteProtocolEsIs;
+    pub const MIB_IPPROTO_CISCO = .RouteProtocolCisco;
+    pub const PROTO_IP_CISCO = .RouteProtocolCisco;
+    pub const MIB_IPPROTO_BBN = .RouteProtocolBbn;
+    pub const PROTO_IP_BBN = .RouteProtocolBbn;
+    pub const MIB_IPPROTO_OSPF = .RouteProtocolOspf;
+    pub const PROTO_IP_OSPF = .RouteProtocolOspf;
+    pub const MIB_IPPROTO_BGP = .RouteProtocolBgp;
+    pub const PROTO_IP_BGP = .RouteProtocolBgp;
+    pub const MIB_IPPROTO_IDPR = .RouteProtocolIdpr;
+    pub const PROTO_IP_IDPR = .RouteProtocolIdpr;
+    pub const MIB_IPPROTO_EIGRP = .RouteProtocolEigrp;
+    pub const PROTO_IP_EIGRP = .RouteProtocolEigrp;
+    pub const MIB_IPPROTO_DVMRP = .RouteProtocolDvmrp;
+    pub const PROTO_IP_DVMRP = .RouteProtocolDvmrp;
+    pub const MIB_IPPROTO_RPL = .RouteProtocolRpl;
+    pub const PROTO_IP_RPL = .RouteProtocolRpl;
+    pub const MIB_IPPROTO_DHCP = .RouteProtocolDhcp;
+    pub const PROTO_IP_DHCP = .RouteProtocolDhcp;
+    pub const PROTO_IP_NT_AUTOSTATIC = .MIB_IPPROTO_NT_AUTOSTATIC;
+    pub const PROTO_IP_NT_STATIC = .MIB_IPPROTO_NT_STATIC;
+    pub const PROTO_IP_NT_STATIC_NON_DOD = .MIB_IPPROTO_NT_STATIC_NON_DOD;
 };
 pub const RouteProtocolOther = NL_ROUTE_PROTOCOL.RouteProtocolOther;
 pub const RouteProtocolLocal = NL_ROUTE_PROTOCOL.RouteProtocolLocal;
@@ -2763,7 +2763,7 @@ pub const NL_NETWORK_CATEGORY = enum(i32) {
     Private = 1,
     DomainAuthenticated = 2,
     Unchanged = -1,
-    // Unknown = -1, this enum value conflicts with Unchanged
+    pub const Unknown = .Unchanged;
 };
 pub const NetworkCategoryPublic = NL_NETWORK_CATEGORY.Public;
 pub const NetworkCategoryPrivate = NL_NETWORK_CATEGORY.Private;
@@ -6286,8 +6286,8 @@ pub extern "ws2_32" fn WSCEnumProtocols(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCEnumProtocols32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCEnumProtocols32(
@@ -6298,7 +6298,9 @@ pub extern "ws2_32" fn WSCEnumProtocols32(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCEnumProtocols32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCEnumProtocols32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "ws2_32" fn WSCDeinstallProvider(
@@ -6306,8 +6308,8 @@ pub extern "ws2_32" fn WSCDeinstallProvider(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCDeinstallProvider32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCDeinstallProvider32(
@@ -6315,7 +6317,9 @@ pub extern "ws2_32" fn WSCDeinstallProvider32(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCDeinstallProvider32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCDeinstallProvider32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "ws2_32" fn WSCInstallProvider(
@@ -6326,8 +6330,8 @@ pub extern "ws2_32" fn WSCInstallProvider(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCInstallProvider64_32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows5.1.2600'
 pub extern "ws2_32" fn WSCInstallProvider64_32(
@@ -6338,7 +6342,9 @@ pub extern "ws2_32" fn WSCInstallProvider64_32(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCInstallProvider64_32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCInstallProvider64_32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "ws2_32" fn WSCGetProviderPath(
@@ -6348,8 +6354,8 @@ pub extern "ws2_32" fn WSCGetProviderPath(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCGetProviderPath32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCGetProviderPath32(
@@ -6359,7 +6365,9 @@ pub extern "ws2_32" fn WSCGetProviderPath32(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCGetProviderPath32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCGetProviderPath32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows5.1.2600'
 pub extern "ws2_32" fn WSCUpdateProvider(
@@ -6370,8 +6378,8 @@ pub extern "ws2_32" fn WSCUpdateProvider(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCUpdateProvider32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCUpdateProvider32(
@@ -6382,7 +6390,9 @@ pub extern "ws2_32" fn WSCUpdateProvider32(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCUpdateProvider32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCUpdateProvider32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCSetProviderInfo(
@@ -6406,8 +6416,8 @@ pub extern "ws2_32" fn WSCGetProviderInfo(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCSetProviderInfo32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCSetProviderInfo32(
@@ -6420,10 +6430,12 @@ pub extern "ws2_32" fn WSCSetProviderInfo32(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCSetProviderInfo32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCSetProviderInfo32' is not supported on architecture " ++ @tagName(a)),
+};
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCGetProviderInfo32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCGetProviderInfo32(
@@ -6436,7 +6448,9 @@ pub extern "ws2_32" fn WSCGetProviderInfo32(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCGetProviderInfo32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCGetProviderInfo32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCSetApplicationCategory(
@@ -6468,8 +6482,8 @@ pub extern "ws2_32" fn WPUCompleteOverlappedRequest(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCEnumNameSpaceProviders32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCEnumNameSpaceProviders32(
@@ -6478,10 +6492,12 @@ pub extern "ws2_32" fn WSCEnumNameSpaceProviders32(
     lpnspBuffer: ?*WSANAMESPACE_INFOW,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCEnumNameSpaceProviders32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCEnumNameSpaceProviders32' is not supported on architecture " ++ @tagName(a)),
+};
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCEnumNameSpaceProvidersEx32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCEnumNameSpaceProvidersEx32(
@@ -6490,7 +6506,9 @@ pub extern "ws2_32" fn WSCEnumNameSpaceProvidersEx32(
     lpnspBuffer: ?*WSANAMESPACE_INFOEXW,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCEnumNameSpaceProvidersEx32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCEnumNameSpaceProvidersEx32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "ws2_32" fn WSCInstallNameSpace(
@@ -6501,8 +6519,8 @@ pub extern "ws2_32" fn WSCInstallNameSpace(
     lpProviderId: ?*Guid,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCInstallNameSpace32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCInstallNameSpace32(
@@ -6513,7 +6531,9 @@ pub extern "ws2_32" fn WSCInstallNameSpace32(
     lpProviderId: ?*Guid,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCInstallNameSpace32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCInstallNameSpace32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "ws2_32" fn WSCUnInstallNameSpace(
@@ -6530,8 +6550,8 @@ pub extern "ws2_32" fn WSCInstallNameSpaceEx(
     lpProviderSpecific: ?*BLOB,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCInstallNameSpaceEx32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCInstallNameSpaceEx32(
@@ -6543,17 +6563,21 @@ pub extern "ws2_32" fn WSCInstallNameSpaceEx32(
     lpProviderSpecific: ?*BLOB,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCInstallNameSpaceEx32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCInstallNameSpaceEx32' is not supported on architecture " ++ @tagName(a)),
+};
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCUnInstallNameSpace32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCUnInstallNameSpace32(
     lpProviderId: ?*Guid,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCUnInstallNameSpace32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCUnInstallNameSpace32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "ws2_32" fn WSCEnableNSProvider(
@@ -6561,8 +6585,8 @@ pub extern "ws2_32" fn WSCEnableNSProvider(
     fEnable: BOOL,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCEnableNSProvider32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCEnableNSProvider32(
@@ -6570,10 +6594,12 @@ pub extern "ws2_32" fn WSCEnableNSProvider32(
     fEnable: BOOL,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCEnableNSProvider32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCEnableNSProvider32' is not supported on architecture " ++ @tagName(a)),
+};
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCInstallProviderAndChains64_32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCInstallProviderAndChains64_32(
@@ -6588,7 +6614,9 @@ pub extern "ws2_32" fn WSCInstallProviderAndChains64_32(
     lpErrno: ?*i32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCInstallProviderAndChains64_32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCInstallProviderAndChains64_32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSAAdvertiseProvider(
@@ -6951,8 +6979,8 @@ pub extern "ws2_32" fn WSCWriteProviderOrder(
     dwNumberOfEntries: u32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCWriteProviderOrder32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCWriteProviderOrder32(
@@ -6960,7 +6988,9 @@ pub extern "ws2_32" fn WSCWriteProviderOrder32(
     dwNumberOfEntries: u32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCWriteProviderOrder32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCWriteProviderOrder32' is not supported on architecture " ++ @tagName(a)),
+};
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "ws2_32" fn WSCWriteNameSpaceOrder(
@@ -6968,8 +6998,8 @@ pub extern "ws2_32" fn WSCWriteNameSpaceOrder(
     dwNumberOfEntries: u32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-pub usingnamespace switch (@import("../zig.zig").arch) {
-.X64, .Arm64 => struct {
+pub const WSCWriteNameSpaceOrder32 = switch (@import("../zig.zig").arch) {
+.X64, .Arm64 => (struct {
 
 // TODO: this type is limited to platform 'windows6.0.6000'
 pub extern "ws2_32" fn WSCWriteNameSpaceOrder32(
@@ -6977,213 +7007,349 @@ pub extern "ws2_32" fn WSCWriteNameSpaceOrder32(
     dwNumberOfEntries: u32,
 ) callconv(@import("std").os.windows.WINAPI) i32;
 
-}, else => struct { } };
+}).WSCWriteNameSpaceOrder32,
+    else => |a| if (@import("builtin").is_test) void else @compileError("function 'WSCWriteNameSpaceOrder32' is not supported on architecture " ++ @tagName(a)),
+};
 
 
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (48)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-        pub const addrinfoex = thismodule.addrinfoexA;
-        pub const addrinfoex2 = thismodule.addrinfoex2A;
-        pub const WSAPROTOCOL_INFO = thismodule.WSAPROTOCOL_INFOA;
-        pub const WSAQUERYSET = thismodule.WSAQUERYSETA;
-        pub const WSAQUERYSET2 = thismodule.WSAQUERYSET2A;
-        pub const WSANSCLASSINFO = thismodule.WSANSCLASSINFOA;
-        pub const WSASERVICECLASSINFO = thismodule.WSASERVICECLASSINFOA;
-        pub const WSANAMESPACE_INFO = thismodule.WSANAMESPACE_INFOA;
-        pub const WSANAMESPACE_INFOEX = thismodule.WSANAMESPACE_INFOEXA;
-        pub const NS_INFO = thismodule.NS_INFOA;
-        pub const SERVICE_TYPE_VALUE_ABS = thismodule.SERVICE_TYPE_VALUE_ABSA;
-        pub const SERVICE_TYPE_INFO_ABS = thismodule.SERVICE_TYPE_INFO_ABSA;
-        pub const SERVICE_INFO = thismodule.SERVICE_INFOA;
-        pub const NS_SERVICE_INFO = thismodule.NS_SERVICE_INFOA;
-        pub const PROTOCOL_INFO = thismodule.PROTOCOL_INFOA;
-        pub const NETRESOURCE2 = thismodule.NETRESOURCE2A;
-        pub const WSAConnectByName = thismodule.WSAConnectByNameA;
-        pub const WSADuplicateSocket = thismodule.WSADuplicateSocketA;
-        pub const WSAEnumProtocols = thismodule.WSAEnumProtocolsA;
-        pub const WSASocket = thismodule.WSASocketA;
-        pub const WSAAddressToString = thismodule.WSAAddressToStringA;
-        pub const WSAStringToAddress = thismodule.WSAStringToAddressA;
-        pub const WSALookupServiceBegin = thismodule.WSALookupServiceBeginA;
-        pub const WSALookupServiceNext = thismodule.WSALookupServiceNextA;
-        pub const WSAInstallServiceClass = thismodule.WSAInstallServiceClassA;
-        pub const WSAGetServiceClassInfo = thismodule.WSAGetServiceClassInfoA;
-        pub const WSAEnumNameSpaceProviders = thismodule.WSAEnumNameSpaceProvidersA;
-        pub const WSAEnumNameSpaceProvidersEx = thismodule.WSAEnumNameSpaceProvidersExA;
-        pub const WSAGetServiceClassNameByClassId = thismodule.WSAGetServiceClassNameByClassIdA;
-        pub const WSASetService = thismodule.WSASetServiceA;
-        pub const RtlIpv4AddressToString = thismodule.RtlIpv4AddressToStringA;
-        pub const RtlIpv4AddressToStringEx = thismodule.RtlIpv4AddressToStringExA;
-        pub const RtlIpv4StringToAddress = thismodule.RtlIpv4StringToAddressA;
-        pub const RtlIpv4StringToAddressEx = thismodule.RtlIpv4StringToAddressExA;
-        pub const RtlIpv6AddressToString = thismodule.RtlIpv6AddressToStringA;
-        pub const RtlIpv6AddressToStringEx = thismodule.RtlIpv6AddressToStringExA;
-        pub const RtlIpv6StringToAddress = thismodule.RtlIpv6StringToAddressA;
-        pub const RtlIpv6StringToAddressEx = thismodule.RtlIpv6StringToAddressExA;
-        pub const RtlEthernetAddressToString = thismodule.RtlEthernetAddressToStringA;
-        pub const RtlEthernetStringToAddress = thismodule.RtlEthernetStringToAddressA;
-        pub const EnumProtocols = thismodule.EnumProtocolsA;
-        pub const GetAddressByName = thismodule.GetAddressByNameA;
-        pub const GetTypeByName = thismodule.GetTypeByNameA;
-        pub const GetNameByType = thismodule.GetNameByTypeA;
-        pub const SetService = thismodule.SetServiceA;
-        pub const GetService = thismodule.GetServiceA;
-        pub const GetAddrInfoEx = thismodule.GetAddrInfoExA;
-        pub const SetAddrInfoEx = thismodule.SetAddrInfoExA;
-    },
-    .wide => struct {
-        pub const addrinfoex = thismodule.addrinfoexW;
-        pub const addrinfoex2 = thismodule.addrinfoex2W;
-        pub const WSAPROTOCOL_INFO = thismodule.WSAPROTOCOL_INFOW;
-        pub const WSAQUERYSET = thismodule.WSAQUERYSETW;
-        pub const WSAQUERYSET2 = thismodule.WSAQUERYSET2W;
-        pub const WSANSCLASSINFO = thismodule.WSANSCLASSINFOW;
-        pub const WSASERVICECLASSINFO = thismodule.WSASERVICECLASSINFOW;
-        pub const WSANAMESPACE_INFO = thismodule.WSANAMESPACE_INFOW;
-        pub const WSANAMESPACE_INFOEX = thismodule.WSANAMESPACE_INFOEXW;
-        pub const NS_INFO = thismodule.NS_INFOW;
-        pub const SERVICE_TYPE_VALUE_ABS = thismodule.SERVICE_TYPE_VALUE_ABSW;
-        pub const SERVICE_TYPE_INFO_ABS = thismodule.SERVICE_TYPE_INFO_ABSW;
-        pub const SERVICE_INFO = thismodule.SERVICE_INFOW;
-        pub const NS_SERVICE_INFO = thismodule.NS_SERVICE_INFOW;
-        pub const PROTOCOL_INFO = thismodule.PROTOCOL_INFOW;
-        pub const NETRESOURCE2 = thismodule.NETRESOURCE2W;
-        pub const WSAConnectByName = thismodule.WSAConnectByNameW;
-        pub const WSADuplicateSocket = thismodule.WSADuplicateSocketW;
-        pub const WSAEnumProtocols = thismodule.WSAEnumProtocolsW;
-        pub const WSASocket = thismodule.WSASocketW;
-        pub const WSAAddressToString = thismodule.WSAAddressToStringW;
-        pub const WSAStringToAddress = thismodule.WSAStringToAddressW;
-        pub const WSALookupServiceBegin = thismodule.WSALookupServiceBeginW;
-        pub const WSALookupServiceNext = thismodule.WSALookupServiceNextW;
-        pub const WSAInstallServiceClass = thismodule.WSAInstallServiceClassW;
-        pub const WSAGetServiceClassInfo = thismodule.WSAGetServiceClassInfoW;
-        pub const WSAEnumNameSpaceProviders = thismodule.WSAEnumNameSpaceProvidersW;
-        pub const WSAEnumNameSpaceProvidersEx = thismodule.WSAEnumNameSpaceProvidersExW;
-        pub const WSAGetServiceClassNameByClassId = thismodule.WSAGetServiceClassNameByClassIdW;
-        pub const WSASetService = thismodule.WSASetServiceW;
-        pub const RtlIpv4AddressToString = thismodule.RtlIpv4AddressToStringW;
-        pub const RtlIpv4AddressToStringEx = thismodule.RtlIpv4AddressToStringExW;
-        pub const RtlIpv4StringToAddress = thismodule.RtlIpv4StringToAddressW;
-        pub const RtlIpv4StringToAddressEx = thismodule.RtlIpv4StringToAddressExW;
-        pub const RtlIpv6AddressToString = thismodule.RtlIpv6AddressToStringW;
-        pub const RtlIpv6AddressToStringEx = thismodule.RtlIpv6AddressToStringExW;
-        pub const RtlIpv6StringToAddress = thismodule.RtlIpv6StringToAddressW;
-        pub const RtlIpv6StringToAddressEx = thismodule.RtlIpv6StringToAddressExW;
-        pub const RtlEthernetAddressToString = thismodule.RtlEthernetAddressToStringW;
-        pub const RtlEthernetStringToAddress = thismodule.RtlEthernetStringToAddressW;
-        pub const EnumProtocols = thismodule.EnumProtocolsW;
-        pub const GetAddressByName = thismodule.GetAddressByNameW;
-        pub const GetTypeByName = thismodule.GetTypeByNameW;
-        pub const GetNameByType = thismodule.GetNameByTypeW;
-        pub const SetService = thismodule.SetServiceW;
-        pub const GetService = thismodule.GetServiceW;
-        pub const GetAddrInfoEx = thismodule.GetAddrInfoExW;
-        pub const SetAddrInfoEx = thismodule.SetAddrInfoExW;
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-        pub const addrinfoex = *opaque{};
-        pub const addrinfoex2 = *opaque{};
-        pub const WSAPROTOCOL_INFO = *opaque{};
-        pub const WSAQUERYSET = *opaque{};
-        pub const WSAQUERYSET2 = *opaque{};
-        pub const WSANSCLASSINFO = *opaque{};
-        pub const WSASERVICECLASSINFO = *opaque{};
-        pub const WSANAMESPACE_INFO = *opaque{};
-        pub const WSANAMESPACE_INFOEX = *opaque{};
-        pub const NS_INFO = *opaque{};
-        pub const SERVICE_TYPE_VALUE_ABS = *opaque{};
-        pub const SERVICE_TYPE_INFO_ABS = *opaque{};
-        pub const SERVICE_INFO = *opaque{};
-        pub const NS_SERVICE_INFO = *opaque{};
-        pub const PROTOCOL_INFO = *opaque{};
-        pub const NETRESOURCE2 = *opaque{};
-        pub const WSAConnectByName = *opaque{};
-        pub const WSADuplicateSocket = *opaque{};
-        pub const WSAEnumProtocols = *opaque{};
-        pub const WSASocket = *opaque{};
-        pub const WSAAddressToString = *opaque{};
-        pub const WSAStringToAddress = *opaque{};
-        pub const WSALookupServiceBegin = *opaque{};
-        pub const WSALookupServiceNext = *opaque{};
-        pub const WSAInstallServiceClass = *opaque{};
-        pub const WSAGetServiceClassInfo = *opaque{};
-        pub const WSAEnumNameSpaceProviders = *opaque{};
-        pub const WSAEnumNameSpaceProvidersEx = *opaque{};
-        pub const WSAGetServiceClassNameByClassId = *opaque{};
-        pub const WSASetService = *opaque{};
-        pub const RtlIpv4AddressToString = *opaque{};
-        pub const RtlIpv4AddressToStringEx = *opaque{};
-        pub const RtlIpv4StringToAddress = *opaque{};
-        pub const RtlIpv4StringToAddressEx = *opaque{};
-        pub const RtlIpv6AddressToString = *opaque{};
-        pub const RtlIpv6AddressToStringEx = *opaque{};
-        pub const RtlIpv6StringToAddress = *opaque{};
-        pub const RtlIpv6StringToAddressEx = *opaque{};
-        pub const RtlEthernetAddressToString = *opaque{};
-        pub const RtlEthernetStringToAddress = *opaque{};
-        pub const EnumProtocols = *opaque{};
-        pub const GetAddressByName = *opaque{};
-        pub const GetTypeByName = *opaque{};
-        pub const GetNameByType = *opaque{};
-        pub const SetService = *opaque{};
-        pub const GetService = *opaque{};
-        pub const GetAddrInfoEx = *opaque{};
-        pub const SetAddrInfoEx = *opaque{};
-    } else struct {
-        pub const addrinfoex = @compileError("'addrinfoex' requires that UNICODE be set to true or false in the root module");
-        pub const addrinfoex2 = @compileError("'addrinfoex2' requires that UNICODE be set to true or false in the root module");
-        pub const WSAPROTOCOL_INFO = @compileError("'WSAPROTOCOL_INFO' requires that UNICODE be set to true or false in the root module");
-        pub const WSAQUERYSET = @compileError("'WSAQUERYSET' requires that UNICODE be set to true or false in the root module");
-        pub const WSAQUERYSET2 = @compileError("'WSAQUERYSET2' requires that UNICODE be set to true or false in the root module");
-        pub const WSANSCLASSINFO = @compileError("'WSANSCLASSINFO' requires that UNICODE be set to true or false in the root module");
-        pub const WSASERVICECLASSINFO = @compileError("'WSASERVICECLASSINFO' requires that UNICODE be set to true or false in the root module");
-        pub const WSANAMESPACE_INFO = @compileError("'WSANAMESPACE_INFO' requires that UNICODE be set to true or false in the root module");
-        pub const WSANAMESPACE_INFOEX = @compileError("'WSANAMESPACE_INFOEX' requires that UNICODE be set to true or false in the root module");
-        pub const NS_INFO = @compileError("'NS_INFO' requires that UNICODE be set to true or false in the root module");
-        pub const SERVICE_TYPE_VALUE_ABS = @compileError("'SERVICE_TYPE_VALUE_ABS' requires that UNICODE be set to true or false in the root module");
-        pub const SERVICE_TYPE_INFO_ABS = @compileError("'SERVICE_TYPE_INFO_ABS' requires that UNICODE be set to true or false in the root module");
-        pub const SERVICE_INFO = @compileError("'SERVICE_INFO' requires that UNICODE be set to true or false in the root module");
-        pub const NS_SERVICE_INFO = @compileError("'NS_SERVICE_INFO' requires that UNICODE be set to true or false in the root module");
-        pub const PROTOCOL_INFO = @compileError("'PROTOCOL_INFO' requires that UNICODE be set to true or false in the root module");
-        pub const NETRESOURCE2 = @compileError("'NETRESOURCE2' requires that UNICODE be set to true or false in the root module");
-        pub const WSAConnectByName = @compileError("'WSAConnectByName' requires that UNICODE be set to true or false in the root module");
-        pub const WSADuplicateSocket = @compileError("'WSADuplicateSocket' requires that UNICODE be set to true or false in the root module");
-        pub const WSAEnumProtocols = @compileError("'WSAEnumProtocols' requires that UNICODE be set to true or false in the root module");
-        pub const WSASocket = @compileError("'WSASocket' requires that UNICODE be set to true or false in the root module");
-        pub const WSAAddressToString = @compileError("'WSAAddressToString' requires that UNICODE be set to true or false in the root module");
-        pub const WSAStringToAddress = @compileError("'WSAStringToAddress' requires that UNICODE be set to true or false in the root module");
-        pub const WSALookupServiceBegin = @compileError("'WSALookupServiceBegin' requires that UNICODE be set to true or false in the root module");
-        pub const WSALookupServiceNext = @compileError("'WSALookupServiceNext' requires that UNICODE be set to true or false in the root module");
-        pub const WSAInstallServiceClass = @compileError("'WSAInstallServiceClass' requires that UNICODE be set to true or false in the root module");
-        pub const WSAGetServiceClassInfo = @compileError("'WSAGetServiceClassInfo' requires that UNICODE be set to true or false in the root module");
-        pub const WSAEnumNameSpaceProviders = @compileError("'WSAEnumNameSpaceProviders' requires that UNICODE be set to true or false in the root module");
-        pub const WSAEnumNameSpaceProvidersEx = @compileError("'WSAEnumNameSpaceProvidersEx' requires that UNICODE be set to true or false in the root module");
-        pub const WSAGetServiceClassNameByClassId = @compileError("'WSAGetServiceClassNameByClassId' requires that UNICODE be set to true or false in the root module");
-        pub const WSASetService = @compileError("'WSASetService' requires that UNICODE be set to true or false in the root module");
-        pub const RtlIpv4AddressToString = @compileError("'RtlIpv4AddressToString' requires that UNICODE be set to true or false in the root module");
-        pub const RtlIpv4AddressToStringEx = @compileError("'RtlIpv4AddressToStringEx' requires that UNICODE be set to true or false in the root module");
-        pub const RtlIpv4StringToAddress = @compileError("'RtlIpv4StringToAddress' requires that UNICODE be set to true or false in the root module");
-        pub const RtlIpv4StringToAddressEx = @compileError("'RtlIpv4StringToAddressEx' requires that UNICODE be set to true or false in the root module");
-        pub const RtlIpv6AddressToString = @compileError("'RtlIpv6AddressToString' requires that UNICODE be set to true or false in the root module");
-        pub const RtlIpv6AddressToStringEx = @compileError("'RtlIpv6AddressToStringEx' requires that UNICODE be set to true or false in the root module");
-        pub const RtlIpv6StringToAddress = @compileError("'RtlIpv6StringToAddress' requires that UNICODE be set to true or false in the root module");
-        pub const RtlIpv6StringToAddressEx = @compileError("'RtlIpv6StringToAddressEx' requires that UNICODE be set to true or false in the root module");
-        pub const RtlEthernetAddressToString = @compileError("'RtlEthernetAddressToString' requires that UNICODE be set to true or false in the root module");
-        pub const RtlEthernetStringToAddress = @compileError("'RtlEthernetStringToAddress' requires that UNICODE be set to true or false in the root module");
-        pub const EnumProtocols = @compileError("'EnumProtocols' requires that UNICODE be set to true or false in the root module");
-        pub const GetAddressByName = @compileError("'GetAddressByName' requires that UNICODE be set to true or false in the root module");
-        pub const GetTypeByName = @compileError("'GetTypeByName' requires that UNICODE be set to true or false in the root module");
-        pub const GetNameByType = @compileError("'GetNameByType' requires that UNICODE be set to true or false in the root module");
-        pub const SetService = @compileError("'SetService' requires that UNICODE be set to true or false in the root module");
-        pub const GetService = @compileError("'GetService' requires that UNICODE be set to true or false in the root module");
-        pub const GetAddrInfoEx = @compileError("'GetAddrInfoEx' requires that UNICODE be set to true or false in the root module");
-        pub const SetAddrInfoEx = @compileError("'SetAddrInfoEx' requires that UNICODE be set to true or false in the root module");
-    },
+pub const addrinfoex = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().addrinfoexA,
+    .wide => @This().addrinfoexW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'addrinfoex' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const addrinfoex2 = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().addrinfoex2A,
+    .wide => @This().addrinfoex2W,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'addrinfoex2' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAPROTOCOL_INFO = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAPROTOCOL_INFOA,
+    .wide => @This().WSAPROTOCOL_INFOW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAPROTOCOL_INFO' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAQUERYSET = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAQUERYSETA,
+    .wide => @This().WSAQUERYSETW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAQUERYSET' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAQUERYSET2 = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAQUERYSET2A,
+    .wide => @This().WSAQUERYSET2W,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAQUERYSET2' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSANSCLASSINFO = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSANSCLASSINFOA,
+    .wide => @This().WSANSCLASSINFOW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSANSCLASSINFO' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSASERVICECLASSINFO = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSASERVICECLASSINFOA,
+    .wide => @This().WSASERVICECLASSINFOW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSASERVICECLASSINFO' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSANAMESPACE_INFO = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSANAMESPACE_INFOA,
+    .wide => @This().WSANAMESPACE_INFOW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSANAMESPACE_INFO' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSANAMESPACE_INFOEX = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSANAMESPACE_INFOEXA,
+    .wide => @This().WSANAMESPACE_INFOEXW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSANAMESPACE_INFOEX' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const NS_INFO = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().NS_INFOA,
+    .wide => @This().NS_INFOW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'NS_INFO' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const SERVICE_TYPE_VALUE_ABS = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().SERVICE_TYPE_VALUE_ABSA,
+    .wide => @This().SERVICE_TYPE_VALUE_ABSW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'SERVICE_TYPE_VALUE_ABS' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const SERVICE_TYPE_INFO_ABS = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().SERVICE_TYPE_INFO_ABSA,
+    .wide => @This().SERVICE_TYPE_INFO_ABSW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'SERVICE_TYPE_INFO_ABS' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const SERVICE_INFO = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().SERVICE_INFOA,
+    .wide => @This().SERVICE_INFOW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'SERVICE_INFO' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const NS_SERVICE_INFO = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().NS_SERVICE_INFOA,
+    .wide => @This().NS_SERVICE_INFOW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'NS_SERVICE_INFO' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const PROTOCOL_INFO = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().PROTOCOL_INFOA,
+    .wide => @This().PROTOCOL_INFOW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'PROTOCOL_INFO' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const NETRESOURCE2 = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().NETRESOURCE2A,
+    .wide => @This().NETRESOURCE2W,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'NETRESOURCE2' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAConnectByName = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAConnectByNameA,
+    .wide => @This().WSAConnectByNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAConnectByName' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSADuplicateSocket = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSADuplicateSocketA,
+    .wide => @This().WSADuplicateSocketW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSADuplicateSocket' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAEnumProtocols = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAEnumProtocolsA,
+    .wide => @This().WSAEnumProtocolsW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAEnumProtocols' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSASocket = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSASocketA,
+    .wide => @This().WSASocketW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSASocket' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAAddressToString = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAAddressToStringA,
+    .wide => @This().WSAAddressToStringW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAAddressToString' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAStringToAddress = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAStringToAddressA,
+    .wide => @This().WSAStringToAddressW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAStringToAddress' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSALookupServiceBegin = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSALookupServiceBeginA,
+    .wide => @This().WSALookupServiceBeginW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSALookupServiceBegin' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSALookupServiceNext = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSALookupServiceNextA,
+    .wide => @This().WSALookupServiceNextW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSALookupServiceNext' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAInstallServiceClass = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAInstallServiceClassA,
+    .wide => @This().WSAInstallServiceClassW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAInstallServiceClass' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAGetServiceClassInfo = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAGetServiceClassInfoA,
+    .wide => @This().WSAGetServiceClassInfoW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAGetServiceClassInfo' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAEnumNameSpaceProviders = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAEnumNameSpaceProvidersA,
+    .wide => @This().WSAEnumNameSpaceProvidersW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAEnumNameSpaceProviders' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAEnumNameSpaceProvidersEx = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAEnumNameSpaceProvidersExA,
+    .wide => @This().WSAEnumNameSpaceProvidersExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAEnumNameSpaceProvidersEx' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSAGetServiceClassNameByClassId = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSAGetServiceClassNameByClassIdA,
+    .wide => @This().WSAGetServiceClassNameByClassIdW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSAGetServiceClassNameByClassId' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const WSASetService = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().WSASetServiceA,
+    .wide => @This().WSASetServiceW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'WSASetService' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const RtlIpv4AddressToString = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().RtlIpv4AddressToStringA,
+    .wide => @This().RtlIpv4AddressToStringW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'RtlIpv4AddressToString' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const RtlIpv4AddressToStringEx = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().RtlIpv4AddressToStringExA,
+    .wide => @This().RtlIpv4AddressToStringExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'RtlIpv4AddressToStringEx' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const RtlIpv4StringToAddress = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().RtlIpv4StringToAddressA,
+    .wide => @This().RtlIpv4StringToAddressW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'RtlIpv4StringToAddress' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const RtlIpv4StringToAddressEx = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().RtlIpv4StringToAddressExA,
+    .wide => @This().RtlIpv4StringToAddressExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'RtlIpv4StringToAddressEx' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const RtlIpv6AddressToString = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().RtlIpv6AddressToStringA,
+    .wide => @This().RtlIpv6AddressToStringW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'RtlIpv6AddressToString' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const RtlIpv6AddressToStringEx = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().RtlIpv6AddressToStringExA,
+    .wide => @This().RtlIpv6AddressToStringExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'RtlIpv6AddressToStringEx' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const RtlIpv6StringToAddress = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().RtlIpv6StringToAddressA,
+    .wide => @This().RtlIpv6StringToAddressW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'RtlIpv6StringToAddress' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const RtlIpv6StringToAddressEx = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().RtlIpv6StringToAddressExA,
+    .wide => @This().RtlIpv6StringToAddressExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'RtlIpv6StringToAddressEx' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const RtlEthernetAddressToString = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().RtlEthernetAddressToStringA,
+    .wide => @This().RtlEthernetAddressToStringW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'RtlEthernetAddressToString' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const RtlEthernetStringToAddress = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().RtlEthernetStringToAddressA,
+    .wide => @This().RtlEthernetStringToAddressW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'RtlEthernetStringToAddress' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const EnumProtocols = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().EnumProtocolsA,
+    .wide => @This().EnumProtocolsW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'EnumProtocols' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetAddressByName = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetAddressByNameA,
+    .wide => @This().GetAddressByNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetAddressByName' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetTypeByName = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetTypeByNameA,
+    .wide => @This().GetTypeByNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetTypeByName' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetNameByType = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetNameByTypeA,
+    .wide => @This().GetNameByTypeW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetNameByType' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const SetService = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().SetServiceA,
+    .wide => @This().SetServiceW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'SetService' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetService = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetServiceA,
+    .wide => @This().GetServiceW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetService' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetAddrInfoEx = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().GetAddrInfoExA,
+    .wide => @This().GetAddrInfoExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetAddrInfoEx' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const SetAddrInfoEx = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().SetAddrInfoExA,
+    .wide => @This().SetAddrInfoExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'SetAddrInfoEx' requires that UNICODE be set to true or false in the root module",
+    ),
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (19)

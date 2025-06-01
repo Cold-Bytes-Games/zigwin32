@@ -14,12 +14,12 @@ pub const IDirect3DDxgiInterfaceAccess = extern union {
         GetInterface: *const fn(
             self: *const IDirect3DDxgiInterfaceAccess,
             iid: ?*const Guid,
-            p: ?*?*anyopaque,
+            p: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn GetInterface(self: *const IDirect3DDxgiInterfaceAccess, iid: ?*const Guid, p: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn GetInterface(self: *const IDirect3DDxgiInterfaceAccess, iid: ?*const Guid, p: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.GetInterface(self, iid, p);
     }
 };
@@ -30,28 +30,18 @@ pub const IDirect3DDxgiInterfaceAccess = extern union {
 //--------------------------------------------------------------------------------
 pub extern "d3d11" fn CreateDirect3D11DeviceFromDXGIDevice(
     dxgiDevice: ?*IDXGIDevice,
-    graphicsDevice: ?*?*IInspectable,
+    graphicsDevice: **IInspectable,
 ) callconv(@import("std").os.windows.WINAPI) HRESULT;
 
 pub extern "d3d11" fn CreateDirect3D11SurfaceFromDXGISurface(
     dgxiSurface: ?*IDXGISurface,
-    graphicsSurface: ?*?*IInspectable,
+    graphicsSurface: **IInspectable,
 ) callconv(@import("std").os.windows.WINAPI) HRESULT;
 
 
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (6)
 //--------------------------------------------------------------------------------

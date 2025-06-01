@@ -582,13 +582,13 @@ pub const VDS_STORAGE_BUS_TYPE = enum(i32) {
     Sd = 12,
     Mmc = 13,
     Max = 14,
-    // Virtual = 14, this enum value conflicts with Max
     FileBackedVirtual = 15,
     Spaces = 16,
     NVMe = 17,
     Scm = 18,
     Ufs = 19,
     MaxReserved = 127,
+    pub const Virtual = .Max;
 };
 pub const VDSBusTypeUnknown = VDS_STORAGE_BUS_TYPE.Unknown;
 pub const VDSBusTypeScsi = VDS_STORAGE_BUS_TYPE.Scsi;
@@ -3415,16 +3415,6 @@ pub const IVdsAdmin = extern union {
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (5)
 //--------------------------------------------------------------------------------

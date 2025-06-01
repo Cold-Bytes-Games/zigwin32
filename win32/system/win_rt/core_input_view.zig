@@ -15,13 +15,13 @@ pub const ICoreFrameworkInputViewInterop = extern union {
             self: *const ICoreFrameworkInputViewInterop,
             appWindow: ?HWND,
             riid: ?*const Guid,
-            coreFrameworkInputView: ?*?*anyopaque,
+            coreFrameworkInputView: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IInspectable: IInspectable,
     IUnknown: IUnknown,
-    pub fn GetForWindow(self: *const ICoreFrameworkInputViewInterop, appWindow: ?HWND, riid: ?*const Guid, coreFrameworkInputView: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn GetForWindow(self: *const ICoreFrameworkInputViewInterop, appWindow: ?HWND, riid: ?*const Guid, coreFrameworkInputView: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.GetForWindow(self, appWindow, riid, coreFrameworkInputView);
     }
 };
@@ -34,16 +34,6 @@ pub const ICoreFrameworkInputViewInterop = extern union {
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (5)
 //--------------------------------------------------------------------------------

@@ -412,13 +412,10 @@ pub const VIRTUAL_KEY = enum(u16) {
     PAUSE = 19,
     CAPITAL = 20,
     KANA = 21,
-    // HANGEUL = 21, this enum value conflicts with KANA
-    // HANGUL = 21, this enum value conflicts with KANA
     IME_ON = 22,
     JUNJA = 23,
     FINAL = 24,
     HANJA = 25,
-    // KANJI = 25, this enum value conflicts with HANJA
     IME_OFF = 26,
     ESCAPE = 27,
     CONVERT = 28,
@@ -496,7 +493,6 @@ pub const VIRTUAL_KEY = enum(u16) {
     NUMLOCK = 144,
     SCROLL = 145,
     OEM_NEC_EQUAL = 146,
-    // OEM_FJ_JISHO = 146, this enum value conflicts with OEM_NEC_EQUAL
     OEM_FJ_MASSHOU = 147,
     OEM_FJ_TOUROKU = 148,
     OEM_FJ_LOYA = 149,
@@ -590,6 +586,10 @@ pub const VIRTUAL_KEY = enum(u16) {
     NONAME = 252,
     PA1 = 253,
     OEM_CLEAR = 254,
+    pub const HANGEUL = .KANA;
+    pub const HANGUL = .KANA;
+    pub const KANJI = .HANJA;
+    pub const OEM_FJ_JISHO = .OEM_NEC_EQUAL;
 };
 pub const VK_0 = VIRTUAL_KEY.@"0";
 pub const VK_1 = VIRTUAL_KEY.@"1";
@@ -1377,43 +1377,54 @@ pub extern "user32" fn BlockInput(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (7)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-        pub const LoadKeyboardLayout = thismodule.LoadKeyboardLayoutA;
-        pub const GetKeyboardLayoutName = thismodule.GetKeyboardLayoutNameA;
-        pub const GetKeyNameText = thismodule.GetKeyNameTextA;
-        pub const VkKeyScan = thismodule.VkKeyScanA;
-        pub const VkKeyScanEx = thismodule.VkKeyScanExA;
-        pub const MapVirtualKey = thismodule.MapVirtualKeyA;
-        pub const MapVirtualKeyEx = thismodule.MapVirtualKeyExA;
-    },
-    .wide => struct {
-        pub const LoadKeyboardLayout = thismodule.LoadKeyboardLayoutW;
-        pub const GetKeyboardLayoutName = thismodule.GetKeyboardLayoutNameW;
-        pub const GetKeyNameText = thismodule.GetKeyNameTextW;
-        pub const VkKeyScan = thismodule.VkKeyScanW;
-        pub const VkKeyScanEx = thismodule.VkKeyScanExW;
-        pub const MapVirtualKey = thismodule.MapVirtualKeyW;
-        pub const MapVirtualKeyEx = thismodule.MapVirtualKeyExW;
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-        pub const LoadKeyboardLayout = *opaque{};
-        pub const GetKeyboardLayoutName = *opaque{};
-        pub const GetKeyNameText = *opaque{};
-        pub const VkKeyScan = *opaque{};
-        pub const VkKeyScanEx = *opaque{};
-        pub const MapVirtualKey = *opaque{};
-        pub const MapVirtualKeyEx = *opaque{};
-    } else struct {
-        pub const LoadKeyboardLayout = @compileError("'LoadKeyboardLayout' requires that UNICODE be set to true or false in the root module");
-        pub const GetKeyboardLayoutName = @compileError("'GetKeyboardLayoutName' requires that UNICODE be set to true or false in the root module");
-        pub const GetKeyNameText = @compileError("'GetKeyNameText' requires that UNICODE be set to true or false in the root module");
-        pub const VkKeyScan = @compileError("'VkKeyScan' requires that UNICODE be set to true or false in the root module");
-        pub const VkKeyScanEx = @compileError("'VkKeyScanEx' requires that UNICODE be set to true or false in the root module");
-        pub const MapVirtualKey = @compileError("'MapVirtualKey' requires that UNICODE be set to true or false in the root module");
-        pub const MapVirtualKeyEx = @compileError("'MapVirtualKeyEx' requires that UNICODE be set to true or false in the root module");
-    },
+pub const LoadKeyboardLayout = switch (@import("../../zig.zig").unicode_mode) {
+    .ansi => @This().LoadKeyboardLayoutA,
+    .wide => @This().LoadKeyboardLayoutW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'LoadKeyboardLayout' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetKeyboardLayoutName = switch (@import("../../zig.zig").unicode_mode) {
+    .ansi => @This().GetKeyboardLayoutNameA,
+    .wide => @This().GetKeyboardLayoutNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetKeyboardLayoutName' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const GetKeyNameText = switch (@import("../../zig.zig").unicode_mode) {
+    .ansi => @This().GetKeyNameTextA,
+    .wide => @This().GetKeyNameTextW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'GetKeyNameText' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const VkKeyScan = switch (@import("../../zig.zig").unicode_mode) {
+    .ansi => @This().VkKeyScanA,
+    .wide => @This().VkKeyScanW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'VkKeyScan' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const VkKeyScanEx = switch (@import("../../zig.zig").unicode_mode) {
+    .ansi => @This().VkKeyScanExA,
+    .wide => @This().VkKeyScanExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'VkKeyScanEx' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const MapVirtualKey = switch (@import("../../zig.zig").unicode_mode) {
+    .ansi => @This().MapVirtualKeyA,
+    .wide => @This().MapVirtualKeyW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'MapVirtualKey' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const MapVirtualKeyEx = switch (@import("../../zig.zig").unicode_mode) {
+    .ansi => @This().MapVirtualKeyExA,
+    .wide => @This().MapVirtualKeyExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'MapVirtualKeyEx' requires that UNICODE be set to true or false in the root module",
+    ),
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (7)

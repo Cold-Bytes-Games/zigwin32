@@ -1050,11 +1050,11 @@ pub const WSManEnumFlags = enum(i32) {
     ReturnObject = 0,
     ReturnEPR = 2,
     ReturnObjectAndEPR = 4,
-    // HierarchyDeep = 0, this enum value conflicts with ReturnObject
     HierarchyShallow = 32,
     HierarchyDeepBasePropsOnly = 64,
-    // AssociatedInstance = 0, this enum value conflicts with ReturnObject
     AssociationInstance = 128,
+    pub const HierarchyDeep = .ReturnObject;
+    pub const AssociatedInstance = .ReturnObject;
 };
 pub const WSManFlagNonXmlText = WSManEnumFlags.NonXmlText;
 pub const WSManFlagReturnObject = WSManEnumFlags.ReturnObject;
@@ -2099,16 +2099,6 @@ pub extern "wsmsvc" fn WSManPluginAuthzQueryQuotaComplete(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (9)
 //--------------------------------------------------------------------------------

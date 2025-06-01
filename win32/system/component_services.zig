@@ -1703,7 +1703,7 @@ pub const ITransactionContextEx = extern union {
             self: *const ITransactionContextEx,
             rclsid: ?*const Guid,
             riid: ?*const Guid,
-            pObject: ?*?*anyopaque,
+            pObject: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         Commit: *const fn(
             self: *const ITransactionContextEx,
@@ -1714,7 +1714,7 @@ pub const ITransactionContextEx = extern union {
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn CreateInstance(self: *const ITransactionContextEx, rclsid: ?*const Guid, riid: ?*const Guid, pObject: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateInstance(self: *const ITransactionContextEx, rclsid: ?*const Guid, riid: ?*const Guid, pObject: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateInstance(self, rclsid, riid, pObject);
     }
     pub fn Commit(self: *const ITransactionContextEx) callconv(.Inline) HRESULT {
@@ -1768,12 +1768,12 @@ pub const ICreateWithTransactionEx = extern union {
             pTransaction: ?*ITransaction,
             rclsid: ?*const Guid,
             riid: ?*const Guid,
-            pObject: ?*?*anyopaque,
+            pObject: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn CreateInstance(self: *const ICreateWithTransactionEx, pTransaction: ?*ITransaction, rclsid: ?*const Guid, riid: ?*const Guid, pObject: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateInstance(self: *const ICreateWithTransactionEx, pTransaction: ?*ITransaction, rclsid: ?*const Guid, riid: ?*const Guid, pObject: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateInstance(self, pTransaction, rclsid, riid, pObject);
     }
 };
@@ -1810,12 +1810,12 @@ pub const ICreateWithTipTransactionEx = extern union {
             bstrTipUrl: ?BSTR,
             rclsid: ?*const Guid,
             riid: ?*const Guid,
-            pObject: ?*?*anyopaque,
+            pObject: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn CreateInstance(self: *const ICreateWithTipTransactionEx, bstrTipUrl: ?BSTR, rclsid: ?*const Guid, riid: ?*const Guid, pObject: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateInstance(self: *const ICreateWithTipTransactionEx, bstrTipUrl: ?BSTR, rclsid: ?*const Guid, riid: ?*const Guid, pObject: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateInstance(self, bstrTipUrl, rclsid, riid, pObject);
     }
 };
@@ -6674,16 +6674,6 @@ pub extern "mtxdm" fn GetDispenserManager(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (17)
 //--------------------------------------------------------------------------------

@@ -92,7 +92,7 @@ pub const IPrintDocumentPackageTarget = extern union {
             self: *const IPrintDocumentPackageTarget,
             guidTargetType: ?*const Guid,
             riid: ?*const Guid,
-            ppvTarget: ?*?*anyopaque,
+            ppvTarget: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         Cancel: *const fn(
             self: *const IPrintDocumentPackageTarget,
@@ -103,7 +103,7 @@ pub const IPrintDocumentPackageTarget = extern union {
     pub fn GetPackageTargetTypes(self: *const IPrintDocumentPackageTarget, targetCount: ?*u32, targetTypes: [*]?*Guid) callconv(.Inline) HRESULT {
         return self.vtable.GetPackageTargetTypes(self, targetCount, targetTypes);
     }
-    pub fn GetPackageTarget(self: *const IPrintDocumentPackageTarget, guidTargetType: ?*const Guid, riid: ?*const Guid, ppvTarget: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn GetPackageTarget(self: *const IPrintDocumentPackageTarget, guidTargetType: ?*const Guid, riid: ?*const Guid, ppvTarget: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.GetPackageTarget(self, guidTargetType, riid, ppvTarget);
     }
     pub fn Cancel(self: *const IPrintDocumentPackageTarget) callconv(.Inline) HRESULT {
@@ -205,16 +205,6 @@ pub extern "xpsprint" fn StartXpsPrintJob1(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (9)
 //--------------------------------------------------------------------------------

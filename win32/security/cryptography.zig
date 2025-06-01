@@ -3228,13 +3228,13 @@ pub const CERT_RDN_ATTR_VALUE_TYPE = enum(u32) {
     GENERAL_STRING = 10,
     INT4_STRING = 11,
     UNICODE_STRING = 12,
-    // BMP_STRING = 12, this enum value conflicts with UNICODE_STRING
     ENCODED_BLOB = 1,
     OCTET_STRING = 2,
-    // TELETEX_STRING = 5, this enum value conflicts with T61_STRING
-    // UNIVERSAL_STRING = 11, this enum value conflicts with INT4_STRING
     UTF8_STRING = 13,
-    // VISIBLE_STRING = 9, this enum value conflicts with ISO646_STRING
+    pub const BMP_STRING = .UNICODE_STRING;
+    pub const TELETEX_STRING = .T61_STRING;
+    pub const UNIVERSAL_STRING = .INT4_STRING;
+    pub const VISIBLE_STRING = .ISO646_STRING;
 };
 pub const CERT_RDN_ANY_TYPE = CERT_RDN_ATTR_VALUE_TYPE.ANY_TYPE;
 pub const CERT_RDN_NUMERIC_STRING = CERT_RDN_ATTR_VALUE_TYPE.NUMERIC_STRING;
@@ -3631,7 +3631,7 @@ pub const CERT_CHAIN_FIND_BY_ISSUER_NO_KEY_FLAG = CERT_FIND_CHAIN_IN_STORE_FLAGS
 pub const CERT_CONTROL_STORE_FLAGS = enum(u32) {
     COMMIT_FORCE_FLAG = 1,
     COMMIT_CLEAR_FLAG = 2,
-    // INHIBIT_DUPLICATE_HANDLE_FLAG = 1, this enum value conflicts with COMMIT_FORCE_FLAG
+    pub const INHIBIT_DUPLICATE_HANDLE_FLAG = .COMMIT_FORCE_FLAG;
 };
 pub const CERT_STORE_CTRL_COMMIT_FORCE_FLAG = CERT_CONTROL_STORE_FLAGS.COMMIT_FORCE_FLAG;
 pub const CERT_STORE_CTRL_COMMIT_CLEAR_FLAG = CERT_CONTROL_STORE_FLAGS.COMMIT_CLEAR_FLAG;
@@ -3679,8 +3679,8 @@ pub const CERT_STORE_SAVE_TO = enum(u32) {
     FILE = 1,
     FILENAME = 4,
     FILENAME_A = 3,
-    // FILENAME_W = 4, this enum value conflicts with FILENAME
     MEMORY = 2,
+    pub const FILENAME_W = .FILENAME;
 };
 pub const CERT_STORE_SAVE_TO_FILE = CERT_STORE_SAVE_TO.FILE;
 pub const CERT_STORE_SAVE_TO_FILENAME = CERT_STORE_SAVE_TO.FILENAME;
@@ -4012,9 +4012,9 @@ pub const CERT_FIND_TYPE = enum(u32) {
     SHA1_HASH = 1,
     MD5_HASH = 2,
     USAGE = 3,
-    // SAME_USAGE_FLAG = 1, this enum value conflicts with SHA1_HASH
     EXISTING = 5,
     SUBJECT = 4,
+    pub const SAME_USAGE_FLAG = .SHA1_HASH;
 };
 pub const CTL_FIND_ANY = CERT_FIND_TYPE.ANY;
 pub const CTL_FIND_SHA1_HASH = CERT_FIND_TYPE.SHA1_HASH;
@@ -12376,87 +12376,131 @@ pub extern "infocardapi" fn GetBrowserToken(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (18)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-        pub const CRYPT_PASSWORD_CREDENTIALS = thismodule.CRYPT_PASSWORD_CREDENTIALSA;
-        pub const CryptAcquireContext = thismodule.CryptAcquireContextA;
-        pub const CryptSignHash = thismodule.CryptSignHashA;
-        pub const CryptVerifySignature = thismodule.CryptVerifySignatureA;
-        pub const CryptSetProvider = thismodule.CryptSetProviderA;
-        pub const CryptSetProviderEx = thismodule.CryptSetProviderExA;
-        pub const CryptGetDefaultProvider = thismodule.CryptGetDefaultProviderA;
-        pub const CryptEnumProviderTypes = thismodule.CryptEnumProviderTypesA;
-        pub const CryptEnumProviders = thismodule.CryptEnumProvidersA;
-        pub const CertRDNValueToStr = thismodule.CertRDNValueToStrA;
-        pub const CertNameToStr = thismodule.CertNameToStrA;
-        pub const CertStrToName = thismodule.CertStrToNameA;
-        pub const CertGetNameString = thismodule.CertGetNameStringA;
-        pub const CertOpenSystemStore = thismodule.CertOpenSystemStoreA;
-        pub const CertAddEncodedCertificateToSystemStore = thismodule.CertAddEncodedCertificateToSystemStoreA;
-        pub const CryptRetrieveObjectByUrl = thismodule.CryptRetrieveObjectByUrlA;
-        pub const CryptStringToBinary = thismodule.CryptStringToBinaryA;
-        pub const CryptBinaryToString = thismodule.CryptBinaryToStringA;
-    },
-    .wide => struct {
-        pub const CRYPT_PASSWORD_CREDENTIALS = thismodule.CRYPT_PASSWORD_CREDENTIALSW;
-        pub const CryptAcquireContext = thismodule.CryptAcquireContextW;
-        pub const CryptSignHash = thismodule.CryptSignHashW;
-        pub const CryptVerifySignature = thismodule.CryptVerifySignatureW;
-        pub const CryptSetProvider = thismodule.CryptSetProviderW;
-        pub const CryptSetProviderEx = thismodule.CryptSetProviderExW;
-        pub const CryptGetDefaultProvider = thismodule.CryptGetDefaultProviderW;
-        pub const CryptEnumProviderTypes = thismodule.CryptEnumProviderTypesW;
-        pub const CryptEnumProviders = thismodule.CryptEnumProvidersW;
-        pub const CertRDNValueToStr = thismodule.CertRDNValueToStrW;
-        pub const CertNameToStr = thismodule.CertNameToStrW;
-        pub const CertStrToName = thismodule.CertStrToNameW;
-        pub const CertGetNameString = thismodule.CertGetNameStringW;
-        pub const CertOpenSystemStore = thismodule.CertOpenSystemStoreW;
-        pub const CertAddEncodedCertificateToSystemStore = thismodule.CertAddEncodedCertificateToSystemStoreW;
-        pub const CryptRetrieveObjectByUrl = thismodule.CryptRetrieveObjectByUrlW;
-        pub const CryptStringToBinary = thismodule.CryptStringToBinaryW;
-        pub const CryptBinaryToString = thismodule.CryptBinaryToStringW;
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-        pub const CRYPT_PASSWORD_CREDENTIALS = *opaque{};
-        pub const CryptAcquireContext = *opaque{};
-        pub const CryptSignHash = *opaque{};
-        pub const CryptVerifySignature = *opaque{};
-        pub const CryptSetProvider = *opaque{};
-        pub const CryptSetProviderEx = *opaque{};
-        pub const CryptGetDefaultProvider = *opaque{};
-        pub const CryptEnumProviderTypes = *opaque{};
-        pub const CryptEnumProviders = *opaque{};
-        pub const CertRDNValueToStr = *opaque{};
-        pub const CertNameToStr = *opaque{};
-        pub const CertStrToName = *opaque{};
-        pub const CertGetNameString = *opaque{};
-        pub const CertOpenSystemStore = *opaque{};
-        pub const CertAddEncodedCertificateToSystemStore = *opaque{};
-        pub const CryptRetrieveObjectByUrl = *opaque{};
-        pub const CryptStringToBinary = *opaque{};
-        pub const CryptBinaryToString = *opaque{};
-    } else struct {
-        pub const CRYPT_PASSWORD_CREDENTIALS = @compileError("'CRYPT_PASSWORD_CREDENTIALS' requires that UNICODE be set to true or false in the root module");
-        pub const CryptAcquireContext = @compileError("'CryptAcquireContext' requires that UNICODE be set to true or false in the root module");
-        pub const CryptSignHash = @compileError("'CryptSignHash' requires that UNICODE be set to true or false in the root module");
-        pub const CryptVerifySignature = @compileError("'CryptVerifySignature' requires that UNICODE be set to true or false in the root module");
-        pub const CryptSetProvider = @compileError("'CryptSetProvider' requires that UNICODE be set to true or false in the root module");
-        pub const CryptSetProviderEx = @compileError("'CryptSetProviderEx' requires that UNICODE be set to true or false in the root module");
-        pub const CryptGetDefaultProvider = @compileError("'CryptGetDefaultProvider' requires that UNICODE be set to true or false in the root module");
-        pub const CryptEnumProviderTypes = @compileError("'CryptEnumProviderTypes' requires that UNICODE be set to true or false in the root module");
-        pub const CryptEnumProviders = @compileError("'CryptEnumProviders' requires that UNICODE be set to true or false in the root module");
-        pub const CertRDNValueToStr = @compileError("'CertRDNValueToStr' requires that UNICODE be set to true or false in the root module");
-        pub const CertNameToStr = @compileError("'CertNameToStr' requires that UNICODE be set to true or false in the root module");
-        pub const CertStrToName = @compileError("'CertStrToName' requires that UNICODE be set to true or false in the root module");
-        pub const CertGetNameString = @compileError("'CertGetNameString' requires that UNICODE be set to true or false in the root module");
-        pub const CertOpenSystemStore = @compileError("'CertOpenSystemStore' requires that UNICODE be set to true or false in the root module");
-        pub const CertAddEncodedCertificateToSystemStore = @compileError("'CertAddEncodedCertificateToSystemStore' requires that UNICODE be set to true or false in the root module");
-        pub const CryptRetrieveObjectByUrl = @compileError("'CryptRetrieveObjectByUrl' requires that UNICODE be set to true or false in the root module");
-        pub const CryptStringToBinary = @compileError("'CryptStringToBinary' requires that UNICODE be set to true or false in the root module");
-        pub const CryptBinaryToString = @compileError("'CryptBinaryToString' requires that UNICODE be set to true or false in the root module");
-    },
+pub const CRYPT_PASSWORD_CREDENTIALS = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CRYPT_PASSWORD_CREDENTIALSA,
+    .wide => @This().CRYPT_PASSWORD_CREDENTIALSW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CRYPT_PASSWORD_CREDENTIALS' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptAcquireContext = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptAcquireContextA,
+    .wide => @This().CryptAcquireContextW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptAcquireContext' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptSignHash = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptSignHashA,
+    .wide => @This().CryptSignHashW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptSignHash' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptVerifySignature = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptVerifySignatureA,
+    .wide => @This().CryptVerifySignatureW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptVerifySignature' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptSetProvider = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptSetProviderA,
+    .wide => @This().CryptSetProviderW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptSetProvider' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptSetProviderEx = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptSetProviderExA,
+    .wide => @This().CryptSetProviderExW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptSetProviderEx' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptGetDefaultProvider = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptGetDefaultProviderA,
+    .wide => @This().CryptGetDefaultProviderW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptGetDefaultProvider' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptEnumProviderTypes = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptEnumProviderTypesA,
+    .wide => @This().CryptEnumProviderTypesW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptEnumProviderTypes' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptEnumProviders = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptEnumProvidersA,
+    .wide => @This().CryptEnumProvidersW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptEnumProviders' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CertRDNValueToStr = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CertRDNValueToStrA,
+    .wide => @This().CertRDNValueToStrW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CertRDNValueToStr' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CertNameToStr = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CertNameToStrA,
+    .wide => @This().CertNameToStrW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CertNameToStr' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CertStrToName = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CertStrToNameA,
+    .wide => @This().CertStrToNameW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CertStrToName' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CertGetNameString = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CertGetNameStringA,
+    .wide => @This().CertGetNameStringW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CertGetNameString' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CertOpenSystemStore = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CertOpenSystemStoreA,
+    .wide => @This().CertOpenSystemStoreW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CertOpenSystemStore' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CertAddEncodedCertificateToSystemStore = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CertAddEncodedCertificateToSystemStoreA,
+    .wide => @This().CertAddEncodedCertificateToSystemStoreW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CertAddEncodedCertificateToSystemStore' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptRetrieveObjectByUrl = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptRetrieveObjectByUrlA,
+    .wide => @This().CryptRetrieveObjectByUrlW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptRetrieveObjectByUrl' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptStringToBinary = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptStringToBinaryA,
+    .wide => @This().CryptStringToBinaryW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptStringToBinary' requires that UNICODE be set to true or false in the root module",
+    ),
+};
+pub const CryptBinaryToString = switch (@import("../zig.zig").unicode_mode) {
+    .ansi => @This().CryptBinaryToStringA,
+    .wide => @This().CryptBinaryToStringW,
+    .unspecified => if (@import("builtin").is_test) void else @compileError(
+        "'CryptBinaryToString' requires that UNICODE be set to true or false in the root module",
+    ),
 };
 //--------------------------------------------------------------------------------
 // Section: Imports (22)

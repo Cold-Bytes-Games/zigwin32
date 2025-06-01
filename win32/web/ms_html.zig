@@ -10767,8 +10767,8 @@ pub const htmlCellAlign = enum(i32) {
     Left = 1,
     Center = 2,
     Right = 3,
-    // Middle = 2, this enum value conflicts with Center
     _Max = 2147483647,
+    pub const Middle = .Center;
 };
 pub const htmlCellAlignNotSet = htmlCellAlign.NotSet;
 pub const htmlCellAlignLeft = htmlCellAlign.Left;
@@ -10783,8 +10783,8 @@ pub const htmlCellVAlign = enum(i32) {
     Middle = 2,
     Bottom = 3,
     Baseline = 4,
-    // Center = 2, this enum value conflicts with Middle
     _Max = 2147483647,
+    pub const Center = .Middle;
 };
 pub const htmlCellVAlignNotSet = htmlCellVAlign.NotSet;
 pub const htmlCellVAlignTop = htmlCellVAlign.Top;
@@ -12110,13 +12110,13 @@ pub const HTML_PAINT_DRAW_INFO = extern struct {
 
 pub const HTMLDlgFlag = enum(i32) {
     No = 0,
-    // Off = 0, this enum value conflicts with No
-    // @"0" = 0, this enum value conflicts with No
     Yes = 1,
-    // On = 1, this enum value conflicts with Yes
-    // @"1" = 1, this enum value conflicts with Yes
     NotSet = -1,
     _Max = 2147483647,
+    pub const Off = .No;
+    pub const @"0" = .No;
+    pub const On = .Yes;
+    pub const @"1" = .Yes;
 };
 pub const HTMLDlgFlagNo = HTMLDlgFlag.No;
 pub const HTMLDlgFlagOff = HTMLDlgFlag.No;
@@ -12147,14 +12147,14 @@ pub const HTMLDlgEdge_Max = HTMLDlgEdge._Max;
 
 pub const HTMLDlgCenter = enum(i32) {
     No = 0,
-    // Off = 0, this enum value conflicts with No
-    // @"0" = 0, this enum value conflicts with No
     Yes = 1,
-    // On = 1, this enum value conflicts with Yes
-    // @"1" = 1, this enum value conflicts with Yes
-    // Parent = 1, this enum value conflicts with Yes
     Desktop = 2,
     _Max = 2147483647,
+    pub const Off = .No;
+    pub const @"0" = .No;
+    pub const On = .Yes;
+    pub const @"1" = .Yes;
+    pub const Parent = .Yes;
 };
 pub const HTMLDlgCenterNo = HTMLDlgCenter.No;
 pub const HTMLDlgCenterOff = HTMLDlgCenter.No;
@@ -12168,12 +12168,12 @@ pub const HTMLDlgCenter_Max = HTMLDlgCenter._Max;
 
 pub const HTMLAppFlag = enum(i32) {
     No = 0,
-    // Off = 0, this enum value conflicts with No
-    // @"0" = 0, this enum value conflicts with No
     Yes = 1,
-    // On = 1, this enum value conflicts with Yes
-    // @"1" = 1, this enum value conflicts with Yes
     _Max = 2147483647,
+    pub const Off = .No;
+    pub const @"0" = .No;
+    pub const On = .Yes;
+    pub const @"1" = .Yes;
 };
 pub const HTMLAppFlagNo = HTMLAppFlag.No;
 pub const HTMLAppFlagOff = HTMLAppFlag.No;
@@ -12260,13 +12260,13 @@ pub const HTMLWindowState_Max = HTMLWindowState._Max;
 
 pub const BEHAVIOR_EVENT = enum(i32) {
     EVENT_FIRST = 0,
-    // EVENT_CONTENTREADY = 0, this enum value conflicts with EVENT_FIRST
     EVENT_DOCUMENTREADY = 1,
     EVENT_APPLYSTYLE = 2,
     EVENT_DOCUMENTCONTEXTCHANGE = 3,
     EVENT_CONTENTSAVE = 4,
-    // EVENT_LAST = 4, this enum value conflicts with EVENT_CONTENTSAVE
     _EVENT_Max = 2147483647,
+    pub const EVENT_CONTENTREADY = .EVENT_FIRST;
+    pub const EVENT_LAST = .EVENT_CONTENTSAVE;
 };
 pub const BEHAVIOREVENT_FIRST = BEHAVIOR_EVENT.EVENT_FIRST;
 pub const BEHAVIOREVENT_CONTENTREADY = BEHAVIOR_EVENT.EVENT_FIRST;
@@ -12323,12 +12323,12 @@ pub const BEHAVIOR_RENDER_INFO_Max = BEHAVIOR_RENDER_INFO._RENDER_INFO_Max;
 
 pub const BEHAVIOR_RELATION = enum(i32) {
     FIRSTRELATION = 0,
-    // SAMEELEMENT = 0, this enum value conflicts with FIRSTRELATION
     PARENT = 1,
     CHILD = 2,
     SIBLING = 3,
-    // LASTRELATION = 3, this enum value conflicts with SIBLING
     RELATION_Max = 2147483647,
+    pub const SAMEELEMENT = .FIRSTRELATION;
+    pub const LASTRELATION = .SIBLING;
 };
 pub const BEHAVIOR_FIRSTRELATION = BEHAVIOR_RELATION.FIRSTRELATION;
 pub const BEHAVIOR_SAMEELEMENT = BEHAVIOR_RELATION.FIRSTRELATION;
@@ -69585,7 +69585,7 @@ pub const ISurfacePresenter = extern union {
             self: *const ISurfacePresenter,
             backBufferIndex: u32,
             riid: ?*const Guid,
-            ppBuffer: ?*?*anyopaque,
+            ppBuffer: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         IsCurrent: *const fn(
             self: *const ISurfacePresenter,
@@ -69597,7 +69597,7 @@ pub const ISurfacePresenter = extern union {
     pub fn Present(self: *const ISurfacePresenter, uBuffer: u32, pDirty: ?*RECT) callconv(.Inline) HRESULT {
         return self.vtable.Present(self, uBuffer, pDirty);
     }
-    pub fn GetBuffer(self: *const ISurfacePresenter, backBufferIndex: u32, riid: ?*const Guid, ppBuffer: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn GetBuffer(self: *const ISurfacePresenter, backBufferIndex: u32, riid: ?*const Guid, ppBuffer: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.GetBuffer(self, backBufferIndex, riid, ppBuffer);
     }
     pub fn IsCurrent(self: *const ISurfacePresenter, pIsCurrent: ?*BOOL) callconv(.Inline) HRESULT {
@@ -70957,12 +70957,12 @@ pub const IInternetExplorerManager = extern union {
             dwConfig: u32,
             pszURL: ?[*:0]const u16,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn CreateObject(self: *const IInternetExplorerManager, dwConfig: u32, pszURL: ?[*:0]const u16, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateObject(self: *const IInternetExplorerManager, dwConfig: u32, pszURL: ?[*:0]const u16, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateObject(self, dwConfig, pszURL, riid, ppv);
     }
 };
@@ -72085,13 +72085,13 @@ pub const IClassFactoryEx = extern union {
             punkContext: ?*IUnknown,
             punkOuter: ?*IUnknown,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IClassFactory: IClassFactory,
     IUnknown: IUnknown,
-    pub fn CreateInstanceWithContext(self: *const IClassFactoryEx, punkContext: ?*IUnknown, punkOuter: ?*IUnknown, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateInstanceWithContext(self: *const IClassFactoryEx, punkContext: ?*IUnknown, punkOuter: ?*IUnknown, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateInstanceWithContext(self, punkContext, punkOuter, riid, ppv);
     }
 };
@@ -72734,9 +72734,9 @@ pub const IPersistHistory = extern union {
 
 pub const ADDURL_FLAG = enum(i32) {
     FIRST = 0,
-    // ADDTOHISTORYANDCACHE = 0, this enum value conflicts with FIRST
     ADDTOCACHE = 1,
     Max = 2147483647,
+    pub const ADDTOHISTORYANDCACHE = .FIRST;
 };
 pub const ADDURL_FIRST = ADDURL_FLAG.FIRST;
 pub const ADDURL_ADDTOHISTORYANDCACHE = ADDURL_FLAG.FIRST;
@@ -72826,7 +72826,7 @@ pub const IUrlHistoryStg = extern union {
             self: *const IUrlHistoryStg,
             pocsUrl: ?[*:0]const u16,
             riid: ?*const Guid,
-            ppvOut: ?*?*anyopaque,
+            ppvOut: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
         EnumUrls: *const fn(
             self: *const IUrlHistoryStg,
@@ -72844,7 +72844,7 @@ pub const IUrlHistoryStg = extern union {
     pub fn QueryUrl(self: *const IUrlHistoryStg, pocsUrl: ?[*:0]const u16, dwFlags: u32, lpSTATURL: ?*STATURL) callconv(.Inline) HRESULT {
         return self.vtable.QueryUrl(self, pocsUrl, dwFlags, lpSTATURL);
     }
-    pub fn BindToObject(self: *const IUrlHistoryStg, pocsUrl: ?[*:0]const u16, riid: ?*const Guid, ppvOut: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn BindToObject(self: *const IUrlHistoryStg, pocsUrl: ?[*:0]const u16, riid: ?*const Guid, ppvOut: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.BindToObject(self, pocsUrl, riid, ppvOut);
     }
     pub fn EnumUrls(self: *const IUrlHistoryStg, ppEnum: ?*?*IEnumSTATURL) callconv(.Inline) HRESULT {
@@ -73461,16 +73461,6 @@ pub extern "shdocvw" fn DoPrivacyDlg(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (51)
 //--------------------------------------------------------------------------------

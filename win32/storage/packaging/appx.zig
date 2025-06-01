@@ -83,10 +83,10 @@ pub const APPX_FOOTPRINT_FILE_TYPE_CONTENTGROUPMAP = APPX_FOOTPRINT_FILE_TYPE.CO
 
 pub const APPX_BUNDLE_FOOTPRINT_FILE_TYPE = enum(i32) {
     FIRST = 0,
-    // MANIFEST = 0, this enum value conflicts with FIRST
     BLOCKMAP = 1,
     SIGNATURE = 2,
-    // LAST = 2, this enum value conflicts with SIGNATURE
+    pub const MANIFEST = .FIRST;
+    pub const LAST = .SIGNATURE;
 };
 pub const APPX_BUNDLE_FOOTPRINT_FILE_TYPE_FIRST = APPX_BUNDLE_FOOTPRINT_FILE_TYPE.FIRST;
 pub const APPX_BUNDLE_FOOTPRINT_FILE_TYPE_MANIFEST = APPX_BUNDLE_FOOTPRINT_FILE_TYPE.FIRST;
@@ -3465,16 +3465,6 @@ pub extern "kernel32" fn GetProcessesInVirtualizationContext(
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (11)
 //--------------------------------------------------------------------------------

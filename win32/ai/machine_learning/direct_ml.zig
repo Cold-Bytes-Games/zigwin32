@@ -80,7 +80,7 @@ pub const DML_TENSOR_FLAGS = packed struct(u32) {
     _30: u1 = 0,
     _31: u1 = 0,
 };
-pub const DML_TENSOR_FLAG_NONE = DML_TENSOR_FLAGS{ };
+pub const DML_TENSOR_FLAG_NONE = DML_TENSOR_FLAGS{};
 pub const DML_TENSOR_FLAG_OWNED_BY_DML = DML_TENSOR_FLAGS{ .OWNED_BY_DML = 1 };
 
 pub const DML_BUFFER_TENSOR_DESC = extern struct {
@@ -194,7 +194,6 @@ pub const DML_OPERATOR_TYPE = enum(i32) {
     MAX_UNPOOLING = 92,
     DIAGONAL_MATRIX = 93,
     SCATTER_ELEMENTS = 94,
-    // SCATTER = 94, this enum value conflicts with SCATTER_ELEMENTS
     ONE_HOT = 95,
     RESAMPLE = 96,
     ELEMENT_WISE_BIT_SHIFT_LEFT = 97,
@@ -250,6 +249,7 @@ pub const DML_OPERATOR_TYPE = enum(i32) {
     ELEMENT_WISE_QUANTIZED_LINEAR_ADD = 147,
     DYNAMIC_QUANTIZE_LINEAR = 148,
     ROI_ALIGN1 = 149,
+    pub const SCATTER = .SCATTER_ELEMENTS;
 };
 pub const DML_OPERATOR_INVALID = DML_OPERATOR_TYPE.INVALID;
 pub const DML_OPERATOR_ELEMENT_WISE_IDENTITY = DML_OPERATOR_TYPE.ELEMENT_WISE_IDENTITY;
@@ -1768,7 +1768,7 @@ pub const DML_EXECUTION_FLAGS = packed struct(u32) {
     _30: u1 = 0,
     _31: u1 = 0,
 };
-pub const DML_EXECUTION_FLAG_NONE = DML_EXECUTION_FLAGS{ };
+pub const DML_EXECUTION_FLAG_NONE = DML_EXECUTION_FLAGS{};
 pub const DML_EXECUTION_FLAG_ALLOW_HALF_PRECISION_COMPUTATION = DML_EXECUTION_FLAGS{ .ALLOW_HALF_PRECISION_COMPUTATION = 1 };
 pub const DML_EXECUTION_FLAG_DISABLE_META_COMMANDS = DML_EXECUTION_FLAGS{ .DISABLE_META_COMMANDS = 1 };
 pub const DML_EXECUTION_FLAG_DESCRIPTORS_VOLATILE = DML_EXECUTION_FLAGS{ .DESCRIPTORS_VOLATILE = 1 };
@@ -1807,7 +1807,7 @@ pub const DML_CREATE_DEVICE_FLAGS = packed struct(u32) {
     _30: u1 = 0,
     _31: u1 = 0,
 };
-pub const DML_CREATE_DEVICE_FLAG_NONE = DML_CREATE_DEVICE_FLAGS{ };
+pub const DML_CREATE_DEVICE_FLAG_NONE = DML_CREATE_DEVICE_FLAGS{};
 pub const DML_CREATE_DEVICE_FLAG_DEBUG = DML_CREATE_DEVICE_FLAGS{ .DEBUG = 1 };
 
 const IID_IDMLObject_Value = Guid.initString("c8263aac-9e0c-4a2d-9b8e-007521a3317c");
@@ -1815,26 +1815,26 @@ pub const IID_IDMLObject = &IID_IDMLObject_Value;
 pub const IDMLObject = extern union {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
-        GetPrivateData: *const fn(
+        GetPrivateData: *const fn (
             self: *const IDMLObject,
             guid: ?*const Guid,
             dataSize: ?*u32,
             // TODO: what to do with BytesParamIndex 1?
             data: ?*anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        SetPrivateData: *const fn(
+        SetPrivateData: *const fn (
             self: *const IDMLObject,
             guid: ?*const Guid,
             dataSize: u32,
             // TODO: what to do with BytesParamIndex 1?
             data: ?*const anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        SetPrivateDataInterface: *const fn(
+        SetPrivateDataInterface: *const fn (
             self: *const IDMLObject,
             guid: ?*const Guid,
             data: ?*IUnknown,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        SetName: *const fn(
+        SetName: *const fn (
             self: *const IDMLObject,
             name: ?[*:0]const u16,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -1860,7 +1860,7 @@ pub const IID_IDMLDevice = &IID_IDMLDevice_Value;
 pub const IDMLDevice = extern union {
     pub const VTable = extern struct {
         base: IDMLObject.VTable,
-        CheckFeatureSupport: *const fn(
+        CheckFeatureSupport: *const fn (
             self: *const IDMLDevice,
             feature: DML_FEATURE,
             featureQueryDataSize: u32,
@@ -1870,54 +1870,54 @@ pub const IDMLDevice = extern union {
             // TODO: what to do with BytesParamIndex 3?
             featureSupportData: ?*anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        CreateOperator: *const fn(
+        CreateOperator: *const fn (
             self: *const IDMLDevice,
             desc: ?*const DML_OPERATOR_DESC,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: ?**anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        CompileOperator: *const fn(
+        CompileOperator: *const fn (
             self: *const IDMLDevice,
             op: ?*IDMLOperator,
             flags: DML_EXECUTION_FLAGS,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: ?**anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        CreateOperatorInitializer: *const fn(
+        CreateOperatorInitializer: *const fn (
             self: *const IDMLDevice,
             operatorCount: u32,
             operators: ?[*]?*IDMLCompiledOperator,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        CreateCommandRecorder: *const fn(
+        CreateCommandRecorder: *const fn (
             self: *const IDMLDevice,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        CreateBindingTable: *const fn(
+        CreateBindingTable: *const fn (
             self: *const IDMLDevice,
             desc: ?*const DML_BINDING_TABLE_DESC,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        Evict: *const fn(
+        Evict: *const fn (
             self: *const IDMLDevice,
             count: u32,
             ppObjects: [*]?*IDMLPageable,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        MakeResident: *const fn(
+        MakeResident: *const fn (
             self: *const IDMLDevice,
             count: u32,
             ppObjects: [*]?*IDMLPageable,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        GetDeviceRemovedReason: *const fn(
+        GetDeviceRemovedReason: *const fn (
             self: *const IDMLDevice,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
-        GetParentDevice: *const fn(
+        GetParentDevice: *const fn (
             self: *const IDMLDevice,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
@@ -1926,19 +1926,19 @@ pub const IDMLDevice = extern union {
     pub fn CheckFeatureSupport(self: *const IDMLDevice, feature: DML_FEATURE, featureQueryDataSize: u32, featureQueryData: ?*const anyopaque, featureSupportDataSize: u32, featureSupportData: ?*anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CheckFeatureSupport(self, feature, featureQueryDataSize, featureQueryData, featureSupportDataSize, featureSupportData);
     }
-    pub fn CreateOperator(self: *const IDMLDevice, desc: ?*const DML_OPERATOR_DESC, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateOperator(self: *const IDMLDevice, desc: ?*const DML_OPERATOR_DESC, riid: ?*const Guid, ppv: ?**anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateOperator(self, desc, riid, ppv);
     }
-    pub fn CompileOperator(self: *const IDMLDevice, op: ?*IDMLOperator, flags: DML_EXECUTION_FLAGS, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CompileOperator(self: *const IDMLDevice, op: ?*IDMLOperator, flags: DML_EXECUTION_FLAGS, riid: ?*const Guid, ppv: ?**anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CompileOperator(self, op, flags, riid, ppv);
     }
-    pub fn CreateOperatorInitializer(self: *const IDMLDevice, operatorCount: u32, operators: ?[*]?*IDMLCompiledOperator, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateOperatorInitializer(self: *const IDMLDevice, operatorCount: u32, operators: ?[*]?*IDMLCompiledOperator, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateOperatorInitializer(self, operatorCount, operators, riid, ppv);
     }
-    pub fn CreateCommandRecorder(self: *const IDMLDevice, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateCommandRecorder(self: *const IDMLDevice, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateCommandRecorder(self, riid, ppv);
     }
-    pub fn CreateBindingTable(self: *const IDMLDevice, desc: ?*const DML_BINDING_TABLE_DESC, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CreateBindingTable(self: *const IDMLDevice, desc: ?*const DML_BINDING_TABLE_DESC, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CreateBindingTable(self, desc, riid, ppv);
     }
     pub fn Evict(self: *const IDMLDevice, count: u32, ppObjects: [*]?*IDMLPageable) callconv(.Inline) HRESULT {
@@ -1950,7 +1950,7 @@ pub const IDMLDevice = extern union {
     pub fn GetDeviceRemovedReason(self: *const IDMLDevice) callconv(.Inline) HRESULT {
         return self.vtable.GetDeviceRemovedReason(self);
     }
-    pub fn GetParentDevice(self: *const IDMLDevice, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn GetParentDevice(self: *const IDMLDevice, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.GetParentDevice(self, riid, ppv);
     }
 };
@@ -1960,16 +1960,16 @@ pub const IID_IDMLDeviceChild = &IID_IDMLDeviceChild_Value;
 pub const IDMLDeviceChild = extern union {
     pub const VTable = extern struct {
         base: IDMLObject.VTable,
-        GetDevice: *const fn(
+        GetDevice: *const fn (
             self: *const IDMLDeviceChild,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: **anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IDMLObject: IDMLObject,
     IUnknown: IUnknown,
-    pub fn GetDevice(self: *const IDMLDeviceChild, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn GetDevice(self: *const IDMLDeviceChild, riid: ?*const Guid, ppv: **anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.GetDevice(self, riid, ppv);
     }
 };
@@ -2009,7 +2009,7 @@ pub const IID_IDMLDispatchable = &IID_IDMLDispatchable_Value;
 pub const IDMLDispatchable = extern union {
     pub const VTable = extern struct {
         base: IDMLPageable.VTable,
-        GetBindingProperties: *const fn(
+        GetBindingProperties: *const fn (
             self: *const IDMLDispatchable,
         ) callconv(@import("std").os.windows.WINAPI) DML_BINDING_PROPERTIES,
     };
@@ -2042,7 +2042,7 @@ pub const IID_IDMLOperatorInitializer = &IID_IDMLOperatorInitializer_Value;
 pub const IDMLOperatorInitializer = extern union {
     pub const VTable = extern struct {
         base: IDMLDispatchable.VTable,
-        Reset: *const fn(
+        Reset: *const fn (
             self: *const IDMLOperatorInitializer,
             operatorCount: u32,
             operators: ?[*]?*IDMLCompiledOperator,
@@ -2089,25 +2089,25 @@ pub const IID_IDMLBindingTable = &IID_IDMLBindingTable_Value;
 pub const IDMLBindingTable = extern union {
     pub const VTable = extern struct {
         base: IDMLDeviceChild.VTable,
-        BindInputs: *const fn(
+        BindInputs: *const fn (
             self: *const IDMLBindingTable,
             bindingCount: u32,
             bindings: ?[*]const DML_BINDING_DESC,
         ) callconv(@import("std").os.windows.WINAPI) void,
-        BindOutputs: *const fn(
+        BindOutputs: *const fn (
             self: *const IDMLBindingTable,
             bindingCount: u32,
             bindings: ?[*]const DML_BINDING_DESC,
         ) callconv(@import("std").os.windows.WINAPI) void,
-        BindTemporaryResource: *const fn(
+        BindTemporaryResource: *const fn (
             self: *const IDMLBindingTable,
             binding: ?*const DML_BINDING_DESC,
         ) callconv(@import("std").os.windows.WINAPI) void,
-        BindPersistentResource: *const fn(
+        BindPersistentResource: *const fn (
             self: *const IDMLBindingTable,
             binding: ?*const DML_BINDING_DESC,
         ) callconv(@import("std").os.windows.WINAPI) void,
-        Reset: *const fn(
+        Reset: *const fn (
             self: *const IDMLBindingTable,
             desc: ?*const DML_BINDING_TABLE_DESC,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
@@ -2138,7 +2138,7 @@ pub const IID_IDMLCommandRecorder = &IID_IDMLCommandRecorder_Value;
 pub const IDMLCommandRecorder = extern union {
     pub const VTable = extern struct {
         base: IDMLDeviceChild.VTable,
-        RecordDispatch: *const fn(
+        RecordDispatch: *const fn (
             self: *const IDMLCommandRecorder,
             commandList: ?*ID3D12CommandList,
             dispatchable: ?*IDMLDispatchable,
@@ -2159,7 +2159,7 @@ pub const IID_IDMLDebugDevice = &IID_IDMLDebugDevice_Value;
 pub const IDMLDebugDevice = extern union {
     pub const VTable = extern struct {
         base: IUnknown.VTable,
-        SetMuteDebugOutput: *const fn(
+        SetMuteDebugOutput: *const fn (
             self: *const IDMLDebugDevice,
             mute: BOOL,
         ) callconv(@import("std").os.windows.WINAPI) void,
@@ -2244,23 +2244,22 @@ pub const IID_IDMLDevice1 = &IID_IDMLDevice1_Value;
 pub const IDMLDevice1 = extern union {
     pub const VTable = extern struct {
         base: IDMLDevice.VTable,
-        CompileGraph: *const fn(
+        CompileGraph: *const fn (
             self: *const IDMLDevice1,
             desc: ?*const DML_GRAPH_DESC,
             flags: DML_EXECUTION_FLAGS,
             riid: ?*const Guid,
-            ppv: ?*?*anyopaque,
+            ppv: ?**anyopaque,
         ) callconv(@import("std").os.windows.WINAPI) HRESULT,
     };
     vtable: *const VTable,
     IDMLDevice: IDMLDevice,
     IDMLObject: IDMLObject,
     IUnknown: IUnknown,
-    pub fn CompileGraph(self: *const IDMLDevice1, desc: ?*const DML_GRAPH_DESC, flags: DML_EXECUTION_FLAGS, riid: ?*const Guid, ppv: ?*?*anyopaque) callconv(.Inline) HRESULT {
+    pub fn CompileGraph(self: *const IDMLDevice1, desc: ?*const DML_GRAPH_DESC, flags: DML_EXECUTION_FLAGS, riid: ?*const Guid, ppv: ?**anyopaque) callconv(.Inline) HRESULT {
         return self.vtable.CompileGraph(self, desc, flags, riid, ppv);
     }
 };
-
 
 //--------------------------------------------------------------------------------
 // Section: Functions (2)
@@ -2270,7 +2269,7 @@ pub extern "directml" fn DMLCreateDevice(
     d3d12Device: ?*ID3D12Device,
     flags: DML_CREATE_DEVICE_FLAGS,
     riid: ?*const Guid,
-    ppv: ?*?*anyopaque,
+    ppv: ?**anyopaque,
 ) callconv(@import("std").os.windows.WINAPI) HRESULT;
 
 pub extern "directml" fn DMLCreateDevice1(
@@ -2278,23 +2277,12 @@ pub extern "directml" fn DMLCreateDevice1(
     flags: DML_CREATE_DEVICE_FLAGS,
     minimumFeatureLevel: DML_FEATURE_LEVEL,
     riid: ?*const Guid,
-    ppv: ?*?*anyopaque,
+    ppv: ?**anyopaque,
 ) callconv(@import("std").os.windows.WINAPI) HRESULT;
-
 
 //--------------------------------------------------------------------------------
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
-const thismodule = @This();
-pub usingnamespace switch (@import("../../zig.zig").unicode_mode) {
-    .ansi => struct {
-    },
-    .wide => struct {
-    },
-    .unspecified => if (@import("builtin").is_test) struct {
-    } else struct {
-    },
-};
 //--------------------------------------------------------------------------------
 // Section: Imports (11)
 //--------------------------------------------------------------------------------
@@ -2311,9 +2299,7 @@ const PSTR = @import("../../foundation.zig").PSTR;
 const PWSTR = @import("../../foundation.zig").PWSTR;
 
 test {
-    @setEvalBranchQuota(
-        comptime @import("std").meta.declarations(@This()).len * 3
-    );
+    @setEvalBranchQuota(comptime @import("std").meta.declarations(@This()).len * 3);
 
     // reference all the pub declarations
     if (!@import("builtin").is_test) return;
