@@ -12932,13 +12932,20 @@ _,
     // getting the tag name. This is because the enum has over 3,000 values which
     // results in needing over 100Kb to store them as strings.
     // Instead, we use FormatMessage to access a string for each error.
-    pub fn format(
+    pub const format = if (@import("builtin").zig_version.order(.{ .major = 0, .minor = 15, .patch = 0 }) == .lt)
+        formatLegacy
+    else
+        formatNew;
+    fn formatLegacy(
         self: WIN32_ERROR,
         comptime fmt: []const u8,
         options: @import("std").fmt.FormatOptions,
         writer: anytype,
     ) !void {
         try @import("zig.zig").fmtError(@intFromEnum(self)).format(fmt, options, writer);
+    }
+    fn formatNew(self: WIN32_ERROR, writer: *@import("std").Io.Writer) @import("std").Io.Writer.Error!void {
+        try @import("zig.zig").fmtError(@intFromEnum(self)).format(writer);
     }
 };
 pub const NO_ERROR = WIN32_ERROR.NO_ERROR;
@@ -16402,13 +16409,13 @@ pub const DECIMAL = extern struct {
 };
 
 pub const FARPROC = *const fn(
-) callconv(@import("std").os.windows.WINAPI) isize;
+) callconv(.winapi) isize;
 
 pub const NEARPROC = *const fn(
-) callconv(@import("std").os.windows.WINAPI) isize;
+) callconv(.winapi) isize;
 
 pub const PROC = *const fn(
-) callconv(@import("std").os.windows.WINAPI) isize;
+) callconv(.winapi) isize;
 
 pub const HSPRITE__ = extern struct {
     unused: i32,
@@ -16511,7 +16518,7 @@ pub const LUID = extern struct {
 
 pub const PAPCFUNC = *const fn(
     Parameter: usize,
-) callconv(@import("std").os.windows.WINAPI) void;
+) callconv(.winapi) void;
 
 
 //--------------------------------------------------------------------------------
@@ -16519,55 +16526,55 @@ pub const PAPCFUNC = *const fn(
 //--------------------------------------------------------------------------------
 pub extern "oleaut32" fn SysAllocString(
     psz: ?[*:0]const u16,
-) callconv(@import("std").os.windows.WINAPI) ?BSTR;
+) callconv(.winapi) ?BSTR;
 
 pub extern "oleaut32" fn SysReAllocString(
     pbstr: ?*?BSTR,
     psz: ?[*:0]const u16,
-) callconv(@import("std").os.windows.WINAPI) i32;
+) callconv(.winapi) i32;
 
 pub extern "oleaut32" fn SysAllocStringLen(
     strIn: ?[*:0]const u16,
     ui: u32,
-) callconv(@import("std").os.windows.WINAPI) ?BSTR;
+) callconv(.winapi) ?BSTR;
 
 pub extern "oleaut32" fn SysReAllocStringLen(
     pbstr: ?*?BSTR,
     psz: ?[*:0]const u16,
     len: u32,
-) callconv(@import("std").os.windows.WINAPI) i32;
+) callconv(.winapi) i32;
 
 // TODO: this type is limited to platform 'windows5.1.2600'
 pub extern "oleaut32" fn SysAddRefString(
     bstrString: ?BSTR,
-) callconv(@import("std").os.windows.WINAPI) HRESULT;
+) callconv(.winapi) HRESULT;
 
 // TODO: this type is limited to platform 'windows5.1.2600'
 pub extern "oleaut32" fn SysReleaseString(
     bstrString: ?BSTR,
-) callconv(@import("std").os.windows.WINAPI) void;
+) callconv(.winapi) void;
 
 pub extern "oleaut32" fn SysFreeString(
     bstrString: ?BSTR,
-) callconv(@import("std").os.windows.WINAPI) void;
+) callconv(.winapi) void;
 
 pub extern "oleaut32" fn SysStringLen(
     pbstr: ?BSTR,
-) callconv(@import("std").os.windows.WINAPI) u32;
+) callconv(.winapi) u32;
 
 pub extern "oleaut32" fn SysStringByteLen(
     bstr: ?BSTR,
-) callconv(@import("std").os.windows.WINAPI) u32;
+) callconv(.winapi) u32;
 
 pub extern "oleaut32" fn SysAllocStringByteLen(
     psz: ?[*:0]const u8,
     len: u32,
-) callconv(@import("std").os.windows.WINAPI) ?BSTR;
+) callconv(.winapi) ?BSTR;
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "kernel32" fn CloseHandle(
     hObject: ?HANDLE,
-) callconv(@import("std").os.windows.WINAPI) BOOL;
+) callconv(.winapi) BOOL;
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "kernel32" fn DuplicateHandle(
@@ -16578,46 +16585,46 @@ pub extern "kernel32" fn DuplicateHandle(
     dwDesiredAccess: u32,
     bInheritHandle: BOOL,
     dwOptions: DUPLICATE_HANDLE_OPTIONS,
-) callconv(@import("std").os.windows.WINAPI) BOOL;
+) callconv(.winapi) BOOL;
 
 // TODO: this type is limited to platform 'windows10.0.10240'
 pub extern "api-ms-win-core-handle-l1-1-0" fn CompareObjectHandles(
     hFirstObjectHandle: ?HANDLE,
     hSecondObjectHandle: ?HANDLE,
-) callconv(@import("std").os.windows.WINAPI) BOOL;
+) callconv(.winapi) BOOL;
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "kernel32" fn GetHandleInformation(
     hObject: ?HANDLE,
     lpdwFlags: ?*u32,
-) callconv(@import("std").os.windows.WINAPI) BOOL;
+) callconv(.winapi) BOOL;
 
 // TODO: this type is limited to platform 'windows5.0'
 pub extern "kernel32" fn SetHandleInformation(
     hObject: ?HANDLE,
     dwMask: u32,
     dwFlags: HANDLE_FLAGS,
-) callconv(@import("std").os.windows.WINAPI) BOOL;
+) callconv(.winapi) BOOL;
 
 // TODO: this type is limited to platform 'windows5.1.2600'
 pub extern "kernel32" fn GetLastError(
-) callconv(@import("std").os.windows.WINAPI) WIN32_ERROR;
+) callconv(.winapi) WIN32_ERROR;
 
 // TODO: this type is limited to platform 'windows5.1.2600'
 pub extern "kernel32" fn SetLastError(
     dwErrCode: WIN32_ERROR,
-) callconv(@import("std").os.windows.WINAPI) void;
+) callconv(.winapi) void;
 
 // TODO: this type is limited to platform 'windows5.1.2600'
 pub extern "user32" fn SetLastErrorEx(
     dwErrCode: WIN32_ERROR,
     dwType: u32,
-) callconv(@import("std").os.windows.WINAPI) void;
+) callconv(.winapi) void;
 
 // TODO: this type is limited to platform 'windows5.1.2600'
 pub extern "ntdll" fn RtlNtStatusToDosError(
     Status: NTSTATUS,
-) callconv(@import("std").os.windows.WINAPI) u32;
+) callconv(.winapi) u32;
 
 
 //--------------------------------------------------------------------------------
