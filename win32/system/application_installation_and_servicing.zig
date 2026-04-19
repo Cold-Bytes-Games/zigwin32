@@ -619,6 +619,11 @@ pub const DEFAULT_DISK_ID = @as(u32, 2);
 //--------------------------------------------------------------------------------
 // Section: Types (179)
 //--------------------------------------------------------------------------------
+pub const ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION = extern struct {
+    ElementCount: u32,
+    Elements: ?*COMPATIBILITY_CONTEXT_ELEMENT,
+};
+
 pub const MSIASSEMBLYINFO = enum(u32) {
     NETASSEMBLY = 0,
     WIN32ASSEMBLY = 1,
@@ -5430,11 +5435,6 @@ pub const COMPATIBILITY_CONTEXT_ELEMENT = extern struct {
     MaxVersionTested: u64,
 };
 
-pub const ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION = extern struct {
-    ElementCount: u32,
-    Elements: [1]COMPATIBILITY_CONTEXT_ELEMENT,
-};
-
 pub const ACTIVATION_CONTEXT_DETAILED_INFORMATION = extern struct {
     dwFlags: u32,
     ulFormatVersion: u32,
@@ -6141,11 +6141,11 @@ pub extern "msi" fn MsiGetComponentPathW(
 ) callconv(.winapi) INSTALLSTATE;
 
 // TODO: this type is limited to platform 'windows8.0'
-// This function from dll 'msi' is being skipped because it has some sort of issue
+// This function from dll 'msi.dll' is being skipped because it has some sort of issue
 pub fn MsiGetComponentPathExA() void { @panic("this function is not working"); }
 
 // TODO: this type is limited to platform 'windows8.0'
-// This function from dll 'msi' is being skipped because it has some sort of issue
+// This function from dll 'msi.dll' is being skipped because it has some sort of issue
 pub fn MsiGetComponentPathExW() void { @panic("this function is not working"); }
 
 // TODO: this type is limited to platform 'windows8.0'

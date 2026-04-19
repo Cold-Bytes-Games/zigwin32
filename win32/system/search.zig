@@ -11905,7 +11905,7 @@ pub const IRowsetChangeExtInfo = extern union {
 
 pub const KAGREQDIAG = extern struct {
     ulDiagFlags: u32,
-    vt: u16,
+    vt: VARENUM,
     sDiagField: i16,
 };
 
@@ -12939,10 +12939,20 @@ pub const SSVARIANT = extern struct {
     dwReserved1: u32,
     dwReserved2: u32,
     Anonymous: extern union {
+        pub const _BLOBType = extern struct {
+            dbobj: DBOBJECT,
+            pUnk: ?*IUnknown,
+        };
         pub const _UnknownType = extern struct {
             dwActualLength: u32,
             rgMetadata: [16]u8,
             pUnknownData: ?*u8,
+        };
+        pub const _BinaryVal = extern struct {
+            sActualLength: i16,
+            sMaxLength: i16,
+            prgbBinaryVal: ?*u8,
+            dwReserved: u32,
         };
         pub const _CharVal = extern struct {
             sActualLength: i16,
@@ -12952,10 +12962,6 @@ pub const SSVARIANT = extern struct {
             dwReserved: u32,
             pwchReserved: ?PWSTR,
         };
-        pub const _BLOBType = extern struct {
-            dbobj: DBOBJECT,
-            pUnk: ?*IUnknown,
-        };
         pub const _NCharVal = extern struct {
             sActualLength: i16,
             sMaxLength: i16,
@@ -12963,12 +12969,6 @@ pub const SSVARIANT = extern struct {
             rgbReserved: [5]u8,
             dwReserved: u32,
             pwchReserved: ?PWSTR,
-        };
-        pub const _BinaryVal = extern struct {
-            sActualLength: i16,
-            sMaxLength: i16,
-            prgbBinaryVal: ?*u8,
-            dwReserved: u32,
         };
         bTinyIntVal: u8,
         sShortIntVal: i16,
@@ -13371,14 +13371,14 @@ pub const DBPROPINFO = switch(@import("../zig.zig").arch) {
         pwszDescription: ?PWSTR,
         dwPropertyID: u32,
         dwFlags: u32,
-        vtType: u16,
+        vtType: VARENUM,
         vValues: VARIANT,
     },
     .X86 => extern struct {
         pwszDescription: ?PWSTR align(2),
         dwPropertyID: u32 align(2),
         dwFlags: u32 align(2),
-        vtType: u16 align(2),
+        vtType: VARENUM align(2),
         vValues: VARIANT align(2),
     },
 };
@@ -15747,7 +15747,7 @@ pub const SQLLinkedCatalogs = switch (@import("../zig.zig").unicode_mode) {
     ),
 };
 //--------------------------------------------------------------------------------
-// Section: Imports (45)
+// Section: Imports (46)
 //--------------------------------------------------------------------------------
 const Guid = @import("../zig.zig").Guid;
 const BLOB = @import("../system/com.zig").BLOB;
@@ -15792,6 +15792,7 @@ const PSTR = @import("../foundation.zig").PSTR;
 const PWSTR = @import("../foundation.zig").PWSTR;
 const SYSTEMTIME = @import("../foundation.zig").SYSTEMTIME;
 const TRUSTEE_W = @import("../security/authorization.zig").TRUSTEE_W;
+const VARENUM = @import("../system/com.zig").VARENUM;
 const VARIANT = @import("../system/com.zig").VARIANT;
 const WORDREP_BREAK_TYPE = @import("../storage/index_server.zig").WORDREP_BREAK_TYPE;
 

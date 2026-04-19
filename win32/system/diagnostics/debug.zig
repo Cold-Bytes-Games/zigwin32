@@ -27418,7 +27418,7 @@ pub const IModelObject = extern union {
         ) callconv(.winapi) HRESULT,
         GetIntrinsicValueAs: *const fn(
             self: *const IModelObject,
-            vt: u16,
+            vt: VARENUM,
             intrinsicData: ?*VARIANT,
         ) callconv(.winapi) HRESULT,
         GetKeyValue: *const fn(
@@ -27579,7 +27579,7 @@ pub const IModelObject = extern union {
     pub fn GetIntrinsicValue(self: *const IModelObject, intrinsicData: ?*VARIANT) callconv(.@"inline") HRESULT {
         return self.vtable.GetIntrinsicValue(self, intrinsicData);
     }
-    pub fn GetIntrinsicValueAs(self: *const IModelObject, vt: u16, intrinsicData: ?*VARIANT) callconv(.@"inline") HRESULT {
+    pub fn GetIntrinsicValueAs(self: *const IModelObject, vt: VARENUM, intrinsicData: ?*VARIANT) callconv(.@"inline") HRESULT {
         return self.vtable.GetIntrinsicValueAs(self, vt, intrinsicData);
     }
     pub fn GetKeyValue(self: *const IModelObject, key: ?[*:0]const u16, object: ?*?*IModelObject, metadata: ?**IKeyStore) callconv(.@"inline") HRESULT {
@@ -29644,7 +29644,7 @@ pub const ScriptDebugEventInformation = extern struct {
     EventSpanEnd: ScriptDebugPosition,
     u: extern union {
         ExceptionInformation: extern struct {
-            IsUncaught: bool,
+            IsUncaught: u8,
         },
         BreakpointInformation: extern struct {
             BreakpointId: u64,
@@ -36523,7 +36523,7 @@ pub const IDebugFormatter = extern union {
         ) callconv(.winapi) HRESULT,
         GetStringForVarType: *const fn(
             self: *const IDebugFormatter,
-            vt: u16,
+            vt: VARENUM,
             ptdescArrayType: ?*TYPEDESC,
             pbstr: ?*?BSTR,
         ) callconv(.winapi) HRESULT,
@@ -36536,7 +36536,7 @@ pub const IDebugFormatter = extern union {
     pub fn GetVariantForString(self: *const IDebugFormatter, pwstrValue: ?[*:0]const u16, pvar: ?*VARIANT) callconv(.@"inline") HRESULT {
         return self.vtable.GetVariantForString(self, pwstrValue, pvar);
     }
-    pub fn GetStringForVarType(self: *const IDebugFormatter, vt: u16, ptdescArrayType: ?*TYPEDESC, pbstr: ?*?BSTR) callconv(.@"inline") HRESULT {
+    pub fn GetStringForVarType(self: *const IDebugFormatter, vt: VARENUM, ptdescArrayType: ?*TYPEDESC, pbstr: ?*?BSTR) callconv(.@"inline") HRESULT {
         return self.vtable.GetStringForVarType(self, vt, ptdescArrayType, pbstr);
     }
 };
@@ -42536,10 +42536,10 @@ pub extern "dbghelp" fn SymSetSearchPathW(
     SearchPathA: ?[*:0]const u16,
 ) callconv(.winapi) BOOL;
 
-// This function from dll 'dbghelp' is being skipped because it has some sort of issue
+// This function from dll 'dbghelp.dll' is being skipped because it has some sort of issue
 pub fn SymLoadModuleEx() void { @panic("this function is not working"); }
 
-// This function from dll 'dbghelp' is being skipped because it has some sort of issue
+// This function from dll 'dbghelp.dll' is being skipped because it has some sort of issue
 pub fn SymLoadModuleExW() void { @panic("this function is not working"); }
 
 pub extern "dbghelp" fn SymUnloadModule64(
@@ -43646,7 +43646,7 @@ pub const FormatMessage = switch (@import("../../zig.zig").unicode_mode) {
     ),
 };
 //--------------------------------------------------------------------------------
-// Section: Imports (39)
+// Section: Imports (40)
 //--------------------------------------------------------------------------------
 const Guid = @import("../../zig.zig").Guid;
 const BOOL = @import("../../foundation.zig").BOOL;
@@ -43681,6 +43681,7 @@ const PWSTR = @import("../../foundation.zig").PWSTR;
 const SYSTEMTIME = @import("../../foundation.zig").SYSTEMTIME;
 const TIME_ZONE_INFORMATION = @import("../../system/time.zig").TIME_ZONE_INFORMATION;
 const TYPEDESC = @import("../../system/com.zig").TYPEDESC;
+const VARENUM = @import("../../system/com.zig").VARENUM;
 const VARIANT = @import("../../system/com.zig").VARIANT;
 const VIRTUAL_ALLOCATION_TYPE = @import("../../system/memory.zig").VIRTUAL_ALLOCATION_TYPE;
 const VS_FIXEDFILEINFO = @import("../../storage/file_system.zig").VS_FIXEDFILEINFO;

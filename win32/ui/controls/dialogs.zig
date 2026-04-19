@@ -100,7 +100,7 @@ pub const NUM_BASIC_COLORS = @as(u32, 48);
 pub const NUM_CUSTOM_COLORS = @as(u32, 16);
 
 //--------------------------------------------------------------------------------
-// Section: Types (62)
+// Section: Types (63)
 //--------------------------------------------------------------------------------
 pub const COMMON_DLG_ERRORS = enum(u32) {
     CDERR_DIALOGFAILURE = 65535,
@@ -178,6 +178,50 @@ pub const FNERR_BUFFERTOOSMALL = COMMON_DLG_ERRORS.FNERR_BUFFERTOOSMALL;
 pub const FRERR_FINDREPLACECODES = COMMON_DLG_ERRORS.FRERR_FINDREPLACECODES;
 pub const FRERR_BUFFERLENGTHZERO = COMMON_DLG_ERRORS.FRERR_BUFFERLENGTHZERO;
 pub const CCERR_CHOOSECOLORCODES = COMMON_DLG_ERRORS.CCERR_CHOOSECOLORCODES;
+
+pub const CHOOSECOLOR_FLAGS = packed struct(u32) {
+    RGBINIT: u1 = 0,
+    FULLOPEN: u1 = 0,
+    PREVENTFULLOPEN: u1 = 0,
+    SHOWHELP: u1 = 0,
+    ENABLEHOOK: u1 = 0,
+    ENABLETEMPLATE: u1 = 0,
+    ENABLETEMPLATEHANDLE: u1 = 0,
+    SOLIDCOLOR: u1 = 0,
+    ANYCOLOR: u1 = 0,
+    _9: u1 = 0,
+    _10: u1 = 0,
+    _11: u1 = 0,
+    _12: u1 = 0,
+    _13: u1 = 0,
+    _14: u1 = 0,
+    _15: u1 = 0,
+    _16: u1 = 0,
+    _17: u1 = 0,
+    _18: u1 = 0,
+    _19: u1 = 0,
+    _20: u1 = 0,
+    _21: u1 = 0,
+    _22: u1 = 0,
+    _23: u1 = 0,
+    _24: u1 = 0,
+    _25: u1 = 0,
+    _26: u1 = 0,
+    _27: u1 = 0,
+    _28: u1 = 0,
+    _29: u1 = 0,
+    _30: u1 = 0,
+    _31: u1 = 0,
+};
+pub const CC_RGBINIT = CHOOSECOLOR_FLAGS{ .RGBINIT = 1 };
+pub const CC_FULLOPEN = CHOOSECOLOR_FLAGS{ .FULLOPEN = 1 };
+pub const CC_PREVENTFULLOPEN = CHOOSECOLOR_FLAGS{ .PREVENTFULLOPEN = 1 };
+pub const CC_SHOWHELP = CHOOSECOLOR_FLAGS{ .SHOWHELP = 1 };
+pub const CC_ENABLEHOOK = CHOOSECOLOR_FLAGS{ .ENABLEHOOK = 1 };
+pub const CC_ENABLETEMPLATE = CHOOSECOLOR_FLAGS{ .ENABLETEMPLATE = 1 };
+pub const CC_ENABLETEMPLATEHANDLE = CHOOSECOLOR_FLAGS{ .ENABLETEMPLATEHANDLE = 1 };
+pub const CC_SOLIDCOLOR = CHOOSECOLOR_FLAGS{ .SOLIDCOLOR = 1 };
+pub const CC_ANYCOLOR = CHOOSECOLOR_FLAGS{ .ANYCOLOR = 1 };
 
 pub const OPEN_FILENAME_FLAGS = packed struct(u32) {
     READONLY: u1 = 0,
@@ -963,9 +1007,9 @@ pub const CHOOSECOLORA = switch(@import("../../zig.zig").arch) {
         lStructSize: u32,
         hwndOwner: ?HWND,
         hInstance: ?HWND,
-        rgbResult: u32,
-        lpCustColors: ?*u32,
-        Flags: u32,
+        rgbResult: COLORREF,
+        lpCustColors: ?*COLORREF,
+        Flags: CHOOSECOLOR_FLAGS,
         lCustData: LPARAM,
         lpfnHook: ?LPCCHOOKPROC,
         lpTemplateName: ?[*:0]const u8,
@@ -974,9 +1018,9 @@ pub const CHOOSECOLORA = switch(@import("../../zig.zig").arch) {
         lStructSize: u32 align(1),
         hwndOwner: ?HWND align(1),
         hInstance: ?HWND align(1),
-        rgbResult: u32 align(1),
-        lpCustColors: ?*u32 align(1),
-        Flags: u32 align(1),
+        rgbResult: COLORREF align(1),
+        lpCustColors: ?*COLORREF align(1),
+        Flags: CHOOSECOLOR_FLAGS align(1),
         lCustData: LPARAM align(1),
         lpfnHook: ?LPCCHOOKPROC align(1),
         lpTemplateName: ?[*:0]const u8 align(1),
@@ -987,9 +1031,9 @@ pub const CHOOSECOLORW = switch(@import("../../zig.zig").arch) {
         lStructSize: u32,
         hwndOwner: ?HWND,
         hInstance: ?HWND,
-        rgbResult: u32,
-        lpCustColors: ?*u32,
-        Flags: u32,
+        rgbResult: COLORREF,
+        lpCustColors: ?*COLORREF,
+        Flags: CHOOSECOLOR_FLAGS,
         lCustData: LPARAM,
         lpfnHook: ?LPCCHOOKPROC,
         lpTemplateName: ?[*:0]const u16,
@@ -998,9 +1042,9 @@ pub const CHOOSECOLORW = switch(@import("../../zig.zig").arch) {
         lStructSize: u32 align(1),
         hwndOwner: ?HWND align(1),
         hInstance: ?HWND align(1),
-        rgbResult: u32 align(1),
-        lpCustColors: ?*u32 align(1),
-        Flags: u32 align(1),
+        rgbResult: COLORREF align(1),
+        lpCustColors: ?*COLORREF align(1),
+        Flags: CHOOSECOLOR_FLAGS align(1),
         lCustData: LPARAM align(1),
         lpfnHook: ?LPCCHOOKPROC align(1),
         lpTemplateName: ?[*:0]const u16 align(1),
@@ -1070,7 +1114,7 @@ pub const CHOOSEFONTA = switch(@import("../../zig.zig").arch) {
         lpLogFont: ?*LOGFONTA,
         iPointSize: i32,
         Flags: CHOOSEFONT_FLAGS,
-        rgbColors: u32,
+        rgbColors: COLORREF,
         lCustData: LPARAM,
         lpfnHook: ?LPCFHOOKPROC,
         lpTemplateName: ?[*:0]const u8,
@@ -1088,7 +1132,7 @@ pub const CHOOSEFONTA = switch(@import("../../zig.zig").arch) {
         lpLogFont: ?*LOGFONTA align(1),
         iPointSize: i32 align(1),
         Flags: CHOOSEFONT_FLAGS align(1),
-        rgbColors: u32 align(1),
+        rgbColors: COLORREF align(1),
         lCustData: LPARAM align(1),
         lpfnHook: ?LPCFHOOKPROC align(1),
         lpTemplateName: ?[*:0]const u8 align(1),
@@ -1108,7 +1152,7 @@ pub const CHOOSEFONTW = switch(@import("../../zig.zig").arch) {
         lpLogFont: ?*LOGFONTW,
         iPointSize: i32,
         Flags: CHOOSEFONT_FLAGS,
-        rgbColors: u32,
+        rgbColors: COLORREF,
         lCustData: LPARAM,
         lpfnHook: ?LPCFHOOKPROC,
         lpTemplateName: ?[*:0]const u16,
@@ -1126,7 +1170,7 @@ pub const CHOOSEFONTW = switch(@import("../../zig.zig").arch) {
         lpLogFont: ?*LOGFONTW align(1),
         iPointSize: i32 align(1),
         Flags: CHOOSEFONT_FLAGS align(1),
-        rgbColors: u32 align(1),
+        rgbColors: COLORREF align(1),
         lCustData: LPARAM align(1),
         lpfnHook: ?LPCFHOOKPROC align(1),
         lpTemplateName: ?[*:0]const u16 align(1),
@@ -1661,10 +1705,11 @@ pub const PageSetupDlg = switch (@import("../../zig.zig").unicode_mode) {
     ),
 };
 //--------------------------------------------------------------------------------
-// Section: Imports (19)
+// Section: Imports (20)
 //--------------------------------------------------------------------------------
 const Guid = @import("../../zig.zig").Guid;
 const BOOL = @import("../../foundation.zig").BOOL;
+const COLORREF = @import("../../foundation.zig").COLORREF;
 const DEVMODEA = @import("../../graphics/gdi.zig").DEVMODEA;
 const HDC = @import("../../graphics/gdi.zig").HDC;
 const HINSTANCE = @import("../../foundation.zig").HINSTANCE;

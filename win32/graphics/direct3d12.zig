@@ -3652,7 +3652,8 @@ pub const ID3D12Heap = extern union {
         base: ID3D12Pageable.VTable,
         GetDesc: *const fn (
             self: *const ID3D12Heap,
-        ) callconv(.winapi) D3D12_HEAP_DESC,
+            __return_ptr: *D3D12_HEAP_DESC,
+        ) callconv(.winapi) *D3D12_HEAP_DESC,
     };
     vtable: *const VTable,
     ID3D12Pageable: ID3D12Pageable,
@@ -3660,7 +3661,9 @@ pub const ID3D12Heap = extern union {
     ID3D12Object: ID3D12Object,
     IUnknown: IUnknown,
     pub inline fn GetDesc(self: *const ID3D12Heap) D3D12_HEAP_DESC {
-        return self.vtable.GetDesc(self);
+        var __result: D3D12_HEAP_DESC = undefined;
+        _ = self.vtable.GetDesc(self, &__result);
+        return __result;
     }
 };
 
@@ -3683,8 +3686,8 @@ pub const ID3D12Resource = extern union {
         ) callconv(.winapi) void,
         GetDesc: *const fn (
             self: *const ID3D12Resource,
-            desc: *D3D12_RESOURCE_DESC,
-        ) callconv(.winapi) void,
+            __return_ptr: *D3D12_RESOURCE_DESC,
+        ) callconv(.winapi) *D3D12_RESOURCE_DESC,
         GetGPUVirtualAddress: *const fn (
             self: *const ID3D12Resource,
         ) callconv(.winapi) u64,
@@ -3721,8 +3724,10 @@ pub const ID3D12Resource = extern union {
     pub inline fn Unmap(self: *const ID3D12Resource, Subresource: u32, pWrittenRange: ?*const D3D12_RANGE) void {
         return self.vtable.Unmap(self, Subresource, pWrittenRange);
     }
-    pub inline fn GetDesc(self: *const ID3D12Resource, desc: *D3D12_RESOURCE_DESC) void {
-        return self.vtable.GetDesc(self, desc);
+    pub inline fn GetDesc(self: *const ID3D12Resource) D3D12_RESOURCE_DESC {
+        var __result: D3D12_RESOURCE_DESC = undefined;
+        _ = self.vtable.GetDesc(self, &__result);
+        return __result;
     }
     pub inline fn GetGPUVirtualAddress(self: *const ID3D12Resource) u64 {
         return self.vtable.GetGPUVirtualAddress(self);
@@ -3843,15 +3848,16 @@ pub const ID3D12DescriptorHeap = extern union {
         base: ID3D12Pageable.VTable,
         GetDesc: *const fn (
             self: *const ID3D12DescriptorHeap,
-        ) callconv(.winapi) D3D12_DESCRIPTOR_HEAP_DESC,
+            __return_ptr: *D3D12_DESCRIPTOR_HEAP_DESC,
+        ) callconv(.winapi) *D3D12_DESCRIPTOR_HEAP_DESC,
         GetCPUDescriptorHandleForHeapStart: *const fn (
             self: *const ID3D12DescriptorHeap,
-            handle: *D3D12_CPU_DESCRIPTOR_HANDLE,
-        ) callconv(.winapi) void,
+            __return_ptr: *D3D12_CPU_DESCRIPTOR_HANDLE,
+        ) callconv(.winapi) *D3D12_CPU_DESCRIPTOR_HANDLE,
         GetGPUDescriptorHandleForHeapStart: *const fn (
             self: *const ID3D12DescriptorHeap,
-            handle: *D3D12_GPU_DESCRIPTOR_HANDLE,
-        ) callconv(.winapi) void,
+            __return_ptr: *D3D12_GPU_DESCRIPTOR_HANDLE,
+        ) callconv(.winapi) *D3D12_GPU_DESCRIPTOR_HANDLE,
     };
     vtable: *const VTable,
     ID3D12Pageable: ID3D12Pageable,
@@ -3859,13 +3865,19 @@ pub const ID3D12DescriptorHeap = extern union {
     ID3D12Object: ID3D12Object,
     IUnknown: IUnknown,
     pub inline fn GetDesc(self: *const ID3D12DescriptorHeap) D3D12_DESCRIPTOR_HEAP_DESC {
-        return self.vtable.GetDesc(self);
+        var __result: D3D12_DESCRIPTOR_HEAP_DESC = undefined;
+        _ = self.vtable.GetDesc(self, &__result);
+        return __result;
     }
-    pub inline fn GetCPUDescriptorHandleForHeapStart(self: *const ID3D12DescriptorHeap, handle: *D3D12_CPU_DESCRIPTOR_HANDLE) void {
-        return self.vtable.GetCPUDescriptorHandleForHeapStart(self, handle);
+    pub inline fn GetCPUDescriptorHandleForHeapStart(self: *const ID3D12DescriptorHeap) D3D12_CPU_DESCRIPTOR_HANDLE {
+        var __result: D3D12_CPU_DESCRIPTOR_HANDLE = undefined;
+        _ = self.vtable.GetCPUDescriptorHandleForHeapStart(self, &__result);
+        return __result;
     }
-    pub inline fn GetGPUDescriptorHandleForHeapStart(self: *const ID3D12DescriptorHeap, handle: *D3D12_GPU_DESCRIPTOR_HANDLE) void {
-        return self.vtable.GetGPUDescriptorHandleForHeapStart(self, handle);
+    pub inline fn GetGPUDescriptorHandleForHeapStart(self: *const ID3D12DescriptorHeap) D3D12_GPU_DESCRIPTOR_HANDLE {
+        var __result: D3D12_GPU_DESCRIPTOR_HANDLE = undefined;
+        _ = self.vtable.GetGPUDescriptorHandleForHeapStart(self, &__result);
+        return __result;
     }
 };
 
@@ -4574,7 +4586,8 @@ pub const ID3D12CommandQueue = extern union {
         ) callconv(.winapi) HRESULT,
         GetDesc: *const fn (
             self: *const ID3D12CommandQueue,
-        ) callconv(.winapi) D3D12_COMMAND_QUEUE_DESC,
+            __return_ptr: *D3D12_COMMAND_QUEUE_DESC,
+        ) callconv(.winapi) *D3D12_COMMAND_QUEUE_DESC,
     };
     vtable: *const VTable,
     ID3D12Pageable: ID3D12Pageable,
@@ -4612,7 +4625,9 @@ pub const ID3D12CommandQueue = extern union {
         return self.vtable.GetClockCalibration(self, pGpuTimestamp, pCpuTimestamp);
     }
     pub inline fn GetDesc(self: *const ID3D12CommandQueue) D3D12_COMMAND_QUEUE_DESC {
-        return self.vtable.GetDesc(self);
+        var __result: D3D12_COMMAND_QUEUE_DESC = undefined;
+        _ = self.vtable.GetDesc(self, &__result);
+        return __result;
     }
 };
 
@@ -4737,16 +4752,17 @@ pub const ID3D12Device = extern union {
         ) callconv(.winapi) void,
         GetResourceAllocationInfo: *const fn (
             self: *const ID3D12Device,
-            alloc_info: *D3D12_RESOURCE_ALLOCATION_INFO,
+            __return_ptr: *D3D12_RESOURCE_ALLOCATION_INFO,
             visibleMask: u32,
             numResourceDescs: u32,
             pResourceDescs: [*]const D3D12_RESOURCE_DESC,
-        ) callconv(.winapi) void,
+        ) callconv(.winapi) *D3D12_RESOURCE_ALLOCATION_INFO,
         GetCustomHeapProperties: *const fn (
             self: *const ID3D12Device,
+            __return_ptr: *D3D12_HEAP_PROPERTIES,
             nodeMask: u32,
             heapType: D3D12_HEAP_TYPE,
-        ) callconv(.winapi) D3D12_HEAP_PROPERTIES,
+        ) callconv(.winapi) *D3D12_HEAP_PROPERTIES,
         CreateCommittedResource: *const fn (
             self: *const ID3D12Device,
             pHeapProperties: ?*const D3D12_HEAP_PROPERTIES,
@@ -4861,7 +4877,8 @@ pub const ID3D12Device = extern union {
         ) callconv(.winapi) void,
         GetAdapterLuid: *const fn (
             self: *const ID3D12Device,
-        ) callconv(.winapi) LUID,
+            __return_ptr: *LUID,
+        ) callconv(.winapi) *LUID,
     };
     vtable: *const VTable,
     ID3D12Object: ID3D12Object,
@@ -4920,17 +4937,15 @@ pub const ID3D12Device = extern union {
     pub inline fn CopyDescriptorsSimple(self: *const ID3D12Device, NumDescriptors: u32, DestDescriptorRangeStart: D3D12_CPU_DESCRIPTOR_HANDLE, SrcDescriptorRangeStart: D3D12_CPU_DESCRIPTOR_HANDLE, DescriptorHeapsType: D3D12_DESCRIPTOR_HEAP_TYPE) void {
         return self.vtable.CopyDescriptorsSimple(self, NumDescriptors, DestDescriptorRangeStart, SrcDescriptorRangeStart, DescriptorHeapsType);
     }
-    pub inline fn GetResourceAllocationInfo(
-        self: *const ID3D12Device,
-        alloc_info: *D3D12_RESOURCE_ALLOCATION_INFO,
-        visibleMask: u32,
-        numResourceDescs: u32,
-        pResourceDescs: [*]const D3D12_RESOURCE_DESC,
-    ) void {
-        return self.vtable.GetResourceAllocationInfo(self, alloc_info, visibleMask, numResourceDescs, pResourceDescs);
+    pub inline fn GetResourceAllocationInfo(self: *const ID3D12Device, visibleMask: u32, numResourceDescs: u32, pResourceDescs: [*]const D3D12_RESOURCE_DESC) D3D12_RESOURCE_ALLOCATION_INFO {
+        var __result: D3D12_RESOURCE_ALLOCATION_INFO = undefined;
+        _ = self.vtable.GetResourceAllocationInfo(self, &__result, visibleMask, numResourceDescs, pResourceDescs);
+        return __result;
     }
     pub inline fn GetCustomHeapProperties(self: *const ID3D12Device, nodeMask: u32, heapType: D3D12_HEAP_TYPE) D3D12_HEAP_PROPERTIES {
-        return self.vtable.GetCustomHeapProperties(self, nodeMask, heapType);
+        var __result: D3D12_HEAP_PROPERTIES = undefined;
+        _ = self.vtable.GetCustomHeapProperties(self, &__result, nodeMask, heapType);
+        return __result;
     }
     pub inline fn CreateCommittedResource(self: *const ID3D12Device, pHeapProperties: ?*const D3D12_HEAP_PROPERTIES, HeapFlags: D3D12_HEAP_FLAGS, pDesc: ?*const D3D12_RESOURCE_DESC, InitialResourceState: D3D12_RESOURCE_STATES, pOptimizedClearValue: ?*const D3D12_CLEAR_VALUE, riidResource: ?*const Guid, ppvResource: ?**anyopaque) HRESULT {
         return self.vtable.CreateCommittedResource(self, pHeapProperties, HeapFlags, pDesc, InitialResourceState, pOptimizedClearValue, riidResource, ppvResource);
@@ -4981,7 +4996,9 @@ pub const ID3D12Device = extern union {
         return self.vtable.GetResourceTiling(self, pTiledResource, pNumTilesForEntireResource, pPackedMipDesc, pStandardTileShapeForNonPackedMips, pNumSubresourceTilings, FirstSubresourceTilingToGet, pSubresourceTilingsForNonPackedMips);
     }
     pub inline fn GetAdapterLuid(self: *const ID3D12Device) LUID {
-        return self.vtable.GetAdapterLuid(self);
+        var __result: LUID = undefined;
+        _ = self.vtable.GetAdapterLuid(self, &__result);
+        return __result;
     }
 };
 
@@ -5495,7 +5512,8 @@ pub const ID3D12ProtectedResourceSession = extern union {
         base: ID3D12ProtectedSession.VTable,
         GetDesc: *const fn (
             self: *const ID3D12ProtectedResourceSession,
-        ) callconv(.winapi) D3D12_PROTECTED_RESOURCE_SESSION_DESC,
+            __return_ptr: *D3D12_PROTECTED_RESOURCE_SESSION_DESC,
+        ) callconv(.winapi) *D3D12_PROTECTED_RESOURCE_SESSION_DESC,
     };
     vtable: *const VTable,
     ID3D12ProtectedSession: ID3D12ProtectedSession,
@@ -5503,7 +5521,9 @@ pub const ID3D12ProtectedResourceSession = extern union {
     ID3D12Object: ID3D12Object,
     IUnknown: IUnknown,
     pub inline fn GetDesc(self: *const ID3D12ProtectedResourceSession) D3D12_PROTECTED_RESOURCE_SESSION_DESC {
-        return self.vtable.GetDesc(self);
+        var __result: D3D12_PROTECTED_RESOURCE_SESSION_DESC = undefined;
+        _ = self.vtable.GetDesc(self, &__result);
+        return __result;
     }
 };
 
@@ -5556,11 +5576,12 @@ pub const ID3D12Device4 = extern union {
         ) callconv(.winapi) HRESULT,
         GetResourceAllocationInfo1: *const fn (
             self: *const ID3D12Device4,
+            __return_ptr: *D3D12_RESOURCE_ALLOCATION_INFO,
             visibleMask: u32,
             numResourceDescs: u32,
             pResourceDescs: [*]const D3D12_RESOURCE_DESC,
             pResourceAllocationInfo1: ?[*]D3D12_RESOURCE_ALLOCATION_INFO1,
-        ) callconv(.winapi) D3D12_RESOURCE_ALLOCATION_INFO,
+        ) callconv(.winapi) *D3D12_RESOURCE_ALLOCATION_INFO,
     };
     vtable: *const VTable,
     ID3D12Device3: ID3D12Device3,
@@ -5585,7 +5606,9 @@ pub const ID3D12Device4 = extern union {
         return self.vtable.CreateReservedResource1(self, pDesc, InitialState, pOptimizedClearValue, pProtectedSession, riid, ppvResource);
     }
     pub inline fn GetResourceAllocationInfo1(self: *const ID3D12Device4, visibleMask: u32, numResourceDescs: u32, pResourceDescs: [*]const D3D12_RESOURCE_DESC, pResourceAllocationInfo1: ?[*]D3D12_RESOURCE_ALLOCATION_INFO1) D3D12_RESOURCE_ALLOCATION_INFO {
-        return self.vtable.GetResourceAllocationInfo1(self, visibleMask, numResourceDescs, pResourceDescs, pResourceAllocationInfo1);
+        var __result: D3D12_RESOURCE_ALLOCATION_INFO = undefined;
+        _ = self.vtable.GetResourceAllocationInfo1(self, &__result, visibleMask, numResourceDescs, pResourceDescs, pResourceAllocationInfo1);
+        return __result;
     }
 };
 
@@ -5622,7 +5645,8 @@ pub const ID3D12SwapChainAssistant = extern union {
         base: IUnknown.VTable,
         GetLUID: *const fn (
             self: *const ID3D12SwapChainAssistant,
-        ) callconv(.winapi) LUID,
+            __return_ptr: *LUID,
+        ) callconv(.winapi) *LUID,
         GetSwapChainObject: *const fn (
             self: *const ID3D12SwapChainAssistant,
             riid: ?*const Guid,
@@ -5642,7 +5666,9 @@ pub const ID3D12SwapChainAssistant = extern union {
     vtable: *const VTable,
     IUnknown: IUnknown,
     pub inline fn GetLUID(self: *const ID3D12SwapChainAssistant) LUID {
-        return self.vtable.GetLUID(self);
+        var __result: LUID = undefined;
+        _ = self.vtable.GetLUID(self, &__result);
+        return __result;
     }
     pub inline fn GetSwapChainObject(self: *const ID3D12SwapChainAssistant, riid: ?*const Guid, ppv: **anyopaque) HRESULT {
         return self.vtable.GetSwapChainObject(self, riid, ppv);
@@ -7106,7 +7132,8 @@ pub const ID3D12ProtectedResourceSession1 = extern union {
         base: ID3D12ProtectedResourceSession.VTable,
         GetDesc1: *const fn (
             self: *const ID3D12ProtectedResourceSession1,
-        ) callconv(.winapi) D3D12_PROTECTED_RESOURCE_SESSION_DESC1,
+            __return_ptr: *D3D12_PROTECTED_RESOURCE_SESSION_DESC1,
+        ) callconv(.winapi) *D3D12_PROTECTED_RESOURCE_SESSION_DESC1,
     };
     vtable: *const VTable,
     ID3D12ProtectedResourceSession: ID3D12ProtectedResourceSession,
@@ -7115,7 +7142,9 @@ pub const ID3D12ProtectedResourceSession1 = extern union {
     ID3D12Object: ID3D12Object,
     IUnknown: IUnknown,
     pub inline fn GetDesc1(self: *const ID3D12ProtectedResourceSession1) D3D12_PROTECTED_RESOURCE_SESSION_DESC1 {
-        return self.vtable.GetDesc1(self);
+        var __result: D3D12_PROTECTED_RESOURCE_SESSION_DESC1 = undefined;
+        _ = self.vtable.GetDesc1(self, &__result);
+        return __result;
     }
 };
 
@@ -7165,11 +7194,12 @@ pub const ID3D12Device8 = extern union {
         base: ID3D12Device7.VTable,
         GetResourceAllocationInfo2: *const fn (
             self: *const ID3D12Device8,
+            __return_ptr: *D3D12_RESOURCE_ALLOCATION_INFO,
             visibleMask: u32,
             numResourceDescs: u32,
             pResourceDescs: [*]const D3D12_RESOURCE_DESC1,
             pResourceAllocationInfo1: ?[*]D3D12_RESOURCE_ALLOCATION_INFO1,
-        ) callconv(.winapi) D3D12_RESOURCE_ALLOCATION_INFO,
+        ) callconv(.winapi) *D3D12_RESOURCE_ALLOCATION_INFO,
         CreateCommittedResource2: *const fn (
             self: *const ID3D12Device8,
             pHeapProperties: ?*const D3D12_HEAP_PROPERTIES,
@@ -7221,7 +7251,9 @@ pub const ID3D12Device8 = extern union {
     ID3D12Object: ID3D12Object,
     IUnknown: IUnknown,
     pub inline fn GetResourceAllocationInfo2(self: *const ID3D12Device8, visibleMask: u32, numResourceDescs: u32, pResourceDescs: [*]const D3D12_RESOURCE_DESC1, pResourceAllocationInfo1: ?[*]D3D12_RESOURCE_ALLOCATION_INFO1) D3D12_RESOURCE_ALLOCATION_INFO {
-        return self.vtable.GetResourceAllocationInfo2(self, visibleMask, numResourceDescs, pResourceDescs, pResourceAllocationInfo1);
+        var __result: D3D12_RESOURCE_ALLOCATION_INFO = undefined;
+        _ = self.vtable.GetResourceAllocationInfo2(self, &__result, visibleMask, numResourceDescs, pResourceDescs, pResourceAllocationInfo1);
+        return __result;
     }
     pub inline fn CreateCommittedResource2(self: *const ID3D12Device8, pHeapProperties: ?*const D3D12_HEAP_PROPERTIES, HeapFlags: D3D12_HEAP_FLAGS, pDesc: ?*const D3D12_RESOURCE_DESC1, InitialResourceState: D3D12_RESOURCE_STATES, pOptimizedClearValue: ?*const D3D12_CLEAR_VALUE, pProtectedSession: ?*ID3D12ProtectedResourceSession, riidResource: ?*const Guid, ppvResource: ?**anyopaque) HRESULT {
         return self.vtable.CreateCommittedResource2(self, pHeapProperties, HeapFlags, pDesc, InitialResourceState, pOptimizedClearValue, pProtectedSession, riidResource, ppvResource);
@@ -7268,7 +7300,8 @@ pub const ID3D12Resource2 = extern union {
         base: ID3D12Resource1.VTable,
         GetDesc1: *const fn (
             self: *const ID3D12Resource2,
-        ) callconv(.winapi) D3D12_RESOURCE_DESC1,
+            __return_ptr: *D3D12_RESOURCE_DESC1,
+        ) callconv(.winapi) *D3D12_RESOURCE_DESC1,
     };
     vtable: *const VTable,
     ID3D12Resource1: ID3D12Resource1,
@@ -7278,7 +7311,9 @@ pub const ID3D12Resource2 = extern union {
     ID3D12Object: ID3D12Object,
     IUnknown: IUnknown,
     pub inline fn GetDesc1(self: *const ID3D12Resource2) D3D12_RESOURCE_DESC1 {
-        return self.vtable.GetDesc1(self);
+        var __result: D3D12_RESOURCE_DESC1 = undefined;
+        _ = self.vtable.GetDesc1(self, &__result);
+        return __result;
     }
 };
 
@@ -7651,7 +7686,8 @@ pub const ID3D12ShaderCacheSession = extern union {
         ) callconv(.winapi) void,
         GetDesc: *const fn (
             self: *const ID3D12ShaderCacheSession,
-        ) callconv(.winapi) D3D12_SHADER_CACHE_SESSION_DESC,
+            __return_ptr: *D3D12_SHADER_CACHE_SESSION_DESC,
+        ) callconv(.winapi) *D3D12_SHADER_CACHE_SESSION_DESC,
     };
     vtable: *const VTable,
     ID3D12DeviceChild: ID3D12DeviceChild,
@@ -7667,7 +7703,9 @@ pub const ID3D12ShaderCacheSession = extern union {
         return self.vtable.SetDeleteOnDestroy(self);
     }
     pub inline fn GetDesc(self: *const ID3D12ShaderCacheSession) D3D12_SHADER_CACHE_SESSION_DESC {
-        return self.vtable.GetDesc(self);
+        var __result: D3D12_SHADER_CACHE_SESSION_DESC = undefined;
+        _ = self.vtable.GetDesc(self, &__result);
+        return __result;
     }
 };
 

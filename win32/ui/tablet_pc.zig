@@ -500,7 +500,7 @@ pub const INKMETRIC = extern struct {
     iFontAscent: i32,
     iFontDescent: i32,
     dwFlags: u32,
-    color: u32,
+    color: COLORREF,
 };
 
 pub const InkSelectionConstants = enum(i32) {
@@ -2990,8 +2990,8 @@ pub const IInkStrokeDisp = extern union {
     pub fn putref_DrawingAttributes(self: *const IInkStrokeDisp, DrawAttrs: ?*IInkDrawingAttributes) callconv(.@"inline") HRESULT {
         return self.vtable.putref_DrawingAttributes(self, DrawAttrs);
     }
-    pub fn get_Ink(self: *const IInkStrokeDisp, Ink: ?*?*IInkDisp) callconv(.@"inline") HRESULT {
-        return self.vtable.get_Ink(self, Ink);
+    pub fn get_Ink(self: *const IInkStrokeDisp, _param_Ink: ?*?*IInkDisp) callconv(.@"inline") HRESULT {
+        return self.vtable.get_Ink(self, _param_Ink);
     }
     pub fn get_ExtendedProperties(self: *const IInkStrokeDisp, Properties: ?*?*IInkExtendedProperties) callconv(.@"inline") HRESULT {
         return self.vtable.get_ExtendedProperties(self, Properties);
@@ -3185,8 +3185,8 @@ pub const IInkStrokes = extern union {
     pub fn get__NewEnum(self: *const IInkStrokes, _NewEnum: ?*?*IUnknown) callconv(.@"inline") HRESULT {
         return self.vtable.get__NewEnum(self, _NewEnum);
     }
-    pub fn get_Ink(self: *const IInkStrokes, Ink: ?*?*IInkDisp) callconv(.@"inline") HRESULT {
-        return self.vtable.get_Ink(self, Ink);
+    pub fn get_Ink(self: *const IInkStrokes, _param_Ink: ?*?*IInkDisp) callconv(.@"inline") HRESULT {
+        return self.vtable.get_Ink(self, _param_Ink);
     }
     pub fn get_RecognitionResult(self: *const IInkStrokes, RecognitionResult: ?*?*IInkRecognitionResult) callconv(.@"inline") HRESULT {
         return self.vtable.get_RecognitionResult(self, RecognitionResult);
@@ -3200,14 +3200,14 @@ pub const IInkStrokes = extern union {
     pub fn Add(self: *const IInkStrokes, InkStroke: ?*IInkStrokeDisp) callconv(.@"inline") HRESULT {
         return self.vtable.Add(self, InkStroke);
     }
-    pub fn AddStrokes(self: *const IInkStrokes, InkStrokes: ?*IInkStrokes) callconv(.@"inline") HRESULT {
-        return self.vtable.AddStrokes(self, InkStrokes);
+    pub fn AddStrokes(self: *const IInkStrokes, _param_InkStrokes: ?*IInkStrokes) callconv(.@"inline") HRESULT {
+        return self.vtable.AddStrokes(self, _param_InkStrokes);
     }
     pub fn Remove(self: *const IInkStrokes, InkStroke: ?*IInkStrokeDisp) callconv(.@"inline") HRESULT {
         return self.vtable.Remove(self, InkStroke);
     }
-    pub fn RemoveStrokes(self: *const IInkStrokes, InkStrokes: ?*IInkStrokes) callconv(.@"inline") HRESULT {
-        return self.vtable.RemoveStrokes(self, InkStrokes);
+    pub fn RemoveStrokes(self: *const IInkStrokes, _param_InkStrokes: ?*IInkStrokes) callconv(.@"inline") HRESULT {
+        return self.vtable.RemoveStrokes(self, _param_InkStrokes);
     }
     pub fn ModifyDrawingAttributes(self: *const IInkStrokes, DrawAttrs: ?*IInkDrawingAttributes) callconv(.@"inline") HRESULT {
         return self.vtable.ModifyDrawingAttributes(self, DrawAttrs);
@@ -3902,8 +3902,8 @@ pub const IInkCollector = extern union {
     pub fn putref_Renderer(self: *const IInkCollector, NewInkRenderer: ?*IInkRenderer) callconv(.@"inline") HRESULT {
         return self.vtable.putref_Renderer(self, NewInkRenderer);
     }
-    pub fn get_Ink(self: *const IInkCollector, Ink: ?*?*IInkDisp) callconv(.@"inline") HRESULT {
-        return self.vtable.get_Ink(self, Ink);
+    pub fn get_Ink(self: *const IInkCollector, _param_Ink: ?*?*IInkDisp) callconv(.@"inline") HRESULT {
+        return self.vtable.get_Ink(self, _param_Ink);
     }
     pub fn putref_Ink(self: *const IInkCollector, NewInk: ?*IInkDisp) callconv(.@"inline") HRESULT {
         return self.vtable.putref_Ink(self, NewInk);
@@ -4306,8 +4306,8 @@ pub const IInkOverlay = extern union {
     pub fn putref_Renderer(self: *const IInkOverlay, NewInkRenderer: ?*IInkRenderer) callconv(.@"inline") HRESULT {
         return self.vtable.putref_Renderer(self, NewInkRenderer);
     }
-    pub fn get_Ink(self: *const IInkOverlay, Ink: ?*?*IInkDisp) callconv(.@"inline") HRESULT {
-        return self.vtable.get_Ink(self, Ink);
+    pub fn get_Ink(self: *const IInkOverlay, _param_Ink: ?*?*IInkDisp) callconv(.@"inline") HRESULT {
+        return self.vtable.get_Ink(self, _param_Ink);
     }
     pub fn putref_Ink(self: *const IInkOverlay, NewInk: ?*IInkDisp) callconv(.@"inline") HRESULT {
         return self.vtable.putref_Ink(self, NewInk);
@@ -4768,8 +4768,8 @@ pub const IInkPicture = extern union {
     pub fn putref_Renderer(self: *const IInkPicture, NewInkRenderer: ?*IInkRenderer) callconv(.@"inline") HRESULT {
         return self.vtable.putref_Renderer(self, NewInkRenderer);
     }
-    pub fn get_Ink(self: *const IInkPicture, Ink: ?*?*IInkDisp) callconv(.@"inline") HRESULT {
-        return self.vtable.get_Ink(self, Ink);
+    pub fn get_Ink(self: *const IInkPicture, _param_Ink: ?*?*IInkDisp) callconv(.@"inline") HRESULT {
+        return self.vtable.get_Ink(self, _param_Ink);
     }
     pub fn putref_Ink(self: *const IInkPicture, NewInk: ?*IInkDisp) callconv(.@"inline") HRESULT {
         return self.vtable.putref_Ink(self, NewInk);
@@ -6535,11 +6535,11 @@ pub const ITextInputPanelEventSink = extern union {
     pub fn InPlaceVisibilityChanged(self: *const ITextInputPanelEventSink, oldVisible: BOOL, newVisible: BOOL) callconv(.@"inline") HRESULT {
         return self.vtable.InPlaceVisibilityChanged(self, oldVisible, newVisible);
     }
-    pub fn TextInserting(self: *const ITextInputPanelEventSink, Ink: ?*SAFEARRAY) callconv(.@"inline") HRESULT {
-        return self.vtable.TextInserting(self, Ink);
+    pub fn TextInserting(self: *const ITextInputPanelEventSink, _param_Ink: ?*SAFEARRAY) callconv(.@"inline") HRESULT {
+        return self.vtable.TextInserting(self, _param_Ink);
     }
-    pub fn TextInserted(self: *const ITextInputPanelEventSink, Ink: ?*SAFEARRAY) callconv(.@"inline") HRESULT {
-        return self.vtable.TextInserted(self, Ink);
+    pub fn TextInserted(self: *const ITextInputPanelEventSink, _param_Ink: ?*SAFEARRAY) callconv(.@"inline") HRESULT {
+        return self.vtable.TextInserted(self, _param_Ink);
     }
 };
 
@@ -7879,8 +7879,8 @@ pub const IMathInputControl = extern union {
     pub fn SetCaptionText(self: *const IMathInputControl, CaptionText: ?BSTR) callconv(.@"inline") HRESULT {
         return self.vtable.SetCaptionText(self, CaptionText);
     }
-    pub fn LoadInk(self: *const IMathInputControl, Ink: ?*IInkDisp) callconv(.@"inline") HRESULT {
-        return self.vtable.LoadInk(self, Ink);
+    pub fn LoadInk(self: *const IMathInputControl, _param_Ink: ?*IInkDisp) callconv(.@"inline") HRESULT {
+        return self.vtable.LoadInk(self, _param_Ink);
     }
     pub fn SetOwnerWindow(self: *const IMathInputControl, OwnerWindow: isize) callconv(.@"inline") HRESULT {
         return self.vtable.SetOwnerWindow(self, OwnerWindow);
@@ -9176,11 +9176,12 @@ pub extern "inkobjcore" fn LoadCachedAttributes(
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
-// Section: Imports (18)
+// Section: Imports (19)
 //--------------------------------------------------------------------------------
 const Guid = @import("../zig.zig").Guid;
 const BOOL = @import("../foundation.zig").BOOL;
 const BSTR = @import("../foundation.zig").BSTR;
+const COLORREF = @import("../foundation.zig").COLORREF;
 const HANDLE_PTR = @import("../foundation.zig").HANDLE_PTR;
 const HRESULT = @import("../foundation.zig").HRESULT;
 const HWND = @import("../foundation.zig").HWND;

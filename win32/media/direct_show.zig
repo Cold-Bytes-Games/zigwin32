@@ -2548,8 +2548,8 @@ pub const CK_RGB = COLORKEY_TYPE.RGB;
 pub const COLORKEY = extern struct {
     KeyType: u32,
     PaletteIndex: u32,
-    LowColorValue: u32,
-    HighColorValue: u32,
+    LowColorValue: COLORREF,
+    HighColorValue: COLORREF,
 };
 
 pub const ADVISE_TYPE = packed struct(u32) {
@@ -7237,7 +7237,7 @@ pub const IVMRSurfaceAllocatorNotify = extern union {
         ) callconv(.winapi) HRESULT,
         SetBorderColor: *const fn(
             self: *const IVMRSurfaceAllocatorNotify,
-            clrBorder: u32,
+            clrBorder: COLORREF,
         ) callconv(.winapi) HRESULT,
     };
     vtable: *const VTable,
@@ -7257,7 +7257,7 @@ pub const IVMRSurfaceAllocatorNotify = extern union {
     pub fn NotifyEvent(self: *const IVMRSurfaceAllocatorNotify, EventCode: i32, Param1: isize, Param2: isize) callconv(.@"inline") HRESULT {
         return self.vtable.NotifyEvent(self, EventCode, Param1, Param2);
     }
-    pub fn SetBorderColor(self: *const IVMRSurfaceAllocatorNotify, clrBorder: u32) callconv(.@"inline") HRESULT {
+    pub fn SetBorderColor(self: *const IVMRSurfaceAllocatorNotify, clrBorder: COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.SetBorderColor(self, clrBorder);
     }
 };
@@ -7328,19 +7328,19 @@ pub const IVMRWindowlessControl = extern union {
         ) callconv(.winapi) HRESULT,
         SetBorderColor: *const fn(
             self: *const IVMRWindowlessControl,
-            Clr: u32,
+            Clr: COLORREF,
         ) callconv(.winapi) HRESULT,
         GetBorderColor: *const fn(
             self: *const IVMRWindowlessControl,
-            lpClr: ?*u32,
+            lpClr: ?*COLORREF,
         ) callconv(.winapi) HRESULT,
         SetColorKey: *const fn(
             self: *const IVMRWindowlessControl,
-            Clr: u32,
+            Clr: COLORREF,
         ) callconv(.winapi) HRESULT,
         GetColorKey: *const fn(
             self: *const IVMRWindowlessControl,
-            lpClr: ?*u32,
+            lpClr: ?*COLORREF,
         ) callconv(.winapi) HRESULT,
     };
     vtable: *const VTable,
@@ -7378,16 +7378,16 @@ pub const IVMRWindowlessControl = extern union {
     pub fn GetCurrentImage(self: *const IVMRWindowlessControl, lpDib: ?*?*u8) callconv(.@"inline") HRESULT {
         return self.vtable.GetCurrentImage(self, lpDib);
     }
-    pub fn SetBorderColor(self: *const IVMRWindowlessControl, Clr: u32) callconv(.@"inline") HRESULT {
+    pub fn SetBorderColor(self: *const IVMRWindowlessControl, Clr: COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.SetBorderColor(self, Clr);
     }
-    pub fn GetBorderColor(self: *const IVMRWindowlessControl, lpClr: ?*u32) callconv(.@"inline") HRESULT {
+    pub fn GetBorderColor(self: *const IVMRWindowlessControl, lpClr: ?*COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.GetBorderColor(self, lpClr);
     }
-    pub fn SetColorKey(self: *const IVMRWindowlessControl, Clr: u32) callconv(.@"inline") HRESULT {
+    pub fn SetColorKey(self: *const IVMRWindowlessControl, Clr: COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.SetColorKey(self, Clr);
     }
-    pub fn GetColorKey(self: *const IVMRWindowlessControl, lpClr: ?*u32) callconv(.@"inline") HRESULT {
+    pub fn GetColorKey(self: *const IVMRWindowlessControl, lpClr: ?*COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.GetColorKey(self, lpClr);
     }
 };
@@ -7478,11 +7478,11 @@ pub const IVMRMixerControl = extern union {
         ) callconv(.winapi) HRESULT,
         SetBackgroundClr: *const fn(
             self: *const IVMRMixerControl,
-            ClrBkg: u32,
+            ClrBkg: COLORREF,
         ) callconv(.winapi) HRESULT,
         GetBackgroundClr: *const fn(
             self: *const IVMRMixerControl,
-            lpClrBkg: ?*u32,
+            lpClrBkg: ?*COLORREF,
         ) callconv(.winapi) HRESULT,
         SetMixingPrefs: *const fn(
             self: *const IVMRMixerControl,
@@ -7513,10 +7513,10 @@ pub const IVMRMixerControl = extern union {
     pub fn GetOutputRect(self: *const IVMRMixerControl, dwStreamID: u32, pRect: ?*NORMALIZEDRECT) callconv(.@"inline") HRESULT {
         return self.vtable.GetOutputRect(self, dwStreamID, pRect);
     }
-    pub fn SetBackgroundClr(self: *const IVMRMixerControl, ClrBkg: u32) callconv(.@"inline") HRESULT {
+    pub fn SetBackgroundClr(self: *const IVMRMixerControl, ClrBkg: COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.SetBackgroundClr(self, ClrBkg);
     }
-    pub fn GetBackgroundClr(self: *const IVMRMixerControl, lpClrBkg: ?*u32) callconv(.@"inline") HRESULT {
+    pub fn GetBackgroundClr(self: *const IVMRMixerControl, lpClrBkg: ?*COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.GetBackgroundClr(self, lpClrBkg);
     }
     pub fn SetMixingPrefs(self: *const IVMRMixerControl, dwMixerPrefs: u32) callconv(.@"inline") HRESULT {
@@ -7843,7 +7843,7 @@ pub const VMRALPHABITMAP = extern struct {
     rSrc: RECT,
     rDest: NORMALIZEDRECT,
     fAlpha: f32,
-    clrSrcKey: u32,
+    clrSrcKey: COLORREF,
 };
 
 // TODO: this type is limited to platform 'windows5.1.2600'
@@ -19477,11 +19477,11 @@ pub const IVMRWindowlessControl9 = extern union {
         ) callconv(.winapi) HRESULT,
         SetBorderColor: *const fn(
             self: *const IVMRWindowlessControl9,
-            Clr: u32,
+            Clr: COLORREF,
         ) callconv(.winapi) HRESULT,
         GetBorderColor: *const fn(
             self: *const IVMRWindowlessControl9,
-            lpClr: ?*u32,
+            lpClr: ?*COLORREF,
         ) callconv(.winapi) HRESULT,
     };
     vtable: *const VTable,
@@ -19519,10 +19519,10 @@ pub const IVMRWindowlessControl9 = extern union {
     pub fn GetCurrentImage(self: *const IVMRWindowlessControl9, lpDib: ?*?*u8) callconv(.@"inline") HRESULT {
         return self.vtable.GetCurrentImage(self, lpDib);
     }
-    pub fn SetBorderColor(self: *const IVMRWindowlessControl9, Clr: u32) callconv(.@"inline") HRESULT {
+    pub fn SetBorderColor(self: *const IVMRWindowlessControl9, Clr: COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.SetBorderColor(self, Clr);
     }
-    pub fn GetBorderColor(self: *const IVMRWindowlessControl9, lpClr: ?*u32) callconv(.@"inline") HRESULT {
+    pub fn GetBorderColor(self: *const IVMRWindowlessControl9, lpClr: ?*COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.GetBorderColor(self, lpClr);
     }
 };
@@ -19646,11 +19646,11 @@ pub const IVMRMixerControl9 = extern union {
         ) callconv(.winapi) HRESULT,
         SetBackgroundClr: *const fn(
             self: *const IVMRMixerControl9,
-            ClrBkg: u32,
+            ClrBkg: COLORREF,
         ) callconv(.winapi) HRESULT,
         GetBackgroundClr: *const fn(
             self: *const IVMRMixerControl9,
-            lpClrBkg: ?*u32,
+            lpClrBkg: ?*COLORREF,
         ) callconv(.winapi) HRESULT,
         SetMixingPrefs: *const fn(
             self: *const IVMRMixerControl9,
@@ -19696,10 +19696,10 @@ pub const IVMRMixerControl9 = extern union {
     pub fn GetOutputRect(self: *const IVMRMixerControl9, dwStreamID: u32, pRect: ?*VMR9NormalizedRect) callconv(.@"inline") HRESULT {
         return self.vtable.GetOutputRect(self, dwStreamID, pRect);
     }
-    pub fn SetBackgroundClr(self: *const IVMRMixerControl9, ClrBkg: u32) callconv(.@"inline") HRESULT {
+    pub fn SetBackgroundClr(self: *const IVMRMixerControl9, ClrBkg: COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.SetBackgroundClr(self, ClrBkg);
     }
-    pub fn GetBackgroundClr(self: *const IVMRMixerControl9, lpClrBkg: ?*u32) callconv(.@"inline") HRESULT {
+    pub fn GetBackgroundClr(self: *const IVMRMixerControl9, lpClrBkg: ?*COLORREF) callconv(.@"inline") HRESULT {
         return self.vtable.GetBackgroundClr(self, lpClrBkg);
     }
     pub fn SetMixingPrefs(self: *const IVMRMixerControl9, dwMixerPrefs: u32) callconv(.@"inline") HRESULT {
@@ -19726,7 +19726,7 @@ pub const VMR9AlphaBitmap = extern struct {
     rSrc: RECT,
     rDest: VMR9NormalizedRect,
     fAlpha: f32,
-    clrSrcKey: u32,
+    clrSrcKey: COLORREF,
     dwFilterMode: u32,
 };
 
@@ -22104,8 +22104,8 @@ pub const ITuningSpaces = extern union {
     pub fn get__NewEnum(self: *const ITuningSpaces, NewEnum: ?*?*IEnumVARIANT) callconv(.@"inline") HRESULT {
         return self.vtable.get__NewEnum(self, NewEnum);
     }
-    pub fn get_Item(self: *const ITuningSpaces, varIndex: VARIANT, TuningSpace: ?*?*ITuningSpace) callconv(.@"inline") HRESULT {
-        return self.vtable.get_Item(self, varIndex, TuningSpace);
+    pub fn get_Item(self: *const ITuningSpaces, varIndex: VARIANT, _param_TuningSpace: ?*?*ITuningSpace) callconv(.@"inline") HRESULT {
+        return self.vtable.get_Item(self, varIndex, _param_TuningSpace);
     }
     pub fn get_EnumTuningSpaces(self: *const ITuningSpaces, NewEnum: ?*?*IEnumTuningSpaces) callconv(.@"inline") HRESULT {
         return self.vtable.get_EnumTuningSpaces(self, NewEnum);
@@ -22192,11 +22192,11 @@ pub const ITuningSpaceContainer = extern union {
     pub fn get__NewEnum(self: *const ITuningSpaceContainer, NewEnum: ?*?*IEnumVARIANT) callconv(.@"inline") HRESULT {
         return self.vtable.get__NewEnum(self, NewEnum);
     }
-    pub fn get_Item(self: *const ITuningSpaceContainer, varIndex: VARIANT, TuningSpace: ?*?*ITuningSpace) callconv(.@"inline") HRESULT {
-        return self.vtable.get_Item(self, varIndex, TuningSpace);
+    pub fn get_Item(self: *const ITuningSpaceContainer, varIndex: VARIANT, _param_TuningSpace: ?*?*ITuningSpace) callconv(.@"inline") HRESULT {
+        return self.vtable.get_Item(self, varIndex, _param_TuningSpace);
     }
-    pub fn put_Item(self: *const ITuningSpaceContainer, varIndex: VARIANT, TuningSpace: ?*ITuningSpace) callconv(.@"inline") HRESULT {
-        return self.vtable.put_Item(self, varIndex, TuningSpace);
+    pub fn put_Item(self: *const ITuningSpaceContainer, varIndex: VARIANT, _param_TuningSpace: ?*ITuningSpace) callconv(.@"inline") HRESULT {
+        return self.vtable.put_Item(self, varIndex, _param_TuningSpace);
     }
     pub fn TuningSpacesForCLSID(self: *const ITuningSpaceContainer, SpaceCLSID: ?BSTR, NewColl: ?*?*ITuningSpaces) callconv(.@"inline") HRESULT {
         return self.vtable.TuningSpacesForCLSID(self, SpaceCLSID, NewColl);
@@ -22207,11 +22207,11 @@ pub const ITuningSpaceContainer = extern union {
     pub fn TuningSpacesForName(self: *const ITuningSpaceContainer, Name: ?BSTR, NewColl: ?*?*ITuningSpaces) callconv(.@"inline") HRESULT {
         return self.vtable.TuningSpacesForName(self, Name, NewColl);
     }
-    pub fn FindID(self: *const ITuningSpaceContainer, TuningSpace: ?*ITuningSpace, ID: ?*i32) callconv(.@"inline") HRESULT {
-        return self.vtable.FindID(self, TuningSpace, ID);
+    pub fn FindID(self: *const ITuningSpaceContainer, _param_TuningSpace: ?*ITuningSpace, ID: ?*i32) callconv(.@"inline") HRESULT {
+        return self.vtable.FindID(self, _param_TuningSpace, ID);
     }
-    pub fn Add(self: *const ITuningSpaceContainer, TuningSpace: ?*ITuningSpace, NewIndex: ?*VARIANT) callconv(.@"inline") HRESULT {
-        return self.vtable.Add(self, TuningSpace, NewIndex);
+    pub fn Add(self: *const ITuningSpaceContainer, _param_TuningSpace: ?*ITuningSpace, NewIndex: ?*VARIANT) callconv(.@"inline") HRESULT {
+        return self.vtable.Add(self, _param_TuningSpace, NewIndex);
     }
     pub fn get_EnumTuningSpaces(self: *const ITuningSpaceContainer, ppEnum: ?*?*IEnumTuningSpaces) callconv(.@"inline") HRESULT {
         return self.vtable.get_EnumTuningSpaces(self, ppEnum);
@@ -22355,8 +22355,8 @@ pub const ITuningSpace = extern union {
     pub fn put__NetworkType(self: *const ITuningSpace, NetworkTypeGuid: ?*const Guid) callconv(.@"inline") HRESULT {
         return self.vtable.put__NetworkType(self, NetworkTypeGuid);
     }
-    pub fn CreateTuneRequest(self: *const ITuningSpace, TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
-        return self.vtable.CreateTuneRequest(self, TuneRequest);
+    pub fn CreateTuneRequest(self: *const ITuningSpace, _param_TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
+        return self.vtable.CreateTuneRequest(self, _param_TuneRequest);
     }
     pub fn EnumCategoryGUIDs(self: *const ITuningSpace, ppEnum: ?*?*IEnumGUID) callconv(.@"inline") HRESULT {
         return self.vtable.EnumCategoryGUIDs(self, ppEnum);
@@ -22364,8 +22364,8 @@ pub const ITuningSpace = extern union {
     pub fn EnumDeviceMonikers(self: *const ITuningSpace, ppEnum: ?*?*IEnumMoniker) callconv(.@"inline") HRESULT {
         return self.vtable.EnumDeviceMonikers(self, ppEnum);
     }
-    pub fn get_DefaultPreferredComponentTypes(self: *const ITuningSpace, ComponentTypes: ?*?*IComponentTypes) callconv(.@"inline") HRESULT {
-        return self.vtable.get_DefaultPreferredComponentTypes(self, ComponentTypes);
+    pub fn get_DefaultPreferredComponentTypes(self: *const ITuningSpace, _param_ComponentTypes: ?*?*IComponentTypes) callconv(.@"inline") HRESULT {
+        return self.vtable.get_DefaultPreferredComponentTypes(self, _param_ComponentTypes);
     }
     pub fn put_DefaultPreferredComponentTypes(self: *const ITuningSpace, NewComponentTypes: ?*IComponentTypes) callconv(.@"inline") HRESULT {
         return self.vtable.put_DefaultPreferredComponentTypes(self, NewComponentTypes);
@@ -22981,20 +22981,20 @@ pub const ITuneRequest = extern union {
     vtable: *const VTable,
     IDispatch: IDispatch,
     IUnknown: IUnknown,
-    pub fn get_TuningSpace(self: *const ITuneRequest, TuningSpace: ?*?*ITuningSpace) callconv(.@"inline") HRESULT {
-        return self.vtable.get_TuningSpace(self, TuningSpace);
+    pub fn get_TuningSpace(self: *const ITuneRequest, _param_TuningSpace: ?*?*ITuningSpace) callconv(.@"inline") HRESULT {
+        return self.vtable.get_TuningSpace(self, _param_TuningSpace);
     }
-    pub fn get_Components(self: *const ITuneRequest, Components: ?*?*IComponents) callconv(.@"inline") HRESULT {
-        return self.vtable.get_Components(self, Components);
+    pub fn get_Components(self: *const ITuneRequest, _param_Components: ?*?*IComponents) callconv(.@"inline") HRESULT {
+        return self.vtable.get_Components(self, _param_Components);
     }
     pub fn Clone(self: *const ITuneRequest, NewTuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
         return self.vtable.Clone(self, NewTuneRequest);
     }
-    pub fn get_Locator(self: *const ITuneRequest, Locator: ?*?*ILocator) callconv(.@"inline") HRESULT {
-        return self.vtable.get_Locator(self, Locator);
+    pub fn get_Locator(self: *const ITuneRequest, _param_Locator: ?*?*ILocator) callconv(.@"inline") HRESULT {
+        return self.vtable.get_Locator(self, _param_Locator);
     }
-    pub fn put_Locator(self: *const ITuneRequest, Locator: ?*ILocator) callconv(.@"inline") HRESULT {
-        return self.vtable.put_Locator(self, Locator);
+    pub fn put_Locator(self: *const ITuneRequest, _param_Locator: ?*ILocator) callconv(.@"inline") HRESULT {
+        return self.vtable.put_Locator(self, _param_Locator);
     }
 };
 
@@ -23254,8 +23254,8 @@ pub const IMPEG2TuneRequestFactory = extern union {
     vtable: *const VTable,
     IDispatch: IDispatch,
     IUnknown: IUnknown,
-    pub fn CreateTuneRequest(self: *const IMPEG2TuneRequestFactory, TuningSpace: ?*ITuningSpace, TuneRequest: ?*?*IMPEG2TuneRequest) callconv(.@"inline") HRESULT {
-        return self.vtable.CreateTuneRequest(self, TuningSpace, TuneRequest);
+    pub fn CreateTuneRequest(self: *const IMPEG2TuneRequestFactory, _param_TuningSpace: ?*ITuningSpace, _param_TuneRequest: ?*?*IMPEG2TuneRequest) callconv(.@"inline") HRESULT {
+        return self.vtable.CreateTuneRequest(self, _param_TuningSpace, _param_TuneRequest);
     }
 };
 
@@ -23379,29 +23379,29 @@ pub const ITuner = extern union {
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn get_TuningSpace(self: *const ITuner, TuningSpace: ?*?*ITuningSpace) callconv(.@"inline") HRESULT {
-        return self.vtable.get_TuningSpace(self, TuningSpace);
+    pub fn get_TuningSpace(self: *const ITuner, _param_TuningSpace: ?*?*ITuningSpace) callconv(.@"inline") HRESULT {
+        return self.vtable.get_TuningSpace(self, _param_TuningSpace);
     }
-    pub fn put_TuningSpace(self: *const ITuner, TuningSpace: ?*ITuningSpace) callconv(.@"inline") HRESULT {
-        return self.vtable.put_TuningSpace(self, TuningSpace);
+    pub fn put_TuningSpace(self: *const ITuner, _param_TuningSpace: ?*ITuningSpace) callconv(.@"inline") HRESULT {
+        return self.vtable.put_TuningSpace(self, _param_TuningSpace);
     }
     pub fn EnumTuningSpaces(self: *const ITuner, ppEnum: ?*?*IEnumTuningSpaces) callconv(.@"inline") HRESULT {
         return self.vtable.EnumTuningSpaces(self, ppEnum);
     }
-    pub fn get_TuneRequest(self: *const ITuner, TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
-        return self.vtable.get_TuneRequest(self, TuneRequest);
+    pub fn get_TuneRequest(self: *const ITuner, _param_TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
+        return self.vtable.get_TuneRequest(self, _param_TuneRequest);
     }
-    pub fn put_TuneRequest(self: *const ITuner, TuneRequest: ?*ITuneRequest) callconv(.@"inline") HRESULT {
-        return self.vtable.put_TuneRequest(self, TuneRequest);
+    pub fn put_TuneRequest(self: *const ITuner, _param_TuneRequest: ?*ITuneRequest) callconv(.@"inline") HRESULT {
+        return self.vtable.put_TuneRequest(self, _param_TuneRequest);
     }
-    pub fn Validate(self: *const ITuner, TuneRequest: ?*ITuneRequest) callconv(.@"inline") HRESULT {
-        return self.vtable.Validate(self, TuneRequest);
+    pub fn Validate(self: *const ITuner, _param_TuneRequest: ?*ITuneRequest) callconv(.@"inline") HRESULT {
+        return self.vtable.Validate(self, _param_TuneRequest);
     }
-    pub fn get_PreferredComponentTypes(self: *const ITuner, ComponentTypes: ?*?*IComponentTypes) callconv(.@"inline") HRESULT {
-        return self.vtable.get_PreferredComponentTypes(self, ComponentTypes);
+    pub fn get_PreferredComponentTypes(self: *const ITuner, _param_ComponentTypes: ?*?*IComponentTypes) callconv(.@"inline") HRESULT {
+        return self.vtable.get_PreferredComponentTypes(self, _param_ComponentTypes);
     }
-    pub fn put_PreferredComponentTypes(self: *const ITuner, ComponentTypes: ?*IComponentTypes) callconv(.@"inline") HRESULT {
-        return self.vtable.put_PreferredComponentTypes(self, ComponentTypes);
+    pub fn put_PreferredComponentTypes(self: *const ITuner, _param_ComponentTypes: ?*IComponentTypes) callconv(.@"inline") HRESULT {
+        return self.vtable.put_PreferredComponentTypes(self, _param_ComponentTypes);
     }
     pub fn get_SignalStrength(self: *const ITuner, Strength: ?*i32) callconv(.@"inline") HRESULT {
         return self.vtable.get_SignalStrength(self, Strength);
@@ -23866,14 +23866,14 @@ pub const IComponentTypes = extern union {
     pub fn EnumComponentTypes(self: *const IComponentTypes, ppNewEnum: ?*?*IEnumComponentTypes) callconv(.@"inline") HRESULT {
         return self.vtable.EnumComponentTypes(self, ppNewEnum);
     }
-    pub fn get_Item(self: *const IComponentTypes, Index: VARIANT, ComponentType: ?*?*IComponentType) callconv(.@"inline") HRESULT {
-        return self.vtable.get_Item(self, Index, ComponentType);
+    pub fn get_Item(self: *const IComponentTypes, Index: VARIANT, _param_ComponentType: ?*?*IComponentType) callconv(.@"inline") HRESULT {
+        return self.vtable.get_Item(self, Index, _param_ComponentType);
     }
-    pub fn put_Item(self: *const IComponentTypes, Index: VARIANT, ComponentType: ?*IComponentType) callconv(.@"inline") HRESULT {
-        return self.vtable.put_Item(self, Index, ComponentType);
+    pub fn put_Item(self: *const IComponentTypes, Index: VARIANT, _param_ComponentType: ?*IComponentType) callconv(.@"inline") HRESULT {
+        return self.vtable.put_Item(self, Index, _param_ComponentType);
     }
-    pub fn Add(self: *const IComponentTypes, ComponentType: ?*IComponentType, NewIndex: ?*VARIANT) callconv(.@"inline") HRESULT {
-        return self.vtable.Add(self, ComponentType, NewIndex);
+    pub fn Add(self: *const IComponentTypes, _param_ComponentType: ?*IComponentType, NewIndex: ?*VARIANT) callconv(.@"inline") HRESULT {
+        return self.vtable.Add(self, _param_ComponentType, NewIndex);
     }
     pub fn Remove(self: *const IComponentTypes, Index: VARIANT) callconv(.@"inline") HRESULT {
         return self.vtable.Remove(self, Index);
@@ -24155,8 +24155,8 @@ pub const IComponents = extern union {
     pub fn get_Item(self: *const IComponents, Index: VARIANT, ppComponent: ?*?*IComponent) callconv(.@"inline") HRESULT {
         return self.vtable.get_Item(self, Index, ppComponent);
     }
-    pub fn Add(self: *const IComponents, Component: ?*IComponent, NewIndex: ?*VARIANT) callconv(.@"inline") HRESULT {
-        return self.vtable.Add(self, Component, NewIndex);
+    pub fn Add(self: *const IComponents, _param_Component: ?*IComponent, NewIndex: ?*VARIANT) callconv(.@"inline") HRESULT {
+        return self.vtable.Add(self, _param_Component, NewIndex);
     }
     pub fn Remove(self: *const IComponents, Index: VARIANT) callconv(.@"inline") HRESULT {
         return self.vtable.Remove(self, Index);
@@ -24222,8 +24222,8 @@ pub const IComponentsOld = extern union {
     pub fn get_Item(self: *const IComponentsOld, Index: VARIANT, ppComponent: ?*?*IComponent) callconv(.@"inline") HRESULT {
         return self.vtable.get_Item(self, Index, ppComponent);
     }
-    pub fn Add(self: *const IComponentsOld, Component: ?*IComponent, NewIndex: ?*VARIANT) callconv(.@"inline") HRESULT {
-        return self.vtable.Add(self, Component, NewIndex);
+    pub fn Add(self: *const IComponentsOld, _param_Component: ?*IComponent, NewIndex: ?*VARIANT) callconv(.@"inline") HRESULT {
+        return self.vtable.Add(self, _param_Component, NewIndex);
     }
     pub fn Remove(self: *const IComponentsOld, Index: VARIANT) callconv(.@"inline") HRESULT {
         return self.vtable.Remove(self, Index);
@@ -25486,8 +25486,8 @@ pub const IBDACreateTuneRequestEx = extern union {
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn CreateTuneRequestEx(self: *const IBDACreateTuneRequestEx, TuneRequestIID: ?*const Guid, TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
-        return self.vtable.CreateTuneRequestEx(self, TuneRequestIID, TuneRequest);
+    pub fn CreateTuneRequestEx(self: *const IBDACreateTuneRequestEx, TuneRequestIID: ?*const Guid, _param_TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
+        return self.vtable.CreateTuneRequestEx(self, TuneRequestIID, _param_TuneRequest);
     }
 };
 
@@ -40116,17 +40116,17 @@ pub const ITuneRequestInfo = extern union {
     pub fn CreateComponentList(self: *const ITuneRequestInfo, CurrentRequest: ?*ITuneRequest) callconv(.@"inline") HRESULT {
         return self.vtable.CreateComponentList(self, CurrentRequest);
     }
-    pub fn GetNextProgram(self: *const ITuneRequestInfo, CurrentRequest: ?*ITuneRequest, TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
-        return self.vtable.GetNextProgram(self, CurrentRequest, TuneRequest);
+    pub fn GetNextProgram(self: *const ITuneRequestInfo, CurrentRequest: ?*ITuneRequest, _param_TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
+        return self.vtable.GetNextProgram(self, CurrentRequest, _param_TuneRequest);
     }
-    pub fn GetPreviousProgram(self: *const ITuneRequestInfo, CurrentRequest: ?*ITuneRequest, TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
-        return self.vtable.GetPreviousProgram(self, CurrentRequest, TuneRequest);
+    pub fn GetPreviousProgram(self: *const ITuneRequestInfo, CurrentRequest: ?*ITuneRequest, _param_TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
+        return self.vtable.GetPreviousProgram(self, CurrentRequest, _param_TuneRequest);
     }
-    pub fn GetNextLocator(self: *const ITuneRequestInfo, CurrentRequest: ?*ITuneRequest, TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
-        return self.vtable.GetNextLocator(self, CurrentRequest, TuneRequest);
+    pub fn GetNextLocator(self: *const ITuneRequestInfo, CurrentRequest: ?*ITuneRequest, _param_TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
+        return self.vtable.GetNextLocator(self, CurrentRequest, _param_TuneRequest);
     }
-    pub fn GetPreviousLocator(self: *const ITuneRequestInfo, CurrentRequest: ?*ITuneRequest, TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
-        return self.vtable.GetPreviousLocator(self, CurrentRequest, TuneRequest);
+    pub fn GetPreviousLocator(self: *const ITuneRequestInfo, CurrentRequest: ?*ITuneRequest, _param_TuneRequest: ?*?*ITuneRequest) callconv(.@"inline") HRESULT {
+        return self.vtable.GetPreviousLocator(self, CurrentRequest, _param_TuneRequest);
     }
 };
 
@@ -42209,7 +42209,7 @@ pub const AMGetErrorText = switch (@import("../zig.zig").unicode_mode) {
     ),
 };
 //--------------------------------------------------------------------------------
-// Section: Imports (82)
+// Section: Imports (83)
 //--------------------------------------------------------------------------------
 const Guid = @import("../zig.zig").Guid;
 const AM_MEDIA_TYPE = @import("../media/media_foundation.zig").AM_MEDIA_TYPE;
@@ -42220,6 +42220,7 @@ const BOOLEAN = @import("../foundation.zig").BOOLEAN;
 const BSTR = @import("../foundation.zig").BSTR;
 const CAUUID = @import("../system/ole.zig").CAUUID;
 const CHAR = @import("../foundation.zig").CHAR;
+const COLORREF = @import("../foundation.zig").COLORREF;
 const D3DFORMAT = @import("../graphics/direct3d9.zig").D3DFORMAT;
 const D3DPOOL = @import("../graphics/direct3d9.zig").D3DPOOL;
 const DDCAPS_DX7 = @import("../graphics/direct_draw.zig").DDCAPS_DX7;

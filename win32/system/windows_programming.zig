@@ -2038,7 +2038,7 @@ pub extern "kernel32" fn SignalObjectAndWait(
     hObjectToWaitOn: ?HANDLE,
     dwMilliseconds: u32,
     bAlertable: BOOL,
-) callconv(.winapi) u32;
+) callconv(.winapi) WIN32_ERROR;
 
 pub extern "kernel32" fn OpenMutexA(
     dwDesiredAccess: u32,
@@ -3746,7 +3746,7 @@ pub const IMPSetIME = switch (@import("../zig.zig").unicode_mode) {
     ),
 };
 //--------------------------------------------------------------------------------
-// Section: Imports (27)
+// Section: Imports (28)
 //--------------------------------------------------------------------------------
 const Guid = @import("../zig.zig").Guid;
 const BOOL = @import("../foundation.zig").BOOL;
@@ -3774,6 +3774,7 @@ const SAFEARRAY = @import("../system/com.zig").SAFEARRAY;
 const SECURITY_ATTRIBUTES = @import("../security.zig").SECURITY_ATTRIBUTES;
 const STRING = @import("../system/kernel.zig").STRING;
 const UNICODE_STRING = @import("../foundation.zig").UNICODE_STRING;
+const WIN32_ERROR = @import("../foundation.zig").WIN32_ERROR;
 const WPARAM = @import("../foundation.zig").WPARAM;
 
 test {

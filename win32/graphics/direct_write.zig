@@ -2378,7 +2378,7 @@ pub const IDWriteBitmapRenderTarget = extern union {
             measuringMode: DWRITE_MEASURING_MODE,
             glyphRun: ?*const DWRITE_GLYPH_RUN,
             renderingParams: ?*IDWriteRenderingParams,
-            textColor: u32,
+            textColor: COLORREF,
             blackBoxRect: ?*RECT,
         ) callconv(.winapi) HRESULT,
         GetMemoryDC: *const fn(
@@ -2411,7 +2411,7 @@ pub const IDWriteBitmapRenderTarget = extern union {
     };
     vtable: *const VTable,
     IUnknown: IUnknown,
-    pub fn DrawGlyphRun(self: *const IDWriteBitmapRenderTarget, baselineOriginX: f32, baselineOriginY: f32, measuringMode: DWRITE_MEASURING_MODE, glyphRun: ?*const DWRITE_GLYPH_RUN, renderingParams: ?*IDWriteRenderingParams, textColor: u32, blackBoxRect: ?*RECT) callconv(.@"inline") HRESULT {
+    pub fn DrawGlyphRun(self: *const IDWriteBitmapRenderTarget, baselineOriginX: f32, baselineOriginY: f32, measuringMode: DWRITE_MEASURING_MODE, glyphRun: ?*const DWRITE_GLYPH_RUN, renderingParams: ?*IDWriteRenderingParams, textColor: COLORREF, blackBoxRect: ?*RECT) callconv(.@"inline") HRESULT {
         return self.vtable.DrawGlyphRun(self, baselineOriginX, baselineOriginY, measuringMode, glyphRun, renderingParams, textColor, blackBoxRect);
     }
     pub fn GetMemoryDC(self: *const IDWriteBitmapRenderTarget) callconv(.@"inline") ?HDC {
@@ -3441,7 +3441,7 @@ pub const DWRITE_GLYPH_ORIENTATION_ANGLE_180_DEGREES = DWRITE_GLYPH_ORIENTATION_
 pub const DWRITE_GLYPH_ORIENTATION_ANGLE_270_DEGREES = DWRITE_GLYPH_ORIENTATION_ANGLE.@"270_DEGREES";
 
 pub const DWRITE_FONT_METRICS1 = extern struct {
-    __AnonymousBase_DWrite_1_L627_C38: DWRITE_FONT_METRICS,
+    Base: DWRITE_FONT_METRICS,
     glyphBoxLeft: i16,
     glyphBoxTop: i16,
     glyphBoxRight: i16,
@@ -6804,10 +6804,11 @@ pub extern "dwrite" fn DWriteCreateFactory(
 // Section: Unicode Aliases (0)
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
-// Section: Imports (18)
+// Section: Imports (19)
 //--------------------------------------------------------------------------------
 const Guid = @import("../zig.zig").Guid;
 const BOOL = @import("../foundation.zig").BOOL;
+const COLORREF = @import("../foundation.zig").COLORREF;
 const D2D_POINT_2F = @import("../graphics/direct2d/common.zig").D2D_POINT_2F;
 const D2D_SIZE_U = @import("../graphics/direct2d/common.zig").D2D_SIZE_U;
 const FILETIME = @import("../foundation.zig").FILETIME;
